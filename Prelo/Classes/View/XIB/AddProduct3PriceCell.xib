@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="264" id="ckS-jn-eIx" customClass="AddProduct3PriceCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="258"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ckS-jn-eIx" id="O7q-xs-J4Z">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="257.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XO4-js-Ph6" userLabel="Field Harga Ketika Beli">
+                        <rect key="frame" x="12" y="4" width="351" height="40"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Ketika Beli" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pcH-H6-zXo">
+                                <rect key="frame" x="0.0" y="0.0" width="109.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ZS0-8G-myw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 5600000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jr7-oP-mQo">
+                                <rect key="frame" x="117.5" y="0.0" width="233.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="52E-d2-pwf"/>
+                                </constraints>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ina-Qu-JNR" userLabel="line_1px">
+                                <rect key="frame" x="0.0" y="39" width="351" height="1"/>
+                                <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="OpX-FL-UYe"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="jr7-oP-mQo" firstAttribute="leading" secondItem="pcH-H6-zXo" secondAttribute="trailing" constant="8" id="1hk-bg-OY6"/>
+                            <constraint firstItem="pcH-H6-zXo" firstAttribute="top" secondItem="XO4-js-Ph6" secondAttribute="top" id="9pn-SO-vmg"/>
+                            <constraint firstAttribute="trailing" secondItem="Ina-Qu-JNR" secondAttribute="trailing" id="AHd-om-FlR"/>
+                            <constraint firstAttribute="trailing" secondItem="jr7-oP-mQo" secondAttribute="trailing" id="Cko-dL-TXf"/>
+                            <constraint firstItem="pcH-H6-zXo" firstAttribute="leading" secondItem="XO4-js-Ph6" secondAttribute="leading" id="S4H-cw-SiU"/>
+                            <constraint firstItem="Ina-Qu-JNR" firstAttribute="top" secondItem="jr7-oP-mQo" secondAttribute="bottom" constant="-1" id="SJG-Bv-r2a"/>
+                            <constraint firstAttribute="height" constant="40" id="biA-Xw-lKQ"/>
+                            <constraint firstItem="Ina-Qu-JNR" firstAttribute="leading" secondItem="XO4-js-Ph6" secondAttribute="leading" id="qTE-aP-nxp"/>
+                            <constraint firstItem="jr7-oP-mQo" firstAttribute="top" secondItem="XO4-js-Ph6" secondAttribute="top" id="xU5-PK-df1"/>
+                        </constraints>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Edt-aT-uny" userLabel="Field Harga Jual di Prelo">
+                        <rect key="frame" x="12" y="44" width="351" height="40"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Jual di Prelo" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gl-LP-uNf">
+                                <rect key="frame" x="0.0" y="0.0" width="121.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Mux-if-6Ih"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 5000000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kac-Pa-e18">
+                                <rect key="frame" x="129.5" y="0.0" width="221.5" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Tgw-rA-sik"/>
+                                </constraints>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AMg-47-ebL" userLabel="line_1px">
+                                <rect key="frame" x="0.0" y="39" width="351" height="1"/>
+                                <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="Hij-Bj-6o3"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="kac-Pa-e18" firstAttribute="leading" secondItem="9gl-LP-uNf" secondAttribute="trailing" constant="8" id="1Lx-WI-6nT"/>
+                            <constraint firstItem="9gl-LP-uNf" firstAttribute="leading" secondItem="Edt-aT-uny" secondAttribute="leading" id="Cw3-K2-0e8"/>
+                            <constraint firstItem="AMg-47-ebL" firstAttribute="leading" secondItem="Edt-aT-uny" secondAttribute="leading" id="LKM-mU-SLW"/>
+                            <constraint firstAttribute="height" constant="40" id="byb-6p-Qnq"/>
+                            <constraint firstAttribute="trailing" secondItem="kac-Pa-e18" secondAttribute="trailing" id="cmP-He-BTG"/>
+                            <constraint firstAttribute="trailing" secondItem="AMg-47-ebL" secondAttribute="trailing" id="dqm-F2-UrU"/>
+                            <constraint firstItem="9gl-LP-uNf" firstAttribute="top" secondItem="Edt-aT-uny" secondAttribute="top" id="qXi-yg-eDx"/>
+                            <constraint firstItem="kac-Pa-e18" firstAttribute="top" secondItem="Edt-aT-uny" secondAttribute="top" id="v1t-RN-GIp"/>
+                            <constraint firstItem="AMg-47-ebL" firstAttribute="top" secondItem="kac-Pa-e18" secondAttribute="bottom" constant="-1" id="wFJ-lp-D5o"/>
+                        </constraints>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vzt-b0-oYa" userLabel="Field Harga Sewa">
+                        <rect key="frame" x="12" y="84" width="351" height="40"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P3h-uh-Eh6">
+                                <rect key="frame" x="0.0" y="0.0" width="246" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ZLP-ev-GEM"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Harga Sewa (Per ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="16" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="-periode yang dipilih-">
+                                        <attributes>
+                                            <color key="NSColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue-Italic"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="16" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=")">
+                                        <attributes>
+                                            <color key="NSColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="14" name="HelveticaNeue"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="16" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 50000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Kmj-dE-dLu">
+                                <rect key="frame" x="254" y="0.0" width="97" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="ucy-F5-Gy1"/>
+                                </constraints>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fzx-v1-xXj" userLabel="line_1px">
+                                <rect key="frame" x="0.0" y="39" width="351" height="1"/>
+                                <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="VcU-yj-bTJ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Kmj-dE-dLu" firstAttribute="leading" secondItem="P3h-uh-Eh6" secondAttribute="trailing" constant="8" id="0hl-X0-jH3"/>
+                            <constraint firstItem="P3h-uh-Eh6" firstAttribute="top" secondItem="vzt-b0-oYa" secondAttribute="top" id="HUQ-Yx-A1B"/>
+                            <constraint firstItem="fzx-v1-xXj" firstAttribute="top" secondItem="Kmj-dE-dLu" secondAttribute="bottom" constant="-1" id="ICp-g5-OLt"/>
+                            <constraint firstAttribute="trailing" secondItem="fzx-v1-xXj" secondAttribute="trailing" id="Xml-vv-f93"/>
+                            <constraint firstAttribute="trailing" secondItem="Kmj-dE-dLu" secondAttribute="trailing" id="hW3-qx-O0r"/>
+                            <constraint firstAttribute="height" constant="40" id="iji-05-f57"/>
+                            <constraint firstItem="P3h-uh-Eh6" firstAttribute="leading" secondItem="vzt-b0-oYa" secondAttribute="leading" id="nJt-6y-1ES"/>
+                            <constraint firstItem="Kmj-dE-dLu" firstAttribute="top" secondItem="vzt-b0-oYa" secondAttribute="top" id="nQc-S3-iVs"/>
+                            <constraint firstItem="fzx-v1-xXj" firstAttribute="leading" secondItem="vzt-b0-oYa" secondAttribute="leading" id="nw7-K3-nqn"/>
+                        </constraints>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UmS-gN-ATB" userLabel="Field Harga Deposit Sewa">
+                        <rect key="frame" x="12" y="124" width="351" height="40"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Deposit Sewa" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jc5-iQ-HUk">
+                                <rect key="frame" x="0.0" y="0.0" width="131" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="8S5-4e-4MD"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="mis: 5000000" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2R1-qc-3wx">
+                                <rect key="frame" x="139" y="0.0" width="212" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="Imq-QP-ajC"/>
+                                </constraints>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vcn-d1-cd3" userLabel="line_1px">
+                                <rect key="frame" x="0.0" y="39" width="351" height="1"/>
+                                <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="k8y-KN-6YK"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="Jc5-iQ-HUk" firstAttribute="leading" secondItem="UmS-gN-ATB" secondAttribute="leading" id="7vS-Wy-zuC"/>
+                            <constraint firstItem="2R1-qc-3wx" firstAttribute="leading" secondItem="Jc5-iQ-HUk" secondAttribute="trailing" constant="8" id="9Zj-fx-V5G"/>
+                            <constraint firstItem="2R1-qc-3wx" firstAttribute="top" secondItem="UmS-gN-ATB" secondAttribute="top" id="HrH-v5-V36"/>
+                            <constraint firstItem="Vcn-d1-cd3" firstAttribute="top" secondItem="2R1-qc-3wx" secondAttribute="bottom" constant="-1" id="Ojk-Ht-JTn"/>
+                            <constraint firstAttribute="trailing" secondItem="Vcn-d1-cd3" secondAttribute="trailing" id="cDQ-dt-9wd"/>
+                            <constraint firstItem="Vcn-d1-cd3" firstAttribute="leading" secondItem="UmS-gN-ATB" secondAttribute="leading" id="iCg-G3-1bg"/>
+                            <constraint firstAttribute="height" constant="40" id="npD-yh-Ir6"/>
+                            <constraint firstItem="Jc5-iQ-HUk" firstAttribute="top" secondItem="UmS-gN-ATB" secondAttribute="top" id="se0-cN-MmF"/>
+                            <constraint firstAttribute="trailing" secondItem="2R1-qc-3wx" secondAttribute="trailing" id="y0E-vJ-7sw"/>
+                        </constraints>
+                    </view>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hkj-rK-FyU">
+                        <rect key="frame" x="12" y="172" width="351" height="76"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-standar-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="EhD-oJ-QCu">
+                                <rect key="frame" x="8" y="8" width="37" height="37"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="37" id="HVi-jU-IzH"/>
+                                    <constraint firstAttribute="height" constant="37" id="RLa-Sc-Alu"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deposit (SEWA)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0py-yc-zw8">
+                                <rect key="frame" x="53" y="8" width="290" height="18"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
+                                <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAU-B0-gZm">
+                                <rect key="frame" x="53" y="26" width="290" height="42"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Harga Depositmerupakan biaya maksimal yang dapatdikembalikan apabila ada kendala dalam proses penyewaan.">
+                                        <attributes>
+                                            <color key="NSColor" red="0.52156999999999998" green="0.52156999999999998" blue="0.52156999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="14" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.52156999999999998" green="0.52156999999999998" blue="0.52156999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content=" ">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="14" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                    <fragment content="Lihat Syarat dan Ketentuan.">
+                                        <attributes>
+                                            <color key="NSColor" red="0.0" green="0.70587999999999995" blue="0.67842999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="14" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.0" green="0.70587999999999995" blue="0.67842999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEe-fb-XEr">
+                                <rect key="frame" x="53" y="26" width="290" height="42"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.9882352941176471" green="0.99607843137254903" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="eEe-fb-XEr" firstAttribute="bottom" secondItem="yAU-B0-gZm" secondAttribute="bottom" id="0hD-Hq-9lC"/>
+                            <constraint firstItem="eEe-fb-XEr" firstAttribute="trailing" secondItem="yAU-B0-gZm" secondAttribute="trailing" id="2rP-mb-kXi"/>
+                            <constraint firstItem="yAU-B0-gZm" firstAttribute="leading" secondItem="EhD-oJ-QCu" secondAttribute="trailing" constant="8" id="2sO-UV-ZIY"/>
+                            <constraint firstAttribute="trailing" secondItem="yAU-B0-gZm" secondAttribute="trailing" constant="8" id="4bb-Jh-dRz"/>
+                            <constraint firstItem="eEe-fb-XEr" firstAttribute="leading" secondItem="yAU-B0-gZm" secondAttribute="leading" id="Ajs-B1-C9e"/>
+                            <constraint firstAttribute="trailing" secondItem="0py-yc-zw8" secondAttribute="trailing" constant="8" id="K5M-0R-KCg"/>
+                            <constraint firstAttribute="bottom" secondItem="yAU-B0-gZm" secondAttribute="bottom" constant="8" id="SZS-Xy-eMp"/>
+                            <constraint firstItem="0py-yc-zw8" firstAttribute="leading" secondItem="EhD-oJ-QCu" secondAttribute="trailing" constant="8" id="Wmc-st-kcg"/>
+                            <constraint firstItem="yAU-B0-gZm" firstAttribute="top" secondItem="0py-yc-zw8" secondAttribute="bottom" id="gIK-BC-qOS"/>
+                            <constraint firstItem="0py-yc-zw8" firstAttribute="top" secondItem="Hkj-rK-FyU" secondAttribute="top" constant="8" id="kUM-F3-q0f"/>
+                            <constraint firstItem="eEe-fb-XEr" firstAttribute="top" secondItem="yAU-B0-gZm" secondAttribute="top" id="oPH-5j-AQV"/>
+                            <constraint firstItem="EhD-oJ-QCu" firstAttribute="top" secondItem="Hkj-rK-FyU" secondAttribute="top" constant="8" id="rAb-ch-2PN"/>
+                            <constraint firstItem="EhD-oJ-QCu" firstAttribute="leading" secondItem="Hkj-rK-FyU" secondAttribute="leading" constant="8" id="zUe-yj-EjR"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="XO4-js-Ph6" secondAttribute="trailing" constant="4" id="20d-kK-gDl"/>
+                    <constraint firstItem="Edt-aT-uny" firstAttribute="leading" secondItem="XO4-js-Ph6" secondAttribute="leading" id="3mf-PV-DVS"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="Hkj-rK-FyU" secondAttribute="trailing" constant="4" id="AOE-B1-c7z"/>
+                    <constraint firstItem="XO4-js-Ph6" firstAttribute="top" secondItem="O7q-xs-J4Z" secondAttribute="topMargin" constant="-4" id="Fu9-u3-JjN"/>
+                    <constraint firstItem="vzt-b0-oYa" firstAttribute="leading" secondItem="Edt-aT-uny" secondAttribute="leading" id="IiJ-CZ-cgG"/>
+                    <constraint firstItem="Edt-aT-uny" firstAttribute="top" secondItem="XO4-js-Ph6" secondAttribute="bottom" id="LyE-zN-KQf"/>
+                    <constraint firstItem="UmS-gN-ATB" firstAttribute="trailing" secondItem="vzt-b0-oYa" secondAttribute="trailing" id="Uul-WM-EHC"/>
+                    <constraint firstItem="Hkj-rK-FyU" firstAttribute="leading" secondItem="O7q-xs-J4Z" secondAttribute="leadingMargin" constant="4" id="Wqa-RL-Ie4"/>
+                    <constraint firstItem="vzt-b0-oYa" firstAttribute="top" secondItem="XO4-js-Ph6" secondAttribute="bottom" constant="40" id="YVC-Qn-DsZ"/>
+                    <constraint firstItem="Edt-aT-uny" firstAttribute="trailing" secondItem="XO4-js-Ph6" secondAttribute="trailing" id="h93-3e-mwi"/>
+                    <constraint firstItem="Hkj-rK-FyU" firstAttribute="top" secondItem="UmS-gN-ATB" secondAttribute="bottom" constant="8" id="lKC-NP-BHf"/>
+                    <constraint firstItem="vzt-b0-oYa" firstAttribute="trailing" secondItem="Edt-aT-uny" secondAttribute="trailing" id="lya-c9-FPi"/>
+                    <constraint firstItem="UmS-gN-ATB" firstAttribute="leading" secondItem="vzt-b0-oYa" secondAttribute="leading" id="q2Y-DU-XGR"/>
+                    <constraint firstItem="XO4-js-Ph6" firstAttribute="leading" secondItem="O7q-xs-J4Z" secondAttribute="leadingMargin" constant="4" id="qEC-LH-d7E"/>
+                    <constraint firstItem="UmS-gN-ATB" firstAttribute="top" secondItem="vzt-b0-oYa" secondAttribute="bottom" id="uCx-tN-upr"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="consTopHargaSewa" destination="YVC-Qn-DsZ" id="dkc-lK-vcx"/>
+                <outlet property="lblHargaSewa" destination="P3h-uh-Eh6" id="YWt-UB-iXp"/>
+                <outlet property="txtDeposit" destination="2R1-qc-3wx" id="2yx-R7-QMe"/>
+                <outlet property="txtHargaBeli" destination="jr7-oP-mQo" id="qtE-vY-Dmc"/>
+                <outlet property="txtHargaJual" destination="kac-Pa-e18" id="V1r-yK-L28"/>
+                <outlet property="txtHargaSewa" destination="Kmj-dE-dLu" id="9fd-1g-MRk"/>
+                <outlet property="vwHargaDeposit" destination="UmS-gN-ATB" id="FAx-SF-z9A"/>
+                <outlet property="vwHargaJual" destination="Edt-aT-uny" id="c8d-wX-QfZ"/>
+                <outlet property="vwHargaSewa" destination="vzt-b0-oYa" id="MuL-PO-iUq"/>
+                <outlet property="vwNotifSewa" destination="Hkj-rK-FyU" id="XEV-OQ-bCJ"/>
+            </connections>
+            <point key="canvasLocation" x="68.5" y="169.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="placeholder-standar-white.png" width="320" height="320"/>
+    </resources>
+</document>

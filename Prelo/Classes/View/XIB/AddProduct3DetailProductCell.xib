@@ -16,11 +16,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="381" id="unS-vI-u4T" customClass="AddProduct3DetailProductCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="346"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="392" id="unS-vI-u4T" customClass="AddProduct3DetailProductCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="357"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="unS-vI-u4T" id="2eF-QG-KZc">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="345.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="356.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Pes-JN-zm2" userLabel="Field Nama Product">
@@ -286,7 +286,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOz-3N-X13" userLabel="Field Cacat">
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SOz-3N-X13" userLabel="Field Cacat">
                         <rect key="frame" x="12" y="164" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Deskripsi Cacat" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BgV-uv-6Hy">
@@ -410,22 +410,28 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mQs-UR-kvi" userLabel="Field Deskripsi">
-                        <rect key="frame" x="12" y="284" width="351" height="50"/>
+                        <rect key="frame" x="12" y="284" width="351" height="66"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yg-VW-apT">
-                                <rect key="frame" x="0.0" y="8" width="351" height="33"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yg-VW-apT" customClass="SZTextView">
+                                <rect key="frame" x="0.0" y="8" width="351" height="49.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="49.5" id="1nT-cn-guo"/>
+                                </constraints>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Spesifikasi barang (optional) mis: 32 GB, dark blue, lightning charger"/>
                                     <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
                                         <color key="value" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                     </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="fadeTime">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Spesifikasi barang (optional) mis: 32 GB, dark blue, lightning charger"/>
                                 </userDefinedRuntimeAttributes>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aEh-0t-7x5" userLabel="line_1px">
-                                <rect key="frame" x="0.0" y="49" width="351" height="1"/>
+                                <rect key="frame" x="0.0" y="65.5" width="351" height="1"/>
                                 <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="IGe-Da-p7T"/>
@@ -471,6 +477,8 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="consHeightDescription" destination="1nT-cn-guo" id="cqB-6E-eeP"/>
+                <outlet property="consTopSpecialStory" destination="HWw-bS-gWR" id="GVl-vk-BOV"/>
                 <outlet property="lblCategory" destination="QVw-oG-k8T" id="yPG-DQ-0Q5"/>
                 <outlet property="lblCondition" destination="INx-ay-cQj" id="Jvn-Oc-e5t"/>
                 <outlet property="lblMerk" destination="Lxp-Ut-yjd" id="K1J-EK-5Hd"/>
@@ -479,8 +487,9 @@
                 <outlet property="txtDescription" destination="8yg-VW-apT" id="1qq-k3-yFy"/>
                 <outlet property="txtProductName" destination="gdp-26-rDO" id="uhq-1w-CqQ"/>
                 <outlet property="txtSpecialStory" destination="qAr-qb-E9o" id="hfe-Vj-GT8"/>
+                <outlet property="vwCacat" destination="SOz-3N-X13" id="1se-5F-ZuO"/>
             </connections>
-            <point key="canvasLocation" x="-1.5" y="-25.5"/>
+            <point key="canvasLocation" x="-1.5" y="-20.5"/>
         </tableViewCell>
     </objects>
 </document>

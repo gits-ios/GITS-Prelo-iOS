@@ -81,8 +81,13 @@ class AddProduct3DetailProductCell: UITableViewCell {
     @IBOutlet weak var txtAlasanJual: UITextField!
     @IBOutlet weak var txtDescription: UITextView!
     
+    @IBOutlet weak var vwCacat: UIView! // hide -> show
+    @IBOutlet weak var consTopSpecialStory: NSLayoutConstraint! // 0 -> 40
+    @IBOutlet weak var consHeightDescription: NSLayoutConstraint! // min 49.5
     
-    // 346 -> -40 // count description height
+    
+    // 356 -> -40 // count description height
+    // 266.5 + 40 + 49.5++
     
 }
 
@@ -139,4 +144,32 @@ class AddProduct3ImagesChecklistCellCollectionCell: UICollectionViewCell {
     
     
     // 120 x 20
+}
+
+// MARK: - Price Cell
+class AddProduct3PriceCell: UITableViewCell {
+    @IBOutlet weak var lblHargaSewa: UILabel! // update -> per Hari/Minggu/Bulan
+    @IBOutlet weak var txtHargaBeli: UITextField!
+    @IBOutlet weak var txtHargaJual: UITextField!
+    @IBOutlet weak var txtHargaSewa: UITextField!
+    @IBOutlet weak var txtDeposit: UITextField!
+    
+    @IBOutlet weak var vwHargaJual: UIView! // sell: unhide, rent: hide
+    
+    @IBOutlet weak var vwHargaSewa: UIView! // sell: hide, rent: unhide
+    @IBOutlet weak var vwHargaDeposit: UIView! // sell: hide, rent: unhide
+    @IBOutlet weak var vwNotifSewa: UIView! // sell: hide, rent: unhide
+    @IBOutlet weak var consTopHargaSewa: NSLayoutConstraint! // 40 -> 0
+    
+    // 258 (all), sell: 88, rent: 218
+}
+
+// MARK: - Charge Cell
+class AddProduct3ChargeCell: UITableViewCell {
+    @IBOutlet weak var lblComissions: UILabel!
+    @IBOutlet weak var btnSubmit: UIButton! // -> Loading
+    @IBOutlet weak var btnRemove: BorderedButton! // hide
+    
+    
+    // 162, count teks, hide unhide button hapus
 }
