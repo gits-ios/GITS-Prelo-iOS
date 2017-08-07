@@ -9,9 +9,62 @@
 import Foundation
 
 // MARK: - Struct
-struct SelectedProductItem {
+struct PreviewImage {
+    var url = ""
+    var label = ""
+}
+
+struct FreeOngkirRegion {
     var name = ""
-    var desc = ""
+    var id = ""
+}
+
+struct SelectedProductItem {
+    // default value
+    var isSell = true
+    var isRent = false
+    
+    // Images Preview Cell
+    var images: Array<UIImage> = []
+    var imagesDetail: Array<PreviewImage> = []
+    
+    // Product Detail Cell
+    var name = ""
+    var category = ""
+    var categoryId = ""
+    var merk = ""
+    var merkId = ""
+    var condition = ""
+    var cacat = ""
+    var specialStory = ""
+    var alasanJual = ""
+    var description = ""
+    
+    // Auth Verification Cell
+    var styleName = ""
+    var serialNumber = ""
+    var lokasiBeli = ""
+    var tahunBeli = ""
+    
+    // Weigt Cell
+    var weight = ""
+    
+    // Postal Fee Cell
+    var isFreeOngkir = "1"
+    var freeOngkirRegions : Array<FreeOngkirRegion> = []
+    var isInsurance = "0"
+    
+    // Price Cell
+    var hargaBeli = ""
+    var hargaJual = ""
+    var hargaSewa = ""
+    var deposit = ""
+    
+    // Rent
+    var modeSewa = "hari" // per hari, minggu, bulan
+    
+    // Charge Cell
+    var commision = "0%(Free) - 10%"
     
     //TODO: - another field
 }
