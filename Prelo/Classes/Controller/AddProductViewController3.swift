@@ -380,6 +380,8 @@ class AddProduct3PriceCell: UITableViewCell {
     @IBOutlet weak var vwNotifSewa: UIView! // sell: hide, rent: unhide
     @IBOutlet weak var consTopHargaSewa: NSLayoutConstraint! // 40 -> 0
     
+    // TODO: - ADAPT
+    
     // 258 (all), sell: 88, rent: 218
     
     static func heightFor(_ isSell: Bool, isRent: Bool) -> CGFloat {
@@ -398,8 +400,26 @@ class AddProduct3ChargeCell: UITableViewCell {
     @IBOutlet weak var btnSubmit: UIButton! // -> Loading
     @IBOutlet weak var btnRemove: BorderedButton! // hide
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.btnRemove.isHidden = true
+    }
+    
+    func adapt(_ commisions: String, isEdit: Bool) {
+        if isEdit {
+            self.btnRemove.isHidden = false
+        }
+        
+        self.lblComissions.text = commisions
+    }
     
     // 162, count teks, hide unhide button hapus
+    static func heightFor(_ isEdit: Bool) -> CGFloat {
+        let sub = "Klik LANJUTKAN untukmenentukan Charge Prelo yang kamu mau"
+        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+        return 104 + (isEdit ? 48.0 : 0) + t.height // count subtitle height
+    }
 }
 
 // MARK: - Rent
