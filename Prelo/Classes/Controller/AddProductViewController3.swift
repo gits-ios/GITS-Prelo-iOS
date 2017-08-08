@@ -280,6 +280,11 @@ class AddProduct3WeightCell: UITableViewCell {
         self.img2kg.tintColor = disactiveColor
         
         self.vwBerat.isHidden = true
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ weight: String) {
@@ -358,6 +363,11 @@ class AddProduct3PostalFeeCell: UITableViewCell {
         
         self.imgFreeOngkir.tintColor = disactiveColor
         self.imgPaidOngkir.tintColor = disactiveColor
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     // TODO: - ADAPT
@@ -377,12 +387,53 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
     @IBOutlet weak var txtLokasiBeli: UITextField!
     @IBOutlet weak var txtTahunBeli: UITextField!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
     // 172
+    static func heightFor() -> CGFloat {
+        return 172
+    }
 }
 
 // MARK: - Images Checklist Cell
 class AddProduct3ImagesChecklistCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
+    
+    var images: Array<PreviewImage> = []
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
+    func setupCollection() {
+        // Set collection view
+        let AddProduct3ImagesChecklistCellCollectionCell = UINib(nibName: "AddProduct3ImagesChecklistCellCollectionCell", bundle: nil)
+        self.collectionView.register(AddProduct3ImagesChecklistCellCollectionCell, forCellWithReuseIdentifier: "AddProduct3ImagesChecklistCellCollectionCell")
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.backgroundView = UIView(frame: self.collectionView.bounds)
+        self.collectionView.backgroundColor = UIColor.white
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        layout.itemSize = CGSize(width: 120, height: 20)
+        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 4
+        self.collectionView.collectionViewLayout = layout
+    }
     
     // TODO: - ADAPT
     
@@ -403,6 +454,30 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
         }
         let h = 20.0 * ceil(Double(count) / Double(i))
         return 46 + CGFloat(h) // count subtitle height
+    }
+}
+
+extension AddProduct3ImagesChecklistCell: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.images.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        // Create cell
+        let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesChecklistCellCollectionCell", for: indexPath) as! AddProduct3ImagesChecklistCellCollectionCell
+        cell.adapt(self.images[indexPath.row].label, isExist: self.images[indexPath.row].image != nil)
+        
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 82, height: 82)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // open image picker
+        // show image
     }
 }
 
