@@ -468,8 +468,23 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
     @IBOutlet weak var txtLokasiBeli: UITextField!
     @IBOutlet weak var txtTahunBeli: UITextField!
     
+    var parent: AddProductViewController3!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.txtStyleName.delegate = self
+        self.txtSerialNumber.delegate = self
+        self.txtLokasiBeli.delegate = self
+        self.txtTahunBeli.delegate = self
+        
+        // numeric keyboards hack
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        self.txtTahunBeli.inputAccessoryView = ViewForDoneButtonOnKeyboard
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -477,9 +492,37 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
+    func doneBtnfromKeyboardClicked() {
+        self.parent.product.tahunBeli = self.txtTahunBeli.text!
+    }
+    
+    func adapt(_ parent: AddProductViewController3, productItem: SelectedProductItem) {
+        self.parent = parent
+        
+        self.txtStyleName.text = productItem.styleName
+        self.txtSerialNumber.text = productItem.serialNumber
+        self.txtLokasiBeli.text = productItem.lokasiBeli
+        self.txtTahunBeli.text = productItem.tahunBeli
+    }
+    
     // 172
     static func heightFor() -> CGFloat {
         return 172
+    }
+}
+
+extension AddProduct3ProductAuthVerificationCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == self.txtStyleName {
+            self.parent.product.styleName = self.txtStyleName.text!
+        } else if textField == self.txtSerialNumber {
+            self.parent.product.serialNumber = self.txtSerialNumber.text!
+        } else if textField == self.txtLokasiBeli {
+            self.parent.product.lokasiBeli = self.txtLokasiBeli.text!
+        } else if textField == self.txtTahunBeli {
+            self.parent.product.tahunBeli = self.txtTahunBeli.text!
+        }
+        return true
     }
 }
 
@@ -634,9 +677,9 @@ class AddProduct3PriceCell: UITableViewCell {
     
     func doneBtnfromKeyboardClicked() {
         self.parent.product.hargaBeli = self.txtHargaBeli.text!
-        self.parent.product.hargaBeli = self.txtHargaJual.text!
-        self.parent.product.hargaBeli = self.txtHargaSewa.text!
-        self.parent.product.hargaBeli = self.txtDeposit.text!
+        self.parent.product.hargaJual = self.txtHargaJual.text!
+        self.parent.product.hargaSewa = self.txtHargaSewa.text!
+        self.parent.product.deposit = self.txtDeposit.text!
     }
     
     func adapt(_ parent: AddProductViewController3, productItem: SelectedProductItem) {
@@ -690,11 +733,11 @@ extension AddProduct3PriceCell: UITextFieldDelegate {
         if textField == self.txtHargaBeli {
             self.parent.product.hargaBeli = self.txtHargaBeli.text!
         } else if textField == self.txtHargaJual {
-            self.parent.product.hargaBeli = self.txtHargaJual.text!
+            self.parent.product.hargaJual = self.txtHargaJual.text!
         } else if textField == self.txtHargaSewa {
-            self.parent.product.hargaBeli = self.txtHargaSewa.text!
+            self.parent.product.hargaSewa = self.txtHargaSewa.text!
         } else if textField == self.txtDeposit {
-            self.parent.product.hargaBeli = self.txtDeposit.text!
+            self.parent.product.deposit = self.txtDeposit.text!
         }
         return true
     }
