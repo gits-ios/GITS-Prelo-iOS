@@ -632,6 +632,7 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var images: Array<PreviewImage> = []
+    var index: Array<Int> = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -660,7 +661,10 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
         self.collectionView.collectionViewLayout = layout
     }
     
-    // TODO: - ADAPT
+    func adapt(_ product: SelectedProductItem) {
+        self.images = product.imagesDetail
+        self.index = product.imagesIndex
+    }
     
     // 66, count height collection view (20 x total/y), count teks height
     static func heightFor(_ count: Int) -> CGFloat {
@@ -691,13 +695,13 @@ extension AddProduct3ImagesChecklistCell: UICollectionViewDelegate, UICollection
         
         // Create cell
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesChecklistCellCollectionCell", for: indexPath) as! AddProduct3ImagesChecklistCellCollectionCell
-        cell.adapt(self.images[indexPath.row].label, isExist: self.images[indexPath.row].image != nil)
+        cell.adapt(self.images[self.index[indexPath.row]].label, isExist: self.images[indexPath.row].image != nil)
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 82, height: 82)
+        return CGSize(width: 120, height: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -729,9 +733,6 @@ class AddProduct3ImagesChecklistCellCollectionCell: UICollectionViewCell {
     }
     
     // 120 x 20
-    static func sizeFor() -> CGSize {
-        return CGSize(width: 120, height: 20)
-    }
 }
 
 // MARK: - Price Cell
