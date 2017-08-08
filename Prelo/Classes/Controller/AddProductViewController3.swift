@@ -35,6 +35,7 @@ struct SelectedProductItem {
     var categoryId = ""
     var merk = ""
     var merkId = ""
+    var conditionId = ""
     var condition = ""
     var cacat = ""
     var specialStory = ""
@@ -317,8 +318,17 @@ class AddProduct3DetailProductCell: UITableViewCell {
     @IBOutlet weak var consTopSpecialStory: NSLayoutConstraint! // 0 -> 40
     @IBOutlet weak var consHeightDescription: NSLayoutConstraint! // min 49.5
     
+    var reloadThisRow: ()->() = {}
+    var parent: AddProductViewController3!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.txtProductName.delegate = self
+        self.txtCacat.delegate = self
+        self.txtSpecialStory.delegate = self
+        self.txtAlasanJual.delegate = self
+        self.txtDescription.delegate = self
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -326,9 +336,67 @@ class AddProduct3DetailProductCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
+    func adapt(_ parent: AddProductViewController3, productItem: SelectedProductItem) {
+        self.parent = parent
+        
+        self.txtProductName.text = productItem.name
+        self.lblCategory.text = productItem.category
+        self.lblMerk.text = productItem.merk
+        self.lblCondition.text = productItem.condition
+        self.txtCacat.text = productItem.cacat
+        self.txtSpecialStory.text = productItem.specialStory
+        self.txtAlasanJual.text = productItem.alasanJual
+        self.txtDescription.text = productItem.description
+    }
+    
     // 356 -> -40 // count description height
     // 266.5 + 40 + 49.5++
+    static func heightFor(_ product: SelectedProductItem) -> CGFloat {
+        let sub = product.description
+        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 24)
+        return 266.5 + ((product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound ? 40 : 0) + (t.height > 49.5 ? t.height : 49.5) // count subtitle height
+    }
+}
+
+extension AddProduct3DetailProductCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == self.txtProductName {
+            self.parent.product.name = self.txtProductName.text!
+        } else if textField == self.txtCacat {
+            self.parent.product.cacat = self.txtCacat.text!
+        } else if textField == self.txtSpecialStory {
+            self.parent.product.specialStory = self.txtSpecialStory.text!
+        } else if textField == self.txtAlasanJual {
+            self.parent.product.alasanJual = self.txtAlasanJual.text!
+        }
+        return true
+    }
+}
+
+extension AddProduct3DetailProductCell: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        
+        self.parent.product.description = textView.text
+        
+        let sizeThatShouldFitTheContent = txtDescription.sizeThatFits(txtDescription.frame.size)
+        
+        if self.consHeightDescription.constant != sizeThatShouldFitTheContent.height {
+            self.reloadThisRow()
+            
+            // Update tinggi textview
+            self.consHeightDescription.constant = sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height
+        }
+    }
     
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        
+        if text == "\n" {
+            textView.resignFirstResponder()
+            return false
+        }
+        
+        return true
+    }
 }
 
 // MARK: - Weight Cell (Sell)
