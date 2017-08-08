@@ -221,39 +221,39 @@ class AddProduct3WeightCell: UITableViewCell {
                 self.reloadThisRow()
             }
             if weight.int < 1000 {
-                self.vw1kg.tintColor = Theme.PrimaryColor
+                self.vw1kg.borderColor = Theme.PrimaryColor
                 self.img1kg.tintColor = Theme.PrimaryColor
                 self.lbl1kg.textColor = Theme.PrimaryColor
                 
-                self.vw12kg.tintColor = disactiveColor
+                self.vw12kg.borderColor = disactiveColor
                 self.img12kg.tintColor = disactiveColor
                 self.lbl12kg.textColor = disactiveColor
                 
-                self.vw2kg.tintColor = disactiveColor
+                self.vw2kg.borderColor = disactiveColor
                 self.img2kg.tintColor = disactiveColor
                 self.lbl2kg.textColor = disactiveColor
             } else if weight.int < 2000 {
-                self.vw1kg.tintColor = disactiveColor
+                self.vw1kg.borderColor = disactiveColor
                 self.img1kg.tintColor = disactiveColor
                 self.lbl1kg.textColor = disactiveColor
                 
-                self.vw12kg.tintColor = Theme.PrimaryColor
+                self.vw12kg.borderColor = Theme.PrimaryColor
                 self.img12kg.tintColor = Theme.PrimaryColor
                 self.lbl12kg.textColor = Theme.PrimaryColor
                 
-                self.vw2kg.tintColor = disactiveColor
+                self.vw2kg.borderColor = disactiveColor
                 self.img2kg.tintColor = disactiveColor
                 self.lbl2kg.textColor = disactiveColor
             } else {
-                self.vw1kg.tintColor = disactiveColor
+                self.vw1kg.borderColor = disactiveColor
                 self.img1kg.tintColor = disactiveColor
                 self.lbl1kg.textColor = disactiveColor
                 
-                self.vw12kg.tintColor = disactiveColor
+                self.vw12kg.borderColor = disactiveColor
                 self.img12kg.tintColor = disactiveColor
                 self.lbl12kg.textColor = disactiveColor
                 
-                self.vw2kg.tintColor = Theme.PrimaryColor
+                self.vw2kg.borderColor = Theme.PrimaryColor
                 self.img2kg.tintColor = Theme.PrimaryColor
                 self.lbl2kg.textColor = Theme.PrimaryColor
             }
@@ -432,13 +432,65 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     @IBOutlet weak var vwPerBulan: BorderedView!
     @IBOutlet weak var lblPerBulan: UILabel!
     
+    var disactiveColor = UIColor.init(hexString: "#727272")
+    
+    func adapt(_ type: String) {
+        if type == "hari" {
+            self.vwPerHari.borderColor = Theme.PrimaryColor
+            self.lblPerHari.textColor = Theme.PrimaryColor
+            
+            self.vwPerMinggu.borderColor = disactiveColor
+            self.lblPerMinggu.textColor = disactiveColor
+            
+            self.vwPerBulan.borderColor = disactiveColor
+            self.lblPerBulan.textColor = disactiveColor
+        } else if type == "minggu" {
+            self.vwPerHari.borderColor = disactiveColor
+            self.lblPerHari.textColor = disactiveColor
+            
+            self.vwPerMinggu.borderColor = Theme.PrimaryColor
+            self.lblPerMinggu.textColor = Theme.PrimaryColor
+            
+            self.vwPerBulan.borderColor = disactiveColor
+            self.lblPerBulan.textColor = disactiveColor
+        } else if type == "bulan" {
+            self.vwPerHari.borderColor = disactiveColor
+            self.lblPerHari.textColor = disactiveColor
+            
+            self.vwPerMinggu.borderColor = disactiveColor
+            self.lblPerMinggu.textColor = disactiveColor
+            
+            self.vwPerBulan.borderColor = Theme.PrimaryColor
+            self.lblPerBulan.textColor = Theme.PrimaryColor
+        }
+    }
+    
+    // 72
+    static func heightFor() -> CGFloat {
+        return 72
+    }
 }
 
 // MARK: - Sell Rent Switch Cell
 class AddProduct3SellRentSwitchCell: UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblSubTitle: UILabel!
+    @IBOutlet weak var btnSwitch: UISwitch!
     
+    func adapt(_ title: String, subtitle: String, isOn: Bool) {
+        self.lblTitle.text = title
+        self.lblSubTitle.text = subtitle
+        self.btnSwitch.isOn = isOn
+    }
+    
+    // 99 , (32) count teks
+    static func heightFor(_ sub: String, isOn: Bool) -> CGFloat {
+        if isOn {
+            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            return 67 + t.height // count subtitle height
+        }
+        return 56
+    }
 }
 
 // MARK: - Rent Postal Fee Cell
@@ -447,4 +499,17 @@ class AddProduct3RentPostalFeeCell: UITableViewCell {
     @IBOutlet weak var imgPaidOngkir: TintedImageView!
     @IBOutlet weak var lblPaidOngkir: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.vwPaidOngkir.borderColor = Theme.PrimaryColor
+        self.imgPaidOngkir.tint = true
+        self.imgPaidOngkir.tintColor = Theme.PrimaryColor
+        self.lblPaidOngkir.textColor = Theme.PrimaryColor
+    }
+    
+    // 72
+    static func heightFor() -> CGFloat {
+        return 72
+    }
 }

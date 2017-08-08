@@ -13,10 +13,10 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="71" id="t6w-Zd-hRq" customClass="AddProduct3RentPostalFeeCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="71"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="72"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t6w-Zd-hRq" id="5Da-BN-sXS">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="70.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="71.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBd-2D-6b3" userLabel="Ditanggung Pembeli" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">

@@ -59,6 +59,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnSwitch" destination="m6f-uX-GDu" id="app-nS-LWO"/>
                 <outlet property="lblSubTitle" destination="4Jx-Vg-8J6" id="39t-Mr-FPB"/>
                 <outlet property="lblTitle" destination="SAw-sq-hGA" id="oFF-qq-hfC"/>
             </connections>
