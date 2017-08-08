@@ -287,6 +287,7 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="btnSwitch" destination="6Aa-oq-gGe" id="iZ1-Az-KIF"/>
                 <outlet property="imgFreeOngkir" destination="eEu-b8-L9R" id="WGc-Mc-kPY"/>
                 <outlet property="imgPaidOngkir" destination="xf6-jz-bbM" id="Pto-4U-gmx"/>
                 <outlet property="lblFreeOngkir" destination="cxF-hD-q6r" id="2s2-TX-B63"/>

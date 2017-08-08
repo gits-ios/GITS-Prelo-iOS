@@ -202,6 +202,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
     var images: Array<PreviewImage> = []
+    var index: Array<Int> = []
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -233,7 +234,10 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         self.collectionView.collectionViewLayout = layout
     }
     
-    // TODO: - ADAPT, DELEGATE
+    func adapt(_ product: SelectedProductItem) {
+        self.images = product.imagesDetail
+        self.index = product.imagesIndex
+    }
     
     // 158 , (42) count teks height
     static func heightFor() -> CGFloat {
@@ -253,7 +257,7 @@ extension AddProduct3ImagesPreviewCell: UICollectionViewDelegate, UICollectionVi
         if indexPath.row < self.images.count {
             // Create cell
             let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesPreviewCellCollectionCell", for: indexPath) as! AddProduct3ImagesPreviewCellCollectionCell
-            cell.adapt(self.images[indexPath.row].image, label: self.images[indexPath.row].label)
+            cell.adapt(self.images[self.index[indexPath.row]].image, label: self.images[indexPath.row].label)
             
             return cell
         } else {
@@ -501,6 +505,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     @IBOutlet weak var imgPaidOngkir: TintedImageView!
     @IBOutlet weak var lblPaidOngkir: UILabel!
     @IBOutlet weak var lblRegion: UILabel!
+    @IBOutlet weak var btnSwitch: UISwitch!
     
     var disactiveColor = UIColor.init(hexString: "#727272")
     
