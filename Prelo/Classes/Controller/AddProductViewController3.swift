@@ -524,7 +524,35 @@ class AddProduct3PostalFeeCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    // TODO: - ADAPT
+    func adapt(_ product: SelectedProductItem) {
+        self.btnSwitch.isOn = (product.isInsurance == "1")
+        
+        if product.isFreeOngkir == "1" {
+            self.vwFreeOngkir.borderColor = Theme.PrimaryColor
+            self.imgFreeOngkir.tintColor = Theme.PrimaryColor
+            self.lblFreeOngkir.textColor = Theme.PrimaryColor
+            
+            self.vwPaidOngkir.borderColor = disactiveColor
+            self.imgPaidOngkir.tintColor = disactiveColor
+            self.lblPaidOngkir.textColor = disactiveColor
+        } else {
+            self.vwFreeOngkir.borderColor = disactiveColor
+            self.imgFreeOngkir.tintColor = disactiveColor
+            self.lblFreeOngkir.textColor = disactiveColor
+            
+            self.vwPaidOngkir.borderColor = Theme.PrimaryColor
+            self.imgPaidOngkir.tintColor = Theme.PrimaryColor
+            self.lblPaidOngkir.textColor = Theme.PrimaryColor
+        }
+        
+        if product.freeOngkirRegions.count > 0 {
+            var region = ""
+            for i in product.freeOngkirRegions {
+                region += i.name + ", "
+            }
+            self.lblRegion.text = region.trimmingCharacters(in: CharacterSet.init(charactersIn: ", "))
+        }
+    }
     
     // 206, count teks height
     static func heightFor() -> CGFloat {
