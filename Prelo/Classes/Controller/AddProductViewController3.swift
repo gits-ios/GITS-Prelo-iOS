@@ -541,7 +541,7 @@ class AddProduct3WeightCell: UITableViewCell {
         self.img2kg.tintColor = disactiveColor
         self.lbl2kg.textColor = disactiveColor
         
-        if self.txtWeight.text.int >= 1000 {
+        if (self.txtWeight.text?.int)! >= 1000 {
             self.txtWeight.text = "500"
             self.parent.product.weight = self.txtWeight.text!
         }
@@ -560,7 +560,7 @@ class AddProduct3WeightCell: UITableViewCell {
         self.img2kg.tintColor = disactiveColor
         self.lbl2kg.textColor = disactiveColor
         
-        if self.txtWeight.text.int < 1000 && self.txtWeight.text.int > 2000 {
+        if (self.txtWeight.text?.int)! < 1000 && (self.txtWeight.text?.int)! > 2000 {
             self.txtWeight.text = "1500"
             self.parent.product.weight = self.txtWeight.text!
         }
@@ -579,7 +579,7 @@ class AddProduct3WeightCell: UITableViewCell {
         self.img2kg.tintColor = Theme.PrimaryColor
         self.lbl2kg.textColor = Theme.PrimaryColor
         
-        if self.txtWeight.text.int <= 2000 {
+        if (self.txtWeight.text?.int)! <= 2000 {
             self.txtWeight.text = "2500"
             self.parent.product.weight = self.txtWeight.text!
         }
