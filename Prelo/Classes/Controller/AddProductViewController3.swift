@@ -75,7 +75,88 @@ class AddProductViewController3: BaseViewController {
     
     var product = SelectedProductItem()
     
+    func setupTableView() {
+        // Setup table
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        
+        //TOP, LEFT, BOTTOM, RIGHT
+        let inset = UIEdgeInsetsMake(4, 0, 4, 0)
+        tableView.contentInset = inset
+        
+        tableView.separatorStyle = .none
+        
+        tableView.backgroundColor = UIColor.white
+    }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let AddProduct3ImageTitleCell = UINib(nibName: "AddProduct3ImageTitleCell", bundle: nil)
+        tableView.register(AddProduct3ImageTitleCell, forCellReuseIdentifier: "AddProduct3ImageTitleCell")
+        
+        let AddProduct3ImagesPreviewCell = UINib(nibName: "AddProduct3ImagesPreviewCell", bundle: nil)
+        tableView.register(AddProduct3ImagesPreviewCell, forCellReuseIdentifier: "AddProduct3ImagesPreviewCell")
+        
+        let AddProduct3DetailProductCell = UINib(nibName: "AddProduct3DetailProductCell", bundle: nil)
+        tableView.register(AddProduct3DetailProductCell, forCellReuseIdentifier: "AddProduct3DetailProductCell")
+        
+        let AddProduct3WeightCell = UINib(nibName: "AddProduct3WeightCell", bundle: nil)
+        tableView.register(AddProduct3WeightCell, forCellReuseIdentifier: "AddProduct3WeightCell")
+        
+        let AddProduct3PostalFeeCell = UINib(nibName: "AddProduct3PostalFeeCell", bundle: nil)
+        tableView.register(AddProduct3PostalFeeCell, forCellReuseIdentifier: "AddProduct3PostalFeeCell")
+        
+        let AddProduct3ProductAuthVerificationCell = UINib(nibName: "AddProduct3ProductAuthVerificationCell", bundle: nil)
+        tableView.register(AddProduct3ProductAuthVerificationCell, forCellReuseIdentifier: "AddProduct3ProductAuthVerificationCell")
+        
+        let AddProduct3ImagesChecklistCell = UINib(nibName: "AddProduct3ImagesChecklistCell", bundle: nil)
+        tableView.register(AddProduct3ImagesChecklistCell, forCellReuseIdentifier: "AddProduct3ImagesChecklistCell")
+        
+        let AddProduct3PriceCell = UINib(nibName: "AddProduct3PriceCell", bundle: nil)
+        tableView.register(AddProduct3PriceCell, forCellReuseIdentifier: "AddProduct3PriceCell")
+        
+        let AddProduct3ChargeCell = UINib(nibName: "AddProduct3ChargeCell", bundle: nil)
+        tableView.register(AddProduct3ChargeCell, forCellReuseIdentifier: "AddProduct3ChargeCell")
+        
+        // rent
+        let AddProduct3RentPeriodCell = UINib(nibName: "AddProduct3RentPeriodCell", bundle: nil)
+        tableView.register(AddProduct3RentPeriodCell, forCellReuseIdentifier: "AddProduct3RentPeriodCell")
+        
+        let AddProduct3SellRentSwitchCell = UINib(nibName: "AddProduct3SellRentSwitchCell", bundle: nil)
+        tableView.register(AddProduct3SellRentSwitchCell, forCellReuseIdentifier: "AddProduct3SellRentSwitchCell")
+        
+        let AddProduct3RentPostalFeeCell = UINib(nibName: "AddProduct3RentPostalFeeCell", bundle: nil)
+        tableView.register(AddProduct3RentPostalFeeCell, forCellReuseIdentifier: "AddProduct3RentPostalFeeCell")
+        
+        self.setupTableView()
+        
+        self.title = ""
+    }
+}
+
+extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource {
+    // TODO: - tableview action
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+    }
 }
 
 // MARK: - Title Cell
