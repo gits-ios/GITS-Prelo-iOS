@@ -10,7 +10,8 @@ import Foundation
 
 // MARK: - Struct
 struct PreviewImage {
-    var url = ""
+    var image: UIImage! // local image / downloaded image
+    var url = "" // downloaded image url
     var label = ""
 }
 
@@ -26,7 +27,6 @@ struct SelectedProductItem {
     
     // Images Preview Cell
     var imagesIndex: Array<Int> = []
-    var images: Array<UIImage> = []
     var imagesDetail: Array<PreviewImage> = []
     
     // Product Detail Cell
@@ -91,6 +91,11 @@ class AddProduct3ImageTitleCell: UITableViewCell {
         self.SectionImage.tintColor = self.SectionTitle.textColor
         
         self.SectionSubtitle.text = ""
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ image: String, title: String, subtitle: String?, isFaq: Bool) {
@@ -114,6 +119,38 @@ class AddProduct3ImageTitleCell: UITableViewCell {
 class AddProduct3ImagesPreviewCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
+    var images: Array<PreviewImage> = []
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
+    func setupCollection() {
+        // Set collection view
+        let AddProduct3ImagesPreviewCellCollectionCell = UINib(nibName: "AddProduct3ImagesPreviewCellCollectionCell", bundle: nil)
+        self.collectionView.register(AddProduct3ImagesPreviewCellCollectionCell, forCellWithReuseIdentifier: "AddProduct3ImagesPreviewCellCollectionCell")
+        
+        let AddProduct3ImagesPreviewCellNewOneCell = UINib(nibName: "AddProduct3ImagesPreviewCellNewOneCell", bundle: nil)
+        self.collectionView.register(AddProduct3ImagesPreviewCellNewOneCell, forCellWithReuseIdentifier: "AddProduct3ImagesPreviewCellNewOneCell")
+        
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
+        self.collectionView.backgroundView = UIView(frame: self.collectionView.bounds)
+        self.collectionView.backgroundColor = UIColor.white
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        layout.itemSize = CGSize(width: 82, height: 82)
+        layout.minimumInteritemSpacing = 4
+        layout.minimumLineSpacing = 4
+        self.collectionView.collectionViewLayout = layout
+    }
+    
     // TODO: - ADAPT, DELEGATE
     
     // 158 , (42) count teks height
@@ -121,6 +158,36 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         let sub = "Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada). Lihat tips barang Editor's Pick."
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
         return 116 + t.height // count subtitle height
+    }
+}
+
+extension AddProduct3ImagesPreviewCell: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.images.count + 1
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        if indexPath.row < self.images.count {
+            // Create cell
+            let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesPreviewCellCollectionCell", for: indexPath) as! AddProduct3ImagesPreviewCellCollectionCell
+            cell.adapt(self.images[indexPath.row].image, label: self.images[indexPath.row].label)
+            
+            return cell
+        } else {
+            // Create cell
+            let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesPreviewCellNewOneCell", for: indexPath) as! AddProduct3ImagesPreviewCellNewOneCell
+            
+            return cell
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 82, height: 82)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // open image picker
     }
 }
 
@@ -142,9 +209,6 @@ class AddProduct3ImagesPreviewCellCollectionCell: UICollectionViewCell {
     }
     
     // 82 x 82
-    static func sizeFor() -> CGSize {
-        return CGSize(width: 82, height: 82)
-    }
 }
 
 class AddProduct3ImagesPreviewCellNewOneCell: UICollectionViewCell {
@@ -155,9 +219,6 @@ class AddProduct3ImagesPreviewCellNewOneCell: UICollectionViewCell {
     }
     
     // 82 x 82
-    static func sizeFor() -> CGSize {
-        return CGSize(width: 82, height: 82)
-    }
 }
 
 // MARK: - Detail Product Cell
@@ -175,6 +236,14 @@ class AddProduct3DetailProductCell: UITableViewCell {
     @IBOutlet weak var consTopSpecialStory: NSLayoutConstraint! // 0 -> 40
     @IBOutlet weak var consHeightDescription: NSLayoutConstraint! // min 49.5
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
     
     // 356 -> -40 // count description height
     // 266.5 + 40 + 49.5++
