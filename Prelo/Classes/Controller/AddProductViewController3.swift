@@ -524,6 +524,15 @@ class AddProduct3PriceCell: UITableViewCell {
     @IBOutlet weak var vwNotifSewa: UIView! // sell: hide, rent: unhide
     @IBOutlet weak var consTopHargaSewa: NSLayoutConstraint! // 40 -> 0
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
     // TODO: - ADAPT
     
     // 258 (all), sell: 88, rent: 218
@@ -548,6 +557,11 @@ class AddProduct3ChargeCell: UITableViewCell {
         super.awakeFromNib()
         
         self.btnRemove.isHidden = true
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ commisions: String, isEdit: Bool) {
@@ -577,6 +591,15 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     @IBOutlet weak var lblPerBulan: UILabel!
     
     var disactiveColor = UIColor.init(hexString: "#727272")
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
     
     func adapt(_ type: String) {
         if type == "hari" {
@@ -621,6 +644,15 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
     @IBOutlet weak var lblSubTitle: UILabel!
     @IBOutlet weak var btnSwitch: UISwitch!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
     func adapt(_ title: String, subtitle: String, isOn: Bool) {
         self.lblTitle.text = title
         self.lblSubTitle.text = subtitle
@@ -650,6 +682,11 @@ class AddProduct3RentPostalFeeCell: UITableViewCell {
         self.imgPaidOngkir.tint = true
         self.imgPaidOngkir.tintColor = Theme.PrimaryColor
         self.lblPaidOngkir.textColor = Theme.PrimaryColor
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     // 72
