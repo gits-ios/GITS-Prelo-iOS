@@ -234,7 +234,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yAU-B0-gZm">
                                 <rect key="frame" x="53" y="26" width="290" height="42"/>
                                 <attributedString key="attributedText">
-                                    <fragment content="Harga Depositmerupakan biaya maksimal yang dapatdikembalikan apabila ada kendala dalam proses penyewaan.">
+                                    <fragment content="Harga Deposit merupakan biaya maksimal yang dapatdikembalikan apabila ada kendala dalam proses penyewaan.">
                                         <attributes>
                                             <color key="NSColor" red="0.52156999999999998" green="0.52156999999999998" blue="0.52156999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <font key="NSFont" size="12" name="HelveticaNeue"/>
@@ -272,6 +272,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEe-fb-XEr">
                                 <rect key="frame" x="53" y="26" width="290" height="42"/>
+                                <connections>
+                                    <action selector="btnFAQPressed:" destination="ckS-jn-eIx" eventType="touchUpInside" id="gI4-KK-kCv"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.9882352941176471" green="0.99607843137254903" blue="0.6470588235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

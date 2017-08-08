@@ -261,6 +261,9 @@
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6eY-16-bQ5">
                         <rect key="frame" x="12" y="156" width="351" height="42"/>
+                        <connections>
+                            <action selector="btnFAQPressed:" destination="SYA-SD-KGy" eventType="touchUpInside" id="t0I-w5-KGo"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

@@ -167,6 +167,9 @@ class AddProduct3ImageTitleCell: UITableViewCell {
     @IBOutlet weak var SectionFAQ: UIView! // ? , hide
     @IBOutlet weak var SectionSubtitle: UILabel! // ?
     
+    var url: String = ""
+    var openWebView: (_ url: String)->() = {_ in }
+    
     // 40, 60 & count
     override func awakeFromNib() {
         self.SectionImage.tint = true
@@ -180,12 +183,12 @@ class AddProduct3ImageTitleCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ image: String, title: String, subtitle: String?, isFaq: Bool) {
+    func adapt(_ image: String, title: String, subtitle: String?, faqUrl: String?) {
         self.SectionImage.image = UIImage(named: image)!
         self.SectionTitle.text = title
         self.SectionSubtitle.text = subtitle
         
-        self.SectionFAQ.isHidden = !isFaq
+        self.SectionFAQ.isHidden = (faqUrl == nil)
     }
     
     static func heightFor(_ subtitle: String?) -> CGFloat {
@@ -195,6 +198,10 @@ class AddProduct3ImageTitleCell: UITableViewCell {
         }
         return 40
     }
+    
+    @IBAction func btnFAQPressed(_ sender: Any) {
+        self.openWebView(self.url)
+    }
 }
 
 // MARK: - Images Preview Cell
@@ -203,9 +210,14 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     
     var images: Array<PreviewImage> = []
     var index: Array<Int> = []
+    var url: String = ""
+    var openWebView: (_ url: String)->() = {_ in }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        // TODO: - Lihat tips barang Editor's Pick.
+        self.url = ""
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -244,6 +256,10 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         let sub = "Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada). Lihat tips barang Editor's Pick."
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
         return 116 + t.height // count subtitle height
+    }
+    
+    @IBAction func btnFAQPressed(_ sender: Any) {
+        self.openWebView(self.url)
     }
 }
 
@@ -418,11 +434,22 @@ class AddProduct3WeightCell: UITableViewCell {
     @IBOutlet weak var vwBerat: UIView! // hide
     @IBOutlet weak var txtWeight: UITextField!
     
+    var parent: AddProductViewController3!
     var reloadThisRow: ()->() = {}
     var disactiveColor = UIColor.init(hexString: "#727272")
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.txtWeight.delegate = self
+        
+        // numeric keyboards hack
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        self.txtWeight.inputAccessoryView = ViewForDoneButtonOnKeyboard
         
         self.img1kg.tint = true
         self.img12kg.tint = true
@@ -440,7 +467,13 @@ class AddProduct3WeightCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ weight: String) {
+    func doneBtnfromKeyboardClicked() {
+        self.parent.product.weight = self.txtWeight.text!
+    }
+    
+    func adapt(_ parent: AddProductViewController3, weight: String) {
+        self.parent = parent
+        
         if weight != "" {
             self.txtWeight.text = weight
             if self.vwBerat.isHidden {
@@ -494,6 +527,72 @@ class AddProduct3WeightCell: UITableViewCell {
         }
         return 72
     }
+    
+    @IBAction func btn1kgPressed(_ sender: Any) {
+        self.vw1kg.borderColor = Theme.PrimaryColor
+        self.img1kg.tintColor = Theme.PrimaryColor
+        self.lbl1kg.textColor = Theme.PrimaryColor
+        
+        self.vw12kg.borderColor = disactiveColor
+        self.img12kg.tintColor = disactiveColor
+        self.lbl12kg.textColor = disactiveColor
+        
+        self.vw2kg.borderColor = disactiveColor
+        self.img2kg.tintColor = disactiveColor
+        self.lbl2kg.textColor = disactiveColor
+        
+        if self.txtWeight.text.int >= 1000 {
+            self.txtWeight.text = "500"
+            self.parent.product.weight = self.txtWeight.text!
+        }
+    }
+    
+    @IBAction func btn12kgPressed(_ sender: Any) {
+        self.vw1kg.borderColor = disactiveColor
+        self.img1kg.tintColor = disactiveColor
+        self.lbl1kg.textColor = disactiveColor
+        
+        self.vw12kg.borderColor = Theme.PrimaryColor
+        self.img12kg.tintColor = Theme.PrimaryColor
+        self.lbl12kg.textColor = Theme.PrimaryColor
+        
+        self.vw2kg.borderColor = disactiveColor
+        self.img2kg.tintColor = disactiveColor
+        self.lbl2kg.textColor = disactiveColor
+        
+        if self.txtWeight.text.int < 1000 && self.txtWeight.text.int > 2000 {
+            self.txtWeight.text = "1500"
+            self.parent.product.weight = self.txtWeight.text!
+        }
+    }
+    
+    @IBAction func btn2kgPressed(_ sender: Any) {
+        self.vw1kg.borderColor = disactiveColor
+        self.img1kg.tintColor = disactiveColor
+        self.lbl1kg.textColor = disactiveColor
+        
+        self.vw12kg.borderColor = disactiveColor
+        self.img12kg.tintColor = disactiveColor
+        self.lbl12kg.textColor = disactiveColor
+        
+        self.vw2kg.borderColor = Theme.PrimaryColor
+        self.img2kg.tintColor = Theme.PrimaryColor
+        self.lbl2kg.textColor = Theme.PrimaryColor
+        
+        if self.txtWeight.text.int <= 2000 {
+            self.txtWeight.text = "2500"
+            self.parent.product.weight = self.txtWeight.text!
+        }
+    }
+}
+
+extension AddProduct3WeightCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == self.txtWeight {
+            self.parent.product.weight = self.txtWeight.text!
+        }
+        return true
+    }
 }
 
 // MARK: - Postal Fee Cell (Sell)
@@ -508,9 +607,14 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     @IBOutlet weak var btnSwitch: UISwitch!
     
     var disactiveColor = UIColor.init(hexString: "#727272")
+    var url: String = ""
+    var openWebView: (_ url: String)->() = {_ in }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        // TODO: - Lihat Syarat dan Ketentuan.
+        self.url = ""
         
         self.imgFreeOngkir.tint = true
         self.imgPaidOngkir.tint = true
@@ -559,6 +663,10 @@ class AddProduct3PostalFeeCell: UITableViewCell {
         let sub = "Barang yang biasanya butuh asuransi kurir: handphone, laptop, dll. Ongkos kirim barang jualan kamu akan sesuai dengan kurir yang tersimpan di sistem. Lihat Syarat dan Ketentuan."
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
         return 164 + t.height // count subtitle height
+    }
+    
+    @IBAction func btnFAQPressed(_ sender: Any) {
+        self.openWebView(self.url)
     }
 }
 
@@ -751,9 +859,14 @@ class AddProduct3PriceCell: UITableViewCell {
     @IBOutlet weak var consTopHargaSewa: NSLayoutConstraint! // 40 -> 0
     
     var parent: AddProductViewController3!
+    var url: String = ""
+    var openWebView: (_ url: String)->() = {_ in }
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        // TODO: - Lihat Syarat dan Ketentuan.
+        self.url = ""
         
         self.txtHargaBeli.delegate = self
         self.txtHargaJual.delegate = self
@@ -819,7 +932,7 @@ class AddProduct3PriceCell: UITableViewCell {
     
     // 258 (all), sell: 88, rent: 218
     static func heightFor(_ isSell: Bool, isRent: Bool) -> CGFloat {
-        let sub = "Harga Depositmerupakan biaya maksimal yang dapatdikembalikan apabila ada kendala dalam proses penyewaan. Lihat Syarat dan Ketentuan."
+        let sub = "Harga Deposit merupakan biaya maksimal yang dapatdikembalikan apabila ada kendala dalam proses penyewaan. Lihat Syarat dan Ketentuan."
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
         if isSell && isRent {
             return 216 + t.height // count subtitle height
@@ -827,6 +940,10 @@ class AddProduct3PriceCell: UITableViewCell {
             return 88
         }
         return 176 + t.height // count subtitle height
+    }
+    
+    @IBAction func btnFAQPressed(_ sender: Any) {
+        self.openWebView(self.url)
     }
 }
 
@@ -872,7 +989,7 @@ class AddProduct3ChargeCell: UITableViewCell {
     
     // 162, count teks, hide unhide button hapus
     static func heightFor(_ isEdit: Bool) -> CGFloat {
-        let sub = "Klik LANJUTKAN untukmenentukan Charge Prelo yang kamu mau"
+        let sub = "Klik LANJUTKAN untuk menentukan Charge Prelo yang kamu mau"
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
         return 104 + (isEdit ? 48.0 : 0) + t.height // count subtitle height
     }

@@ -39,6 +39,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tp3-hL-fXT">
                                 <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <connections>
+                                    <action selector="btn1kgPressed:" destination="lak-ec-0XT" eventType="touchUpInside" id="I4V-EK-X5p"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -82,6 +85,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTA-Yo-Yge">
                                 <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <connections>
+                                    <action selector="btn12kgPressed:" destination="lak-ec-0XT" eventType="touchUpInside" id="EkQ-La-DoM"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -123,6 +129,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="En5-TM-tpM">
                                 <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <connections>
+                                    <action selector="btn2kgPressed:" destination="lak-ec-0XT" eventType="touchUpInside" id="rz6-s1-hwq"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
