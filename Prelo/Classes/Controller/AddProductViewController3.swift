@@ -605,8 +605,26 @@ class AddProduct3PriceCell: UITableViewCell {
     @IBOutlet weak var vwNotifSewa: UIView! // sell: hide, rent: unhide
     @IBOutlet weak var consTopHargaSewa: NSLayoutConstraint! // 40 -> 0
     
+    var parent: AddProductViewController3!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.txtHargaBeli.delegate = self
+        self.txtHargaJual.delegate = self
+        self.txtHargaSewa.delegate = self
+        self.txtDeposit.delegate = self
+        
+        // numeric keyboards hack
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        self.txtHargaBeli.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        self.txtHargaJual.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        self.txtHargaSewa.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        self.txtDeposit.inputAccessoryView = ViewForDoneButtonOnKeyboard
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -614,17 +632,71 @@ class AddProduct3PriceCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    // TODO: - ADAPT
+    func doneBtnfromKeyboardClicked() {
+        self.parent.product.hargaBeli = self.txtHargaBeli.text!
+        self.parent.product.hargaBeli = self.txtHargaJual.text!
+        self.parent.product.hargaBeli = self.txtHargaSewa.text!
+        self.parent.product.hargaBeli = self.txtDeposit.text!
+    }
+    
+    func adapt(_ parent: AddProductViewController3, productItem: SelectedProductItem) {
+        self.parent = parent
+        
+        if productItem.isRent && productItem.modeSewa != "" {
+            self.lblHargaSewa.text = "Harga Sewa (Per " + productItem.modeSewa.uppercased() + ")"
+        }
+        
+        self.txtHargaBeli.text = productItem.hargaBeli
+        
+        if !productItem.isSell {
+            self.vwHargaJual.isHidden = true
+            self.consTopHargaSewa.constant = 0
+        } else {
+            self.vwHargaJual.isHidden = false
+            self.consTopHargaSewa.constant = 40
+            
+            self.txtHargaJual.text = productItem.hargaJual
+        }
+        
+        if !productItem.isRent {
+            self.vwHargaSewa.isHidden = true
+            self.vwHargaDeposit.isHidden = true
+            self.vwNotifSewa.isHidden = true
+        } else {
+            self.vwHargaSewa.isHidden = false
+            self.vwHargaDeposit.isHidden = false
+            self.vwNotifSewa.isHidden = false
+            
+            self.txtHargaSewa.text = productItem.hargaSewa
+            self.txtDeposit.text = productItem.deposit
+        }
+    }
     
     // 258 (all), sell: 88, rent: 218
-    
     static func heightFor(_ isSell: Bool, isRent: Bool) -> CGFloat {
+        let sub = "Harga Depositmerupakan biaya maksimal yang dapatdikembalikan apabila ada kendala dalam proses penyewaan. Lihat Syarat dan Ketentuan."
+        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
         if isSell && isRent {
-            return 258
+            return 216 + t.height // count subtitle height
         } else if isSell {
             return 88
         }
-        return 218
+        return 176 + t.height // count subtitle height
+    }
+}
+
+extension AddProduct3PriceCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == self.txtHargaBeli {
+            self.parent.product.hargaBeli = self.txtHargaBeli.text!
+        } else if textField == self.txtHargaJual {
+            self.parent.product.hargaBeli = self.txtHargaJual.text!
+        } else if textField == self.txtHargaSewa {
+            self.parent.product.hargaBeli = self.txtHargaSewa.text!
+        } else if textField == self.txtDeposit {
+            self.parent.product.hargaBeli = self.txtDeposit.text!
+        }
+        return true
     }
 }
 
