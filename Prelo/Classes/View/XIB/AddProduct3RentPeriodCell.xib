@@ -42,6 +42,9 @@ HARI</string>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xs4-Eh-1yu">
                                 <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <connections>
+                                    <action selector="btnPerHariPressed:" destination="kIK-BJ-vQf" eventType="touchUpInside" id="7kc-U6-iG6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -88,6 +91,9 @@ MINGGU</string>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Dx-bm-3ti">
                                 <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <connections>
+                                    <action selector="btnPerMingguPressed:" destination="kIK-BJ-vQf" eventType="touchUpInside" id="nTE-xK-Kwz"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -135,6 +141,9 @@ BULAN</string>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9I-x5-9cA">
                                 <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <connections>
+                                    <action selector="btnPerBulanPressed:" destination="kIK-BJ-vQf" eventType="touchUpInside" id="Sf6-cv-bMt"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

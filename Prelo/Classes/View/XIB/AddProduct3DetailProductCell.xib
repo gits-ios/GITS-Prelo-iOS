@@ -107,6 +107,9 @@
                                     <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnPickCategoryPressed:" destination="unS-vI-u4T" eventType="touchUpInside" id="P6C-Nk-zYS"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -181,6 +184,9 @@
                                     <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnPickMerkPressed:" destination="unS-vI-u4T" eventType="touchUpInside" id="ywg-9E-QuA"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
@@ -255,6 +261,9 @@
                                     <color key="titleColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="btnPickConditionPressed:" destination="unS-vI-u4T" eventType="touchUpInside" id="rTe-Nh-ULP"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>

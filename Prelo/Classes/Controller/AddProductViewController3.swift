@@ -376,6 +376,18 @@ class AddProduct3DetailProductCell: UITableViewCell {
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 24)
         return 266.5 + ((product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound ? 40 : 0) + (t.height > 49.5 ? t.height : 49.5) // count subtitle height
     }
+    
+    @IBAction func btnPickCategoryPressed(_ sender: Any) {
+        // TODO: pick Category
+    }
+    
+    @IBAction func btnPickMerkPressed(_ sender: Any) {
+        // TODO: pick Merk
+    }
+    
+    @IBAction func btnPickConditionPressed(_ sender: Any) {
+        // TODO: pick Condition
+    }
 }
 
 extension AddProduct3DetailProductCell: UITextFieldDelegate {
@@ -606,6 +618,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     @IBOutlet weak var lblRegion: UILabel!
     @IBOutlet weak var btnSwitch: UISwitch!
     
+    var parent: AddProductViewController3!
     var disactiveColor = UIColor.init(hexString: "#727272")
     var url: String = ""
     var openWebView: (_ url: String)->() = {_ in }
@@ -628,7 +641,8 @@ class AddProduct3PostalFeeCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ product: SelectedProductItem) {
+    func adapt(_  parent: AddProductViewController3, product: SelectedProductItem) {
+        self.parent = parent
         self.btnSwitch.isOn = (product.isInsurance == "1")
         
         if product.isFreeOngkir == "1" {
@@ -667,6 +681,34 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     
     @IBAction func btnFAQPressed(_ sender: Any) {
         self.openWebView(self.url)
+    }
+    
+    @IBAction func btnFreeOngkirPressed(_ sender: Any) {
+        if (self.parent.product.isFreeOngkir == "0") {
+            self.vwFreeOngkir.borderColor = Theme.PrimaryColor
+            self.imgFreeOngkir.tintColor = Theme.PrimaryColor
+            self.lblFreeOngkir.textColor = Theme.PrimaryColor
+            
+            self.vwPaidOngkir.borderColor = disactiveColor
+            self.imgPaidOngkir.tintColor = disactiveColor
+            self.lblPaidOngkir.textColor = disactiveColor
+            
+            self.parent.product.isFreeOngkir = "1"
+        }
+    }
+    
+    @IBAction func btnPaidOngkirPressed(_ sender: Any) {
+        if (self.parent.product.isFreeOngkir == "1") {
+            self.vwFreeOngkir.borderColor = disactiveColor
+            self.imgFreeOngkir.tintColor = disactiveColor
+            self.lblFreeOngkir.textColor = disactiveColor
+            
+            self.vwPaidOngkir.borderColor = Theme.PrimaryColor
+            self.imgPaidOngkir.tintColor = Theme.PrimaryColor
+            self.lblPaidOngkir.textColor = Theme.PrimaryColor
+            
+            self.parent.product.isFreeOngkir = "0"
+        }
     }
 }
 
@@ -1005,6 +1047,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     @IBOutlet weak var vwPerBulan: BorderedView!
     @IBOutlet weak var lblPerBulan: UILabel!
     
+    var parent: AddProductViewController3!
     var disactiveColor = UIColor.init(hexString: "#727272")
     
     override func awakeFromNib() {
@@ -1016,8 +1059,10 @@ class AddProduct3RentPeriodCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ type: String) {
-        if type == "hari" {
+    func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
+        self.parent = parent
+        
+        if product.modeSewa == "hari" {
             self.vwPerHari.borderColor = Theme.PrimaryColor
             self.lblPerHari.textColor = Theme.PrimaryColor
             
@@ -1026,7 +1071,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             
             self.vwPerBulan.borderColor = disactiveColor
             self.lblPerBulan.textColor = disactiveColor
-        } else if type == "minggu" {
+        } else if product.modeSewa == "minggu" {
             self.vwPerHari.borderColor = disactiveColor
             self.lblPerHari.textColor = disactiveColor
             
@@ -1035,7 +1080,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             
             self.vwPerBulan.borderColor = disactiveColor
             self.lblPerBulan.textColor = disactiveColor
-        } else if type == "bulan" {
+        } else if product.modeSewa == "bulan" {
             self.vwPerHari.borderColor = disactiveColor
             self.lblPerHari.textColor = disactiveColor
             
@@ -1050,6 +1095,51 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     // 72
     static func heightFor() -> CGFloat {
         return 72
+    }
+    
+    @IBAction func btnPerHariPressed(_ sender: Any) {
+        if self.parent.product.modeSewa != "hari" {
+            self.vwPerHari.borderColor = Theme.PrimaryColor
+            self.lblPerHari.textColor = Theme.PrimaryColor
+            
+            self.vwPerMinggu.borderColor = disactiveColor
+            self.lblPerMinggu.textColor = disactiveColor
+            
+            self.vwPerBulan.borderColor = disactiveColor
+            self.lblPerBulan.textColor = disactiveColor
+            
+            self.parent.product.modeSewa = "hari"
+        }
+    }
+    
+    @IBAction func btnPerMingguPressed(_ sender: Any) {
+        if self.parent.product.modeSewa != "minggu" {
+            self.vwPerHari.borderColor = disactiveColor
+            self.lblPerHari.textColor = disactiveColor
+            
+            self.vwPerMinggu.borderColor = Theme.PrimaryColor
+            self.lblPerMinggu.textColor = Theme.PrimaryColor
+            
+            self.vwPerBulan.borderColor = disactiveColor
+            self.lblPerBulan.textColor = disactiveColor
+            
+            self.parent.product.modeSewa = "minggu"
+        }
+    }
+    
+    @IBAction func btnPerBulanPressed(_ sender: Any) {
+        if self.parent.product.modeSewa != "bulan" {
+            self.vwPerHari.borderColor = disactiveColor
+            self.lblPerHari.textColor = disactiveColor
+            
+            self.vwPerMinggu.borderColor = disactiveColor
+            self.lblPerMinggu.textColor = disactiveColor
+            
+            self.vwPerBulan.borderColor = Theme.PrimaryColor
+            self.lblPerBulan.textColor = Theme.PrimaryColor
+            
+            self.parent.product.modeSewa = "bulan"
+        }
     }
 }
 

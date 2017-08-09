@@ -28,9 +28,9 @@
                         <rect key="frame" x="12" y="4" width="177.5" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_freeongkir.png" translatesAutoresizingMaskIntoConstraints="NO" id="eEu-b8-L9R" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="57.5" y="4" width="61" height="34"/>
+                                <rect key="frame" x="71" y="4" width="34" height="34"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" secondItem="eEu-b8-L9R" secondAttribute="height" multiplier="1.8:1" id="C64-BW-Yds"/>
+                                    <constraint firstAttribute="width" secondItem="eEu-b8-L9R" secondAttribute="height" id="C64-BW-Yds"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Penjual" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxF-hD-q6r">
@@ -44,6 +44,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2r-LO-GLW">
                                 <rect key="frame" x="0.0" y="0.0" width="177.5" height="60"/>
+                                <connections>
+                                    <action selector="btnFreeOngkirPressed:" destination="SYA-SD-KGy" eventType="touchUpInside" id="Qga-Zc-SXj"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -85,6 +88,9 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wI6-kj-b3x">
                                 <rect key="frame" x="0.0" y="0.0" width="177.5" height="60"/>
+                                <connections>
+                                    <action selector="btnPaidOngkirPressed:" destination="SYA-SD-KGy" eventType="touchUpInside" id="UmW-KC-hRw"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
