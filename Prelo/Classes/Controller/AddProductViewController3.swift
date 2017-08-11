@@ -1103,7 +1103,7 @@ class AddProduct3ChargeCell: UITableViewCell {
     // 162, count teks, hide unhide button hapus
     static func heightFor(_ sub: String, isEditDraftMode: Bool) -> CGFloat {
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
-        return 104 + (isEdit ? 48.0 : 0) + t.height // count subtitle height
+        return 104 + (isEditDraftMode ? 48.0 : 0) + t.height // count subtitle height
     }
 }
 
