@@ -748,9 +748,9 @@ class AddProduct3DetailProductCell: UITableViewCell {
         self.txtDescription.text = product.description
         
         if (product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound {
-            self.consTopHargaSewa.constant = 0
+            self.consTopSpecialStory.constant = 0
         } else {
-            self.consTopHargaSewa.constant = 40
+            self.consTopSpecialStory.constant = 40
         }
     }
     
