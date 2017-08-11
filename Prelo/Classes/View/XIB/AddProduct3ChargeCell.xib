@@ -100,6 +100,7 @@
                 <outlet property="lbAmount" destination="uZF-j7-MJc" id="yhj-pO-c8c"/>
                 <outlet property="lbCharge" destination="9ny-X4-Mr9" id="4b6-Jh-OEY"/>
                 <outlet property="lbTitle" destination="K45-p0-vu4" id="ZeA-zT-LgC"/>
+                <outlet property="lblCharge" destination="9ny-X4-Mr9" id="BWo-fM-CWr"/>
                 <outlet property="lblComissions" destination="uZF-j7-MJc" id="fuM-dv-StH"/>
             </connections>
             <point key="canvasLocation" x="-10.5" y="11"/>

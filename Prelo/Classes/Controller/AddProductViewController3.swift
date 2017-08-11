@@ -89,6 +89,7 @@ class AddProductViewController3: BaseViewController {
     @IBOutlet weak var loadingPanel: UIView!
     
     var product = SelectedProductItem()
+    var chargeLabel = "Klik LANJUTKAN untuk menentukan Charge Prelo yang kamu mau"
     
     func setupTableView() {
         // Setup table
@@ -97,7 +98,7 @@ class AddProductViewController3: BaseViewController {
         tableView.tableFooterView = UIView()
         
         //TOP, LEFT, BOTTOM, RIGHT
-        let inset = UIEdgeInsetsMake(4, 0, 4, 0)
+        let inset = UIEdgeInsetsMake(0, 0, 0, 0)
         tableView.contentInset = inset
         
         tableView.separatorStyle = .none
@@ -107,6 +108,9 @@ class AddProductViewController3: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        self.showLoading()
         
         let AddProduct3ImageTitleCell = UINib(nibName: "AddProduct3ImageTitleCell", bundle: nil)
         tableView.register(AddProduct3ImageTitleCell, forCellReuseIdentifier: "AddProduct3ImageTitleCell")
@@ -148,9 +152,55 @@ class AddProductViewController3: BaseViewController {
         let AddProduct3RentPostalFeeCell = UINib(nibName: "AddProduct3RentPostalFeeCell", bundle: nil)
         tableView.register(AddProduct3RentPostalFeeCell, forCellReuseIdentifier: "AddProduct3RentPostalFeeCell")
         
+        // hack commisions
+        let comTwitter = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComTwitter)
+        let comFacebook = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComFacebook)
+        let comInstagram = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComInstagram)
+        
+        let minCommission = 10 - (comTwitter + comFacebook + comInstagram)
+        if minCommission > 0 {
+            self.product.commision = "\(String(minCommission))% - 10%"
+        }
+        
         self.setupTableView()
         
         self.title = ""
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        // setup from edit or draft
+        if self.product.isEditMode {
+            self.setupEditMode()
+        } else if self.product.isDraftMode {
+            self.setupDraftMode()
+        }
+    }
+    
+    func setupEditMode() {
+        
+        
+        
+        self.tableView.reloadData()
+        self.hideLoading()
+    }
+    
+    func setupDraftMode() {
+        
+        
+        
+        self.tableView.reloadData()
+        self.hideLoading()
+    }
+    
+    // MARK: - Other
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
     }
 }
 
@@ -1027,6 +1077,7 @@ class AddProduct3ChargeCell: UITableViewCell {
     @IBOutlet weak var lblComissions: UILabel!
     @IBOutlet weak var btnSubmit: UIButton! // -> Loading
     @IBOutlet weak var btnRemove: BorderedButton! // hide
+    @IBOutlet weak var lblCharge: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1039,17 +1090,18 @@ class AddProduct3ChargeCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ commisions: String, isEdit: Bool) {
-        if isEdit {
+    func adapt(_ product: SelectedProductItem, label: String) {
+        if product.isEditMode || product.isDraftMode {
             self.btnRemove.isHidden = false
         }
         
-        self.lblComissions.text = commisions
+        self.lblComissions.text = product.commision
+        
+        self.lblCharge.text = label // AddProduct3 VC:chargeLabel
     }
     
     // 162, count teks, hide unhide button hapus
-    static func heightFor(_ isEdit: Bool) -> CGFloat {
-        let sub = "Klik LANJUTKAN untuk menentukan Charge Prelo yang kamu mau"
+    static func heightFor(_ sub: String, isEditDraftMode: Bool) -> CGFloat {
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
         return 104 + (isEdit ? 48.0 : 0) + t.height // count subtitle height
     }
