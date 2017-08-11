@@ -57,5 +57,6 @@
 #import <IronSource/ISSupersonicAdsConfiguration.h>
 #import "AHKNavigationController.h"
 #import <GoogleSignIn/GIDSignIn.h>
+#import "FSCalendar.h"
 
 #endif

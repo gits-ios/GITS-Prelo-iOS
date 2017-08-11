@@ -516,6 +516,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        checkout2VC.previousController = self
 //        checkout2VC.previousScreen = PageName.DashboardLoggedIn
 //        self.navigationController?.pushViewController(checkout2VC, animated: true)
+        
+        // calendar
+        let calendar = Bundle.main.loadNibNamed(Tags.XibNameCalendarPicker, owner: nil, options: nil)?.first as! CalendarPickerViewController
+        self.navigationController?.pushViewController(calendar, animated: true)
     }
     
     func launchFAQ() {
