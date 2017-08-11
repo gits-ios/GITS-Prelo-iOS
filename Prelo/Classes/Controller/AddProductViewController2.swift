@@ -638,6 +638,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtSpesial.delegate = self
         txtDeskripsiCacat.delegate = self
         txtDescription.delegate = self
+        txtSize.delegate = self
         
         // textfield btn DONE
         txtName.returnKeyType = .done
@@ -645,11 +646,13 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
         txtSpesial.returnKeyType = .done
         txtDeskripsiCacat.returnKeyType = .done
         txtDescription.returnKeyType = .done
+        txtSize.returnKeyType = .done
         
         txtName.enablesReturnKeyAutomatically = true
         txtAlasanJual.enablesReturnKeyAutomatically = true
         txtSpesial.enablesReturnKeyAutomatically = true
         txtDeskripsiCacat.enablesReturnKeyAutomatically = true
+        txtSize.enablesReturnKeyAutomatically = true
         
         // numeric keyboards hack
         let ViewForDoneButtonOnKeyboard = UIToolbar()
