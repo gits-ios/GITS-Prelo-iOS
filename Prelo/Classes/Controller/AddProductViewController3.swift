@@ -29,6 +29,11 @@ struct SelectedProductItem {
     var isEditMode = false
     var isDraftMode = false
     
+    // helper value
+    var isLuxuryMerk = false
+    var isWomenMenCategory = false
+    var isCategoryContainSize = false
+    
     // Images Preview Cell
     var imagesIndex: Array<Int> = []
     var imagesDetail: Array<PreviewImage> = []
@@ -47,6 +52,7 @@ struct SelectedProductItem {
     var description = ""
     
     // Auth Verification Cell
+    // dependency -> isLuxuryMerk && isWomenMenCategory
     var styleName = ""
     var serialNumber = ""
     var lokasiBeli = ""
@@ -56,6 +62,7 @@ struct SelectedProductItem {
     var weight = ""
     
     // Size Cell
+    // dependency -> isCategoryContainSize
     var size = ""
     
     // Postal Fee Cell
