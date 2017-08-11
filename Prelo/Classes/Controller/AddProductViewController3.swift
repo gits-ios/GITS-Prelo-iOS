@@ -25,6 +25,10 @@ struct SelectedProductItem {
     var isSell = true
     var isRent = false
     
+    // another default value
+    var isEditMode = false
+    var isDraftMode = false
+    
     // Images Preview Cell
     var imagesIndex: Array<Int> = []
     var imagesDetail: Array<PreviewImage> = []
@@ -50,6 +54,9 @@ struct SelectedProductItem {
     
     // Weigt Cell
     var weight = ""
+    
+    // Size Cell
+    var size = ""
     
     // Postal Fee Cell
     var isFreeOngkir = "1"
@@ -105,6 +112,9 @@ class AddProductViewController3: BaseViewController {
         
         let AddProduct3WeightCell = UINib(nibName: "AddProduct3WeightCell", bundle: nil)
         tableView.register(AddProduct3WeightCell, forCellReuseIdentifier: "AddProduct3WeightCell")
+        
+        let AddProduct3SizeCell = UINib(nibName: "AddProduct3SizeCell", bundle: nil)
+        tableView.register(AddProduct3SizeCell, forCellReuseIdentifier: "AddProduct3SizeCell")
         
         let AddProduct3PostalFeeCell = UINib(nibName: "AddProduct3PostalFeeCell", bundle: nil)
         tableView.register(AddProduct3PostalFeeCell, forCellReuseIdentifier: "AddProduct3PostalFeeCell")
@@ -1197,5 +1207,108 @@ class AddProduct3RentPostalFeeCell: UITableViewCell {
     // 72
     static func heightFor() -> CGFloat {
         return 72
+    }
+}
+
+// MARK: - Size Cell -> shoes, etc
+class AddProduct3SizeCell: UITableViewCell {
+    @IBOutlet weak var sizePickerView: AKPickerView!
+    
+    @IBOutlet weak var txtSize: UITextField!
+    
+    var parent: AddProductViewController3!
+    var sizes: Array<String> = []
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.txtSize.delegate = self
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
+    func setupPickerView() {
+        self.sizePickerView.dataSource = self
+        self.sizePickerView.delegate = self
+        
+        self.sizePickerView.font = UIFont.systemFont(ofSize: 12)
+        self.sizePickerView.highlightedFont = UIFont(name: "HelveticaNeue-Light", size: 12)
+        self.sizePickerView.highlightedTextColor = Theme.PrimaryColor
+        self.sizePickerView.interitemSpacing = 20
+        self.sizePickerView.fisheyeFactor = 0.001
+        self.sizePickerView.pickerViewStyle = AKPickerViewStyle.style3D
+        self.sizePickerView.isMaskDisabled = false
+    }
+    
+    func adapt(_ parent: AddProductViewController3, product: SelectedProductItem, sizes: Array<String>) {
+        self.txtSize.text = product.size
+        self.sizes = sizes
+        
+        if (self.sizes.count > 0) {
+            self.sizePickerView.collectionView.reloadData()
+            self.sizePickerView.selectItem(0, animated: false)
+            self.sizePickerView.superview?.isHidden = false
+            
+            var s = ""
+            if product.isEditMode || product.isDraftMode {
+                s = product.size
+            }
+            if s != "" && (product.isEditMode || product.isDraftMode)
+            {
+                s = s.replacingOccurrences(of: "/", with: "\n")
+                s = s.replacingOccurrences(of: " ", with: "-")
+                s = s.replacingOccurrences(of: "(", with: "")
+                s = s.replacingOccurrences(of: ")", with: "")
+                var index = 0
+                for s1 in self.sizes
+                {
+                    let s1s = s1.replacingOccurrences(of: " ", with: "")
+                    if (s1s == s)
+                    {
+                        self.sizePickerView.selectItem(UInt(index), animated: false)
+                        break
+                    }
+                    
+                    index += 1
+                }
+            }
+        }
+    }
+    
+    // 120
+    static func heightFor() -> CGFloat {
+        return 120
+    }
+}
+
+extension AddProduct3SizeCell: AKPickerViewDelegate, AKPickerViewDataSource {
+    func numberOfItems(in pickerView: AKPickerView!) -> Int {
+        return sizes.count
+    }
+    
+    func pickerView(_ pickerView: AKPickerView!, titleForItem item: Int) -> String! {
+        return sizes[item]
+    }
+    
+    func pickerView(_ pickerView: AKPickerView!, didSelectItem item: Int) {
+        var s = sizes[item]
+        s = s.replacingOccurrences(of: "\n", with: "/")
+        if (String(s.characters.suffix(1)) == "/") {
+            s = String(s.characters.dropLast())
+        }
+        self.txtSize.text = s
+        self.parent.product.size = s
+    }
+}
+
+extension AddProduct3SizeCell: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == self.txtSize {
+            self.parent.product.size = self.txtSize.text!
+        }
+        return true
     }
 }

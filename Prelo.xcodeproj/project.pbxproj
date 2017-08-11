@@ -664,6 +664,7 @@
 		B271A6981EDFFFAC00C6A973 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = B271A6971EDFFFAC00C6A973 /* Reachability.swift */; };
 		B271A6AB1EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6A91EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png */; };
 		B271A6AC1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6AA1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png */; };
+		B2759CF31F3D5E2600687840 /* AddProduct3SizeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2759CF21F3D5E2600687840 /* AddProduct3SizeCell.xib */; };
 		B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B27948221E35C700002CEED4 /* TarikTunai2.xib */; };
 		B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */; };
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1850,6 +1851,7 @@
 		B271A6971EDFFFAC00C6A973 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		B271A6A91EE0ACA900C6A973 /* placeholder-transparent-ipad-lightgray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad-lightgray.png"; sourceTree = "<group>"; };
 		B271A6AA1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-lightgray.png"; sourceTree = "<group>"; };
+		B2759CF21F3D5E2600687840 /* AddProduct3SizeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3SizeCell.xib; sourceTree = "<group>"; };
 		B27948221E35C700002CEED4 /* TarikTunai2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai2.xib; sourceTree = "<group>"; };
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
@@ -3550,6 +3552,7 @@
 				B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */,
 				B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */,
 				B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */,
+				B2759CF21F3D5E2600687840 /* AddProduct3SizeCell.xib */,
 			);
 			name = "Add Product Version 3";
 			path = XIB;
@@ -4177,6 +4180,7 @@
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,
+				B2759CF31F3D5E2600687840 /* AddProduct3SizeCell.xib in Resources */,
 				58D125391CDC4D1F002BC78A /* MoEngage.bundle in Resources */,
 				B229F4CC1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib in Resources */,
 				B2BF267D1E8280A400BD9EEB /* ic_home.png in Resources */,
