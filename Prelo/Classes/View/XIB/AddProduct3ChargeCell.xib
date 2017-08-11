@@ -84,9 +84,9 @@
                     <constraint firstAttribute="trailingMargin" secondItem="uZF-j7-MJc" secondAttribute="trailing" constant="4" id="ETr-fe-uzs"/>
                     <constraint firstItem="9ny-X4-Mr9" firstAttribute="top" secondItem="uZF-j7-MJc" secondAttribute="bottom" constant="8" id="JVh-Ka-5B3"/>
                     <constraint firstItem="9ny-X4-Mr9" firstAttribute="leading" secondItem="C1H-jj-CPm" secondAttribute="leadingMargin" constant="4" id="OWV-As-0VW"/>
+                    <constraint firstItem="A8S-FR-VcG" firstAttribute="top" secondItem="9ny-X4-Mr9" secondAttribute="bottom" constant="8" id="TAL-6u-yTC"/>
                     <constraint firstItem="A8S-FR-VcG" firstAttribute="leading" secondItem="C1H-jj-CPm" secondAttribute="leadingMargin" constant="4" id="eQ1-Av-4YW"/>
                     <constraint firstItem="K45-p0-vu4" firstAttribute="centerY" secondItem="uZF-j7-MJc" secondAttribute="centerY" id="i1h-iK-JAj"/>
-                    <constraint firstItem="A8S-FR-VcG" firstAttribute="top" secondItem="K45-p0-vu4" secondAttribute="bottom" constant="28" id="mzq-G3-UnF"/>
                     <constraint firstItem="uZF-j7-MJc" firstAttribute="leading" secondItem="K45-p0-vu4" secondAttribute="trailing" constant="8" id="pha-mo-zuV"/>
                     <constraint firstAttribute="trailingMargin" secondItem="9ny-X4-Mr9" secondAttribute="trailing" constant="4" id="s0F-P8-un5"/>
                     <constraint firstItem="2JJ-r0-OAE" firstAttribute="top" secondItem="A8S-FR-VcG" secondAttribute="bottom" constant="8" id="xco-LW-rR7"/>
@@ -96,10 +96,6 @@
             <connections>
                 <outlet property="btnRemove" destination="2JJ-r0-OAE" id="ibX-9W-UIR"/>
                 <outlet property="btnSubmit" destination="A8S-FR-VcG" id="gbd-ke-WoN"/>
-                <outlet property="consTopBtnCheckout" destination="mzq-G3-UnF" id="RP3-g1-S6T"/>
-                <outlet property="lbAmount" destination="uZF-j7-MJc" id="yhj-pO-c8c"/>
-                <outlet property="lbCharge" destination="9ny-X4-Mr9" id="4b6-Jh-OEY"/>
-                <outlet property="lbTitle" destination="K45-p0-vu4" id="ZeA-zT-LgC"/>
                 <outlet property="lblCharge" destination="9ny-X4-Mr9" id="BWo-fM-CWr"/>
                 <outlet property="lblComissions" destination="uZF-j7-MJc" id="fuM-dv-StH"/>
             </connections>
