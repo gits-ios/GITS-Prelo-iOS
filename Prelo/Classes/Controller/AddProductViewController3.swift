@@ -356,6 +356,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
     @IBOutlet weak var consHeightDescription: NSLayoutConstraint! // min 49.5
     
     var reloadThisRow: ()->() = {}
+    var reloadTable: ()->() = {}
     var parent: AddProductViewController3!
     
     override func awakeFromNib() {
