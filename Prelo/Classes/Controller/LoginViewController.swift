@@ -45,7 +45,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             } else {
                 l.screenBeforeLogin = PageName.DashboardLoggedOut
             }
-        } else if (parentType == "CartViewController" || parentType == "CHeckout2ShipViewController" || parentType == "Checkout2PayViewController") {
+        } else if (parentType == "CartViewController" || parentType == "Checkout2ShipViewController" || parentType == "Checkout2PayViewController" || parentType == "Checkout2ViewController") {
             l.screenBeforeLogin = PageName.Checkout
         } else if (parentType == "AddProductViewController" || parentType == "AddProductViewController2") {
             l.screenBeforeLogin = PageName.AddProduct
@@ -526,6 +526,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcRegister = sender as? RegisterViewController
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
+        let vcAddProductShare2 = sender as? AddProductShareViewController2
         let vcUserProfile = sender as? UserProfileViewController
         let vcUserProfile2 = sender as? UserProfileViewController2
         
@@ -547,6 +548,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcAddProductShare != nil) {
             vcAddProductShare!.hideLoading()
+        }
+        if (vcAddProductShare2 != nil) {
+            vcAddProductShare2!.hideLoading()
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
@@ -781,6 +785,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcRegister = sender as? RegisterViewController
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
+        let vcAddProductShare2 = sender as? AddProductShareViewController2
         let vcUserProfile = sender as? UserProfileViewController
         let vcUserProfile2 = sender as? UserProfileViewController2
         
@@ -802,6 +807,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcAddProductShare != nil) {
             vcAddProductShare!.hideLoading()
+        }
+        if (vcAddProductShare2 != nil) {
+            vcAddProductShare2!.hideLoading()
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()

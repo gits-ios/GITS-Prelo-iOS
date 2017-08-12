@@ -494,6 +494,10 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
 //        self.navigationController?.pushViewController(preloMessageVC, animated: true)
         
+        // add product share v2 -- OKE
+//        let addProductShare2 = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShareViewController2
+//        self.navigationController?.pushViewController(addProductShare2, animated: true)
+
         // google map -- OKE
 //        let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
 //        googleMapVC.blockDone = { result in
