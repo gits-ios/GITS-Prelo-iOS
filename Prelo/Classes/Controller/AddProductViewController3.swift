@@ -194,6 +194,8 @@ class AddProductViewController3: BaseViewController {
     var sizes: Array<String> = []
     var isOpenAll = false
     
+    var isDescriptionBecomeResponder = false
+    
     // view
     var listSections: Array<AddProduct3SectionType> = []
     
@@ -452,13 +454,20 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3DetailProductCell") as! AddProduct3DetailProductCell
                 cell.adapt(self, product: self.product)
                 
+                // hack
+                if self.isDescriptionBecomeResponder {
+                    cell.txtDescription.becomeFirstResponder()
+                    self.isDescriptionBecomeResponder = false
+                }
+                
                 cell.reloadTable = {
                     self.tableView.reloadData()
                 }
                 
                 cell.reloadThisRow = {
+                    self.isDescriptionBecomeResponder = true
+                    
                     self.tableView.reloadRows(at: [indexPath], with: .fade)
-                    cell.txtDescription.becomeFirstResponder()
                 }
                 
                 return cell
@@ -826,15 +835,15 @@ class AddProduct3DetailProductCell: UITableViewCell {
         }
         
         let sizeThatShouldFitTheContent = txtDescription.sizeThatFits(txtDescription.frame.size)
-        self.consHeightDescription.constant = sizeThatShouldFitTheContent.height + 16 < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height + 16
+        self.consHeightDescription.constant = sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height
     }
     
     // 356 -> -40 // count description height
     // 266.5 + 40 + 49.5++
     static func heightFor(_ product: SelectedProductItem) -> CGFloat {
         let sub = product.description
-        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 24)
-        return 266.5 + ((product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound ? 40 : 0) + (t.height + 16 > 49.5 ? t.height + 16 : 49.5) // count subtitle height
+        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 24 - 8)
+        return 266.5 + ((product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound ? 40 : 0) + (t.height > 49.5 ? t.height : 49.5) // count subtitle height
     }
     
     @IBAction func btnPickCategoryPressed(_ sender: Any) {
@@ -869,22 +878,21 @@ extension AddProduct3DetailProductCell: UITextFieldDelegate {
 extension AddProduct3DetailProductCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         
-        self.parent.product.description = textView.text
-        
         let sizeThatShouldFitTheContent = txtDescription.sizeThatFits(txtDescription.frame.size)
         
-        if self.consHeightDescription.constant != (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height + 16) {
-            
-            // Update tinggi textview
-            self.consHeightDescription.constant = sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height + 16
+        if self.consHeightDescription.constant != (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height) {
             
             self.reloadThisRow()
         }
+        
+        self.parent.product.description = textView.text
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         if text == "\n" {
+            self.parent.product.description = textView.text
+            
             textView.resignFirstResponder()
             return false
         }
