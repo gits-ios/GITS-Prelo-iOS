@@ -30,6 +30,9 @@
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="m6f-uX-GDu">
                                 <rect key="frame" x="310" y="8" width="51" height="31"/>
                                 <color key="onTintColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <connections>
+                                    <action selector="btnSwitchPressed:" destination="pLK-qq-3xG" eventType="valueChanged" id="Ux4-io-nVq"/>
+                                </connections>
                             </switch>
                         </subviews>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

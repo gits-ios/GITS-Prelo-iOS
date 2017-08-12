@@ -128,6 +128,7 @@ struct SelectedProductItem {
     var isDraftMode = false
     
     // helper value
+    var addProductType = 0 // 0 sell, 1 rent
     var isLuxuryMerk = false
     var isWomenMenCategory = false
     var isCategoryContainSize = false
@@ -282,10 +283,19 @@ class AddProductViewController3: BaseViewController {
         } else if self.product.isDraftMode {
             self.chargeLabel = nil
             self.setupDraftMode()
+        } else { // default init
+            if self.product.addProductType == 0 {
+                self.product.isSell = true
+                self.product.isRent = false
+            } else {
+                self.product.isSell = false
+                self.product.isRent = true
+            }
         }
         
         // setup table view
-        if self.product.isSell {
+        if self.product.addProductType == 0 {
+            
             self.listSections.append(.imagesPreview)
             self.listSections.append(.productDetail)
             self.listSections.append(.weight)
@@ -296,8 +306,7 @@ class AddProductViewController3: BaseViewController {
             if self.isOpenAll {
                 
             }
-        } else if self.product.isRent {
-            
+        } else {
             
             if self.isOpenAll {
                 
@@ -324,6 +333,18 @@ class AddProductViewController3: BaseViewController {
     func hideLoading() {
         self.loadingPanel.isHidden = true
     }
+    
+    func findSectionFromType(_ type: AddProduct3SectionType) -> Int {
+        if self.listSections.count > 0 {
+            for i in 0..<self.listSections.count {
+                if self.listSections[i] == type {
+                    return i
+                }
+            }
+        }
+        
+        return -1
+    }
 }
 
 extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource {
@@ -333,6 +354,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if listSections[section] == .rentSellOnOff && !(self.product.isRent && self.product.isSell) {
+            return 2 // title only + switch
+        }
         return listSections[section].numberOfCell
     }
     
@@ -382,7 +406,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     return AddProduct3RentPostalFeeCell.heightFor()
                 }
             }
-        case . rentPeriod:
+        case .rentPeriod:
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
             } else {
@@ -427,6 +451,16 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3DetailProductCell") as! AddProduct3DetailProductCell
                 cell.adapt(self, product: self.product)
+                
+                cell.reloadTable = {
+                    self.tableView.reloadData()
+                }
+                
+                cell.reloadThisRow = {
+                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                    cell.txtDescription.becomeFirstResponder()
+                }
+                
                 return cell
             }
         case .size:
@@ -467,6 +501,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3WeightCell") as! AddProduct3WeightCell
                 cell.adapt(self, weight: self.product.weight)
+                
+                cell.reloadThisRow = {
+                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                }
+                
                 return cell
             }
         case .postalFee:
@@ -485,7 +524,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     return cell
                 }
             }
-        case . rentPeriod:
+        case .rentPeriod:
             if row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
                 cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
@@ -493,6 +532,19 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPeriodCell") as! AddProduct3RentPeriodCell
                 cell.adapt(self, product: self.product)
+                
+                cell.reloadSections = { sections in
+                    var array: Array<Int> = []
+                    for i in sections {
+                        array.append(self.findSectionFromType(i))
+                    }
+                    
+                    let indexSet = NSMutableIndexSet()
+                    array.forEach(indexSet.add)
+                    
+                    self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+                }
+                
                 return cell
             }
         case .rentSellOnOff:
@@ -503,6 +555,26 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else if row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SellRentSwitchCell") as! AddProduct3SellRentSwitchCell
                 cell.adapt((self.product.isSell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.isSell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
+                
+                cell.reloadSections = { sections in
+                    // hack
+                    if self.product.addProductType == 0 {
+                        self.product.isRent = !self.product.isRent
+                    } else {
+                        self.product.isSell = !self.product.isSell
+                    }
+                    
+                    var array: Array<Int> = []
+                    for i in sections {
+                        array.append(self.findSectionFromType(i))
+                    }
+                    
+                    let indexSet = NSMutableIndexSet()
+                    array.forEach(indexSet.add)
+                    
+                    self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+                }
+                
                 return cell
             } else {
                 if self.product.isSell {
@@ -752,6 +824,9 @@ class AddProduct3DetailProductCell: UITableViewCell {
         } else {
             self.consTopSpecialStory.constant = 0
         }
+        
+        let sizeThatShouldFitTheContent = txtDescription.sizeThatFits(txtDescription.frame.size)
+        self.consHeightDescription.constant = sizeThatShouldFitTheContent.height + 16 < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height + 16
     }
     
     // 356 -> -40 // count description height
@@ -759,7 +834,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
     static func heightFor(_ product: SelectedProductItem) -> CGFloat {
         let sub = product.description
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 24)
-        return 266.5 + ((product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound ? 40 : 0) + (t.height > 49.5 ? t.height : 49.5) // count subtitle height
+        return 266.5 + ((product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound ? 40 : 0) + (t.height + 16 > 49.5 ? t.height + 16 : 49.5) // count subtitle height
     }
     
     @IBAction func btnPickCategoryPressed(_ sender: Any) {
@@ -777,6 +852,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
 
 extension AddProduct3DetailProductCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         if textField == self.txtProductName {
             self.parent.product.name = self.txtProductName.text!
         } else if textField == self.txtCacat {
@@ -797,11 +873,12 @@ extension AddProduct3DetailProductCell: UITextViewDelegate {
         
         let sizeThatShouldFitTheContent = txtDescription.sizeThatFits(txtDescription.frame.size)
         
-        if self.consHeightDescription.constant != sizeThatShouldFitTheContent.height {
-            self.reloadThisRow()
+        if self.consHeightDescription.constant != (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height + 16) {
             
             // Update tinggi textview
-            self.consHeightDescription.constant = sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height
+            self.consHeightDescription.constant = sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height + 16
+            
+            self.reloadThisRow()
         }
     }
     
@@ -866,6 +943,7 @@ class AddProduct3WeightCell: UITableViewCell {
     
     func doneBtnfromKeyboardClicked() {
         self.parent.product.weight = self.txtWeight.text!
+        self.txtWeight.resignFirstResponder()
     }
     
     func adapt(_ parent: AddProductViewController3, weight: String) {
@@ -985,6 +1063,7 @@ class AddProduct3WeightCell: UITableViewCell {
 
 extension AddProduct3WeightCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         if textField == self.txtWeight {
             self.parent.product.weight = self.txtWeight.text!
         }
@@ -1130,6 +1209,7 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
     
     func doneBtnfromKeyboardClicked() {
         self.parent.product.tahunBeli = self.txtTahunBeli.text!
+        self.txtTahunBeli.resignFirstResponder()
     }
     
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
@@ -1149,6 +1229,7 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
 
 extension AddProduct3ProductAuthVerificationCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         if textField == self.txtStyleName {
             self.parent.product.styleName = self.txtStyleName.text!
         } else if textField == self.txtSerialNumber {
@@ -1322,6 +1403,10 @@ class AddProduct3PriceCell: UITableViewCell {
         self.parent.product.hargaJual = self.txtHargaJual.text!
         self.parent.product.hargaSewa = self.txtHargaSewa.text!
         self.parent.product.deposit = self.txtDeposit.text!
+        self.txtHargaBeli.resignFirstResponder()
+        self.txtHargaJual.resignFirstResponder()
+        self.txtHargaSewa.resignFirstResponder()
+        self.txtDeposit.resignFirstResponder()
     }
     
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
@@ -1376,6 +1461,7 @@ class AddProduct3PriceCell: UITableViewCell {
 
 extension AddProduct3PriceCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         if textField == self.txtHargaBeli {
             self.parent.product.hargaBeli = self.txtHargaBeli.text!
         } else if textField == self.txtHargaJual {
@@ -1456,6 +1542,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     @IBOutlet weak var vwPerBulan: BorderedView!
     @IBOutlet weak var lblPerBulan: UILabel!
     
+    var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
     var parent: AddProductViewController3!
     var disactiveColor = UIColor.init(hexString: "#727272")
     
@@ -1518,6 +1605,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.lblPerBulan.textColor = disactiveColor
             
             self.parent.product.modeSewa = "hari"
+            self.reloadSections([ .price ])
         }
     }
     
@@ -1533,6 +1621,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.lblPerBulan.textColor = disactiveColor
             
             self.parent.product.modeSewa = "minggu"
+            self.reloadSections([ .price ])
         }
     }
     
@@ -1548,6 +1637,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.lblPerBulan.textColor = Theme.PrimaryColor
             
             self.parent.product.modeSewa = "bulan"
+            self.reloadSections([ .price ])
         }
     }
 }
@@ -1557,6 +1647,8 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
     @IBOutlet weak var lblSubTitle: UILabel!
     @IBOutlet weak var btnSwitch: UISwitch!
+    
+    var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1584,6 +1676,10 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
             return 67 + h // count subtitle height
         }
         return 56
+    }
+    
+    @IBAction func btnSwitchPressed(_ sender: Any) {
+        self.reloadSections([ .rentSellOnOff, .price ])
     }
 }
 
@@ -1709,6 +1805,7 @@ extension AddProduct3SizeCell: AKPickerViewDelegate, AKPickerViewDataSource {
 
 extension AddProduct3SizeCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
         if textField == self.txtSize {
             self.parent.product.size = self.txtSize.text!
         }
