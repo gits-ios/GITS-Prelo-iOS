@@ -25,16 +25,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ie1-Qo-Bc6" userLabel="Ditanggung Penjual" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="12" y="4" width="177.5" height="60"/>
+                        <rect key="frame" x="12" y="4" width="173.5" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_freeongkir.png" translatesAutoresizingMaskIntoConstraints="NO" id="eEu-b8-L9R" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="71" y="4" width="34" height="34"/>
+                                <rect key="frame" x="69.5" y="4" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="eEu-b8-L9R" secondAttribute="height" id="C64-BW-Yds"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Penjual" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cxF-hD-q6r">
-                                <rect key="frame" x="33.5" y="42" width="110" height="14"/>
+                                <rect key="frame" x="31.5" y="42" width="110" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="wZR-fO-wvj"/>
                                 </constraints>
@@ -43,7 +43,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q2r-LO-GLW">
-                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="173.5" height="60"/>
                                 <connections>
                                     <action selector="btnFreeOngkirPressed:" destination="SYA-SD-KGy" eventType="touchUpInside" id="Qga-Zc-SXj"/>
                                 </connections>
@@ -67,18 +67,18 @@
                                 <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D1l-WY-dFO" userLabel="Ditanggung Pembeli" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="193.5" y="4" width="177.5" height="60"/>
+                        <rect key="frame" x="189.5" y="4" width="173.5" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ditanggung_pembeli.png" translatesAutoresizingMaskIntoConstraints="NO" id="xf6-jz-bbM" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="71" y="4" width="34" height="34"/>
+                                <rect key="frame" x="69.5" y="4" width="34" height="34"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Pembeli" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dsi-ev-4wL">
-                                <rect key="frame" x="31.5" y="42" width="114" height="14"/>
+                                <rect key="frame" x="30" y="42" width="114" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="ds7-aI-5xg"/>
                                 </constraints>
@@ -87,7 +87,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wI6-kj-b3x">
-                                <rect key="frame" x="0.0" y="0.0" width="177.5" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="173.5" height="60"/>
                                 <connections>
                                     <action selector="btnPaidOngkirPressed:" destination="SYA-SD-KGy" eventType="touchUpInside" id="UmW-KC-hRw"/>
                                 </connections>
@@ -111,7 +111,7 @@
                                 <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -275,11 +275,11 @@
                 <constraints>
                     <constraint firstItem="3wN-lU-dR3" firstAttribute="leading" secondItem="iwn-CR-oAM" secondAttribute="leadingMargin" constant="4" id="1cf-Az-bp8"/>
                     <constraint firstItem="3wN-lU-dR3" firstAttribute="top" secondItem="mA5-gn-oky" secondAttribute="bottom" id="7ah-Ti-Iv7"/>
-                    <constraint firstItem="D1l-WY-dFO" firstAttribute="leading" secondItem="Ie1-Qo-Bc6" secondAttribute="trailing" constant="4" id="BEy-os-SvR"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="D1l-WY-dFO" secondAttribute="trailing" constant="4" id="B78-FG-JyQ"/>
                     <constraint firstAttribute="trailingMargin" secondItem="mA5-gn-oky" secondAttribute="trailing" constant="4" id="EBB-yu-JPg"/>
+                    <constraint firstItem="D1l-WY-dFO" firstAttribute="leading" secondItem="Ie1-Qo-Bc6" secondAttribute="trailing" constant="4" id="ETt-ox-RQc"/>
                     <constraint firstItem="6eY-16-bQ5" firstAttribute="trailing" secondItem="hl9-3q-QgU" secondAttribute="trailing" id="GT1-VX-7su"/>
                     <constraint firstItem="D1l-WY-dFO" firstAttribute="top" secondItem="iwn-CR-oAM" secondAttribute="topMargin" constant="-4" id="GzI-j2-FIU"/>
-                    <constraint firstItem="D1l-WY-dFO" firstAttribute="trailing" secondItem="iwn-CR-oAM" secondAttribute="trailingMargin" constant="4" id="IUY-DH-lGg"/>
                     <constraint firstItem="D1l-WY-dFO" firstAttribute="width" secondItem="Ie1-Qo-Bc6" secondAttribute="width" id="M08-UV-Hbu"/>
                     <constraint firstItem="D1l-WY-dFO" firstAttribute="height" secondItem="Ie1-Qo-Bc6" secondAttribute="height" id="XCw-my-5XB"/>
                     <constraint firstAttribute="trailingMargin" secondItem="3wN-lU-dR3" secondAttribute="trailing" constant="4" id="cfX-re-ZC0"/>

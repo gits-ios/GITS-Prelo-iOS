@@ -47,7 +47,7 @@
                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                         <connections>
-                            <action selector="btnCheckoutPressed:" destination="PeS-z6-1pJ" eventType="touchUpInside" id="96V-hg-Wb1"/>
+                            <action selector="btnSubmitPressed:" destination="PeS-z6-1pJ" eventType="touchUpInside" id="Ycz-EO-xTu"/>
                         </connections>
                     </button>
                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JJ-r0-OAE" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
@@ -72,7 +72,7 @@
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
-                            <action selector="btnCheckoutPressed:" destination="PeS-z6-1pJ" eventType="touchUpInside" id="NfX-lC-89M"/>
+                            <action selector="btnRemovePressed:" destination="PeS-z6-1pJ" eventType="touchUpInside" id="nnr-2R-VrL"/>
                         </connections>
                     </button>
                 </subviews>
@@ -84,7 +84,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="uZF-j7-MJc" secondAttribute="trailing" constant="4" id="ETr-fe-uzs"/>
                     <constraint firstItem="9ny-X4-Mr9" firstAttribute="top" secondItem="uZF-j7-MJc" secondAttribute="bottom" constant="8" id="JVh-Ka-5B3"/>
                     <constraint firstItem="9ny-X4-Mr9" firstAttribute="leading" secondItem="C1H-jj-CPm" secondAttribute="leadingMargin" constant="4" id="OWV-As-0VW"/>
-                    <constraint firstItem="A8S-FR-VcG" firstAttribute="top" secondItem="9ny-X4-Mr9" secondAttribute="bottom" constant="8" id="TAL-6u-yTC"/>
+                    <constraint firstItem="A8S-FR-VcG" firstAttribute="top" secondItem="uZF-j7-MJc" secondAttribute="bottom" constant="28" id="agn-dd-I7y"/>
                     <constraint firstItem="A8S-FR-VcG" firstAttribute="leading" secondItem="C1H-jj-CPm" secondAttribute="leadingMargin" constant="4" id="eQ1-Av-4YW"/>
                     <constraint firstItem="K45-p0-vu4" firstAttribute="centerY" secondItem="uZF-j7-MJc" secondAttribute="centerY" id="i1h-iK-JAj"/>
                     <constraint firstItem="uZF-j7-MJc" firstAttribute="leading" secondItem="K45-p0-vu4" secondAttribute="trailing" constant="8" id="pha-mo-zuV"/>
@@ -94,8 +94,9 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="btnRemove" destination="2JJ-r0-OAE" id="ibX-9W-UIR"/>
-                <outlet property="btnSubmit" destination="A8S-FR-VcG" id="gbd-ke-WoN"/>
+                <outlet property="btnRemove" destination="2JJ-r0-OAE" id="4ia-df-zxm"/>
+                <outlet property="btnSubmit" destination="A8S-FR-VcG" id="V5U-Ta-JPm"/>
+                <outlet property="consTopBtnSubmit" destination="agn-dd-I7y" id="rrz-AH-9VS"/>
                 <outlet property="lblCharge" destination="9ny-X4-Mr9" id="BWo-fM-CWr"/>
                 <outlet property="lblComissions" destination="uZF-j7-MJc" id="fuM-dv-StH"/>
             </connections>

@@ -18,60 +18,11 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="71.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aq8-n9-Bb9" userLabel="Per Hari" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="4" y="4" width="117" height="60"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="os6-aO-WN4">
-                                <rect key="frame" x="4" y="4" width="109" height="52"/>
-                                <attributedString key="attributedText">
-                                    <fragment>
-                                        <string key="content">Per
-HARI</string>
-                                        <attributes>
-                                            <color key="NSColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                            <font key="NSFont" size="20" name="HelveticaNeue"/>
-                                            <real key="NSKern" value="0.0"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="24" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
-                                                <tabStops/>
-                                            </paragraphStyle>
-                                            <color key="NSStrokeColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xs4-Eh-1yu">
-                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
-                                <connections>
-                                    <action selector="btnPerHariPressed:" destination="kIK-BJ-vQf" eventType="touchUpInside" id="7kc-U6-iG6"/>
-                                </connections>
-                            </button>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="trailing" secondItem="xs4-Eh-1yu" secondAttribute="trailing" id="6YM-uE-37C"/>
-                            <constraint firstAttribute="bottom" secondItem="os6-aO-WN4" secondAttribute="bottom" constant="4" id="XkZ-OB-vHq"/>
-                            <constraint firstItem="xs4-Eh-1yu" firstAttribute="top" secondItem="aq8-n9-Bb9" secondAttribute="top" id="ZhZ-wc-jRR"/>
-                            <constraint firstAttribute="trailing" secondItem="os6-aO-WN4" secondAttribute="trailing" constant="4" id="bMw-Ef-uP7"/>
-                            <constraint firstItem="os6-aO-WN4" firstAttribute="top" secondItem="aq8-n9-Bb9" secondAttribute="top" constant="4" id="g4n-R7-v3k"/>
-                            <constraint firstAttribute="bottom" secondItem="xs4-Eh-1yu" secondAttribute="bottom" id="jqm-jP-lj6"/>
-                            <constraint firstItem="os6-aO-WN4" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="leading" constant="4" id="oUL-f8-iSK"/>
-                            <constraint firstItem="xs4-Eh-1yu" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="leading" id="ruN-mn-7iF"/>
-                        </constraints>
-                        <userDefinedRuntimeAttributes>
-                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </userDefinedRuntimeAttribute>
-                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
-                            </userDefinedRuntimeAttribute>
-                        </userDefinedRuntimeAttributes>
-                    </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nvk-NR-mFo" userLabel="Per Minggu" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="125" y="4" width="117" height="60"/>
+                        <rect key="frame" x="130" y="4" width="114.5" height="60"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rf6-TP-UKf">
-                                <rect key="frame" x="4" y="4" width="109" height="52"/>
+                                <rect key="frame" x="4" y="4" width="106.5" height="52"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">Per
@@ -90,7 +41,7 @@ MINGGU</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Dx-bm-3ti">
-                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="114.5" height="60"/>
                                 <connections>
                                     <action selector="btnPerMingguPressed:" destination="kIK-BJ-vQf" eventType="touchUpInside" id="nTE-xK-Kwz"/>
                                 </connections>
@@ -113,15 +64,15 @@ MINGGU</string>
                                 <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cF5-qm-698" userLabel="Per Bulan" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="246" y="4" width="117" height="60"/>
+                        <rect key="frame" x="248.5" y="4" width="114.5" height="60"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KeT-Ii-qdT">
-                                <rect key="frame" x="4" y="4" width="109" height="52"/>
+                                <rect key="frame" x="4" y="4" width="106.5" height="52"/>
                                 <attributedString key="attributedText">
                                     <fragment>
                                         <string key="content">Per
@@ -140,7 +91,7 @@ BULAN</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L9I-x5-9cA">
-                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="114.5" height="60"/>
                                 <connections>
                                     <action selector="btnPerBulanPressed:" destination="kIK-BJ-vQf" eventType="touchUpInside" id="Sf6-cv-bMt"/>
                                 </connections>
@@ -162,22 +113,71 @@ BULAN</string>
                                 <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aq8-n9-Bb9" userLabel="Per Hari" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="12" y="4" width="114" height="60"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="os6-aO-WN4">
+                                <rect key="frame" x="4" y="4" width="106" height="52"/>
+                                <attributedString key="attributedText">
+                                    <fragment>
+                                        <string key="content">Per
+HARI</string>
+                                        <attributes>
+                                            <color key="NSColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <font key="NSFont" size="20" name="HelveticaNeue"/>
+                                            <real key="NSKern" value="0.0"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="24" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                                <tabStops/>
+                                            </paragraphStyle>
+                                            <color key="NSStrokeColor" red="0.44706000000000001" green="0.44706000000000001" blue="0.44706000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xs4-Eh-1yu">
+                                <rect key="frame" x="0.0" y="0.0" width="114" height="60"/>
+                                <connections>
+                                    <action selector="btnPerHariPressed:" destination="kIK-BJ-vQf" eventType="touchUpInside" id="7kc-U6-iG6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="xs4-Eh-1yu" secondAttribute="trailing" id="6YM-uE-37C"/>
+                            <constraint firstAttribute="bottom" secondItem="os6-aO-WN4" secondAttribute="bottom" constant="4" id="XkZ-OB-vHq"/>
+                            <constraint firstItem="xs4-Eh-1yu" firstAttribute="top" secondItem="aq8-n9-Bb9" secondAttribute="top" id="ZhZ-wc-jRR"/>
+                            <constraint firstAttribute="trailing" secondItem="os6-aO-WN4" secondAttribute="trailing" constant="4" id="bMw-Ef-uP7"/>
+                            <constraint firstItem="os6-aO-WN4" firstAttribute="top" secondItem="aq8-n9-Bb9" secondAttribute="top" constant="4" id="g4n-R7-v3k"/>
+                            <constraint firstAttribute="bottom" secondItem="xs4-Eh-1yu" secondAttribute="bottom" id="jqm-jP-lj6"/>
+                            <constraint firstItem="os6-aO-WN4" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="leading" constant="4" id="oUL-f8-iSK"/>
+                            <constraint firstItem="xs4-Eh-1yu" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="leading" id="ruN-mn-7iF"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="aq8-n9-Bb9" firstAttribute="leading" secondItem="Ucn-dC-cLg" secondAttribute="leading" constant="4" id="3eQ-N6-zWX"/>
-                    <constraint firstItem="Nvk-NR-mFo" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="trailing" constant="4" id="5hn-Cj-fAw"/>
+                    <constraint firstItem="aq8-n9-Bb9" firstAttribute="leading" secondItem="Ucn-dC-cLg" secondAttribute="leadingMargin" constant="4" id="6F7-vO-Jhd"/>
+                    <constraint firstItem="aq8-n9-Bb9" firstAttribute="top" secondItem="Nvk-NR-mFo" secondAttribute="top" id="7yj-wW-A2V"/>
                     <constraint firstItem="Nvk-NR-mFo" firstAttribute="width" secondItem="cF5-qm-698" secondAttribute="width" id="EGm-qI-O6v"/>
                     <constraint firstItem="Nvk-NR-mFo" firstAttribute="height" secondItem="cF5-qm-698" secondAttribute="height" id="HWw-L3-86o"/>
-                    <constraint firstItem="Nvk-NR-mFo" firstAttribute="width" secondItem="aq8-n9-Bb9" secondAttribute="width" id="PJw-IS-Xfg"/>
                     <constraint firstAttribute="trailingMargin" secondItem="cF5-qm-698" secondAttribute="trailing" constant="4" id="e2R-Dh-F6d"/>
+                    <constraint firstItem="aq8-n9-Bb9" firstAttribute="width" secondItem="Nvk-NR-mFo" secondAttribute="width" id="fZL-Sb-6Ju"/>
+                    <constraint firstItem="aq8-n9-Bb9" firstAttribute="height" secondItem="Nvk-NR-mFo" secondAttribute="height" id="fwB-u2-dKg"/>
                     <constraint firstItem="cF5-qm-698" firstAttribute="leading" secondItem="Nvk-NR-mFo" secondAttribute="trailing" constant="4" id="gA2-Vw-dl6"/>
-                    <constraint firstItem="Nvk-NR-mFo" firstAttribute="height" secondItem="aq8-n9-Bb9" secondAttribute="height" id="nfq-mg-lwv"/>
-                    <constraint firstItem="aq8-n9-Bb9" firstAttribute="top" secondItem="Nvk-NR-mFo" secondAttribute="top" id="rW4-uq-YMl"/>
                     <constraint firstItem="cF5-qm-698" firstAttribute="top" secondItem="Nvk-NR-mFo" secondAttribute="top" id="sLj-zC-1Du"/>
+                    <constraint firstItem="Nvk-NR-mFo" firstAttribute="leading" secondItem="aq8-n9-Bb9" secondAttribute="trailing" constant="4" id="tut-Hd-HE0"/>
                     <constraint firstItem="Nvk-NR-mFo" firstAttribute="top" secondItem="Ucn-dC-cLg" secondAttribute="topMargin" constant="-4" id="uGI-4U-x93"/>
                 </constraints>
             </tableViewCellContentView>

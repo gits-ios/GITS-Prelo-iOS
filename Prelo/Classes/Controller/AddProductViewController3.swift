@@ -188,7 +188,7 @@ class AddProductViewController3: BaseViewController {
     
     // data
     var product = SelectedProductItem()
-    var chargeLabel = AddProduct3Helper.defaultChargeLabel
+    var chargeLabel: String? = AddProduct3Helper.defaultChargeLabel
     
     var sizes: Array<String> = []
     var isOpenAll = false
@@ -277,10 +277,10 @@ class AddProductViewController3: BaseViewController {
         
         // setup product from edit or draft
         if self.product.isEditMode {
-            self.chargeLabel = ""
+            self.chargeLabel = nil
             self.setupEditMode()
         } else if self.product.isDraftMode {
-            self.chargeLabel = ""
+            self.chargeLabel = nil
             self.setupDraftMode()
         }
         
@@ -526,7 +526,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ChargeCell") as! AddProduct3ChargeCell
-                cell.adapt(self.product, label: self.chargeLabel)
+                cell.adapt(self.product, subtitle: self.chargeLabel)
                 return cell
             }
         }
@@ -1396,6 +1396,8 @@ class AddProduct3ChargeCell: UITableViewCell {
     @IBOutlet weak var btnRemove: BorderedButton! // hide
     @IBOutlet weak var lblCharge: UILabel!
     
+    @IBOutlet weak var consTopBtnSubmit: NSLayoutConstraint! // 8 + (8 + height)
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -1407,20 +1409,40 @@ class AddProduct3ChargeCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ product: SelectedProductItem, label: String) {
+    func adapt(_ product: SelectedProductItem, subtitle: String?) {
         if product.isEditMode || product.isDraftMode {
             self.btnRemove.isHidden = false
         }
         
         self.lblComissions.text = product.commision
         
-        self.lblCharge.text = label // AddProduct3 VC:chargeLabel
+        var h: CGFloat = 8
+        if let sub = subtitle {
+            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            h += t.height + 8
+            
+            self.lblCharge.text = sub // AddProduct3 VC:chargeLabel
+        }
+        
+        self.consTopBtnSubmit.constant = h
     }
     
     // 162, count teks, hide unhide button hapus
-    static func heightFor(_ sub: String, isEditDraftMode: Bool) -> CGFloat {
-        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
-        return 104 + (isEditDraftMode ? 48.0 : 0) + t.height // count subtitle height
+    static func heightFor(_ subtitle: String?, isEditDraftMode: Bool) -> CGFloat {
+        var h: CGFloat = -8
+        if let sub = subtitle {
+            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            h = t.height
+        }
+        return 104 + (isEditDraftMode ? 48.0 : 0) + h // count subtitle height
+    }
+    
+    @IBAction func btnSubmitPressed(_ sender: Any) {
+        // TODO: - btnSubmitPressed
+    }
+    
+    @IBAction func btnRemovePressed(_ sender: Any) {
+        // TODO: - btnRemovePressed
     }
 }
 

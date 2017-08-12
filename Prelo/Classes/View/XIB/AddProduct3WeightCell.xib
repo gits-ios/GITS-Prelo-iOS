@@ -20,16 +20,16 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oFU-Z8-Fad" userLabel="1Kg" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="4" y="4" width="117" height="60"/>
+                        <rect key="frame" x="12" y="4" width="114.5" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_1kg.png" translatesAutoresizingMaskIntoConstraints="NO" id="bnk-DD-Q9z" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="42" y="4" width="34" height="34"/>
+                                <rect key="frame" x="40" y="4" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="bnk-DD-Q9z" secondAttribute="height" multiplier="1:1" id="gIi-1U-ddt"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&lt; 1kg" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xku-Ui-Acs">
-                                <rect key="frame" x="44" y="42" width="30.5" height="14"/>
+                                <rect key="frame" x="42" y="42" width="30.5" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="dEJ-eV-htd"/>
                                 </constraints>
@@ -38,7 +38,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tp3-hL-fXT">
-                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="114.5" height="60"/>
                                 <connections>
                                     <action selector="btn1kgPressed:" destination="lak-ec-0XT" eventType="touchUpInside" id="I4V-EK-X5p"/>
                                 </connections>
@@ -61,21 +61,21 @@
                                 <color key="value" red="0.44705882352941173" green="0.44705882352941173" blue="0.44705882352941173" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iEq-Fc-Ee6" userLabel="1-2Kg" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="125" y="4" width="117" height="60"/>
+                        <rect key="frame" x="130.5" y="4" width="114" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_1_2kg.png" translatesAutoresizingMaskIntoConstraints="NO" id="cds-9r-BML" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="41.5" y="4" width="34" height="34"/>
+                                <rect key="frame" x="40" y="4" width="34" height="34"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="cds-9r-BML" secondAttribute="height" multiplier="1:1" id="v8h-7m-UlK"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1 - 2Kg" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v6p-xg-tVK">
-                                <rect key="frame" x="38.5" y="42" width="40.5" height="14"/>
+                                <rect key="frame" x="37" y="42" width="40.5" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="dTU-E5-wFT"/>
                                 </constraints>
@@ -84,7 +84,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rTA-Yo-Yge">
-                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="114" height="60"/>
                                 <connections>
                                     <action selector="btn12kgPressed:" destination="lak-ec-0XT" eventType="touchUpInside" id="EkQ-La-DoM"/>
                                 </connections>
@@ -108,18 +108,18 @@
                                 <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hEC-cN-ePJ" userLabel="2Kg" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
-                        <rect key="frame" x="246" y="4" width="117" height="60"/>
+                        <rect key="frame" x="248.5" y="4" width="114.5" height="60"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_2kg.png" translatesAutoresizingMaskIntoConstraints="NO" id="fJY-kM-xoM" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
-                                <rect key="frame" x="41" y="4" width="34" height="34"/>
+                                <rect key="frame" x="40" y="4" width="34" height="34"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt; 2Kg" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mhq-12-yaS">
-                                <rect key="frame" x="41.5" y="42" width="33.5" height="14"/>
+                                <rect key="frame" x="40.5" y="42" width="33.5" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="hS8-rU-aTf"/>
                                 </constraints>
@@ -128,7 +128,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="En5-TM-tpM">
-                                <rect key="frame" x="0.0" y="0.0" width="117" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="114.5" height="60"/>
                                 <connections>
                                     <action selector="btn2kgPressed:" destination="lak-ec-0XT" eventType="touchUpInside" id="rz6-s1-hwq"/>
                                 </connections>
@@ -152,7 +152,7 @@
                                 <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
@@ -211,20 +211,20 @@
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="iEq-Fc-Ee6" firstAttribute="width" secondItem="oFU-Z8-Fad" secondAttribute="width" id="1xe-c3-55y"/>
                     <constraint firstItem="nT8-9H-gl7" firstAttribute="top" secondItem="hEC-cN-ePJ" secondAttribute="bottom" constant="8" id="2Wc-4f-O6Z"/>
                     <constraint firstItem="nT8-9H-gl7" firstAttribute="leading" secondItem="F48-yX-i92" secondAttribute="leadingMargin" constant="4" id="2iM-Rn-eMv"/>
                     <constraint firstAttribute="trailingMargin" secondItem="nT8-9H-gl7" secondAttribute="trailing" constant="4" id="4eL-8Z-a0w"/>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="top" secondItem="F48-yX-i92" secondAttribute="topMargin" constant="-4" id="7xw-2l-lkh"/>
                     <constraint firstItem="hEC-cN-ePJ" firstAttribute="top" secondItem="iEq-Fc-Ee6" secondAttribute="top" id="FyK-bo-ccl"/>
                     <constraint firstItem="hEC-cN-ePJ" firstAttribute="leading" secondItem="iEq-Fc-Ee6" secondAttribute="trailing" constant="4" id="TTg-ms-RgY"/>
-                    <constraint firstItem="iEq-Fc-Ee6" firstAttribute="leading" secondItem="oFU-Z8-Fad" secondAttribute="trailing" constant="4" id="XGp-7y-phc"/>
-                    <constraint firstItem="oFU-Z8-Fad" firstAttribute="top" secondItem="iEq-Fc-Ee6" secondAttribute="top" id="dE2-a4-q2b"/>
+                    <constraint firstItem="oFU-Z8-Fad" firstAttribute="top" secondItem="iEq-Fc-Ee6" secondAttribute="top" id="VjX-8S-7Pm"/>
+                    <constraint firstItem="oFU-Z8-Fad" firstAttribute="height" secondItem="iEq-Fc-Ee6" secondAttribute="height" id="aCu-UD-lNU"/>
+                    <constraint firstItem="oFU-Z8-Fad" firstAttribute="width" secondItem="iEq-Fc-Ee6" secondAttribute="width" id="dSC-X6-t1K"/>
                     <constraint firstAttribute="trailingMargin" secondItem="hEC-cN-ePJ" secondAttribute="trailing" constant="4" id="ecQ-7u-YiD"/>
+                    <constraint firstItem="iEq-Fc-Ee6" firstAttribute="leading" secondItem="oFU-Z8-Fad" secondAttribute="trailing" constant="4" id="f0S-HW-sGf"/>
+                    <constraint firstItem="oFU-Z8-Fad" firstAttribute="leading" secondItem="F48-yX-i92" secondAttribute="leadingMargin" constant="4" id="gj6-3r-f4t"/>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="width" secondItem="hEC-cN-ePJ" secondAttribute="width" id="rn2-q7-2az"/>
-                    <constraint firstItem="iEq-Fc-Ee6" firstAttribute="height" secondItem="oFU-Z8-Fad" secondAttribute="height" id="uap-tC-cq2"/>
                     <constraint firstItem="iEq-Fc-Ee6" firstAttribute="height" secondItem="hEC-cN-ePJ" secondAttribute="height" id="vLs-Zt-23f"/>
-                    <constraint firstItem="oFU-Z8-Fad" firstAttribute="leading" secondItem="F48-yX-i92" secondAttribute="leading" constant="4" id="zd2-bd-jMK"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
