@@ -194,8 +194,6 @@ class AddProductViewController3: BaseViewController {
     var sizes: Array<String> = []
     var isOpenAll = false
     
-    var isDescriptionBecomeResponder = false
-    
     // view
     var listSections: Array<AddProduct3SectionType> = []
     
@@ -454,20 +452,19 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3DetailProductCell") as! AddProduct3DetailProductCell
                 cell.adapt(self, product: self.product)
                 
-                // hack
-                if self.isDescriptionBecomeResponder {
-                    cell.txtDescription.becomeFirstResponder()
-                    self.isDescriptionBecomeResponder = false
-                }
-                
                 cell.reloadTable = {
                     self.tableView.reloadData()
                 }
                 
                 cell.reloadThisRow = {
-                    self.isDescriptionBecomeResponder = true
-                    
                     self.tableView.reloadRows(at: [indexPath], with: .fade)
+                }
+                
+                cell.updateSize = {
+                    self.tableView.beginUpdates()
+                    self.tableView.endUpdates()
+                    
+                    cell.txtDescription.becomeFirstResponder()
                 }
                 
                 return cell
@@ -797,6 +794,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
     @IBOutlet weak var consTopSpecialStory: NSLayoutConstraint! // 0 -> 40
     @IBOutlet weak var consHeightDescription: NSLayoutConstraint! // min 49.5
     
+    var updateSize: ()->() = {}
     var reloadThisRow: ()->() = {}
     var reloadTable: ()->() = {}
     var parent: AddProductViewController3!
@@ -877,22 +875,20 @@ extension AddProduct3DetailProductCell: UITextFieldDelegate {
 
 extension AddProduct3DetailProductCell: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
+        self.parent.product.description = textView.text
         
         let sizeThatShouldFitTheContent = txtDescription.sizeThatFits(txtDescription.frame.size)
         
         if self.consHeightDescription.constant != (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height) {
+            self.consHeightDescription.constant = (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height)
             
-            self.reloadThisRow()
+            self.updateSize()
         }
-        
-        self.parent.product.description = textView.text
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         
         if text == "\n" {
-            self.parent.product.description = textView.text
-            
             textView.resignFirstResponder()
             return false
         }
