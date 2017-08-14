@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cellUpload" id="qEI-4n-NWy" customClass="UploadSuggestionCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="200" height="270"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="200" height="270"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yIO-Hu-Tc2">
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="270"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IrB-8V-rYR">
+                                <rect key="frame" x="0.0" y="0.0" width="200" height="242"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fsx-Hv-f8n">
+                                <rect key="frame" x="8" y="8" width="184" height="31.5"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="Jual barang bekasmu sekarang!">
+                                        <attributes>
+                                            <font key="NSFont" size="13" name=".AppleSystemUIFontEmphasized"/>
+                                            <font key="NSOriginalFont" size="13" name=".AppleSystemUIFontEmphasized"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang - barang ini banyak dicari di Prelo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RAi-0o-lDV">
+                                <rect key="frame" x="0.0" y="42.5" width="200" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EpD-Q6-vzt">
+                                <rect key="frame" x="0.0" y="242" width="200" height="28"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UPLOAD BARANG" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6bF-4f-kd9">
+                                        <rect key="frame" x="0.0" y="4" width="200" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" red="0.30755189059999999" green="0.65839862819999995" blue="0.75064152480000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="6bF-4f-kd9" secondAttribute="bottom" constant="3" id="3bw-on-MOv"/>
+                                    <constraint firstItem="6bF-4f-kd9" firstAttribute="top" secondItem="EpD-Q6-vzt" secondAttribute="top" constant="4" id="42Z-5O-1y3"/>
+                                    <constraint firstAttribute="trailing" secondItem="6bF-4f-kd9" secondAttribute="trailing" id="ESa-6Z-2SQ"/>
+                                    <constraint firstItem="6bF-4f-kd9" firstAttribute="leading" secondItem="EpD-Q6-vzt" secondAttribute="leading" id="ha3-sI-ybC"/>
+                                    <constraint firstAttribute="height" constant="28" id="uH6-4Q-VHp"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="EpD-Q6-vzt" secondAttribute="trailing" id="5ff-a8-Rq3"/>
+                            <constraint firstItem="IrB-8V-rYR" firstAttribute="top" secondItem="yIO-Hu-Tc2" secondAttribute="top" id="5v8-p7-kfJ"/>
+                            <constraint firstItem="IrB-8V-rYR" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" id="Kmx-lj-JPg"/>
+                            <constraint firstItem="RAi-0o-lDV" firstAttribute="top" secondItem="Fsx-Hv-f8n" secondAttribute="bottom" constant="3" id="NgI-2u-6Wu"/>
+                            <constraint firstItem="Fsx-Hv-f8n" firstAttribute="top" secondItem="yIO-Hu-Tc2" secondAttribute="top" constant="8" id="U2z-Ie-1D2"/>
+                            <constraint firstItem="EpD-Q6-vzt" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" id="Ums-dx-6xU"/>
+                            <constraint firstAttribute="trailing" secondItem="Fsx-Hv-f8n" secondAttribute="trailing" constant="8" id="Y3w-u4-6Ro"/>
+                            <constraint firstItem="RAi-0o-lDV" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" id="d4h-vo-O2i"/>
+                            <constraint firstAttribute="trailing" secondItem="IrB-8V-rYR" secondAttribute="trailing" id="fFi-js-awo"/>
+                            <constraint firstItem="Fsx-Hv-f8n" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" constant="8" id="hHN-hC-hjJ"/>
+                            <constraint firstAttribute="bottom" secondItem="EpD-Q6-vzt" secondAttribute="bottom" id="jwx-La-thq"/>
+                            <constraint firstAttribute="trailing" secondItem="RAi-0o-lDV" secondAttribute="trailing" id="xfx-84-zBB"/>
+                            <constraint firstItem="EpD-Q6-vzt" firstAttribute="top" secondItem="IrB-8V-rYR" secondAttribute="bottom" id="ywD-u6-gVE"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="yIO-Hu-Tc2" secondAttribute="trailing" id="2q3-Lz-QcY"/>
+                <constraint firstItem="yIO-Hu-Tc2" firstAttribute="top" secondItem="qEI-4n-NWy" secondAttribute="top" id="3IF-dK-ZZQ"/>
+                <constraint firstAttribute="bottom" secondItem="yIO-Hu-Tc2" secondAttribute="bottom" id="JTH-A3-iKV"/>
+                <constraint firstItem="yIO-Hu-Tc2" firstAttribute="leading" secondItem="qEI-4n-NWy" secondAttribute="leading" id="r9k-AL-57g"/>
+            </constraints>
+            <size key="customSize" width="238" height="232"/>
+            <connections>
+                <outlet property="contentVwUploadSuggestion" destination="yIO-Hu-Tc2" id="6cs-oE-Upn"/>
+                <outlet property="imgUploadSuggestion" destination="IrB-8V-rYR" id="m9K-2w-xqP"/>
+            </connections>
+            <point key="canvasLocation" x="-206" y="207"/>
+        </collectionViewCell>
+    </objects>
+</document>

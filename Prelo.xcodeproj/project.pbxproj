@@ -612,6 +612,7 @@
 		58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */; };
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
+		58F8C0EA1F2197D500B24BD7 /* UploadSuggestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C0E91F2197D500B24BD7 /* UploadSuggestionCell.xib */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */; };
 		B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */; };
@@ -1777,6 +1778,7 @@
 		58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bri@2x.png"; sourceTree = "<group>"; };
 		58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginFransiska.xib; sourceTree = "<group>"; };
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
+		58F8C0E91F2197D500B24BD7 /* UploadSuggestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UploadSuggestionCell.xib; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
@@ -3272,6 +3274,7 @@
 				5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */,
 				58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */,
 				B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */,
+				58F8C0E91F2197D500B24BD7 /* UploadSuggestionCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -4269,6 +4272,7 @@
 				21156ECD1B8F5DBC001D7842 /* ic_socmed_facebook.png in Resources */,
 				588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */,
 				5827E9601E03F844007F0833 /* ic_trx_refund3.png in Resources */,
+				58F8C0EA1F2197D500B24BD7 /* UploadSuggestionCell.xib in Resources */,
 				21AE67B91B4A61C600D2CF63 /* dummy@2x.jpg in Resources */,
 				58A9AE971CA9320000DF30C8 /* tour_4.bkp.jpg in Resources */,
 				58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */,
