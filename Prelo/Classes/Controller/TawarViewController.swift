@@ -1218,7 +1218,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBAction func beli(_ sender : UIView?) {
         var success = true
         if AppTools.isNewCart { // v2
-            _ = CartManager.sharedInstance.insertProduct(tawarItem.theirId, productId: tawarItem.theirId)
+            _ = CartManager.sharedInstance.insertProduct(tawarItem.theirId, productId: tawarItem.itemId)
         } else {
             if (CartProduct.getOne(tawarItem.itemId, email: User.EmailOrEmptyString) == nil) {
                 if (CartProduct.newOne(tawarItem.itemId, email : User.EmailOrEmptyString, name : tawarItem.itemName) == nil) {
