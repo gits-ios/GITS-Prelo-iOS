@@ -27,6 +27,8 @@ class AddProduct3Helper {
     static let rentSwitchTitleSewa = "Barang ini juga dapat disewa"
     static let rentSwitchSubtitleSewa = "Untuk Sewa, ongkos kirim akan selalu Ditanggung Penyewa / Buyer"
     static let rentSwitchSubtitleSewaBoldStr = "Ditanggung Penyewa / Buyer"
+    
+    static let boldingText = rentOngkirSubtitleBoldStr + "|" + rentSwitchSubtitleJualBoldStr + "|" + rentSwitchSubtitleSewaBoldStr
 }
 
 // MARK: - Enum
@@ -58,7 +60,7 @@ enum AddProduct3SectionType {
         }
     }
     
-    // TODO: - icon
+    // TODO: icon
     var icon: String {
         switch(self) {
         case .imagesPreview    : return ""
@@ -268,12 +270,26 @@ class AddProductViewController3: BaseViewController {
         }
         
         self.setupTableView()
-        
-        self.title = ""
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // TODO: Tracking
+        
+        // TODO: Login
+        
+        // Handling keyboard animation
+        self.an_subscribeKeyboard(
+            animations: {r, t, o in
+                
+                if (o) {
+                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
+                } else {
+                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                }
+                
+        }, completion: nil)
         
         // TEST: - Sewa
         //self.product.addProductType = 1
@@ -287,12 +303,18 @@ class AddProductViewController3: BaseViewController {
             self.setupDraftMode()
         } else { // default init
             if self.product.addProductType == 0 {
+                self.title = "Jual"
                 self.product.isSell = true
                 self.product.isRent = false
             } else {
+                self.title = "Sewa"
                 self.product.isSell = false
                 self.product.isRent = true
             }
+        }
+        
+        if self.product.isEditMode {
+            self.title = "Edit"
         }
         
         // init default sections
@@ -333,11 +355,11 @@ class AddProductViewController3: BaseViewController {
     }
     
     func setupEditMode() {
-        // TODO: - setupEditMode
+        // TODO: setupEditMode
     }
     
     func setupDraftMode() {
-        // TODO: - setupDraftMode
+        // TODO: setupDraftMode
     }
     
     // MARK: - Other
@@ -363,7 +385,7 @@ class AddProductViewController3: BaseViewController {
 }
 
 extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource {
-    // TODO: - tableview action
+    // TODO: tableview action
     func numberOfSections(in tableView: UITableView) -> Int {
         return listSections.count
     }
@@ -525,6 +547,22 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 
                 cell.reloadThisRow = {
                     self.tableView.reloadRows(at: [indexPath], with: .fade)
+                }
+                
+                cell.updateSize = {
+                    self.tableView.beginUpdates()
+                    
+                    if cell.vwBerat.isHidden {
+                        cell.vwBerat.isHidden = false
+                    }
+                    
+                    self.tableView.endUpdates()
+                    
+                    // hack
+                    // make weight select all at the first
+                    cell.txtWeight.becomeFirstResponder()
+                    
+                    cell.txtWeight.selectedTextRange = cell.txtWeight.textRange(from: cell.txtWeight.beginningOfDocument, to: cell.txtWeight.endOfDocument)
                 }
                 
                 return cell
@@ -689,7 +727,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // do nothing
-        // TODO: - next
+        // TODO: next
     }
 }
 
@@ -716,7 +754,34 @@ class AddProduct3ImageTitleCell: UITableViewCell {
     func adapt(_ image: String, title: String, subtitle: String?, faqUrl: String?) {
         self.SectionImage.image = UIImage(named: image)!
         self.SectionTitle.text = title
-        self.SectionSubtitle.text = subtitle
+        
+        // hack
+        if let mystr = subtitle {
+            let searchstr = AddProduct3Helper.boldingText
+            let ranges: [NSRange]
+            
+            do {
+                // Create the regular expression.
+                let regex = try NSRegularExpression(pattern: searchstr, options: [])
+                
+                // Use the regular expression to get an array of NSTextCheckingResult.
+                // Use map to extract the range from each result.
+                ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+            }
+            catch {
+                // There was a problem creating the regular expression
+                ranges = []
+            }
+            
+            let attString : NSMutableAttributedString = NSMutableAttributedString(string: mystr)
+            for i in 0...ranges.count-1 {
+                attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 12)], range: ranges[i])
+            }
+            
+            self.SectionSubtitle.attributedText = attString
+        } else {
+            self.SectionSubtitle.text = subtitle
+        }
         
         self.SectionImage.tint = true
         self.SectionImage.tintColor = self.SectionTitle.textColor
@@ -727,7 +792,7 @@ class AddProduct3ImageTitleCell: UITableViewCell {
     
     static func heightFor(_ subtitle: String?) -> CGFloat {
         if let sub = subtitle {
-            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
+            let t = sub.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - 24)
             return 40 + t.height // count subtitle height
         }
         return 40
@@ -750,7 +815,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        // TODO: - Lihat tips barang Editor's Pick.
+        // TODO: Lihat tips barang Editor's Pick.
         self.url = ""
         
         self.setupCollection()
@@ -1000,6 +1065,7 @@ class AddProduct3WeightCell: UITableViewCell {
     @IBOutlet weak var txtWeight: UITextField!
     
     var parent: AddProductViewController3!
+    var updateSize: ()->() = {}
     var reloadThisRow: ()->() = {}
     var disactiveColor = UIColor.init(hexString: "#727272")
     
@@ -1043,7 +1109,6 @@ class AddProduct3WeightCell: UITableViewCell {
             self.txtWeight.text = weight
             if self.vwBerat.isHidden {
                 self.vwBerat.isHidden = false
-                self.reloadThisRow()
             }
             if weight.int < 1000 {
                 self.vw1kg.borderColor = Theme.PrimaryColor
@@ -1094,7 +1159,7 @@ class AddProduct3WeightCell: UITableViewCell {
     }
     
     @IBAction func btn1kgPressed(_ sender: Any) {
-        if (self.txtWeight.text?.int)! >= 1000 {
+        if (self.txtWeight.text?.int)! >= 1000 || (self.txtWeight.text == nil || self.txtWeight.text == "") {
             self.vw1kg.borderColor = Theme.PrimaryColor
             self.img1kg.tintColor = Theme.PrimaryColor
             self.lbl1kg.textColor = Theme.PrimaryColor
@@ -1109,7 +1174,7 @@ class AddProduct3WeightCell: UITableViewCell {
             
             self.txtWeight.text = "500"
             self.parent.product.weight = self.txtWeight.text!
-            self.reloadThisRow()
+            self.updateSize()
         }
     }
     
@@ -1129,7 +1194,11 @@ class AddProduct3WeightCell: UITableViewCell {
             
             self.txtWeight.text = "1500"
             self.parent.product.weight = self.txtWeight.text!
-            self.reloadThisRow()
+            self.updateSize()
+            
+            if self.vwBerat.isHidden {
+                self.vwBerat.isHidden = false
+            }
         }
     }
     
@@ -1149,7 +1218,7 @@ class AddProduct3WeightCell: UITableViewCell {
             
             self.txtWeight.text = "2500"
             self.parent.product.weight = self.txtWeight.text!
-            self.reloadThisRow()
+            self.updateSize()
         }
     }
 }
@@ -1173,7 +1242,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        // TODO: - Lihat Syarat dan Ketentuan.
+        // TODO: Lihat Syarat dan Ketentuan.
         self.url = ""
         
         self.imgFreeOngkir.tint = true
@@ -1457,7 +1526,7 @@ class AddProduct3PriceCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        // TODO: - Lihat Syarat dan Ketentuan.
+        // TODO: Lihat Syarat dan Ketentuan.
         self.url = ""
         
         // numeric keyboards hack
@@ -1587,11 +1656,11 @@ class AddProduct3ChargeCell: UITableViewCell {
     }
     
     @IBAction func btnSubmitPressed(_ sender: Any) {
-        // TODO: - btnSubmitPressed
+        // TODO: btnSubmitPressed
     }
     
     @IBAction func btnRemovePressed(_ sender: Any) {
-        // TODO: - btnRemovePressed
+        // TODO: btnRemovePressed
     }
 }
 
@@ -1729,7 +1798,33 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
     
     func adapt(_ title: String, subtitle: String, isOn: Bool) {
         self.lblTitle.text = title
-        self.lblSubTitle.text = subtitle
+        //self.lblSubTitle.text = subtitle
+        
+        // hack
+        let mystr = subtitle
+        let searchstr = AddProduct3Helper.boldingText
+        let ranges: [NSRange]
+        
+        do {
+            // Create the regular expression.
+            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+            
+            // Use the regular expression to get an array of NSTextCheckingResult.
+            // Use map to extract the range from each result.
+            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+        }
+        catch {
+            // There was a problem creating the regular expression
+            ranges = []
+        }
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: mystr)
+        for i in 0...ranges.count-1 {
+            attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 12)], range: ranges[i])
+        }
+        
+        self.lblSubTitle.attributedText = attString
+        
         self.btnSwitch.isOn = isOn
     }
     
@@ -1738,7 +1833,7 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
         if isOn {
             var h: CGFloat = 0
             if let sub = substring {
-                let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
+                let t = sub.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - 24)
                 h = t.height
             }
             return 67 + h // count subtitle height
