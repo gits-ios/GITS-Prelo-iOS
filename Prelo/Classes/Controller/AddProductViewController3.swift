@@ -648,7 +648,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return cell
             } else if row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SellRentSwitchCell") as! AddProduct3SellRentSwitchCell
-                cell.adapt((self.product.isSell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
+                cell.adapt((self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
                 
                 cell.reloadSections = { _sections in
                     // hack
@@ -1889,9 +1889,9 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
                 let t = sub.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - 24)
                 h = t.height
             }
-            return 67 + h // count subtitle height
+            return 71 + h // count subtitle height
         }
-        return 56
+        return 60
     }
     
     @IBAction func btnSwitchPressed(_ sender: Any) {
