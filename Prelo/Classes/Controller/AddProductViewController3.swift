@@ -62,15 +62,15 @@ enum AddProduct3SectionType {
     var icon: String {
         switch(self) {
         case .imagesPreview    : return ""
-        case .productDetail    : return "placeholder-standar-white"
-        case .size             : return "placeholder-standar-white"
-        case .authVerification : return "placeholder-standar-white"
-        case .checklist        : return "placeholder-standar-white"
-        case .weight           : return "placeholder-standar-white"
-        case .postalFee        : return "placeholder-standar-white"
-        case .rentPeriod       : return "placeholder-standar-white"
-        case .rentSellOnOff    : return "placeholder-standar-white"
-        case .price            : return "placeholder-standar-white"
+        case .productDetail    : return "ic_edit"
+        case .size             : return "ic_ukuran"
+        case .authVerification : return "ic_luxury"
+        case .checklist        : return "ic_box"
+        case .weight           : return "ic_berat"
+        case .postalFee        : return "ic_ongkir"
+        case .rentPeriod       : return "placeholder-circle"
+        case .rentSellOnOff    : return "placeholder-circle"
+        case .price            : return "ic_harga"
         }
     }
     
@@ -275,6 +275,9 @@ class AddProductViewController3: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        // TEST: - Sewa
+        //self.product.addProductType = 1
+        
         // setup product from edit or draft
         if self.product.isEditMode {
             self.chargeLabel = nil
@@ -292,22 +295,24 @@ class AddProductViewController3: BaseViewController {
             }
         }
         
+        // init default sections
+        self.listSections.append(.imagesPreview)
+        self.listSections.append(.productDetail)
+        self.listSections.append(.weight)
+        self.listSections.append(.postalFee)
+        self.listSections.append(.rentSellOnOff)
+        self.listSections.append(.price)
+        
         // setup table view
-        if self.product.addProductType == 0 {
-            
-            self.listSections.append(.imagesPreview)
-            self.listSections.append(.productDetail)
-            self.listSections.append(.weight)
-            self.listSections.append(.postalFee)
-            self.listSections.append(.rentSellOnOff)
-            self.listSections.append(.price)
-            
-            if self.product.isRent {
+        if self.product.addProductType == 0 { // JUAL
+            if self.product.isRent { // SEWA
                 
             }
-        } else {
+        } else { // SEWA
+            let idx = self.findSectionFromType(.postalFee)
+            self.listSections.insert(.rentPeriod, at: idx+1)
             
-            if self.product.isSell {
+            if self.product.isSell { // JUAL
                 
             }
         }
@@ -410,7 +415,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
             } else {
-                if self.product.isSell {
+                if self.product.addProductType == 0 {
                     return AddProduct3PostalFeeCell.heightFor()
                 } else {
                     return AddProduct3RentPostalFeeCell.heightFor()
@@ -426,9 +431,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
             } else if row == 1 {
-                return AddProduct3SellRentSwitchCell.heightFor((self.product.isSell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isSell && self.product.isRent))
+                return AddProduct3SellRentSwitchCell.heightFor((self.product.addProductType == 0 ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isSell && self.product.isRent))
             } else {
-                if self.product.isSell {
+                if self.product.addProductType == 0 {
                     return AddProduct3RentPeriodCell.heightFor()
                 } else {
                     return AddProduct3PostalFeeCell.heightFor()
@@ -530,7 +535,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: (self.product.isSell ? listSections[section].subtitle : AddProduct3Helper.rentOngkirSubtitle), faqUrl: listSections[section].faq)
                 return cell
             } else {
-                if self.product.isSell {
+                if self.product.addProductType == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
                     cell.adapt(self, product: self.product)
                     return cell
@@ -577,11 +582,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
         case .rentSellOnOff:
             if row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
-                cell.adapt(listSections[section].icon, title: (self.product.isSell ? listSections[section].title : "JUAL"), subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
+                cell.adapt(listSections[section].icon, title: (self.product.addProductType == 0 ? listSections[section].title : "JUAL"), subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
                 return cell
             } else if row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SellRentSwitchCell") as! AddProduct3SellRentSwitchCell
-                cell.adapt((self.product.isSell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.isSell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
+                cell.adapt((self.product.isSell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.addProductType == 0 ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
                 
                 cell.reloadSections = { _sections in
                     // hack
@@ -631,7 +636,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 
                 return cell
             } else {
-                if self.product.isSell {
+                if self.product.addProductType == 0 {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPeriodCell") as! AddProduct3RentPeriodCell
                     cell.adapt(self, product: self.product)
                     
@@ -700,10 +705,7 @@ class AddProduct3ImageTitleCell: UITableViewCell {
     
     // 40, 60 & count
     override func awakeFromNib() {
-        self.SectionImage.tint = true
-        self.SectionImage.tintColor = self.SectionTitle.textColor
-        
-        self.SectionSubtitle.text = ""
+        self.SectionSubtitle.text = nil
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -716,7 +718,11 @@ class AddProduct3ImageTitleCell: UITableViewCell {
         self.SectionTitle.text = title
         self.SectionSubtitle.text = subtitle
         
+        self.SectionImage.tint = true
+        self.SectionImage.tintColor = self.SectionTitle.textColor
+        
         self.SectionFAQ.isHidden = (faqUrl == nil)
+        self.url = (faqUrl ?? "")
     }
     
     static func heightFor(_ subtitle: String?) -> CGFloat {
