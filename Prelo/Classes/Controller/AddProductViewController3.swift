@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class AddProduct3Helper {
     // Charge label
@@ -199,6 +200,7 @@ class AddProductViewController3: BaseViewController {
     var chargeLabel: String? = AddProduct3Helper.defaultChargeLabel
     
     var sizes: Array<String> = []
+    var sizesTitle: String = ""
     
     // view
     var listSections: Array<AddProduct3SectionType> = []
@@ -358,8 +360,17 @@ class AddProductViewController3: BaseViewController {
             if self.product.isLuxuryMerk && self.product.isWomenMenCategory {
                 let idx = self.findSectionFromType(.productDetail)
                 let idx2 = self.findSectionFromType(.size)
-                self.listSections.insert(.authVerification, at: idx+2+idx2)
-                self.listSections.insert(.checklist, at: idx+3+idx2)
+                
+                var _idx = idx+1
+                var _idx2 = idx+2
+                
+                if idx2 > -1 {
+                    _idx += 1
+                    _idx2 += 1
+                }
+                
+                self.listSections.insert(.authVerification, at: _idx)
+                self.listSections.insert(.checklist, at: _idx2)
             }
             
             if self.product.imagesDetail.count == 0 {
@@ -395,6 +406,7 @@ class AddProductViewController3: BaseViewController {
         self.loadingPanel.isHidden = true
     }
     
+    // MARK: - Section Helper
     func findSectionFromType(_ type: AddProduct3SectionType) -> Int {
         if self.listSections.count > 0 {
             for i in 0..<self.listSections.count {
@@ -405,6 +417,170 @@ class AddProductViewController3: BaseViewController {
         }
         
         return -1
+    }
+    
+    func insertSizeSection() {
+        let idx = self.findSectionFromType(.productDetail)
+        
+        var _idx = self.findSectionFromType(.size)
+        if _idx == -1 {
+            _idx = idx+1
+            
+            self.listSections.insert(.size, at: _idx)
+            
+            let array: Array<Int> = [_idx]
+            let indexSet = NSMutableIndexSet()
+            array.forEach(indexSet.add)
+            
+            self.tableView.insertSections(indexSet as IndexSet, with: .fade)
+        } else {
+            self.tableView.reloadRows(at: [ IndexPath.init(row: 1, section: _idx) ], with: .fade)
+        }
+    }
+    
+    func removeSizeSection() {
+        self.removeSection(.size)
+    }
+    
+    func insertLuxurySection() {
+        let idx = self.findSectionFromType(.productDetail)
+        let idx2 = self.findSectionFromType(.size)
+        
+        var _idx = self.findSectionFromType(.authVerification)
+        var _idx2 = self.findSectionFromType(.checklist)
+        
+        if _idx == -1 && _idx2 == -1 {
+            if idx2 > -1 {
+                _idx = idx+2
+                _idx2 = idx+3
+            } else {
+                _idx = idx+1
+                _idx2 = idx+2
+            }
+            
+            self.listSections.insert(.authVerification, at: _idx)
+            self.listSections.insert(.checklist, at: _idx2)
+            
+            let array: Array<Int> = [_idx, _idx2]
+            let indexSet = NSMutableIndexSet()
+            array.forEach(indexSet.add)
+            
+            self.tableView.insertSections(indexSet as IndexSet, with: .fade)
+        } else {
+            let array: Array<Int> = [_idx, _idx2]
+            let indexSet = NSMutableIndexSet()
+            array.forEach(indexSet.add)
+            
+            self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+        }
+    }
+    
+    // one by one
+    func removeLuxurySection() {
+        self.removeSection(.authVerification)
+        self.removeSection(.checklist)
+    }
+    
+    func removeSection(_ type: AddProduct3SectionType) {
+        let _idx = self.findSectionFromType(type)
+        
+        if _idx > -1 {
+            self.listSections.remove(at: _idx)
+            
+            let array: Array<Int> = [_idx]
+            let indexSet = NSMutableIndexSet()
+            array.forEach(indexSet.add)
+            
+            self.tableView.deleteSections(indexSet as IndexSet, with: .fade)
+        }
+    }
+    
+    // MARK: - size
+    func getSizes() {
+        let _ = request(APIReference.brandAndSizeByCategory(category: self.product.categoryId)).responseJSON { resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Product Brands and Sizes")) {
+                if let x: AnyObject = resp.result.value as AnyObject? {
+                    let json = JSON(x)
+                    let jsizes = json["_data"]["sizes"]
+                    if let arr = jsizes["size_types"].array {
+                        
+                        self.sizesTitle = ""
+                        
+                        var sml : Array<String> = [] // = UK, this var name is screwed
+                        var usa : Array<String> = [] // = EU, this var name is screwed
+                        var eur : Array<String> = [] // = USA, this var name is screwed
+                        for i in 0...arr.count-1 {
+                            let d = arr[i]
+                            let name = d["name"].string!
+                            self.sizesTitle += name
+                            
+                            if i != arr.count-1 {
+                                self.sizesTitle += "\n"
+                            }
+                            
+                            if let strings = d["sizes"].arrayObject {
+                                for c in 0...strings.count-1 {
+                                    if (i == 0) {
+                                        sml.append(strings[c] as! String)
+                                    }
+                                    if (i == 1) {
+                                        usa.append(strings[c] as! String)
+                                    }
+                                    if (i == 2) {
+                                        eur.append(strings[c] as! String)
+                                    }
+                                }
+                            }
+                        }
+                        
+                        self.sizes = []
+                        let tempCount = sml.count >= usa.count ? sml.count : usa.count
+                        let sizeCount = tempCount >= eur.count ? tempCount : eur.count
+                        for i in 0...sizeCount-1 {
+                            var usaString = ""
+                            if (i < usa.count) { // usa is safe
+                                usaString = usa[i]
+                            }
+                            
+                            var smlString = ""
+                            if (i < sml.count) { // sml is safe
+                                smlString = sml[i]
+                            }
+                            
+                            var eurString = ""
+                            if (i < eur.count) { // eur is safe
+                                eurString = eur[i]
+                            }
+                            
+                            let sizeString = smlString + "\n" + usaString + "\n" + eurString
+                            self.sizes.append(sizeString)
+                        }
+                        
+                        if self.sizes.last == "\n\n" {
+                            self.sizes.removeLast()
+                        }
+                        
+                        self.product.size = self.sizes[0]
+                        self.product.isCategoryContainSize = true
+                        DispatchQueue.main.async(execute: {
+                            self.insertSizeSection()
+                        })
+                    } else {
+                        self.sizes = []
+                        self.product.isCategoryContainSize = false
+                        DispatchQueue.main.async(execute: {
+                            self.removeSizeSection()
+                        })
+                    }
+                } else {
+                    self.sizes = []
+                    self.product.isCategoryContainSize = false
+                    DispatchQueue.main.async(execute: {
+                        self.removeSizeSection()
+                    })
+                }
+            }
+        }
     }
 }
 
@@ -528,6 +704,164 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     cell.txtDescription.becomeFirstResponder()
                 }
                 
+                cell.pickCategory = {
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let p = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
+                    
+                    p.blockDone = { data in
+                        let children = JSON(data["child"]!)
+                        
+                        if let id = children["_id"].string
+                        {
+                            self.product.categoryId = id
+                        }
+                        
+                        if let name = children["name"].string
+                        {
+                            self.product.category = name
+                        }
+                        
+                        let dataJson = JSON(data)
+                        /*
+                        if let imgName = dataJson["category_image_name"].string
+                        {
+                            if let imgUrl = URL(string: imgName) {
+                                self.ivImage.afSetImage(withURL: imgUrl)
+                            }
+                        }
+                        */
+                        
+                        self.getSizes()
+                        
+                        /*
+                        if let catLv2Name = dataJson["category_level2_name"].string {
+                            // Set placeholder for item name and description
+                            guard let filePath = Bundle.main.path(forResource: "AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
+                                //print("Couldn't load .plist as a dictionary")
+                                return
+                            }
+                            ////print("placehodlersDict = \(placeholdersDict)")
+                            
+                            let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercased())")
+                            let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluate(with: $0) }
+                            if let placeholderDict = placeholdersDict.dictionaryWithValues(forKeys: matchingKeys as! [String]).first?.1 {
+                                ////print("placehodlerDict = \(placeholderDict)")
+                                if let itemNamePlaceholder = (placeholderDict as AnyObject).object(forKey: "name") {
+                                    self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
+                                }
+                                if let descPlaceholder = (placeholderDict as AnyObject).object(forKey: "desc") {
+                                    self.txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: \(descPlaceholder)"
+                                }
+                            }
+                        }
+                        */
+                        if let catLv1Id = dataJson["category_level1_id"].string {
+                            if (catLv1Id == "55de6dbc5f6522562a2c73ef" || catLv1Id == "55de6dbc5f6522562a2c73f0") {
+                                self.product.isWomenMenCategory = true
+                            } else {
+                                self.product.isWomenMenCategory = false
+                            }
+                        }
+                        
+                        // Show luxury fields if isLuxury
+                        if (self.product.isLuxuryMerk && self.product.isWomenMenCategory) {
+                            self.insertLuxurySection()
+                        } else {
+                            self.removeLuxurySection()
+                        }
+                        
+                        self.tableView.reloadRows(at: [indexPath], with: .fade)
+                    }
+                    p.root = self
+                    self.navigationController?.pushViewController(p, animated: true)
+                }
+                
+                cell.pickMerk = {
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let p = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as! PickerViewController
+                    
+                    p.title = "Pilih Merk"
+                    
+                    let cur = 0
+                    let lim = 25
+                    var names : [String] = []
+                    let _ = request(APISearch.brands(name: "", current: cur, limit: lim)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Merk")) {
+                            let json = JSON(resp.result.value!)
+                            let data = json["_data"]
+                            
+                            if (data.count > 0) {
+                                for i in 0...(data.count - 1) {
+                                    if let merkName = data[i]["name"].string, let merkId = data[i]["_id"].string {
+                                        var strToHide = merkId
+                                        var isLuxury = false
+                                        if let isLux = data[i]["is_luxury"].bool {
+                                            isLuxury = isLux
+                                        }
+                                        strToHide += ";" + (isLuxury ? "1" : "0")
+                                        names.append(merkName + PickerViewController.TAG_START_HIDDEN + strToHide + PickerViewController.TAG_END_HIDDEN)
+                                    }
+                                }
+                                p.merkMode = true
+                                p.pagingMode = true
+                                p.pagingCurrent = cur + lim
+                                p.pagingLimit = lim
+                                if (data.count < lim) {
+                                    p.isPagingEnded = true
+                                } else {
+                                    p.isPagingEnded = false
+                                }
+                                p.items = names
+                                p.selectBlock = { s in
+                                    let hiddenStr = PickerViewController.RevealHiddenString(s).characters.split{$0 == ";"}.map(String.init)
+                                    if (hiddenStr.count >= 2) {
+                                        self.product.merkId = hiddenStr[0]
+                                        self.product.isLuxuryMerk = (hiddenStr[1] == "1") ? true : false
+                                    } else {
+                                        self.product.merkId = ""
+                                        self.product.isLuxuryMerk = false
+                                    }
+                                    var x : String = PickerViewController.HideHiddenString(s)
+                                    
+                                    // Set chosen brand
+                                    x = x.replacingOccurrences(of: "Tambahkan merek '", with: "")
+                                    x = x.replacingOccurrences(of: "'", with: "")
+                                    self.product.merk = x
+                                    
+                                    // Show luxury fields if isLuxury
+                                    if (self.product.isLuxuryMerk && self.product.isWomenMenCategory) {
+                                        self.insertLuxurySection()
+                                    } else {
+                                        self.removeLuxurySection()
+                                    }
+                                    
+                                    /*
+                                    // Show submit label
+                                    if (self.editMode) {
+                                        if ((self.editProduct?.isFakeApprove)! || (self.editProduct?.isFakeApproveV2)!) {
+                                            self.lblSubmit.isHidden = true
+                                        } else {
+                                            self.lblSubmit.isHidden = false
+                                        }
+                                    }
+                                    */
+                                    
+                                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                                }
+                                p.showSearch = true
+                                
+                                self.navigationController?.pushViewController(p, animated: true)
+                            } else {
+                                //Constant.showBadgeDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk", badge: "warning", view: self, isBack: false)
+                                Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                            }
+                        } else {
+                            //Constant.showBadgeDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk", badge: "warning", view: self, isBack: false)
+                            Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                        }
+                    }
+                }
+                
                 return cell
             }
         case .size:
@@ -537,7 +871,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SizeCell") as! AddProduct3SizeCell
-                cell.adapt(self, product: self.product, sizes: self.sizes)
+                cell.adapt(self, product: self.product, sizes: self.sizes, sizesTitle: self.sizesTitle)
                 return cell
             }
         case .authVerification:
@@ -977,6 +1311,9 @@ class AddProduct3DetailProductCell: UITableViewCell {
     var reloadTable: ()->() = {}
     var parent: AddProductViewController3!
     
+    var pickCategory: ()->() = {}
+    var pickMerk: ()->() = {}
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -1023,11 +1360,11 @@ class AddProduct3DetailProductCell: UITableViewCell {
     }
     
     @IBAction func btnPickCategoryPressed(_ sender: Any) {
-        // TODO: pick Category
+        self.pickCategory()
     }
     
     @IBAction func btnPickMerkPressed(_ sender: Any) {
-        // TODO: pick Merk
+        self.pickMerk()
     }
     
     @IBAction func btnPickConditionPressed(_ sender: Any) {
@@ -1929,6 +2266,7 @@ class AddProduct3RentPostalFeeCell: UITableViewCell {
 // MARK: - Size Cell -> shoes, etc
 class AddProduct3SizeCell: UITableViewCell {
     @IBOutlet weak var sizePickerView: AKPickerView!
+    @IBOutlet weak var lblTitle: UILabel!
     
     @IBOutlet weak var txtSize: UITextField!
     
@@ -1939,6 +2277,9 @@ class AddProduct3SizeCell: UITableViewCell {
         super.awakeFromNib()
         
         self.txtSize.delegate = self
+        self.txtSize.isEnabled = false
+        
+        self.setupPickerView()
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -1959,21 +2300,20 @@ class AddProduct3SizeCell: UITableViewCell {
         self.sizePickerView.isMaskDisabled = false
     }
     
-    func adapt(_ parent: AddProductViewController3, product: SelectedProductItem, sizes: Array<String>) {
+    func adapt(_ parent: AddProductViewController3, product: SelectedProductItem, sizes: Array<String>, sizesTitle: String) {
+        self.parent = parent
         self.txtSize.text = product.size
         self.sizes = sizes
+        
+        self.lblTitle.text = sizesTitle
         
         if (self.sizes.count > 0) {
             self.sizePickerView.collectionView.reloadData()
             self.sizePickerView.selectItem(0, animated: false)
             self.sizePickerView.superview?.isHidden = false
             
-            var s = ""
-            if product.isEditMode || product.isDraftMode {
-                s = product.size
-            }
-            if s != "" && (product.isEditMode || product.isDraftMode)
-            {
+            var s = product.size
+            if s != "" {
                 s = s.replacingOccurrences(of: "/", with: "\n")
                 s = s.replacingOccurrences(of: " ", with: "-")
                 s = s.replacingOccurrences(of: "(", with: "")
@@ -1992,11 +2332,13 @@ class AddProduct3SizeCell: UITableViewCell {
                 }
             }
         }
+        
+        self.sizePickerView.reloadData()
     }
     
     // 120
     static func heightFor() -> CGFloat {
-        return 120
+        return 104
     }
 }
 
