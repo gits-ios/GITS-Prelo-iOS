@@ -15,7 +15,7 @@ class AddProduct3Helper {
     // Subtitle
     static let rentOngkirSubtitle = "Diwajibkan menggunakan kurir sehari sampai (seperti JNE YES, TIKI ONS)"
     static let rentOngkirSubtitleBoldStr = "JNE YES, TIKI ONS"
-    static let rentPeriodSubtitle = "Tentutkan satuan Periode Sewa yang diinginkan"
+    static let rentPeriodSubtitle = "Tentukan satuan Periode Sewa yang diinginkan"
     
     // swicth
     // rent page
@@ -192,7 +192,6 @@ class AddProductViewController3: BaseViewController {
     var chargeLabel: String? = AddProduct3Helper.defaultChargeLabel
     
     var sizes: Array<String> = []
-    var isOpenAll = false
     
     // view
     var listSections: Array<AddProduct3SectionType> = []
@@ -303,12 +302,12 @@ class AddProductViewController3: BaseViewController {
             self.listSections.append(.rentSellOnOff)
             self.listSections.append(.price)
             
-            if self.isOpenAll {
+            if self.product.isRent {
                 
             }
         } else {
             
-            if self.isOpenAll {
+            if self.product.isSell {
                 
             }
         }
