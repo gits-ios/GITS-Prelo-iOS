@@ -849,7 +849,7 @@ class AddProduct3ImagesPreviewCellCollectionCell: UICollectionViewCell {
     }
     
     func adapt(_ image: UIImage?, label: String) {
-        self.imagesPreview.image = image
+        self.imagesPreview.image = (image ?? UIImage(named: "placeholder-standar-white"))
         self.label.text = label
     }
     
