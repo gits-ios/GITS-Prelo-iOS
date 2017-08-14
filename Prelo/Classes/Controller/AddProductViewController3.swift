@@ -919,8 +919,6 @@ class AddProduct3WeightCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.txtWeight.delegate = self
-        
         // numeric keyboards hack
         let ViewForDoneButtonOnKeyboard = UIToolbar()
         ViewForDoneButtonOnKeyboard.sizeToFit()
@@ -948,6 +946,7 @@ class AddProduct3WeightCell: UITableViewCell {
     func doneBtnfromKeyboardClicked() {
         self.parent.product.weight = self.txtWeight.text!
         self.txtWeight.resignFirstResponder()
+        self.reloadThisRow()
     }
     
     func adapt(_ parent: AddProductViewController3, weight: String) {
@@ -1008,70 +1007,63 @@ class AddProduct3WeightCell: UITableViewCell {
     }
     
     @IBAction func btn1kgPressed(_ sender: Any) {
-        self.vw1kg.borderColor = Theme.PrimaryColor
-        self.img1kg.tintColor = Theme.PrimaryColor
-        self.lbl1kg.textColor = Theme.PrimaryColor
-        
-        self.vw12kg.borderColor = disactiveColor
-        self.img12kg.tintColor = disactiveColor
-        self.lbl12kg.textColor = disactiveColor
-        
-        self.vw2kg.borderColor = disactiveColor
-        self.img2kg.tintColor = disactiveColor
-        self.lbl2kg.textColor = disactiveColor
-        
         if (self.txtWeight.text?.int)! >= 1000 {
+            self.vw1kg.borderColor = Theme.PrimaryColor
+            self.img1kg.tintColor = Theme.PrimaryColor
+            self.lbl1kg.textColor = Theme.PrimaryColor
+            
+            self.vw12kg.borderColor = disactiveColor
+            self.img12kg.tintColor = disactiveColor
+            self.lbl12kg.textColor = disactiveColor
+            
+            self.vw2kg.borderColor = disactiveColor
+            self.img2kg.tintColor = disactiveColor
+            self.lbl2kg.textColor = disactiveColor
+            
             self.txtWeight.text = "500"
             self.parent.product.weight = self.txtWeight.text!
+            self.reloadThisRow()
         }
     }
     
     @IBAction func btn12kgPressed(_ sender: Any) {
-        self.vw1kg.borderColor = disactiveColor
-        self.img1kg.tintColor = disactiveColor
-        self.lbl1kg.textColor = disactiveColor
-        
-        self.vw12kg.borderColor = Theme.PrimaryColor
-        self.img12kg.tintColor = Theme.PrimaryColor
-        self.lbl12kg.textColor = Theme.PrimaryColor
-        
-        self.vw2kg.borderColor = disactiveColor
-        self.img2kg.tintColor = disactiveColor
-        self.lbl2kg.textColor = disactiveColor
-        
-        if (self.txtWeight.text?.int)! < 1000 && (self.txtWeight.text?.int)! > 2000 {
+        if (self.txtWeight.text?.int)! < 1000 || (self.txtWeight.text?.int)! > 2000 {
+            self.vw1kg.borderColor = disactiveColor
+            self.img1kg.tintColor = disactiveColor
+            self.lbl1kg.textColor = disactiveColor
+            
+            self.vw12kg.borderColor = Theme.PrimaryColor
+            self.img12kg.tintColor = Theme.PrimaryColor
+            self.lbl12kg.textColor = Theme.PrimaryColor
+            
+            self.vw2kg.borderColor = disactiveColor
+            self.img2kg.tintColor = disactiveColor
+            self.lbl2kg.textColor = disactiveColor
+            
             self.txtWeight.text = "1500"
             self.parent.product.weight = self.txtWeight.text!
+            self.reloadThisRow()
         }
     }
     
     @IBAction func btn2kgPressed(_ sender: Any) {
-        self.vw1kg.borderColor = disactiveColor
-        self.img1kg.tintColor = disactiveColor
-        self.lbl1kg.textColor = disactiveColor
-        
-        self.vw12kg.borderColor = disactiveColor
-        self.img12kg.tintColor = disactiveColor
-        self.lbl12kg.textColor = disactiveColor
-        
-        self.vw2kg.borderColor = Theme.PrimaryColor
-        self.img2kg.tintColor = Theme.PrimaryColor
-        self.lbl2kg.textColor = Theme.PrimaryColor
-        
         if (self.txtWeight.text?.int)! <= 2000 {
+            self.vw1kg.borderColor = disactiveColor
+            self.img1kg.tintColor = disactiveColor
+            self.lbl1kg.textColor = disactiveColor
+            
+            self.vw12kg.borderColor = disactiveColor
+            self.img12kg.tintColor = disactiveColor
+            self.lbl12kg.textColor = disactiveColor
+            
+            self.vw2kg.borderColor = Theme.PrimaryColor
+            self.img2kg.tintColor = Theme.PrimaryColor
+            self.lbl2kg.textColor = Theme.PrimaryColor
+            
             self.txtWeight.text = "2500"
             self.parent.product.weight = self.txtWeight.text!
+            self.reloadThisRow()
         }
-    }
-}
-
-extension AddProduct3WeightCell: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        if textField == self.txtWeight {
-            self.parent.product.weight = self.txtWeight.text!
-        }
-        return true
     }
 }
 
@@ -1195,7 +1187,6 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
         self.txtStyleName.delegate = self
         self.txtSerialNumber.delegate = self
         self.txtLokasiBeli.delegate = self
-        self.txtTahunBeli.delegate = self
         
         // numeric keyboards hack
         let ViewForDoneButtonOnKeyboard = UIToolbar()
@@ -1240,8 +1231,6 @@ extension AddProduct3ProductAuthVerificationCell: UITextFieldDelegate {
             self.parent.product.serialNumber = self.txtSerialNumber.text!
         } else if textField == self.txtLokasiBeli {
             self.parent.product.lokasiBeli = self.txtLokasiBeli.text!
-        } else if textField == self.txtTahunBeli {
-            self.parent.product.tahunBeli = self.txtTahunBeli.text!
         }
         return true
     }
@@ -1380,11 +1369,6 @@ class AddProduct3PriceCell: UITableViewCell {
         // TODO: - Lihat Syarat dan Ketentuan.
         self.url = ""
         
-        self.txtHargaBeli.delegate = self
-        self.txtHargaJual.delegate = self
-        self.txtHargaSewa.delegate = self
-        self.txtDeposit.delegate = self
-        
         // numeric keyboards hack
         let ViewForDoneButtonOnKeyboard = UIToolbar()
         ViewForDoneButtonOnKeyboard.sizeToFit()
@@ -1460,22 +1444,6 @@ class AddProduct3PriceCell: UITableViewCell {
     
     @IBAction func btnFAQPressed(_ sender: Any) {
         self.openWebView(self.url)
-    }
-}
-
-extension AddProduct3PriceCell: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        if textField == self.txtHargaBeli {
-            self.parent.product.hargaBeli = self.txtHargaBeli.text!
-        } else if textField == self.txtHargaJual {
-            self.parent.product.hargaJual = self.txtHargaJual.text!
-        } else if textField == self.txtHargaSewa {
-            self.parent.product.hargaSewa = self.txtHargaSewa.text!
-        } else if textField == self.txtDeposit {
-            self.parent.product.deposit = self.txtDeposit.text!
-        }
-        return true
     }
 }
 
