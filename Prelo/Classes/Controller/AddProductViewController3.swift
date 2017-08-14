@@ -108,7 +108,7 @@ enum AddProduct3SectionType {
 
 // MARK: - Struct
 struct PreviewImage {
-    var image: UIImage! // local image / downloaded image
+    var image: UIImage? // local image / downloaded image
     var url = "" // downloaded image url
     var label = ""
 }
@@ -313,6 +313,17 @@ class AddProductViewController3: BaseViewController {
             }
         }
         
+        if self.product.imagesDetail.count == 0 {
+            self.product.imagesIndex.append(0)
+            self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Utama"))
+            
+            self.product.imagesIndex.append(1)
+            self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Label Merek"))
+            
+            self.product.imagesIndex.append(2)
+            self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Cacat"))
+        }
+        
         self.tableView.reloadData()
         self.hideLoading()
     }
@@ -416,7 +427,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
             } else if row == 1 {
-                return AddProduct3SellRentSwitchCell.heightFor(nil, isOn: self.product.isSell && self.product.isRent)
+                return AddProduct3SellRentSwitchCell.heightFor((self.product.isSell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isSell && self.product.isRent))
             } else {
                 if self.product.isSell {
                     return AddProduct3RentPeriodCell.heightFor()
@@ -539,9 +550,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPeriodCell") as! AddProduct3RentPeriodCell
                 cell.adapt(self, product: self.product)
                 
-                cell.reloadSections = { sections in
+                cell.reloadSections = { _sections in
                     var array: Array<Int> = []
-                    for i in sections {
+                    for i in _sections {
                         array.append(self.findSectionFromType(i))
                     }
                     
@@ -549,6 +560,17 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     array.forEach(indexSet.add)
                     
                     self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+                }
+                
+                cell.reloadRows = { _rows, _section in
+                    let sec = self.findSectionFromType(_section)
+                    var indexPaths: Array<IndexPath> = []
+                    
+                    for i in _rows {
+                        indexPaths.append(IndexPath.init(row: i, section: sec))
+                    }
+                    
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
                 
                 return cell
@@ -562,7 +584,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SellRentSwitchCell") as! AddProduct3SellRentSwitchCell
                 cell.adapt((self.product.isSell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.isSell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
                 
-                cell.reloadSections = { sections in
+                cell.reloadSections = { _sections in
                     // hack
                     if self.product.addProductType == 0 {
                         self.product.isRent = !self.product.isRent
@@ -571,7 +593,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     }
                     
                     var array: Array<Int> = []
-                    for i in sections {
+                    for i in _sections {
                         array.append(self.findSectionFromType(i))
                     }
                     
@@ -581,11 +603,62 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
                 }
                 
+                cell.reloadRows = { _rows, _section in
+                    // hack
+                    var isAppend = true
+                    if self.product.addProductType == 0 {
+                        self.product.isRent = !self.product.isRent
+                        isAppend = self.product.isRent
+                    } else {
+                        self.product.isSell = !self.product.isSell
+                        isAppend = self.product.isSell
+                    }
+                    
+                    if isAppend {
+                        self.tableView.insertRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
+                    } else {
+                        self.tableView.deleteRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
+                    }
+                    
+                    let sec = self.findSectionFromType(_section)
+                    var indexPaths: Array<IndexPath> = []
+                    
+                    for i in _rows {
+                        indexPaths.append(IndexPath.init(row: i, section: sec))
+                    }
+                    
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
+                }
+                
                 return cell
             } else {
                 if self.product.isSell {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPeriodCell") as! AddProduct3RentPeriodCell
                     cell.adapt(self, product: self.product)
+                    
+                    cell.reloadSections = { _sections in
+                        var array: Array<Int> = []
+                        for i in _sections {
+                            array.append(self.findSectionFromType(i))
+                        }
+                        
+                        let indexSet = NSMutableIndexSet()
+                        array.forEach(indexSet.add)
+                        
+                        self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+                    }
+                    
+                    cell.reloadRows = { _rows, _section in
+                        let sec = self.findSectionFromType(_section)
+                        var indexPaths: Array<IndexPath> = []
+                        
+                        for i in _rows {
+                            indexPaths.append(IndexPath.init(row: i, section: sec))
+                        }
+                        
+                        self.tableView.reloadRows(at: indexPaths, with: .fade)
+                    }
+                    
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
@@ -675,6 +748,8 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         // TODO: - Lihat tips barang Editor's Pick.
         self.url = ""
         
+        self.setupCollection()
+        
         self.selectionStyle = .none
         self.alpha = 1.0
         self.backgroundColor = UIColor.white
@@ -699,12 +774,19 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         layout.itemSize = CGSize(width: 82, height: 82)
         layout.minimumInteritemSpacing = 4
         layout.minimumLineSpacing = 4
+        layout.scrollDirection = .horizontal
         self.collectionView.collectionViewLayout = layout
+        
+        self.collectionView.isScrollEnabled = true
+        self.collectionView.isPagingEnabled = false
+        self.collectionView.isDirectionalLockEnabled = true
     }
     
     func adapt(_ product: SelectedProductItem) {
         self.images = product.imagesDetail
         self.index = product.imagesIndex
+        
+        self.collectionView.reloadData()
     }
     
     // 158 , (42) count teks height
@@ -1246,6 +1328,8 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.setupCollection()
+        
         self.selectionStyle = .none
         self.alpha = 1.0
         self.backgroundColor = UIColor.white
@@ -1273,6 +1357,8 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
     func adapt(_ product: SelectedProductItem) {
         self.images = product.imagesDetail
         self.index = product.imagesIndex
+        
+        self.collectionView.reloadData()
     }
     
     // 66, count height collection view (20 x total/y), count teks height
@@ -1476,7 +1562,7 @@ class AddProduct3ChargeCell: UITableViewCell {
         
         var h: CGFloat = 8
         if let sub = subtitle {
-            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
             h += t.height + 8
             
             self.lblCharge.text = sub // AddProduct3 VC:chargeLabel
@@ -1489,7 +1575,7 @@ class AddProduct3ChargeCell: UITableViewCell {
     static func heightFor(_ subtitle: String?, isEditDraftMode: Bool) -> CGFloat {
         var h: CGFloat = -8
         if let sub = subtitle {
-            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+            let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
             h = t.height
         }
         return 104 + (isEditDraftMode ? 48.0 : 0) + h // count subtitle height
@@ -1514,6 +1600,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     @IBOutlet weak var vwPerBulan: BorderedView!
     @IBOutlet weak var lblPerBulan: UILabel!
     
+    var reloadRows: (_ rows: Array<Int>, _ section: AddProduct3SectionType)->() = {_, _ in }
     var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
     var parent: AddProductViewController3!
     var disactiveColor = UIColor.init(hexString: "#727272")
@@ -1577,7 +1664,8 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.lblPerBulan.textColor = disactiveColor
             
             self.parent.product.modeSewa = "hari"
-            self.reloadSections([ .price ])
+            self.reloadRows([ 1 ], .price)
+            //self.reloadSections([ .price ])
         }
     }
     
@@ -1593,7 +1681,8 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.lblPerBulan.textColor = disactiveColor
             
             self.parent.product.modeSewa = "minggu"
-            self.reloadSections([ .price ])
+            self.reloadRows([ 1 ], .price)
+            //self.reloadSections([ .price ])
         }
     }
     
@@ -1609,7 +1698,8 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.lblPerBulan.textColor = Theme.PrimaryColor
             
             self.parent.product.modeSewa = "bulan"
-            self.reloadSections([ .price ])
+            self.reloadRows([ 1 ], .price)
+            //self.reloadSections([ .price ])
         }
     }
 }
@@ -1620,6 +1710,7 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
     @IBOutlet weak var lblSubTitle: UILabel!
     @IBOutlet weak var btnSwitch: UISwitch!
     
+    var reloadRows: (_ rows: Array<Int>, _ section: AddProduct3SectionType)->() = {_, _ in }
     var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
     
     override func awakeFromNib() {
@@ -1642,7 +1733,7 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
         if isOn {
             var h: CGFloat = 0
             if let sub = substring {
-                let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 10), width: AppTools.screenWidth - 24)
+                let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
                 h = t.height
             }
             return 67 + h // count subtitle height
@@ -1651,7 +1742,8 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
     }
     
     @IBAction func btnSwitchPressed(_ sender: Any) {
-        self.reloadSections([ .rentSellOnOff, .price ])
+        self.reloadRows([ 1 ], .price)
+        //self.reloadSections([ .rentSellOnOff, .price ])
     }
 }
 
