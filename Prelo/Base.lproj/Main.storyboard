@@ -736,7 +736,7 @@
                                                     <rect key="frame" x="166" y="166" width="26" height="26"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bXc-uy-4CD">
-                                                            <rect key="frame" x="5.5" y="5" width="16" height="16"/>
+                                                            <rect key="frame" x="6" y="5" width="16" height="16"/>
                                                             <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="16"/>
                                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                             <nil key="highlightedColor"/>
@@ -7398,7 +7398,7 @@ in Bandung</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Aaa-Fg-Hix">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="936"/>
+                                <rect key="frame" x="0.0" y="65" width="384" height="871"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="Vk0-AV-B8W">
                                     <rect key="frame" x="0.0" y="713" width="384" height="70"/>
@@ -9088,6 +9088,51 @@ in Bandung</string>
                                     </mask>
                                 </variation>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dNm-1y-nqe">
+                                <rect key="frame" x="0.0" y="0.0" width="384" height="66"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Penjual barang ini sedang menutup shop sampai tanggal: DD/MM/YYYY" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L0N-J7-Zeq">
+                                        <rect key="frame" x="8" y="4" width="368" height="42"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="42" id="JOL-3T-Uhx"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gyk-cw-7nq">
+                                        <rect key="frame" x="8" y="44" width="368" height="18"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="18" id="Pkd-yR-v8b"/>
+                                        </constraints>
+                                        <state key="normal">
+                                            <attributedString key="attributedTitle">
+                                                <fragment content="Buka shop sekarang">
+                                                    <attributes>
+                                                        <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <font key="NSFont" size="14" name=".AppleSystemUIFontEmphasized"/>
+                                                        <font key="NSOriginalFont" size="14" name=".AppleSystemUIFontEmphasized"/>
+                                                        <integer key="NSUnderline" value="1"/>
+                                                    </attributes>
+                                                </fragment>
+                                            </attributedString>
+                                        </state>
+                                        <connections>
+                                            <action selector="btnOpenShopPressed:" destination="Q2W-RH-rbB" eventType="touchUpInside" id="2S0-kq-KPO"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.96350902319999998" green="0.75235640999999998" blue="0.2837362289" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="66" id="0aG-Gc-91x"/>
+                                    <constraint firstItem="Gyk-cw-7nq" firstAttribute="top" secondItem="dNm-1y-nqe" secondAttribute="top" constant="44" id="AHM-vJ-d6j"/>
+                                    <constraint firstItem="L0N-J7-Zeq" firstAttribute="leading" secondItem="dNm-1y-nqe" secondAttribute="leading" constant="8" id="LNu-Q9-BAJ"/>
+                                    <constraint firstItem="Gyk-cw-7nq" firstAttribute="leading" secondItem="dNm-1y-nqe" secondAttribute="leading" constant="8" id="QYb-rC-RKy"/>
+                                    <constraint firstAttribute="trailing" secondItem="L0N-J7-Zeq" secondAttribute="trailing" constant="8" id="UTg-Sm-j3C"/>
+                                    <constraint firstItem="L0N-J7-Zeq" firstAttribute="top" secondItem="dNm-1y-nqe" secondAttribute="top" constant="4" id="ZOq-Lf-wS9"/>
+                                    <constraint firstAttribute="trailing" secondItem="Gyk-cw-7nq" secondAttribute="trailing" constant="8" id="xa7-Ft-9HX"/>
+                                </constraints>
+                            </view>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PUa-EJ-ozm" userLabel="Coachmark background">
                                 <rect key="frame" x="0.0" y="0.0" width="384" height="936"/>
                                 <subviews>
@@ -9366,8 +9411,8 @@ in Bandung</string>
                                     <constraint firstItem="o7a-Od-emg" firstAttribute="centerX" secondItem="gc7-AZ-YK8" secondAttribute="centerX" id="uYo-Zw-ZcK"/>
                                 </constraints>
                             </view>
-                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pHg-Qa-gwR" userLabel="loadingPanel">
-                                <rect key="frame" x="0.0" y="0.0" width="384" height="936"/>
+                            <view hidden="YES" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pHg-Qa-gwR" userLabel="loadingPanel">
+                                <rect key="frame" x="0.0" y="-5" width="384" height="936"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="ukm-Vz-BDL" userLabel="loading">
                                         <rect key="frame" x="182" y="458" width="20" height="20"/>
@@ -9387,9 +9432,10 @@ in Bandung</string>
                             <constraint firstItem="yQI-8a-Ibj" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="0sb-SK-R8A"/>
                             <constraint firstAttribute="trailing" secondItem="PUa-EJ-ozm" secondAttribute="trailing" id="2LN-6c-2wV"/>
                             <constraint firstItem="z2y-Ag-gm1" firstAttribute="centerX" secondItem="9CG-qo-hYd" secondAttribute="centerX" constant="-16" id="4eE-u0-03b"/>
-                            <constraint firstItem="Aaa-Fg-Hix" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" id="5RV-va-81x"/>
+                            <constraint firstItem="Aaa-Fg-Hix" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" constant="65" id="5RV-va-81x"/>
                             <constraint firstAttribute="trailing" secondItem="gc7-AZ-YK8" secondAttribute="trailing" id="8Lu-3F-zLH"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="OAi-W6-KbN" secondAttribute="bottom" id="8vD-9i-SSG"/>
+                            <constraint firstItem="dNm-1y-nqe" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="988-BW-El2"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="Aaa-Fg-Hix" secondAttribute="bottom" id="9ez-Mp-ied"/>
                             <constraint firstItem="pHg-Qa-gwR" firstAttribute="top" secondItem="ncW-HY-m8c" secondAttribute="top" id="9fW-WL-S0h"/>
                             <constraint firstItem="yrn-F1-tkW" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="EVP-Q4-NSs"/>
@@ -9421,10 +9467,12 @@ in Bandung</string>
                             <constraint firstItem="PUa-EJ-ozm" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="kRs-nz-hV8"/>
                             <constraint firstItem="gc7-AZ-YK8" firstAttribute="leading" secondItem="V0U-1e-fuu" secondAttribute="leading" id="mJu-cD-PyM"/>
                             <constraint firstAttribute="trailing" secondItem="OAi-W6-KbN" secondAttribute="trailing" id="pU1-y9-n6y"/>
+                            <constraint firstItem="dNm-1y-nqe" firstAttribute="top" secondItem="iEM-cx-UaT" secondAttribute="bottom" id="q5G-N1-9Dg"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="PUa-EJ-ozm" secondAttribute="bottom" id="qzk-5g-LUw"/>
                             <constraint firstAttribute="trailing" secondItem="NnJ-DF-GUp" secondAttribute="trailing" id="vRD-Hf-D2Q"/>
                             <constraint firstItem="pHg-Qa-gwR" firstAttribute="trailing" secondItem="hx6-gT-uZY" secondAttribute="trailing" id="vjw-gX-uwz"/>
                             <constraint firstItem="pHg-Qa-gwR" firstAttribute="bottom" secondItem="byu-l9-3s0" secondAttribute="top" id="wa4-uW-L2c"/>
+                            <constraint firstAttribute="trailing" secondItem="dNm-1y-nqe" secondAttribute="trailing" id="wha-8q-06Q"/>
                             <constraint firstItem="byu-l9-3s0" firstAttribute="top" secondItem="gc7-AZ-YK8" secondAttribute="bottom" id="xOI-Ku-ebm"/>
                             <constraint firstItem="3WJ-ld-3G9" firstAttribute="centerX" secondItem="JD8-tm-3hN" secondAttribute="centerX" constant="45" id="xT5-89-nMe"/>
                             <constraint firstAttribute="trailing" secondItem="YWi-vh-OJe" secondAttribute="trailing" id="xX3-ow-UE1"/>
@@ -9451,13 +9499,17 @@ in Bandung</string>
                         <outlet property="btnAddDiscussion" destination="mX0-pM-sZV" id="cES-GZ-I2Y"/>
                         <outlet property="btnBuy" destination="3WJ-ld-3G9" id="jiU-qw-rlg"/>
                         <outlet property="btnEdit" destination="tG9-P5-IWA" id="hiK-li-6tt"/>
+                        <outlet property="btnOpenShop" destination="Gyk-cw-7nq" id="6R8-0K-IEQ"/>
                         <outlet property="btnReservation" destination="HuQ-n2-sb6" id="RsX-jO-TGs"/>
                         <outlet property="btnSold" destination="Ebw-w6-hyW" id="2fb-JD-l7w"/>
                         <outlet property="btnTawar" destination="z2y-Ag-gm1" id="JSa-as-zxP"/>
                         <outlet property="btnUp" destination="j5z-1B-4Hq" id="B1X-aL-j9D"/>
                         <outlet property="consHeightLblNoComment" destination="2pR-Zr-iCS" id="sXw-1U-2Fe"/>
                         <outlet property="consHeightUpBarang" destination="C02-sX-lFv" id="tBx-6U-eHx"/>
+                        <outlet property="consTableViewTop" destination="5RV-va-81x" id="7E2-4R-lSz"/>
+                        <outlet property="consVwCloseHeight" destination="0aG-Gc-91x" id="ZPJ-hy-zWs"/>
                         <outlet property="konfirmasiBayarBtnSet" destination="yQI-8a-Ibj" id="KWh-aD-z7z"/>
+                        <outlet property="lblEnd" destination="L0N-J7-Zeq" id="X59-9C-qzh"/>
                         <outlet property="lblUpBarang" destination="YLx-Ex-Q0H" id="8Gb-si-EKU"/>
                         <outlet property="lblUpOther" destination="bkv-Ne-UKl" id="abr-qY-hYM"/>
                         <outlet property="loadingPanel" destination="pHg-Qa-gwR" id="aD5-aS-XHl"/>
@@ -9467,6 +9519,7 @@ in Bandung</string>
                         <outlet property="vwAddComment" destination="Vk0-AV-B8W" id="gaX-GX-sZj"/>
                         <outlet property="vwBtnSet1UpBarang" destination="7oM-EJ-lCI" id="BH3-sz-Rfj"/>
                         <outlet property="vwBtnSet2UpBarang" destination="xBm-PQ-t1F" id="4EF-XF-IZn"/>
+                        <outlet property="vwClose" destination="dNm-1y-nqe" id="gbW-Rs-ehf"/>
                         <outlet property="vwCoachmark" destination="PUa-EJ-ozm" id="Fs2-kc-TmG"/>
                         <outlet property="vwCoachmarkMine" destination="NnJ-DF-GUp" id="Uny-lL-5Bo"/>
                         <outlet property="vwCoachmarkReserve" destination="ncW-HY-m8c" id="cJx-63-Orq"/>
@@ -9478,7 +9531,7 @@ in Bandung</string>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BIJ-iH-uxS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="762" y="-5951"/>
+            <point key="canvasLocation" x="761.60000000000002" y="-5951.4242878560726"/>
         </scene>
         <!--Prelo Share Controller-->
         <scene sceneID="Xzv-se-K0e">

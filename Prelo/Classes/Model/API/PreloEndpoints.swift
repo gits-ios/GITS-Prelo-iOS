@@ -38,9 +38,8 @@ class PreloEndpoints: NSObject {
         }
         
         print("\(reqAlias) req = \(req)")
-        
+
         if let response = resp {
-            print("response code" + String(response.statusCode))
             if (response.statusCode != 200) {
                 if (res != nil) {
                     if let msg = JSON(res!)["_message"].string {
@@ -591,6 +590,9 @@ enum APIMe : URLRequestConvertible {
     case deleteBankAccount(bankAccountId: String)
     case setDefaultBankAccount(bankAccountId: String)
     case editBankAccount(doc_id: String, target_bank: String, account_number: String, name: String, branch: String, is_default: Bool)
+    case getUsersShopData(seller_id: String?)
+    case closeUsersShop(start_date: String, end_date: String, reason: Int, custom_reason: String)
+    case openUsersShop
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -635,6 +637,10 @@ enum APIMe : URLRequestConvertible {
         case .deleteBankAccount(_) : return .post
         case .setDefaultBankAccount(_) : return .post
         case .editBankAccount(_, _, _, _, _, _) : return .post
+        
+        case .getUsersShopData(_) : return .get
+        case .closeUsersShop(_, _, _, _) : return .post
+        case .openUsersShop : return .post
         }
     }
     
@@ -672,6 +678,10 @@ enum APIMe : URLRequestConvertible {
         case .deleteBankAccount(_) : return "delete_bank_account"
         case .setDefaultBankAccount(_) : return "set_main_bank_account"
         case .editBankAccount(_, _, _, _, _, _) : return "edit_bank_account"
+            
+        case .getUsersShopData(_) : return "shop_data"
+        case .closeUsersShop(_, _, _, _) : return "close_shop"
+        case .openUsersShop : return "open_shop"
         }
     }
     
@@ -856,6 +866,18 @@ enum APIMe : URLRequestConvertible {
                 "name": name,
                 "branch": branch,
                 "is_default": is_default
+            ]
+            
+        case.getUsersShopData(let seller_id) :
+            p = [
+                "seller_id": (seller_id == nil) ? "" : seller_id!
+            ]
+        case .closeUsersShop(let start_date, let end_date, let alasan, let alasan_custom) :
+            p = [
+                "start_date": start_date,
+                "end_date": end_date,
+                "reason" : alasan,
+                "custom_reason" : alasan_custom
             ]
         default : break
         }

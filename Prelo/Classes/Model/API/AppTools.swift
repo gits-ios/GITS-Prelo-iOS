@@ -894,6 +894,7 @@ class Tags : NSObject {
     static let XibNameTarikTunaiwithSaveBankAccount2 = "TarikTunaiwithSaveBankAccount2"
     static let XibNameListBank = "ListBank"
     static let XibNameTarikTunai3 = "TarikTunai3"
+    static let XibNameChangeShopStatus = "ChangeShopStatus"
 }
 
 class OrderStatus : NSObject {
@@ -972,6 +973,7 @@ class PageName {
     static let EditAddress = "Edit Address"
     static let RekeningList = "Rekening List"
     static let RekeningAdd = "Add Rekening"
+    static let ChangeShopStatus = "Change Shop Status"
 }
 
 extension Mixpanel {
