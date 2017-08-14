@@ -67,6 +67,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="collectionView" destination="upa-gg-xA7" id="55p-rP-N5c"/>
+                <outlet property="consHeightCollectionView" destination="iij-xN-rCB" id="x4T-U9-vEi"/>
             </connections>
             <point key="canvasLocation" x="25.5" y="95.5"/>
         </tableViewCell>

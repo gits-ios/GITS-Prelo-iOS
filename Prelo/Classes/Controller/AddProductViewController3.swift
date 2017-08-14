@@ -108,6 +108,11 @@ enum AddProduct3SectionType {
     }
 }
 
+enum AddProduct3Type {
+    case sell
+    case rent
+}
+
 // MARK: - Struct
 struct PreviewImage {
     var image: UIImage? // local image / downloaded image
@@ -130,7 +135,7 @@ struct SelectedProductItem {
     var isDraftMode = false
     
     // helper value
-    var addProductType = 0 // 0 sell, 1 rent
+    var addProductType: AddProduct3Type = .sell
     var isLuxuryMerk = false
     var isWomenMenCategory = false
     var isCategoryContainSize = false
@@ -197,6 +202,7 @@ class AddProductViewController3: BaseViewController {
     
     // view
     var listSections: Array<AddProduct3SectionType> = []
+    var isFirst = true
     
     func setupTableView() {
         // Setup table
@@ -279,79 +285,97 @@ class AddProductViewController3: BaseViewController {
         
         // TODO: Login
         
-        // Handling keyboard animation
-        self.an_subscribeKeyboard(
-            animations: {r, t, o in
-                
-                if (o) {
-                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
+        if self.isFirst {
+            self.isFirst = false
+            
+            // Handling keyboard animation
+            self.an_subscribeKeyboard(
+                animations: {r, t, o in
+                    
+                    if (o) {
+                        self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, r.height, 0)
+                    } else {
+                        self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                    }
+                    
+            }, completion: nil)
+            
+            // TEST
+            //self.product.addProductType = .rent
+            //self.product.isLuxuryMerk = true
+            //self.product.isWomenMenCategory = true
+            
+            // setup product from edit or draft
+            if self.product.isEditMode {
+                self.chargeLabel = nil
+                self.setupEditMode()
+            } else if self.product.isDraftMode {
+                self.chargeLabel = nil
+                self.setupDraftMode()
+            } else { // default init
+                if self.product.addProductType == .sell {
+                    self.title = "Jual"
+                    self.product.isSell = true
+                    self.product.isRent = false
                 } else {
-                    self.tableView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
+                    self.title = "Sewa"
+                    self.product.isSell = false
+                    self.product.isRent = true
                 }
-                
-        }, completion: nil)
-        
-        // TEST: - Sewa
-        //self.product.addProductType = 1
-        
-        // setup product from edit or draft
-        if self.product.isEditMode {
-            self.chargeLabel = nil
-            self.setupEditMode()
-        } else if self.product.isDraftMode {
-            self.chargeLabel = nil
-            self.setupDraftMode()
-        } else { // default init
-            if self.product.addProductType == 0 {
-                self.title = "Jual"
-                self.product.isSell = true
-                self.product.isRent = false
-            } else {
-                self.title = "Sewa"
-                self.product.isSell = false
-                self.product.isRent = true
             }
-        }
-        
-        if self.product.isEditMode {
-            self.title = "Edit"
-        }
-        
-        // init default sections
-        self.listSections.append(.imagesPreview)
-        self.listSections.append(.productDetail)
-        self.listSections.append(.weight)
-        self.listSections.append(.postalFee)
-        self.listSections.append(.rentSellOnOff)
-        self.listSections.append(.price)
-        
-        // setup table view
-        if self.product.addProductType == 0 { // JUAL
-            if self.product.isRent { // SEWA
-                
+            
+            if self.product.isEditMode {
+                self.title = "Edit"
             }
-        } else { // SEWA
-            let idx = self.findSectionFromType(.postalFee)
-            self.listSections.insert(.rentPeriod, at: idx+1)
             
-            if self.product.isSell { // JUAL
+            // init default sections
+            self.listSections.append(.imagesPreview)
+            self.listSections.append(.productDetail)
+            self.listSections.append(.weight)
+            self.listSections.append(.postalFee)
+            self.listSections.append(.rentSellOnOff)
+            self.listSections.append(.price)
+            
+            // setup table view
+            if self.product.addProductType == .sell { // JUAL
+                if self.product.isRent { // SEWA
+                    
+                }
+            } else { // SEWA
+                let idx = self.findSectionFromType(.postalFee)
+                self.listSections.insert(.rentPeriod, at: idx+1)
                 
+                if self.product.isSell { // JUAL
+                    
+                }
             }
-        }
-        
-        if self.product.imagesDetail.count == 0 {
-            self.product.imagesIndex.append(0)
-            self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Utama"))
             
-            self.product.imagesIndex.append(1)
-            self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Label Merek"))
+            if self.product.isCategoryContainSize {
+                let idx = self.findSectionFromType(.productDetail)
+                self.listSections.insert(.size, at: idx+1)
+            }
             
-            self.product.imagesIndex.append(2)
-            self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Cacat"))
+            if self.product.isLuxuryMerk && self.product.isWomenMenCategory {
+                let idx = self.findSectionFromType(.productDetail)
+                let idx2 = self.findSectionFromType(.size)
+                self.listSections.insert(.authVerification, at: idx+2+idx2)
+                self.listSections.insert(.checklist, at: idx+3+idx2)
+            }
+            
+            if self.product.imagesDetail.count == 0 {
+                self.product.imagesIndex.append(0)
+                self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Utama"))
+                
+                self.product.imagesIndex.append(1)
+                self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Label Merek"))
+                
+                self.product.imagesIndex.append(2)
+                self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Cacat"))
+            }
+            
+            self.tableView.reloadData()
+            self.hideLoading()
         }
-        
-        self.tableView.reloadData()
-        self.hideLoading()
     }
     
     func setupEditMode() {
@@ -435,9 +459,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             }
         case .postalFee:
             if row == 0 {
-                return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
+                return AddProduct3ImageTitleCell.heightFor((self.product.addProductType == .sell ? listSections[section].subtitle : AddProduct3Helper.rentOngkirSubtitle))
             } else {
-                if self.product.addProductType == 0 {
+                if self.product.addProductType == .sell {
                     return AddProduct3PostalFeeCell.heightFor()
                 } else {
                     return AddProduct3RentPostalFeeCell.heightFor()
@@ -453,9 +477,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
             } else if row == 1 {
-                return AddProduct3SellRentSwitchCell.heightFor((self.product.addProductType == 0 ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isSell && self.product.isRent))
+                return AddProduct3SellRentSwitchCell.heightFor((self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isSell && self.product.isRent))
             } else {
-                if self.product.addProductType == 0 {
+                if self.product.addProductType == .sell {
                     return AddProduct3RentPeriodCell.heightFor()
                 } else {
                     return AddProduct3PostalFeeCell.heightFor()
@@ -573,7 +597,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: (self.product.isSell ? listSections[section].subtitle : AddProduct3Helper.rentOngkirSubtitle), faqUrl: listSections[section].faq)
                 return cell
             } else {
-                if self.product.addProductType == 0 {
+                if self.product.addProductType == .sell {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
                     cell.adapt(self, product: self.product)
                     return cell
@@ -620,15 +644,15 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
         case .rentSellOnOff:
             if row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
-                cell.adapt(listSections[section].icon, title: (self.product.addProductType == 0 ? listSections[section].title : "JUAL"), subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
+                cell.adapt(listSections[section].icon, title: (self.product.addProductType == .sell ? listSections[section].title : "JUAL"), subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
                 return cell
             } else if row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SellRentSwitchCell") as! AddProduct3SellRentSwitchCell
-                cell.adapt((self.product.isSell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.addProductType == 0 ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
+                cell.adapt((self.product.isSell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
                 
                 cell.reloadSections = { _sections in
                     // hack
-                    if self.product.addProductType == 0 {
+                    if self.product.addProductType == .sell {
                         self.product.isRent = !self.product.isRent
                     } else {
                         self.product.isSell = !self.product.isSell
@@ -648,7 +672,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 cell.reloadRows = { _rows, _section in
                     // hack
                     var isAppend = true
-                    if self.product.addProductType == 0 {
+                    if self.product.addProductType == .sell {
                         self.product.isRent = !self.product.isRent
                         isAppend = self.product.isRent
                     } else {
@@ -674,7 +698,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 
                 return cell
             } else {
-                if self.product.addProductType == 0 {
+                if self.product.addProductType == .sell {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPeriodCell") as! AddProduct3RentPeriodCell
                     cell.adapt(self, product: self.product)
                     
@@ -774,8 +798,10 @@ class AddProduct3ImageTitleCell: UITableViewCell {
             }
             
             let attString : NSMutableAttributedString = NSMutableAttributedString(string: mystr)
-            for i in 0...ranges.count-1 {
-                attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 12)], range: ranges[i])
+            if ranges.count > 0 {
+                for i in 0..<ranges.count {
+                    attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 12)], range: ranges[i])
+                }
             }
             
             self.SectionSubtitle.attributedText = attString
@@ -1396,6 +1422,8 @@ extension AddProduct3ProductAuthVerificationCell: UITextFieldDelegate {
 class AddProduct3ImagesChecklistCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     
+    @IBOutlet weak var consHeightCollectionView: NSLayoutConstraint!
+    
     var images: Array<PreviewImage> = []
     var index: Array<Int> = []
     
@@ -1420,17 +1448,40 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
         self.collectionView.backgroundView = UIView(frame: self.collectionView.bounds)
         self.collectionView.backgroundColor = UIColor.white
         
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        let layout: UICollectionViewFlowLayout = LeftAlignedCollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
         layout.itemSize = CGSize(width: 120, height: 20)
         layout.minimumInteritemSpacing = 4
         layout.minimumLineSpacing = 4
         self.collectionView.collectionViewLayout = layout
+        
+        self.collectionView.isScrollEnabled = false
+        self.collectionView.isPagingEnabled = false
+        self.collectionView.isDirectionalLockEnabled = true
     }
     
     func adapt(_ product: SelectedProductItem) {
         self.images = product.imagesDetail
         self.index = product.imagesIndex
+        
+        let count = product.imagesDetail.count
+        if count > 0 {
+            let w = AppTools.screenWidth - 24 - 8
+            var c: CGFloat = 120
+            var i = 1
+            while true {
+                if i == count {
+                    break
+                }
+                if c + 4.0 + 120.0 > w {
+                    break
+                }
+                i += 1
+                c += 120.0 + 4.0
+            }
+            let h = 24.0 * ceil(Double(count) / Double(i)) + 4.0
+            self.consHeightCollectionView.constant = CGFloat(h)
+        }
         
         self.collectionView.reloadData()
     }
@@ -1439,7 +1490,7 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
     static func heightFor(_ count: Int) -> CGFloat {
         let w = AppTools.screenWidth - 24 - 8
         var c: CGFloat = 120
-        var i = 0
+        var i = 1
         while true {
             if i == count {
                 break
@@ -1450,7 +1501,7 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
             i += 1
             c += 120.0 + 4.0
         }
-        let h = 20.0 * ceil(Double(count) / Double(i))
+        let h = 24.0 * ceil(Double(count) / Double(i)) + 4.0
         return 46 + CGFloat(h) // count subtitle height
     }
 }
@@ -1486,18 +1537,18 @@ class AddProduct3ImagesChecklistCellCollectionCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        self.lblCheck.textColor = UIColor.init(hexString: "#727272")
+        self.lblCheck.backgroundColor = UIColor.init(hexString: "#EAEAEA")
     }
     
     override func prepareForReuse() {
-        self.lblCheck.textColor = UIColor.init(hexString: "#727272")
+        self.lblCheck.backgroundColor = UIColor.init(hexString: "#EAEAEA")
     }
     
     func adapt(_ name: String, isExist: Bool) {
         self.lblName.text = name
         
         if isExist {
-            self.lblCheck.textColor = Theme.ThemeOrange
+            self.lblCheck.backgroundColor = Theme.PrimaryColor
         }
     }
     
@@ -1819,8 +1870,10 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
         }
         
         let attString : NSMutableAttributedString = NSMutableAttributedString(string: mystr)
-        for i in 0...ranges.count-1 {
-            attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 12)], range: ranges[i])
+        if ranges.count > 0 {
+            for i in 0..<ranges.count {
+                attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 12)], range: ranges[i])
+            }
         }
         
         self.lblSubTitle.attributedText = attString
@@ -1974,5 +2027,28 @@ extension AddProduct3SizeCell: UITextFieldDelegate {
             self.parent.product.size = self.txtSize.text!
         }
         return true
+    }
+}
+
+class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
+    // https://stackoverflow.com/questions/22539979/left-align-cells-in-uicollectionview
+    
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        let attributes = super.layoutAttributesForElements(in: rect)
+        
+        var leftMargin = sectionInset.left
+        var maxY: CGFloat = -1.0
+        attributes?.forEach { layoutAttribute in
+            if layoutAttribute.frame.origin.y >= maxY {
+                leftMargin = sectionInset.left
+            }
+            
+            layoutAttribute.frame.origin.x = leftMargin
+            
+            leftMargin += layoutAttribute.frame.width + minimumInteritemSpacing
+            maxY = max(layoutAttribute.frame.maxY , maxY)
+        }
+        
+        return attributes
     }
 }

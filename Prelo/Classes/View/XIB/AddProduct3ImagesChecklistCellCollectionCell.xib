@@ -26,8 +26,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="120" height="20"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Merek" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="ity-lE-HYt">
-                                <rect key="frame" x="1" y="1" width="98" height="18"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <rect key="frame" x="4" y="4" width="92" height="12"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -38,7 +38,7 @@
                                         <rect key="frame" x="1" y="1" width="18" height="18"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
-                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ktx-3j-gR4">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ktx-3j-gR4">
                                         <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
                                         <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -66,18 +66,18 @@
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Pts-hc-0UR" secondAttribute="trailing" id="2B4-HA-GIy"/>
                             <constraint firstAttribute="bottom" secondItem="Pts-hc-0UR" secondAttribute="bottom" id="9fJ-5X-F5l"/>
-                            <constraint firstItem="Pts-hc-0UR" firstAttribute="leading" secondItem="ity-lE-HYt" secondAttribute="trailing" constant="1" id="LzS-5K-5Mh"/>
-                            <constraint firstAttribute="bottom" secondItem="ity-lE-HYt" secondAttribute="bottom" constant="1" id="Uf8-Je-fck"/>
+                            <constraint firstItem="Pts-hc-0UR" firstAttribute="leading" secondItem="ity-lE-HYt" secondAttribute="trailing" constant="4" id="LzS-5K-5Mh"/>
+                            <constraint firstAttribute="bottom" secondItem="ity-lE-HYt" secondAttribute="bottom" constant="4" id="Uf8-Je-fck"/>
                             <constraint firstItem="Pts-hc-0UR" firstAttribute="top" secondItem="2OW-t3-h2X" secondAttribute="top" id="b48-zS-aih"/>
-                            <constraint firstItem="ity-lE-HYt" firstAttribute="top" secondItem="2OW-t3-h2X" secondAttribute="top" constant="1" id="jIu-wI-3eq"/>
-                            <constraint firstItem="ity-lE-HYt" firstAttribute="leading" secondItem="2OW-t3-h2X" secondAttribute="leading" constant="1" id="kir-Aq-0YG"/>
+                            <constraint firstItem="ity-lE-HYt" firstAttribute="top" secondItem="2OW-t3-h2X" secondAttribute="top" constant="4" id="jIu-wI-3eq"/>
+                            <constraint firstItem="ity-lE-HYt" firstAttribute="leading" secondItem="2OW-t3-h2X" secondAttribute="leading" constant="4" id="kir-Aq-0YG"/>
                         </constraints>
                         <userDefinedRuntimeAttributes>
                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                <real key="value" value="2"/>
+                                <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                <color key="value" red="0.85490196080000003" green="0.85490196080000003" blue="0.85490196080000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="value" red="0.91764705882352937" green="0.91764705882352937" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                     </view>
