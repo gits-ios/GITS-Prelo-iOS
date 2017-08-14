@@ -594,7 +594,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
         case .postalFee:
             if row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
-                cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: (self.product.isSell ? listSections[section].subtitle : AddProduct3Helper.rentOngkirSubtitle), faqUrl: listSections[section].faq)
+                cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: (self.product.addProductType == .sell ? listSections[section].subtitle : AddProduct3Helper.rentOngkirSubtitle), faqUrl: listSections[section].faq)
                 return cell
             } else {
                 if self.product.addProductType == .sell {
