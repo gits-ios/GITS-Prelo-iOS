@@ -626,6 +626,27 @@
 		B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */; };
 		B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21DF5291E5179E5007A60C5 /* UserProfile2.xib */; };
 		B21DF5401E5187EA007A60C5 /* UserProfileViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */; };
+		B2207FAE1ED67C2F00BCE613 /* DKCamera.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207F921ED67C2F00BCE613 /* DKCamera.swift */; };
+		B2207FAF1ED67C2F00BCE613 /* DKCameraResource.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2207F931ED67C2F00BCE613 /* DKCameraResource.bundle */; };
+		B2207FB01ED67C2F00BCE613 /* DKGroupDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207F961ED67C2F00BCE613 /* DKGroupDataManager.swift */; };
+		B2207FB11ED67C2F00BCE613 /* DKAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207F981ED67C2F00BCE613 /* DKAsset.swift */; };
+		B2207FB21ED67C2F00BCE613 /* DKAssetGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207F991ED67C2F00BCE613 /* DKAssetGroup.swift */; };
+		B2207FB31ED67C2F00BCE613 /* DKImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207F9A1ED67C2F00BCE613 /* DKImageManager.swift */; };
+		B2207FB41ED67C2F00BCE613 /* DKImagePickerController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2207F9C1ED67C2F00BCE613 /* DKImagePickerController.bundle */; };
+		B2207FB51ED67C2F00BCE613 /* DKImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207F9E1ED67C2F00BCE613 /* DKImagePickerController.swift */; };
+		B2207FB61ED67C2F00BCE613 /* DKImagePickerControllerDefaultUIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207F9F1ED67C2F00BCE613 /* DKImagePickerControllerDefaultUIDelegate.swift */; };
+		B2207FB71ED67C2F00BCE613 /* DKImageResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FA01ED67C2F00BCE613 /* DKImageResource.swift */; };
+		B2207FB81ED67C2F00BCE613 /* DKPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FA11ED67C2F00BCE613 /* DKPopoverViewController.swift */; };
+		B2207FB91ED67C2F00BCE613 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2207FA21ED67C2F00BCE613 /* Info.plist */; };
+		B2207FBA1ED67C2F00BCE613 /* DKAssetGroupCellItemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FA51ED67C2F00BCE613 /* DKAssetGroupCellItemProtocol.swift */; };
+		B2207FBB1ED67C2F00BCE613 /* DKAssetGroupDetailBaseCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FA61ED67C2F00BCE613 /* DKAssetGroupDetailBaseCell.swift */; };
+		B2207FBC1ED67C2F00BCE613 /* DKAssetGroupDetailCameraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FA71ED67C2F00BCE613 /* DKAssetGroupDetailCameraCell.swift */; };
+		B2207FBD1ED67C2F00BCE613 /* DKAssetGroupDetailImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FA81ED67C2F00BCE613 /* DKAssetGroupDetailImageCell.swift */; };
+		B2207FBE1ED67C2F00BCE613 /* DKAssetGroupDetailVideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FA91ED67C2F00BCE613 /* DKAssetGroupDetailVideoCell.swift */; };
+		B2207FBF1ED67C2F00BCE613 /* DKAssetGroupDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FAA1ED67C2F00BCE613 /* DKAssetGroupDetailVC.swift */; };
+		B2207FC01ED67C2F00BCE613 /* DKAssetGroupGridLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FAB1ED67C2F00BCE613 /* DKAssetGroupGridLayout.swift */; };
+		B2207FC11ED67C2F00BCE613 /* DKAssetGroupListVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FAC1ED67C2F00BCE613 /* DKAssetGroupListVC.swift */; };
+		B2207FC21ED67C2F00BCE613 /* DKPermissionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2207FAD1ED67C2F00BCE613 /* DKPermissionView.swift */; };
 		B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */ = {isa = PBXBuildFile; fileRef = B2223D931EDEA64F0013E886 /* ic_verified.png */; };
 		B22357611E35F90800CEC6F5 /* TarikTunaiCell3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */; };
 		B229F4BA1F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */; };
@@ -639,6 +660,9 @@
 		B229F4DA1F38456400A2F60B /* AddProduct3RentPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */; };
 		B229F4DC1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */; };
 		B229F4DE1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */; };
+		B22855FA1F42B7DF001F26AA /* AddProduct3ListImages.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22855F91F42B7DF001F26AA /* AddProduct3ListImages.xib */; };
+		B228560C1F42B834001F26AA /* AddProduct3ListImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B228560B1F42B834001F26AA /* AddProduct3ListImagesCell.xib */; };
+		B228560E1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
 		B2314BE51E4B029000731B88 /* AddressAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */; };
@@ -1811,6 +1835,28 @@
 		B21DF5291E5179E5007A60C5 /* UserProfile2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfile2.xib; sourceTree = "<group>"; };
 		B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController2.swift; sourceTree = "<group>"; };
 		B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 10.xcdatamodel"; sourceTree = "<group>"; };
+		B2207F921ED67C2F00BCE613 /* DKCamera.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKCamera.swift; sourceTree = "<group>"; };
+		B2207F931ED67C2F00BCE613 /* DKCameraResource.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DKCameraResource.bundle; sourceTree = "<group>"; };
+		B2207F961ED67C2F00BCE613 /* DKGroupDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKGroupDataManager.swift; sourceTree = "<group>"; };
+		B2207F981ED67C2F00BCE613 /* DKAsset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAsset.swift; sourceTree = "<group>"; };
+		B2207F991ED67C2F00BCE613 /* DKAssetGroup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroup.swift; sourceTree = "<group>"; };
+		B2207F9A1ED67C2F00BCE613 /* DKImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKImageManager.swift; sourceTree = "<group>"; };
+		B2207F9C1ED67C2F00BCE613 /* DKImagePickerController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = DKImagePickerController.bundle; sourceTree = "<group>"; };
+		B2207F9D1ED67C2F00BCE613 /* DKImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKImagePickerController.h; sourceTree = "<group>"; };
+		B2207F9E1ED67C2F00BCE613 /* DKImagePickerController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKImagePickerController.swift; sourceTree = "<group>"; };
+		B2207F9F1ED67C2F00BCE613 /* DKImagePickerControllerDefaultUIDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKImagePickerControllerDefaultUIDelegate.swift; sourceTree = "<group>"; };
+		B2207FA01ED67C2F00BCE613 /* DKImageResource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKImageResource.swift; sourceTree = "<group>"; };
+		B2207FA11ED67C2F00BCE613 /* DKPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKPopoverViewController.swift; sourceTree = "<group>"; };
+		B2207FA21ED67C2F00BCE613 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B2207FA51ED67C2F00BCE613 /* DKAssetGroupCellItemProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupCellItemProtocol.swift; sourceTree = "<group>"; };
+		B2207FA61ED67C2F00BCE613 /* DKAssetGroupDetailBaseCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupDetailBaseCell.swift; sourceTree = "<group>"; };
+		B2207FA71ED67C2F00BCE613 /* DKAssetGroupDetailCameraCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupDetailCameraCell.swift; sourceTree = "<group>"; };
+		B2207FA81ED67C2F00BCE613 /* DKAssetGroupDetailImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupDetailImageCell.swift; sourceTree = "<group>"; };
+		B2207FA91ED67C2F00BCE613 /* DKAssetGroupDetailVideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupDetailVideoCell.swift; sourceTree = "<group>"; };
+		B2207FAA1ED67C2F00BCE613 /* DKAssetGroupDetailVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupDetailVC.swift; sourceTree = "<group>"; };
+		B2207FAB1ED67C2F00BCE613 /* DKAssetGroupGridLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupGridLayout.swift; sourceTree = "<group>"; };
+		B2207FAC1ED67C2F00BCE613 /* DKAssetGroupListVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKAssetGroupListVC.swift; sourceTree = "<group>"; };
+		B2207FAD1ED67C2F00BCE613 /* DKPermissionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DKPermissionView.swift; sourceTree = "<group>"; };
 		B2223D931EDEA64F0013E886 /* ic_verified.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_verified.png; sourceTree = "<group>"; };
 		B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiCell3.xib; sourceTree = "<group>"; };
 		B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesChecklistCell.xib; sourceTree = "<group>"; };
@@ -1824,6 +1870,9 @@
 		B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3RentPeriodCell.xib; sourceTree = "<group>"; };
 		B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3SellRentSwitchCell.xib; sourceTree = "<group>"; };
 		B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3RentPostalFeeCell.xib; sourceTree = "<group>"; };
+		B22855F91F42B7DF001F26AA /* AddProduct3ListImages.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ListImages.xib; sourceTree = "<group>"; };
+		B228560B1F42B834001F26AA /* AddProduct3ListImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ListImagesCell.xib; sourceTree = "<group>"; };
+		B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProduct3ListImagesViewController.swift; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
 		B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAddEditViewController.swift; sourceTree = "<group>"; };
@@ -2290,6 +2339,7 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				B2207F801ED67C0700BCE613 /* DKImagePickerController */,
 				21D387401B6B95A500D0FA90 /* FakeBridge.h */,
 				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
 				21D387411B6B95A500D0FA90 /* FakeBridge.m */,
@@ -2666,6 +2716,7 @@
 				58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */,
 				58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */,
 				B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */,
+				B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3310,6 +3361,8 @@
 				5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */,
 				58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */,
 				B22357601E35F90800CEC6F5 /* TarikTunaiCell3.xib */,
+				B22855F91F42B7DF001F26AA /* AddProduct3ListImages.xib */,
+				B228560B1F42B834001F26AA /* AddProduct3ListImagesCell.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3556,6 +3609,91 @@
 			);
 			name = "Add Product Version 3";
 			path = XIB;
+            sourceTree = "<group>";
+        };
+		B2207F801ED67C0700BCE613 /* DKImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				B2207F911ED67C2F00BCE613 /* DKCamera */,
+				B2207F941ED67C2F00BCE613 /* DKImageManager */,
+				B2207F9B1ED67C2F00BCE613 /* DKImagePickerController */,
+			);
+			name = DKImagePickerController;
+			sourceTree = "<group>";
+		};
+		B2207F911ED67C2F00BCE613 /* DKCamera */ = {
+			isa = PBXGroup;
+			children = (
+				B2207F921ED67C2F00BCE613 /* DKCamera.swift */,
+				B2207F931ED67C2F00BCE613 /* DKCameraResource.bundle */,
+			);
+			path = DKCamera;
+			sourceTree = "<group>";
+		};
+		B2207F941ED67C2F00BCE613 /* DKImageManager */ = {
+			isa = PBXGroup;
+			children = (
+				B2207F951ED67C2F00BCE613 /* Data */,
+				B2207F9A1ED67C2F00BCE613 /* DKImageManager.swift */,
+			);
+			path = DKImageManager;
+			sourceTree = "<group>";
+		};
+		B2207F951ED67C2F00BCE613 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B2207F961ED67C2F00BCE613 /* DKGroupDataManager.swift */,
+				B2207F971ED67C2F00BCE613 /* Model */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		B2207F971ED67C2F00BCE613 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B2207F981ED67C2F00BCE613 /* DKAsset.swift */,
+				B2207F991ED67C2F00BCE613 /* DKAssetGroup.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B2207F9B1ED67C2F00BCE613 /* DKImagePickerController */ = {
+			isa = PBXGroup;
+			children = (
+				B2207F9C1ED67C2F00BCE613 /* DKImagePickerController.bundle */,
+				B2207F9D1ED67C2F00BCE613 /* DKImagePickerController.h */,
+				B2207F9E1ED67C2F00BCE613 /* DKImagePickerController.swift */,
+				B2207F9F1ED67C2F00BCE613 /* DKImagePickerControllerDefaultUIDelegate.swift */,
+				B2207FA01ED67C2F00BCE613 /* DKImageResource.swift */,
+				B2207FA11ED67C2F00BCE613 /* DKPopoverViewController.swift */,
+				B2207FA21ED67C2F00BCE613 /* Info.plist */,
+				B2207FA31ED67C2F00BCE613 /* View */,
+			);
+			path = DKImagePickerController;
+			sourceTree = "<group>";
+		};
+		B2207FA31ED67C2F00BCE613 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B2207FA41ED67C2F00BCE613 /* Cell */,
+				B2207FAA1ED67C2F00BCE613 /* DKAssetGroupDetailVC.swift */,
+				B2207FAB1ED67C2F00BCE613 /* DKAssetGroupGridLayout.swift */,
+				B2207FAC1ED67C2F00BCE613 /* DKAssetGroupListVC.swift */,
+				B2207FAD1ED67C2F00BCE613 /* DKPermissionView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		B2207FA41ED67C2F00BCE613 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B2207FA51ED67C2F00BCE613 /* DKAssetGroupCellItemProtocol.swift */,
+				B2207FA61ED67C2F00BCE613 /* DKAssetGroupDetailBaseCell.swift */,
+				B2207FA71ED67C2F00BCE613 /* DKAssetGroupDetailCameraCell.swift */,
+				B2207FA81ED67C2F00BCE613 /* DKAssetGroupDetailImageCell.swift */,
+				B2207FA91ED67C2F00BCE613 /* DKAssetGroupDetailVideoCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		B24FCEF31E536E8000B517A9 /* Products */ = {
@@ -4263,6 +4401,7 @@
 				58A2A4C11CB768500031C873 /* cchmrk_reserve.png in Resources */,
 				440AF6641BE1090800074CBC /* ic_round_ellipsis.png in Resources */,
 				2116BAF81BAC1D74009B27C8 /* Default-Landscape@2x.png in Resources */,
+				B2207FAF1ED67C2F00BCE613 /* DKCameraResource.bundle in Resources */,
 				21D386A91B6B93CD00D0FA90 /* Default-Portrait@2x.png in Resources */,
 				21C6587E1B8EED520037F85F /* ic_prelo_balance@2x.png in Resources */,
 				589A6FC11D8C08F600654CDD /* ic_kartu_kredit.png in Resources */,
@@ -4284,6 +4423,7 @@
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				5858873E1DBEDA79006EC6D5 /* MyLovelist.xib in Resources */,
 				585887491DBEDB7B006EC6D5 /* NotifAnggiConversation.xib in Resources */,
+				B2207FB41ED67C2F00BCE613 /* DKImagePickerController.bundle in Resources */,
 				B2D965B31E9D2A4A00B2C29C /* Checkout2Ship.xib in Resources */,
 				58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */,
 				B240F4D91E24C1AD00DCAFF7 /* AchievementDiamondCell.xib in Resources */,
@@ -4329,6 +4469,7 @@
 				2109BCA61BDDF85E004F36C5 /* tour_3.jpg in Resources */,
 				5858875A1DBEE9B1006EC6D5 /* AddProductHeader.xib in Resources */,
 				44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */,
+				B228560C1F42B834001F26AA /* AddProduct3ListImagesCell.xib in Resources */,
 				B2D965E61E9E2C7800B2C29C /* Checkout2VoucherCell.xib in Resources */,
 				585887301DBED9DA006EC6D5 /* BalanceMutation.xib in Resources */,
 				5858874A1DBEDB83006EC6D5 /* NotifAnggiConversationCell.xib in Resources */,
@@ -4459,6 +4600,7 @@
 				585887531DBEDC03006EC6D5 /* SetupPasswordPopUp.xib in Resources */,
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
 				44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */,
+				B2207FB91ED67C2F00BCE613 /* Info.plist in Resources */,
 				B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */,
 				B2D965D31E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib in Resources */,
 				581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */,
@@ -4470,6 +4612,7 @@
 				21EEB4781B87095C00CAD5C9 /* ic_user_2.png in Resources */,
 				585887361DBEDA2B006EC6D5 /* ExpiringProducts.xib in Resources */,
 				B20B89911F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib in Resources */,
+				B22855FA1F42B7DF001F26AA /* AddProduct3ListImages.xib in Resources */,
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				B2D965D91E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
@@ -4544,6 +4687,7 @@
 				21679A4D1B901C5300F18F90 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				21679A1B1B901C5300F18F90 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				21679A3C1B901C5300F18F90 /* MPPassThroughValueTransformer.m in Sources */,
+				B2207FBE1ED67C2F00BCE613 /* DKAssetGroupDetailVideoCell.swift in Sources */,
 				21B468021CCE5EDB00E145ED /* UIScreen+BFKit.swift in Sources */,
 				58F78B501DFACE2B008744F7 /* ProductLovelistViewController.swift in Sources */,
 				B2CAF7901E79219E00ACB361 /* ActiveLabel.swift in Sources */,
@@ -4568,6 +4712,7 @@
 				B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */,
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,
 				585887731DBEF571006EC6D5 /* TransactionDetailViewController.swift in Sources */,
+				B2207FB71ED67C2F00BCE613 /* DKImageResource.swift in Sources */,
 				216344FF1CC3A855005CBA37 /* MKEmbedDrawerControllerSegue.swift in Sources */,
 				B2FFCBA21EA52669004F01D0 /* SocketEngineClient.swift in Sources */,
 				21679A1F1B901C5300F18F90 /* MPABTestDesignerDisconnectMessage.m in Sources */,
@@ -4580,10 +4725,12 @@
 				5858877E1DBF1248006EC6D5 /* NotifAnggiConversationViewController.swift in Sources */,
 				B2C59AA01E2E4B31002E4597 /* SMSegment.swift in Sources */,
 				21679A3E1B901C5300F18F90 /* MPSequenceGenerator.m in Sources */,
+				B2207FBB1ED67C2F00BCE613 /* DKAssetGroupDetailBaseCell.swift in Sources */,
 				585887A01DBF3606006EC6D5 /* TawarViewController.swift in Sources */,
 				58A99A2E1C6D864E00E3E7D7 /* BNCLinkData.m in Sources */,
 				58C27CAB1DB9C94B008201FA /* ListCategoryViewController.swift in Sources */,
 				21B467FD1CCE5EDB00E145ED /* UIFont+BFKit.swift in Sources */,
+				B2207FAE1ED67C2F00BCE613 /* DKCamera.swift in Sources */,
 				21B467F81CCE5EDB00E145ED /* String+BFKit.swift in Sources */,
 				21B467E41CCE5EDB00E145ED /* BFLog.swift in Sources */,
 				58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */,
@@ -4616,6 +4763,7 @@
 				B2FFCBA41EA52669004F01D0 /* SocketEnginePollable.swift in Sources */,
 				5847E1521DBD9B9200C1B2BA /* CDUser.swift in Sources */,
 				5847E1871DBDEEAA00C1B2BA /* FilterViewController.swift in Sources */,
+				B2207FBD1ED67C2F00BCE613 /* DKAssetGroupDetailImageCell.swift in Sources */,
 				5858878F1DBF3151006EC6D5 /* KumangNavigationController.swift in Sources */,
 				21B467FB1CCE5EDB00E145ED /* UIColor+BFKit.swift in Sources */,
 				21679A551B901C5300F18F90 /* UIColor+MPColor.m in Sources */,
@@ -4624,6 +4772,7 @@
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
 				5847E15C1DBD9C6A00C1B2BA /* CDProductCondition.swift in Sources */,
 				21B467F21CCE5EDB00E145ED /* NSMutableDictionary+BFKit.swift in Sources */,
+				B2207FBC1ED67C2F00BCE613 /* DKAssetGroupDetailCameraCell.swift in Sources */,
 				585887741DBEFCE6006EC6D5 /* MyPurchaseTransactionViewController.swift in Sources */,
 				21B4680A1CCE5EDB00E145ED /* UIWindow+BFKit.swift in Sources */,
 				B2A834451E7055EB004C575A /* SCLAlertView.swift in Sources */,
@@ -4636,6 +4785,7 @@
 				5847E1541DBD9BAB00C1B2BA /* CDUserProfile.swift in Sources */,
 				21679A1C1B901C5300F18F90 /* MPABTestDesignerConnection.m in Sources */,
 				216345041CC3A855005CBA37 /* MKNavigationBar.swift in Sources */,
+				B2207FB61ED67C2F00BCE613 /* DKImagePickerControllerDefaultUIDelegate.swift in Sources */,
 				B20E25681EB0719200B0E3DD /* PreloV2Endpoints.swift in Sources */,
 				58DD28E41DAF36BB00130B6F /* BFKit.swift in Sources */,
 				58DD28E31DAF36BB00130B6F /* BFDate.swift in Sources */,
@@ -4688,6 +4838,7 @@
 				585887801DBF17FD006EC6D5 /* CarConfirmViewController.swift in Sources */,
 				216345031CC3A855005CBA37 /* MKLayer.swift in Sources */,
 				21679A471B901C5300F18F90 /* MPTweakStore.m in Sources */,
+				B2207FC21ED67C2F00BCE613 /* DKPermissionView.swift in Sources */,
 				B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */,
 				58A99A4C1C6D864E00E3E7D7 /* BranchValidatePromoCodeRequest.m in Sources */,
 				216799921B8F8AB900F18F90 /* AFURLSessionManager.m in Sources */,
@@ -4733,7 +4884,9 @@
 				2141BBDE1B54BE4C00787F5D /* RAReorderableLayout.swift in Sources */,
 				2167998A1B8F8AB900F18F90 /* AFHTTPRequestOperation.m in Sources */,
 				B2FFCBA91EA52669004F01D0 /* SocketIOClient.swift in Sources */,
+				B2207FB51ED67C2F00BCE613 /* DKImagePickerController.swift in Sources */,
 				5847E1981DBE0D0400C1B2BA /* MessagePool.swift in Sources */,
+				B2207FBA1ED67C2F00BCE613 /* DKAssetGroupCellItemProtocol.swift in Sources */,
 				21679A221B901C5300F18F90 /* MPABTestDesignerTweakRequestMessage.m in Sources */,
 				5847E1931DBDFCE600C1B2BA /* LoginViewController.swift in Sources */,
 				44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */,
@@ -4767,9 +4920,11 @@
 				B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */,
 				21C658961B8EF25E0037F85F /* ActionSheetDatePicker.m in Sources */,
 				21679A1E1B901C5300F18F90 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
+				B2207FB21ED67C2F00BCE613 /* DKAssetGroup.swift in Sources */,
 				B2C3A3C81E2B8E450082A15D /* ShopAchievementViewController.swift in Sources */,
 				21679A141B901C5300F18F90 /* _MPTweakBindObserver.m in Sources */,
 				21B468031CCE5EDB00E145ED /* UIScrollView+BFKit.swift in Sources */,
+				B228560E1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift in Sources */,
 				21679A281B901C5300F18F90 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				581026B91EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift in Sources */,
 				B2C3A3BC1E2B6B550082A15D /* FloatRatingView.swift in Sources */,
@@ -4779,7 +4934,9 @@
 				58A99A371C6D864E00E3E7D7 /* BranchConstants.m in Sources */,
 				216345021CC3A855005CBA37 /* MKLabel.swift in Sources */,
 				585887791DBF06C7006EC6D5 /* AboutViewController.swift in Sources */,
+				B2207FB31ED67C2F00BCE613 /* DKImageManager.swift in Sources */,
 				21679A251B901C5300F18F90 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
+				B2207FB81ED67C2F00BCE613 /* DKPopoverViewController.swift in Sources */,
 				5847E1631DBDB1D600C1B2BA /* CDCategory.swift in Sources */,
 				58A99A2B1C6D864E00E3E7D7 /* BNCEncodingUtils.m in Sources */,
 				5858877C1DBF1050006EC6D5 /* CategoryPickerViewController.swift in Sources */,
@@ -4789,6 +4946,7 @@
 				585887981DBF3309006EC6D5 /* MyPurchaseProcessingViewController.swift in Sources */,
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
 				585887991DBF3309006EC6D5 /* MyPurchaseViewController.swift in Sources */,
+				B2207FB01ED67C2F00BCE613 /* DKGroupDataManager.swift in Sources */,
 				21C658941B8EF25E0037F85F /* AbstractActionSheetPicker.m in Sources */,
 				21679A201B901C5300F18F90 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				216344FE1CC3A855005CBA37 /* MKColor.swift in Sources */,
@@ -4859,12 +5017,14 @@
 				B2FFCBA01EA52669004F01D0 /* SocketClientManager.swift in Sources */,
 				588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */,
 				21E7A7571B9FDE4F00FC9B38 /* MGInstagram.m in Sources */,
+				B2207FB11ED67C2F00BCE613 /* DKAsset.swift in Sources */,
 				21B468081CCE5EDB00E145ED /* UIView+BFKit.swift in Sources */,
 				58A99A461C6D864E00E3E7D7 /* BranchRegisterViewRequest.m in Sources */,
 				5847E1591DBD9C2800C1B2BA /* CDVersion.swift in Sources */,
 				216345061CC3A855005CBA37 /* MKSideDrawerViewController.swift in Sources */,
 				5847E1651DBDB34F00C1B2BA /* PickerViewController.swift in Sources */,
 				585887A11DBF36FF006EC6D5 /* ProductDetailViewController.swift in Sources */,
+				B2207FC01ED67C2F00BCE613 /* DKAssetGroupGridLayout.swift in Sources */,
 				58A99A321C6D864E00E3E7D7 /* BNCServerResponse.m in Sources */,
 				585887761DBF0575006EC6D5 /* TarikTunaiController.swift in Sources */,
 				5847E1491DBD298E00C1B2BA /* DAO.swift in Sources */,
@@ -4877,6 +5037,7 @@
 				58A99A2C1C6D864E00E3E7D7 /* BNCError.m in Sources */,
 				21679A521B901C5300F18F90 /* NSInvocation+MPHelpers.m in Sources */,
 				5847E18F1DBDFB7600C1B2BA /* PathEndpoints.swift in Sources */,
+				B2207FBF1ED67C2F00BCE613 /* DKAssetGroupDetailVC.swift in Sources */,
 				B23243391E265F8400367BDE /* Banner.swift in Sources */,
 				21B467EF1CCE5EDB00E145ED /* NSDictionary+BFKit.swift in Sources */,
 				5858879D1DBF3429006EC6D5 /* ShopReviewViewController.swift in Sources */,
@@ -4889,6 +5050,7 @@
 				58BBF5961EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift in Sources */,
 				58A99A311C6D864E00E3E7D7 /* BNCServerRequestQueue.m in Sources */,
 				585887931DBF3309006EC6D5 /* MyProductCompletedViewController.swift in Sources */,
+				B2207FC11ED67C2F00BCE613 /* DKAssetGroupListVC.swift in Sources */,
 				58A99A391C6D864E00E3E7D7 /* BranchLinkProperties.m in Sources */,
 				216345071CC3A855005CBA37 /* MKSnackbar.swift in Sources */,
 				21679A361B901C5300F18F90 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
