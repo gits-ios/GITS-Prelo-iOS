@@ -3765,6 +3765,108 @@ class BalanceMutationItem : NSObject {
     }
 }
 
+class TopUpItem : NSObject {
+    
+    var json : JSON = JSON([:])
+    
+    static func instance(_ json : JSON?) -> TopUpItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let n = TopUpItem()
+            n.json = json!
+            return n
+        }
+    }
+    
+    var id : String {
+        if let j = json["_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var amount : Int64 {
+        if let j = json["amount"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var userId : String {
+        if let j = json["user_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var banktransfer_digit : Int64 {
+        if let j = json["banktransfer_digit"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var payment_method : Int {
+        if let j = json["payment_method"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var target_bank : String {
+        if let j = json["payment_method_param"].dictionary {
+            if let k = j["target_bank"]?.string {
+                return k
+            }
+            return "1"
+        }
+        return "2"
+    }
+    
+    var progress : Int {
+        if let j = json["progress"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var create_time : String {
+        if let j = json["create_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var update_time : String {
+        if let j = json["update_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var ticket_number : String {
+        if let j = json["ticket_number"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var time : String {
+        if let j = json["time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var progress_detail : String {
+        if let j = json["progress_detail"].string {
+            return j
+        }
+        return ""
+    }
+}
+
 // author: santensuru
 // MARK: - ACHIEVEMENT
 class AchievementItem : NSObject {

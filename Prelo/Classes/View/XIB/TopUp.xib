@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="mic-Kg-aIu" userLabel="TopUp" customClass="TopUpViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="0fd-mb-puZ"/>
+                <viewControllerLayoutGuide type="bottom" id="NgL-37-8uC"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="UGG-LE-FOc">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Jjt-bj-0e3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="mic-Kg-aIu" id="1Ul-Gy-bY5"/>
+                            <outlet property="delegate" destination="mic-Kg-aIu" id="fHT-4u-V5o"/>
+                        </connections>
+                    </tableView>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="Jjt-bj-0e3" firstAttribute="leading" secondItem="UGG-LE-FOc" secondAttribute="leading" id="5AS-aq-eu6"/>
+                    <constraint firstItem="Jjt-bj-0e3" firstAttribute="top" secondItem="UGG-LE-FOc" secondAttribute="top" id="AmV-Nn-6Se"/>
+                    <constraint firstItem="Jjt-bj-0e3" firstAttribute="top" secondItem="UGG-LE-FOc" secondAttribute="top" id="BH3-9o-Suf"/>
+                    <constraint firstAttribute="trailing" secondItem="Jjt-bj-0e3" secondAttribute="trailing" id="LMh-Dd-bKc"/>
+                    <constraint firstAttribute="trailing" secondItem="Jjt-bj-0e3" secondAttribute="trailing" id="OP9-EP-woT"/>
+                    <constraint firstItem="NgL-37-8uC" firstAttribute="top" secondItem="Jjt-bj-0e3" secondAttribute="bottom" id="RL6-ye-QRY"/>
+                    <constraint firstItem="Jjt-bj-0e3" firstAttribute="leading" secondItem="UGG-LE-FOc" secondAttribute="leading" id="Z9x-KU-CAo"/>
+                    <constraint firstItem="NgL-37-8uC" firstAttribute="top" secondItem="Jjt-bj-0e3" secondAttribute="bottom" id="fgh-8W-WXd"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="tableView" destination="Jjt-bj-0e3" id="lyg-Uw-N8t"/>
+            </connections>
+            <point key="canvasLocation" x="-167.5" y="-199.5"/>
+        </viewController>
+    </objects>
+</document>
