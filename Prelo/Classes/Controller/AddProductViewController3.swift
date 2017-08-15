@@ -203,6 +203,8 @@ class AddProductViewController3: BaseViewController {
     var sizes: Array<String> = []
     var sizesTitle: String = ""
     
+    var labels: Array<String> = []
+    
     // view
     var listSections: Array<AddProduct3SectionType> = []
     var isFirst = true
@@ -388,8 +390,8 @@ class AddProductViewController3: BaseViewController {
             */
             
             self.tableView.reloadData()
-            self.hideLoading()
         }
+        self.hideLoading()
     }
     
     func setupEditMode() {
@@ -454,47 +456,48 @@ class AddProductViewController3: BaseViewController {
         }
     }
     
-    func removeSizeSection() {
-        self.removeSection(.size)
-    }
-    
     func insertLuxurySection() {
         let idx = self.findSectionFromType(.productDetail)
         let idx2 = self.findSectionFromType(.size)
         
         var _idx = self.findSectionFromType(.authVerification)
-        var _idx2 = self.findSectionFromType(.checklist)
         
-        if _idx == -1 && _idx2 == -1 {
+        if _idx == -1 {
             if idx2 > -1 {
                 _idx = idx+2
-                _idx2 = idx+3
             } else {
                 _idx = idx+1
-                _idx2 = idx+2
             }
             
             self.listSections.insert(.authVerification, at: _idx)
-            self.listSections.insert(.checklist, at: _idx2)
             
-            let array: Array<Int> = [_idx, _idx2]
+            let array: Array<Int> = [_idx]
             let indexSet = NSMutableIndexSet()
             array.forEach(indexSet.add)
             
             self.tableView.insertSections(indexSet as IndexSet, with: .fade)
         } else {
-            let array: Array<Int> = [_idx, _idx2]
-            let indexSet = NSMutableIndexSet()
-            array.forEach(indexSet.add)
-            
-            self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+            self.tableView.reloadRows(at: [ IndexPath.init(row: 1, section: _idx) ], with: .fade)
         }
     }
     
-    // one by one
-    func removeLuxurySection() {
-        self.removeSection(.authVerification)
-        self.removeSection(.checklist)
+    func insertChecklistSection() {
+        let idx = self.findSectionFromType(.weight)
+        
+        var _idx = self.findSectionFromType(.checklist)
+        if _idx == -1 {
+            _idx = idx
+            
+            self.listSections.insert(.checklist, at: _idx)
+            
+            let array: Array<Int> = [_idx]
+            let indexSet = NSMutableIndexSet()
+            array.forEach(indexSet.add)
+            
+            self.tableView.insertSections(indexSet as IndexSet, with: .fade)
+        } else {
+            self.tableView.reloadRows(at: [ IndexPath.init(row: 1, section: _idx) ], with: .fade)
+        }
     }
     
     func removeSection(_ type: AddProduct3SectionType) {
@@ -585,17 +588,29 @@ class AddProductViewController3: BaseViewController {
                         self.sizes = []
                         self.product.isCategoryContainSize = false
                         DispatchQueue.main.async(execute: {
-                            self.removeSizeSection()
+                            self.removeSection(.size)
                         })
                     }
                 } else {
                     self.sizes = []
                     self.product.isCategoryContainSize = false
                     DispatchQueue.main.async(execute: {
-                        self.removeSizeSection()
+                        self.removeSection(.size)
                     })
                 }
             }
+        }
+    }
+    
+    // images labels
+    func getLabels() {
+        // TODO: From backend
+        self.labels = ["Gambar Utama", "Label atau Merek", "Cacat (Opsional)"]
+        
+        if self.labels.count > 0 {
+            self.insertChecklistSection()
+        } else {
+            self.removeSection(.checklist)
         }
     }
 }
@@ -641,7 +656,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
             } else {
-                return AddProduct3ImagesChecklistCell.heightFor(self.product.imagesDetail.count)
+                return AddProduct3ImagesChecklistCell.heightFor(self.labels.count)
             }
         case .weight:
             if row == 0 {
@@ -705,12 +720,21 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 
                 imagePicker.previewImages = self.product.imagesDetail
                 imagePicker.index = self.product.imagesIndex
+                imagePicker.labels = self.labels
                 
                 imagePicker.blockDone = { previewImages, index in
                     self.product.imagesDetail = previewImages
                     self.product.imagesIndex = index
                     
-                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                    var indexPaths: Array<IndexPath> = []
+                    indexPaths.append(indexPath)
+                    
+                    let idx = self.findSectionFromType(.checklist)
+                    if idx > -1 {
+                        indexPaths.append(IndexPath.init(row: 1, section: idx))
+                    }
+                    
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
                 
                 self.navigationController?.pushViewController(imagePicker, animated: true)
@@ -742,6 +766,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 }
                 
                 cell.pickCategory = {
+                    self.showLoading()
+                    
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let p = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdCategoryPicker) as! CategoryPickerViewController
                     
@@ -804,16 +830,22 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         if (self.product.isLuxuryMerk && self.product.isWomenMenCategory) {
                             self.insertLuxurySection()
                         } else {
-                            self.removeLuxurySection()
+                            self.removeSection(.authVerification)
                         }
                         
+                        self.getLabels()
+                        
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
+                        
+                        self.hideLoading()
                     }
                     p.root = self
                     self.navigationController?.pushViewController(p, animated: true)
                 }
                 
                 cell.pickMerk = {
+                    self.showLoading()
+                    
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let p = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as! PickerViewController
                     
@@ -869,8 +901,10 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                     if (self.product.isLuxuryMerk && self.product.isWomenMenCategory) {
                                         self.insertLuxurySection()
                                     } else {
-                                        self.removeLuxurySection()
+                                        self.removeSection(.authVerification)
                                     }
+                                    
+                                    self.getLabels()
                                     
                                     /*
                                     // Show submit label
@@ -888,18 +922,24 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                 p.showSearch = true
                                 
                                 self.navigationController?.pushViewController(p, animated: true)
+                                
+                                self.hideLoading()
                             } else {
-                                //Constant.showBadgeDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk", badge: "warning", view: self, isBack: false)
                                 Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                                
+                                self.hideLoading()
                             }
                         } else {
-                            //Constant.showBadgeDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk", badge: "warning", view: self, isBack: false)
                             Constant.showDialog("Pilih Merk", message: "Oops, terdapat kesalahan saat mengambil data merk")
+                            
+                            self.hideLoading()
                         }
                     }
                 }
                 
                 cell.pickCondition = {
+                    self.showLoading()
+                    
                     let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
                     let p = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as! PickerViewController
                     
@@ -917,6 +957,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         self.product.condition = x
                         
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
+                        
+                        self.hideLoading()
                     }
                     
                     self.navigationController?.pushViewController(p, animated: true)
@@ -956,7 +998,33 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImagesChecklistCell") as! AddProduct3ImagesChecklistCell
-                cell.adapt(self.product)
+                cell.adapt(self.product, labels: self.labels)
+                
+                cell.openImagePicker = {
+                    let imagePicker = Bundle.main.loadNibNamed(Tags.XibNameMultipleImagePicker, owner: nil, options: nil)?.first as! AddProduct3ListImagesViewController
+                    
+                    imagePicker.previewImages = self.product.imagesDetail
+                    imagePicker.index = self.product.imagesIndex
+                    imagePicker.labels = self.labels
+                    
+                    imagePicker.blockDone = { previewImages, index in
+                        self.product.imagesDetail = previewImages
+                        self.product.imagesIndex = index
+                        
+                        var indexPaths: Array<IndexPath> = []
+                        indexPaths.append(indexPath)
+                        
+                        let idx = self.findSectionFromType(.imagesPreview)
+                        if idx > -1 {
+                            indexPaths.append(IndexPath.init(row: 1, section: idx))
+                        }
+                        
+                        self.tableView.reloadRows(at: indexPaths, with: .fade)
+                    }
+                    
+                    self.navigationController?.pushViewController(imagePicker, animated: true)
+                }
+                
                 return cell
             }
         case .weight:
@@ -1850,7 +1918,8 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
     @IBOutlet weak var consHeightCollectionView: NSLayoutConstraint!
     
     var images: Array<PreviewImage> = []
-    var index: Array<Int> = []
+    var labels: Array<String> = []
+    var openImagePicker: ()->() = {}
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1885,11 +1954,11 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
         self.collectionView.isDirectionalLockEnabled = true
     }
     
-    func adapt(_ product: SelectedProductItem) {
+    func adapt(_ product: SelectedProductItem, labels: Array<String>) {
         self.images = product.imagesDetail
-        self.index = product.imagesIndex
+        self.labels = labels
         
-        let count = product.imagesDetail.count
+        let count = labels.count
         if count > 0 {
             let w = AppTools.screenWidth - 24 - 8
             var c: CGFloat = 120
@@ -1912,41 +1981,55 @@ class AddProduct3ImagesChecklistCell: UITableViewCell {
     }
     
     // 66, count height collection view (20 x total/y), count teks height
+    // count of labels
     static func heightFor(_ count: Int) -> CGFloat {
         let w = AppTools.screenWidth - 24 - 8
-        var c: CGFloat = 120
+        var c: CGFloat = 130
         var i = 1
         while true {
             if i == count {
                 break
             }
-            if c + 4.0 + 120.0 > w {
+            if c + 4.0 + 130.0 > w {
                 break
             }
             i += 1
-            c += 120.0 + 4.0
+            c += 130.0 + 4.0
         }
         let h = 24.0 * ceil(Double(count) / Double(i)) + 4.0
         return 46 + CGFloat(h) // count subtitle height
+    }
+    
+    func isLabelExist(_ label: String) -> Bool {
+        for i in self.images {
+            if i.label == label {
+                return true
+            }
+        }
+        return false
+    }
+    
+    @IBAction func btnPickImagePressed(_ sender: Any) {
+        self.openImagePicker()
     }
 }
 
 extension AddProduct3ImagesChecklistCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.images.count
+        return self.labels.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         // Create cell
         let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesChecklistCellCollectionCell", for: indexPath) as! AddProduct3ImagesChecklistCellCollectionCell
-        cell.adapt(self.images[self.index[indexPath.row]].label, isExist: self.images[indexPath.row].image != nil)
+        cell.adapt(self.labels[indexPath.row], isExist: self.isLabelExist(self.labels[indexPath.row]))
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 120, height: 20)
+        return CGSize(width: 130, height: 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

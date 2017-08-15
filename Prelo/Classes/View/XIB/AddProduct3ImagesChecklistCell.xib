@@ -50,6 +50,9 @@
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4CP-iD-03Z">
                         <rect key="frame" x="12" y="32" width="351" height="30"/>
+                        <connections>
+                            <action selector="btnPickImagePressed:" destination="bRr-sI-D8p" eventType="touchUpInside" id="afS-S8-X3S"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>
