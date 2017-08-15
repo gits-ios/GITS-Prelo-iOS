@@ -204,6 +204,7 @@ class AddProductViewController3: BaseViewController {
     var sizesTitle: String = ""
     
     var labels: Array<String> = []
+    var maxImages = 10
     
     // view
     var listSections: Array<AddProduct3SectionType> = []
@@ -709,7 +710,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
         switch(listSections[section]) {
         case .imagesPreview:
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImagesPreviewCell") as! AddProduct3ImagesPreviewCell
-            cell.adapt(self.product)
+            cell.adapt(self.product, maxImages: self.maxImages)
             
             cell.openWebView = { urlString in
                 self.openWebView(urlString, title: nil)
@@ -721,6 +722,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 imagePicker.previewImages = self.product.imagesDetail
                 imagePicker.index = self.product.imagesIndex
                 imagePicker.labels = self.labels
+                imagePicker.maxImages = self.maxImages
                 
                 imagePicker.blockDone = { previewImages, index in
                     self.product.imagesDetail = previewImages
@@ -1006,6 +1008,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     imagePicker.previewImages = self.product.imagesDetail
                     imagePicker.index = self.product.imagesIndex
                     imagePicker.labels = self.labels
+                    imagePicker.maxImages = self.maxImages
                     
                     imagePicker.blockDone = { previewImages, index in
                         self.product.imagesDetail = previewImages
@@ -1321,6 +1324,8 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     var openWebView: (_ url: String)->() = {_ in }
     var openImagePicker: ()->() = {}
     
+    var maxImages = 10
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
@@ -1362,7 +1367,8 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         self.collectionView.showsHorizontalScrollIndicator = false
     }
     
-    func adapt(_ product: SelectedProductItem) {
+    func adapt(_ product: SelectedProductItem, maxImages: Int) {
+        self.maxImages = maxImages
         self.images = product.imagesDetail
         self.index = product.imagesIndex
         
@@ -1383,7 +1389,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
 
 extension AddProduct3ImagesPreviewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.images.count + 1
+        return (self.images.count == self.maxImages ? self.maxImages : self.images.count + 1)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
