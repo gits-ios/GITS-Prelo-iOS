@@ -3757,8 +3757,67 @@ class TopUpItem : NSObject {
         return ""
     }
     
-    var progress_detail : String {
-        if let j = json["progress_detail"].string {
+    var amount : Int64 {
+        if let j = json["amount"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var userId : String {
+        if let j = json["user_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var banktransfer_digit : Int64 {
+        if let j = json["banktransfer_digit"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var payment_method : Int {
+        if let j = json["payment_method"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var target_bank : String {
+        if let j = json["payment_method_param"].dictionary {
+            if let k = j["target_bank"]?.string {
+                return k
+            }
+            return "1"
+        }
+        return "2"
+    }
+    
+    var progress : Int {
+        if let j = json["progress"].int {
+            return j
+        }
+        return 0
+    }
+    
+    var create_time : String {
+        if let j = json["create_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var update_time : String {
+        if let j = json["update_time"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var ticket_number : String {
+        if let j = json["ticket_number"].string {
             return j
         }
         return ""
@@ -3771,29 +3830,8 @@ class TopUpItem : NSObject {
         return ""
     }
     
-    var amount : Int64 {
-        if let j = json["amount"].int64 {
-            return j
-        }
-        return 0
-    }
-    
-    var type : String {
-        if let j = json["type"].string {
-            return j
-        }
-        return ""
-    }
-    
-    var progress : Int {
-        if let j = json["progress"].int {
-            return j
-        }
-        return 0
-    }
-    
-    var reasonDetail : String {
-        if let j = json["reason_detail"].string {
+    var progress_detail : String {
+        if let j = json["progress_detail"].string {
             return j
         }
         return ""

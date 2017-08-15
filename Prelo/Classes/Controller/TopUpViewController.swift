@@ -474,10 +474,11 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     func performCheckout() {
         
         // request api top up
-        let _ = request(APIWallet.topUp(amount: self.tempTotalAmount, banktransfer_digit: Int(self.random), payment_method_param: "{\"target_bank\": \"\(self.targetBank)\"}")).responseJSON { resp in
+        let _ = request(APIWallet.topUp(amount: self.tempTotalAmount, banktransfer_digit: Int(self.random), payment_method: "Bank Transfer", target_bank: self.targetBank)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Up Request")){
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
+                print("masuk kesini")
                 print(json)
                 print(data)
                 print(data["_id"])

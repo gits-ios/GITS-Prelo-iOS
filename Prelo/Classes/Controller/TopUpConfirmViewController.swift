@@ -47,6 +47,8 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet weak var btnConfirm: UIButton! // change -> LIHAT BELANJAAN SAYA
     
     
+    @IBOutlet weak var consTrxUnpaidSection: NSLayoutConstraint!
+    
     // Flags
     var isFromCheckout = true
     var isFreeTransaction = false
@@ -187,6 +189,7 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "TEPAT"))
             mtext.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 14)], range: (text as NSString).range(of: "3 digit terakhir"))
             captionDesc.attributedText = mtext
+            consTrxUnpaidSection.constant = 230
             self.vwUnpaidTrx.isHidden = false
             self.btnFreeTrx.isHidden = true
         }
@@ -361,69 +364,41 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         self.captionBankInfoBankNumber?.attributedText = attrStr
     }
     
-    override func backPressed(_ sender: UIBarButtonItem) {
-        // gesture override
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-        
-        if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
-            //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
-            
-            let navController = self.navigationController!
-            var controllers = navController.viewControllers
-            controllers.removeLast()
-            controllers.removeLast()
-            
-            navController.setViewControllers(controllers, animated: false)
-            
-            let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
-            
-            navController.pushViewController(balanceMutationVC, animated: true)
-        }
-        if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
-            // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
-            
-            let navController = self.navigationController!
-            var controllers = navController.viewControllers
-            controllers.removeLast()
-            controllers.removeLast()
-            controllers.removeLast()
-            
-            navController.setViewControllers(controllers, animated: false)
-            
-            let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
-            
-            navController.pushViewController(balanceMutationVC, animated: true)
-        }
-        if (isBackToRoot) {
-            _ = self.navigationController?.popToRootViewController(animated: true)
-        } else {
-            _ = self.navigationController?.popViewController(animated: true)
-        }
-        
-        /*
-         if (isFreeTransaction) {
-         // Pop ke home, kemudian buka list belanjaan saya jika dari checkout
-         if (self.isFromCheckout) {
-         //                UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
-         }
-         if (isBackToRoot) {
-         _ = self.navigationController?.popToRootViewController(animated: true)
-         } else {
-         _ = self.navigationController?.popViewController(animated: true)
-         }
-         } else {
-         // Pop ke home, kemudian buka list konfirmasi bayar jika dari checkout
-         if (self.isFromCheckout) {
-         //NSUserDefaults.setObjectAndSync(PageName.UnpaidTransaction, forKey: UserDefaultsKey.RedirectFromHome)
-         }
-         if (isBackToRoot) {
-         _ = self.navigationController?.popToRootViewController(animated: true)
-         } else {
-         _ = self.navigationController?.popViewController(animated: true)
-         }
-         }
-         */
-    }
+//    override func backPressed(_ sender: UIBarButtonItem) {
+//        // gesture override
+//        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+//        
+//        if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
+//            //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+//            
+//            let navController = self.navigationController!
+//            var controllers = navController.viewControllers
+//            controllers.removeLast()
+//            controllers.removeLast()
+//            
+//            navController.setViewControllers(controllers, animated: false)
+//            
+//            let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
+//            
+//            navController.pushViewController(balanceMutationVC, animated: true)
+//        }
+//        if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
+//            // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
+//            
+//            let navController = self.navigationController!
+//            var controllers = navController.viewControllers
+//            controllers.removeLast()
+//            controllers.removeLast()
+//            controllers.removeLast()
+//            
+//            navController.setViewControllers(controllers, animated: false)
+//            
+//            let balanceMutationVC = Bundle.main.loadNibNamed(Tags.XibNameBalanceMutation, owner: nil, options: nil)?.first as! BalanceMutationViewController
+//            
+//            navController.pushViewController(balanceMutationVC, animated: true)
+//        }
+//            _ = self.navigationController?.popViewController(animated: true)
+//    }
     
     @IBAction func lihatBelanjaanSayaPressed(_ sender: AnyObject) {
         /*
@@ -579,7 +554,7 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         print("{\"target_bank\": \"\(self.targetBank!)\"}")
         print(timePaidString)
         // API
-        let _ = request(APIWallet.topUpPaid(_id: self.orderID, payment_method_param: "{\"target_bank\": \"\(self.targetBank!)\"}", payment_time: timePaidString)).responseJSON { resp in
+        let _ = request(APIWallet.topUpPaid(_id: self.orderID, payment_method_param: "{\"target_bank\": \"\(self.targetBank!)\"}", payment_time: timePaidString, target_bank: self.targetBank)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Up Confirm Payment")){
                 Constant.showDialog("Konfirmasi Bayar", message: "Terimakasih! Pembayaran kamu akan segera diverifikasi")
                 

@@ -67,18 +67,24 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     @IBOutlet weak var lblMutasi: UILabel!
     @IBOutlet weak var lblPreloBalance: UILabel!
+    @IBOutlet weak var vwMutasiSelected: UIView!
+    @IBOutlet weak var vwTopUpSelected: UIView!
     
     @IBAction func mutasiButtonPressed(_ sender: Any) {
         isTopUp = false
         tblMutation.reloadData()
         lblMutasi.text = "Mutasi"
         lblPreloBalance.text = "Prelo Balance"
+        vwMutasiSelected.isHidden = false
+        vwTopUpSelected.isHidden = true
     }
     @IBAction func topUpButtonPressed(_ sender: Any) {
         isTopUp = true
         tblMutation.reloadData()
         lblMutasi.text = "Transaksi"
         lblPreloBalance.text = "Status"
+        vwMutasiSelected.isHidden = true
+        vwTopUpSelected.isHidden = false
     }
     
     
@@ -86,6 +92,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        vwTopUpSelected.isHidden = true
         
         // Menghilangkan garis antar cell di baris kosong
         tblMutation.tableFooterView = UIView()
@@ -121,6 +128,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         
         // Reset data
         self.balanceMutationItems = []
+        self.topUpItems = []
         self.nextIdx = 0
         self.isAllItemLoaded = false
 //        self.showLoading()
@@ -296,47 +304,81 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
-            if (b.type != "" && b.isSeller != nil) {
-                let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
-                
-                if (b.type.lowercased() == "transaction") {
-                    transactionDetailVC.trxId = b.reasonId
-                } else if (b.type.lowercased() == "transaction_product") {
-                    transactionDetailVC.trxProductId = b.reasonId
+        if(isTopUp){
+            if let b = topUpItems?[(indexPath as NSIndexPath).row] {
+                print(b.id)
+                print(b.json)
+                if(b.progress == 0){
+                    let o = Bundle.main.loadNibNamed(Tags.XibNameTopUpConfirm, owner: nil, options: nil)?.first as! TopUpConfirmViewController
+                    
+                    o.orderID = b.id
+                    o.total = Int64(b.amount + b.banktransfer_digit)
+                    //o.date = b.create_time
+                    
+                    o.isBackTwice = true
+                    o.targetBank = b.target_bank
+                    o.previousScreen = PageName.BalanceMutation
+                    
+                    o.isFromCheckout = false
+                    
+                    self.navigateToVC(o)
                 }
-                
-                if (b.isSeller!) {
-                    transactionDetailVC.isSeller = true
-                } else {
-                    transactionDetailVC.isSeller = false
+            }
+        } else {
+            if let b = balanceMutationItems?[(indexPath as NSIndexPath).row] {
+                if (b.type != "" && b.isSeller != nil) {
+                    let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let transactionDetailVC : TransactionDetailViewController = (mainStoryboard.instantiateViewController(withIdentifier: "TransactionDetail") as? TransactionDetailViewController)!
+                    
+                    if (b.type.lowercased() == "transaction") {
+                        transactionDetailVC.trxId = b.reasonId
+                    } else if (b.type.lowercased() == "transaction_product") {
+                        transactionDetailVC.trxProductId = b.reasonId
+                    }
+                    
+                    if (b.isSeller!) {
+                        transactionDetailVC.isSeller = true
+                    } else {
+                        transactionDetailVC.isSeller = false
+                    }
+                    
+                    transactionDetailVC.previousScreen = PageName.Mutation
+                    
+                    self.navigationController?.pushViewController(transactionDetailVC, animated: true)
                 }
-                
-                transactionDetailVC.previousScreen = PageName.Mutation
-                
-                self.navigationController?.pushViewController(transactionDetailVC, animated: true)
             }
         }
     }
     
+    func navigateToVC(_ vc: UIViewController) {
+        if (previousController != nil) {
+            self.previousController!.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+    }
+
+    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let offset : CGPoint = scrollView.contentOffset
-        let bounds : CGRect = scrollView.bounds
-        let size : CGSize = scrollView.contentSize
-        let inset : UIEdgeInsets = scrollView.contentInset
-        let y : CGFloat = offset.y + bounds.size.height - inset.bottom
-        let h : CGFloat = size.height
-        
-        let reloadDistance : CGFloat = 0
-        if (y > h + reloadDistance && !self.isRefreshing) {
-            // Load next items only if all items not loaded yet and if its not currently loading items
-            if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
-                // Show bottomLoading
-                self.showBottomLoading()
-                
-                // Get balance mutations
-                self.getBalanceMutations()
+        if(isTopUp){
+        } else {
+            let offset : CGPoint = scrollView.contentOffset
+            let bounds : CGRect = scrollView.bounds
+            let size : CGSize = scrollView.contentSize
+            let inset : UIEdgeInsets = scrollView.contentInset
+            let y : CGFloat = offset.y + bounds.size.height - inset.bottom
+            let h : CGFloat = size.height
+            
+            let reloadDistance : CGFloat = 0
+            if (y > h + reloadDistance && !self.isRefreshing) {
+                // Load next items only if all items not loaded yet and if its not currently loading items
+                if (!self.isAllItemLoaded && self.bottomLoadingPanel.isHidden) {
+                    // Show bottomLoading
+                    self.showBottomLoading()
+                    
+                    // Get balance mutations
+                    self.getBalanceMutations()
+                }
             }
         }
     }
@@ -417,9 +459,15 @@ class BalanceMutationCell : UITableViewCell {
     @IBOutlet weak var lblWJP: UILabel!
     @IBOutlet weak var imgWJP: UIImageView! // default hide
     
+    var idTopUp: String! = ""
+    
     @IBOutlet weak var consHeightLblDescription: NSLayoutConstraint!
     @IBOutlet weak var consHeightLblReasonAdmin: NSLayoutConstraint!
     @IBOutlet weak var consHeightLblWJP: NSLayoutConstraint!
+    
+    override func prepareForReuse() {
+        self.contentView.backgroundColor = UIColor(hexString: "#FFFFFF")
+    }
     
     static func heightFor(_ mutation : BalanceMutationItem, lblDescription : UILabel, lblReasonAdmin : UILabel, lblWJP : UILabel) -> CGFloat {
         
@@ -448,20 +496,19 @@ class BalanceMutationCell : UITableViewCell {
     }
     
     static func heightFor2(_ mutation : TopUpItem, lblDescription : UILabel, lblReasonAdmin : UILabel, lblWJP : UILabel) -> CGFloat {
-        
-        lblDescription.text = mutation.reasonDetail
         lblReasonAdmin.text = mutation.progress_detail
         let rectDesc = UIScreen.main.bounds.size.width - 118
         let rectReason = UIScreen.main.bounds.size.width - 118
-        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
-        let sizeFixReasonAdmin = mutation.progress_detail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
+        let reason = mutation.progress_detail + mutation.ticket_number
+        let sizeFixReasonAdmin = reason.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
         
         var wjpSize = CGFloat(0)
         
-        return 56 + sizeFixDesc.height + 2 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 2 : 0) + wjpSize
+        return 58 + (lblReasonAdmin.text! != "" ? sizeFixReasonAdmin.height + 2 : 0) + wjpSize
     }
     
     func adapt(_ mutation : BalanceMutationItem) {
+        lblPlusMinus.isHidden = false
         if (mutation.entryType == 0) { // Kredit
             lblPlusMinus.text = ""
             lblPlusMinus.textColor = Theme.ThemeOrange
@@ -521,36 +568,48 @@ class BalanceMutationCell : UITableViewCell {
 
     }
     func adapt2(_ mutation : TopUpItem) {
+        if(mutation.progress == 0){
+            self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+        }
+        lblPlusMinus.isHidden = true
+        lblDescription.isHidden = true
+        imgWJP.isHidden = true
+        idTopUp = mutation.id
         lblMutation.text = mutation.amount.asPrice
-        lblReasonAdmin.text = mutation.progress_detail
+        let attrStrId = NSMutableAttributedString(string: mutation.ticket_number)
+        attrStrId.addAttributes([NSForegroundColorAttributeName:UIColor(hexString: "#14988B")], range: NSMakeRange(0, mutation.ticket_number.length))
+        //self.lblReasonAdmin.attributedText = attrStrId
+        let attrStrReason = NSMutableAttributedString(string: mutation.progress_detail + " ")
+        attrStrReason.append(attrStrId)
+        
+        var lblReasonText = attrStrReason
+        var lblTempReasonText = mutation.progress_detail + " " + mutation.ticket_number
+        lblReasonAdmin.attributedText = lblReasonText
         lblTime.text = mutation.time
         if(mutation.progress == 0){
             lblBalance.text = "BELUM BAYAR"
-            
-        } else if (mutation.progress == 1 || mutation.progress == 2){
+            lblMutation.textColor = Theme.ThemeOrange
+            lblBalance.textColor = Theme.ThemeRed
+        } else if (mutation.progress == 2){
             lblBalance.text = "BERHASIL"
+            lblMutation.textColor = UIColor(hexString: "#14988B")
+            lblBalance.textColor = UIColor(hexString: "#14988B")
+        } else if (mutation.progress == 1){
+            lblBalance.text = "SUDAH BAYAR"
+            lblMutation.textColor = UIColor(hexString: "#14988B")
+            lblBalance.textColor = UIColor(hexString: "#14988B")
         } else {
             lblBalance.text = "DITOLAK"
+            lblMutation.textColor = Theme.ThemeOrange
+            lblBalance.textColor = Theme.ThemeRed
         }
-        
-        // lblDescription text
-        let trxIdStartIdx = mutation.reasonDetail.indexOfCharacter("#")
-        var trxIdLength = 0
-        if (trxIdStartIdx != -1) {
-            trxIdLength = mutation.reasonDetail.components(separatedBy: "#")[1].components(separatedBy: " ")[0].length + 1
-        }
-        let attrStrDesc = NSMutableAttributedString(string: mutation.reasonDetail)
-        attrStrDesc.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColor], range: NSMakeRange(trxIdStartIdx, trxIdLength))
-        self.lblDescription.attributedText = attrStrDesc
         
         // Label height fix
-        let rectDesc = UIScreen.main.bounds.size.width - 118
-        let sizeFixDesc = mutation.reasonDetail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectDesc)
-        consHeightLblDescription.constant = sizeFixDesc.height + 2
-        
+        consHeightLblDescription.constant = 0
+        consHeightLblWJP.constant = 0
         let rectReason = UIScreen.main.bounds.size.width - 118
-        let sizeFixReasonAdmin = mutation.progress_detail.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
-        consHeightLblReasonAdmin.constant = (mutation.progress_detail != "" ? sizeFixReasonAdmin.height + 2 : 0)
+        let sizeFixReasonAdmin = lblTempReasonText.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: rectReason)
+        consHeightLblReasonAdmin.constant = (lblTempReasonText != "" ? sizeFixReasonAdmin.height + 2 : 0)
         
     }
 }
