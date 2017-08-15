@@ -862,6 +862,29 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     }
                 }
                 
+                cell.pickCondition = {
+                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                    let p = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdPicker) as! PickerViewController
+                    
+                    p.title = "Pilih Kondisi"
+                    
+                    let names : [String] = CDProductCondition.getProductConditionPickerItems()
+                    let details : [String] = CDProductCondition.getProductConditionPickerDetailItems()
+                    
+                    p.items = names
+                    p.subtitles = details
+                    
+                    p.selectBlock = { s in
+                        self.product.conditionId = PickerViewController.RevealHiddenString(s)
+                        let x = PickerViewController.HideHiddenString(s)
+                        self.product.condition = x
+                        
+                        self.tableView.reloadRows(at: [indexPath], with: .fade)
+                    }
+                    
+                    self.navigationController?.pushViewController(p, animated: true)
+                }
+                
                 return cell
             }
         case .size:
@@ -1313,6 +1336,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
     
     var pickCategory: ()->() = {}
     var pickMerk: ()->() = {}
+    var pickCondition: ()->() = {}
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1343,8 +1367,10 @@ class AddProduct3DetailProductCell: UITableViewCell {
         
         if (product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound {
             self.consTopSpecialStory.constant = 40
+            self.vwCacat.isHidden = false
         } else {
             self.consTopSpecialStory.constant = 0
+            self.vwCacat.isHidden = true
         }
         
         let sizeThatShouldFitTheContent = txtDescription.sizeThatFits(txtDescription.frame.size)
@@ -1368,7 +1394,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
     }
     
     @IBAction func btnPickConditionPressed(_ sender: Any) {
-        // TODO: pick Condition
+        self.pickCondition()
     }
 }
 
