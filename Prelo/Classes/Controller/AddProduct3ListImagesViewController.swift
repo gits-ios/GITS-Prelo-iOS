@@ -32,7 +32,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
         let inset = UIEdgeInsetsMake(0, 0, 0, 0)
         tableView.contentInset = inset
         
-        tableView.separatorStyle = .none
+        //tableView.separatorStyle = .none
         
         tableView.backgroundColor = UIColor.white
     }
@@ -141,6 +141,20 @@ class AddProduct3ListImagesViewController: BaseViewController {
     func editTable() {
         self.tableView.isEditing = !self.tableView.isEditing
     }
+    
+    // MARK: - Helper
+    func removeImageFromArray(_ index: Int) {
+        let idx = self.index[index]
+        self.previewImages.remove(at: idx)
+        
+        for i in 0..<self.index.count {
+            if self.index[i] > idx {
+                self.index[i] -= 1
+            }
+        }
+        
+        self.index.remove(at: index)
+    }
 }
 
 extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -182,7 +196,9 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         let remove = UITableViewRowAction(style: .destructive, title: "Hapus") { action, index in
+            self.removeImageFromArray(indexPath.row)
             
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
         }
         return [remove]
     }
@@ -197,11 +213,14 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
 
 class AddProduct3ListImagesCell: UITableViewCell {
     @IBOutlet weak var imgPreview: UIImageView!
+    @IBOutlet weak var lblLabel: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.imgPreview.contentMode = .scaleAspectFill
+        imgPreview.layer.cornerRadius = 0
+        imgPreview.layer.masksToBounds = true
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -211,6 +230,8 @@ class AddProduct3ListImagesCell: UITableViewCell {
     
     func adapt(_ previewImage: PreviewImage) {
         self.imgPreview.image = previewImage.image ?? UIImage(named: "placeholder-standar-white")
+        
+        self.lblLabel.text = "coba" //previewImage.label
     }
     
     static func heightFor() -> CGFloat {
