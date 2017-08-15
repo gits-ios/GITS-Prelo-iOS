@@ -119,6 +119,7 @@ struct PreviewImage {
     var image: UIImage? // local image / downloaded image
     var url = "" // downloaded image url
     var label = ""
+    var labelOther = ""
 }
 
 struct FreeOngkirRegion {
@@ -373,6 +374,7 @@ class AddProductViewController3: BaseViewController {
                 self.listSections.insert(.checklist, at: _idx2)
             }
             
+            /*
             if self.product.imagesDetail.count == 0 {
                 self.product.imagesIndex.append(0)
                 self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Utama"))
@@ -383,6 +385,7 @@ class AddProductViewController3: BaseViewController {
                 self.product.imagesIndex.append(2)
                 self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Cacat"))
             }
+            */
             
             self.tableView.reloadData()
             self.hideLoading()
@@ -695,6 +698,22 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             
             cell.openWebView = { urlString in
                 self.openWebView(urlString, title: nil)
+            }
+            
+            cell.openImagePicker = {
+                let imagePicker = Bundle.main.loadNibNamed(Tags.XibNameMultipleImagePicker, owner: nil, options: nil)?.first as! AddProduct3ListImagesViewController
+                
+                imagePicker.previewImages = self.product.imagesDetail
+                imagePicker.index = self.product.imagesIndex
+                
+                imagePicker.blockDone = { previewImages, index in
+                    self.product.imagesDetail = previewImages
+                    self.product.imagesIndex = index
+                    
+                    self.tableView.reloadRows(at: [indexPath], with: .fade)
+                }
+                
+                self.navigationController?.pushViewController(imagePicker, animated: true)
             }
             
             return cell
@@ -1232,6 +1251,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     var index: Array<Int> = []
     var url: String = ""
     var openWebView: (_ url: String)->() = {_ in }
+    var openImagePicker: ()->() = {}
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1320,6 +1340,7 @@ extension AddProduct3ImagesPreviewCell: UICollectionViewDelegate, UICollectionVi
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         // open image picker
+        self.openImagePicker()
     }
 }
 
@@ -1330,6 +1351,8 @@ class AddProduct3ImagesPreviewCellCollectionCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        self.imagesPreview.contentMode = .scaleAspectFill
         
         self.backgroundColor = UIColor.init(hexString: "#EDEDED")
         self.labelView.backgroundColor = UIColor.init(hexString: "#B4B4B4").alpha(0.75)
