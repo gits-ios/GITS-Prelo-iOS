@@ -1016,7 +1016,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         
                         let idx = self.findSectionFromType(.imagesPreview)
                         if idx > -1 {
-                            indexPaths.append(IndexPath.init(row: 1, section: idx))
+                            indexPaths.append(IndexPath.init(row: 0, section: idx))
                         }
                         
                         self.tableView.reloadRows(at: indexPaths, with: .fade)
@@ -1391,7 +1391,7 @@ extension AddProduct3ImagesPreviewCell: UICollectionViewDelegate, UICollectionVi
         if indexPath.row < self.images.count {
             // Create cell
             let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesPreviewCellCollectionCell", for: indexPath) as! AddProduct3ImagesPreviewCellCollectionCell
-            cell.adapt(self.images[self.index[indexPath.row]].image, label: self.images[indexPath.row].label)
+            cell.adapt(self.images[self.index[indexPath.row]].image, label: self.images[self.index[indexPath.row]].label)
             
             return cell
         } else {

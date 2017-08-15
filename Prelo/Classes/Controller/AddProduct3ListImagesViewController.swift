@@ -7,17 +7,23 @@
 //
 
 import Foundation
+import DropDown
 
 typealias BlockImagesSelected = (_ images: Array<PreviewImage>, _ index: Array<Int>) -> ()
 
 class AddProduct3ListImagesViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var vwLabels: UIView!
+    @IBOutlet weak var consHeightVwLabels: NSLayoutConstraint!
+    @IBOutlet weak var btnAddImages: UIButton!
     
     var previewImages: Array<PreviewImage> = []
     var index: Array<Int> = []
     var maxImages = 10
     
     var labels: Array<String> = []
+    
+    var isFirst = true
     
     // Delegate
     var blockDone : BlockImagesSelected?
@@ -46,6 +52,19 @@ class AddProduct3ListImagesViewController: BaseViewController {
         self.setupTableView()
         self.setEditButton()
         
+        // init dropdown
+        DropDown.startListeningToKeyboard()
+        let appearance = DropDown.appearance()
+        appearance.backgroundColor = UIColor(white: 1, alpha: 1)
+        appearance.selectionBackgroundColor = UIColor(red: 0.6494, green: 0.8155, blue: 1.0, alpha: 0.2)
+        appearance.separatorColor = UIColor(white: 0.7, alpha: 0.8)
+        appearance.cornerRadius = 0
+        appearance.shadowColor = UIColor(white: 0.6, alpha: 1)
+        appearance.shadowOpacity = 1
+        appearance.shadowRadius = 2
+        appearance.animationduration = 0.25
+        appearance.textColor = .darkGray
+        
         // MARK: - GESTURE HACK
         
         // swipe gesture for carbon (pop view)
@@ -64,6 +83,14 @@ class AddProduct3ListImagesViewController: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        if self.isFirst {
+            self.isFirst = false
+            
+            self.setupLabels()
+            
+            self.btnAddImages.setTitle("Tambah Gambar (\(self.maxImages - self.previewImages.count))", for: UIControlState.normal)
+        }
+        
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
@@ -80,10 +107,27 @@ class AddProduct3ListImagesViewController: BaseViewController {
                     asset.fetchOriginalImage(true, completeBlock: { img, info in
                         self.previewImages.append(PreviewImage(image: img, url: "", label: "", labelOther: ""))
                         self.index.append(self.previewImages.count-1)
+                        
+                        let lastIndex = self.index.count-1
+                        
+                        if self.previewImages[self.index[lastIndex]].label == "" {
+                            if lastIndex < self.labels.count && !self.isLabelExist(self.labels[lastIndex]) {
+                                self.previewImages[self.index[lastIndex]].label = self.labels[lastIndex]
+                            } else {
+                                self.previewImages[self.index[lastIndex]].label = "Lainnya"
+                            }
+                        }
                     })
                 }
                 
                 self.tableView.reloadData()
+                
+                let tinyDelay = DispatchTime.now() + Double(Int64(0.01 * Float(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
+                DispatchQueue.main.asyncAfter(deadline: tinyDelay, execute: {
+                    self.setupLabels()
+                    
+                    self.btnAddImages.setTitle("Tambah Gambar (\(self.maxImages - self.previewImages.count))", for: UIControlState.normal)
+                })
             }
             
             pickerController.maxSelectableCount = self.maxImages - self.previewImages.count
@@ -155,10 +199,66 @@ class AddProduct3ListImagesViewController: BaseViewController {
         
         self.index.remove(at: index)
     }
+    
+    func isLabelExist(_ label: String) -> Bool {
+        for i in self.previewImages {
+            if i.label == label {
+                return true
+            }
+        }
+        return false
+    }
+    
+    func setupLabels() {
+        // Remove all first
+        self.consHeightVwLabels.constant = 0
+        let arrx = vwLabels.subviews
+        for v in arrx {
+            v.removeFromSuperview()
+        }
+        
+        // Adjust tags
+        if self.labels.count >  0 {
+            let arr : [String] = self.labels
+            var y : CGFloat = 4.0
+            var x : CGFloat = 4.0
+            let sw = vwLabels.width
+            var curMaxY : CGFloat = 4.0
+            for s in arr {
+                if !self.isLabelExist(s) {
+                    let tag = SearchTag.instance(s)
+                    tag.x = x
+                    tag.y = y
+                    let maxx = tag.maxX
+                    if (maxx > sw) {
+                        x = 4
+                        tag.x = x
+                        y = curMaxY + 4
+                        tag.y = y
+                    }
+                    
+                    if curMaxY < tag.maxY {
+                        curMaxY = tag.maxY
+                    }
+                    
+                    self.vwLabels.addSubview(tag)
+                    self.consHeightVwLabels.constant = tag.maxY
+                    x = tag.maxX + 8
+                }
+            }
+            
+            if self.consHeightVwLabels.constant > 0 {
+                self.consHeightVwLabels.constant += 5
+                
+                let line1px = UIView(frame: CGRect(x: 0, y: self.consHeightVwLabels.constant - 1, width: self.vwLabels.width, height: 1))
+                line1px.backgroundColor = UIColor.darkGray
+                self.vwLabels.addSubview(line1px)
+            }
+        }
+    }
 }
 
 extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewDataSource {
-    // TODO: - tableview action
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -173,6 +273,56 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ListImagesCell") as! AddProduct3ListImagesCell
+        
+        cell.setupDropDown = {
+            cell.dropDown.dataSource = []
+            
+            if self.labels.count == 0 {
+                return
+            }
+            
+            var j = 0
+            for i in 0..<self.labels.count {
+                let label = self.labels[i]
+                if !self.isLabelExist(label) || self.previewImages[self.index[indexPath.row]].label == label {
+                    cell.dropDown.dataSource.append(label)
+                    if label == cell.lblLabel.text {
+                        cell.selectedIndex = j
+                    }
+                    j += 1
+                }
+            }
+            
+            // lainnya
+            cell.dropDown.dataSource.append("Lainnya")
+            if "Lainnya" == cell.lblLabel.text {
+                cell.selectedIndex = j
+            }
+            
+            // Action triggered on selection
+            cell.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+                if index != cell.selectedIndex {
+                    cell.selectedIndex = index
+                    cell.lblLabel.text = item
+                    
+                    self.previewImages[self.index[indexPath.row]].label = item
+                    
+                    self.tableView.reloadData()
+                    self.setupLabels()
+                }
+            }
+            
+            cell.dropDown.textFont = UIFont.systemFont(ofSize: 14)
+            cell.dropDown.cellHeight = 40
+            cell.dropDown.selectRow(at: cell.selectedIndex)
+            cell.dropDown.anchorView = cell.btnPickLabel
+            
+            // Top of drop down will be below the anchorView
+            cell.dropDown.bottomOffset = CGPoint(x: 0, y:(cell.dropDown.anchorView?.plainView.bounds.height)! + 4)
+            
+            // When drop down is displayed with `Direction.top`, it will be above the anchorView
+            cell.dropDown.topOffset = CGPoint(x: 0, y:-(cell.dropDown.anchorView?.plainView.bounds.height)! - 4)
+        }
         
         cell.adapt(self.previewImages[self.index[indexPath.row]])
         
@@ -214,6 +364,12 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
 class AddProduct3ListImagesCell: UITableViewCell {
     @IBOutlet weak var imgPreview: UIImageView!
     @IBOutlet weak var lblLabel: UILabel!
+    @IBOutlet weak var btnPickLabel: UIButton!
+    
+    var dropDown = DropDown()
+    var setupDropDown: ()->() = {}
+    
+    var selectedIndex = -1
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -231,10 +387,17 @@ class AddProduct3ListImagesCell: UITableViewCell {
     func adapt(_ previewImage: PreviewImage) {
         self.imgPreview.image = previewImage.image ?? UIImage(named: "placeholder-standar-white")
         
-        self.lblLabel.text = "coba" //previewImage.label
+        self.lblLabel.text = previewImage.label
+        
+        self.setupDropDown()
     }
     
     static func heightFor() -> CGFloat {
         return 98
+    }
+    
+    @IBAction func btnPickLabelPressed(_ sender: Any) {
+        self.dropDown.hide()
+        self.dropDown.show()
     }
 }
