@@ -61,7 +61,6 @@ enum AddProduct3SectionType {
         }
     }
     
-    // TODO: icon
     var icon: String {
         switch(self) {
         case .imagesPreview    : return ""
@@ -104,7 +103,7 @@ enum AddProduct3SectionType {
     
     var faq: String? {
         switch(self) {
-        case .checklist        : return "https://prelo.co.id/"
+        case .checklist        : return "faq"
         default                : return nil
         }
     }
@@ -407,6 +406,19 @@ class AddProductViewController3: BaseViewController {
         self.loadingPanel.isHidden = true
     }
     
+    func openWebView(_ urlPathString: String, title: String?) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+        
+        helpVC.url = "https://prelo.co.id/" + urlPathString + "?ref=preloapp"
+        helpVC.titleString = title ?? "Bantuan"
+        helpVC.contactPreloMode = true
+        let baseNavC = BaseNavigationController()
+        baseNavC.setViewControllers([helpVC], animated: false)
+        
+        self.present(baseNavC, animated: true, completion: nil)
+    }
+    
     // MARK: - Section Helper
     func findSectionFromType(_ type: AddProduct3SectionType) -> Int {
         if self.listSections.count > 0 {
@@ -680,6 +692,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
         case .imagesPreview:
             let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImagesPreviewCell") as! AddProduct3ImagesPreviewCell
             cell.adapt(self.product)
+            
+            cell.openWebView = { urlString in
+                self.openWebView(urlString, title: nil)
+            }
+            
             return cell
         case .productDetail:
             if row == 0 {
@@ -912,6 +929,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             if row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
                 cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
+                
+                cell.openWebView = { urlString in
+                    self.openWebView(urlString, title: "Kelengkapan")
+                }
+                
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImagesChecklistCell") as! AddProduct3ImagesChecklistCell
@@ -958,6 +980,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 if self.product.addProductType == .sell {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
                     cell.adapt(self, product: self.product)
+                    
+                    cell.openWebView = { urlString in
+                        self.openWebView(urlString, title: nil)
+                    }
+                    
                     return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPostalFeeCell") as! AddProduct3RentPostalFeeCell
@@ -1087,6 +1114,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
                     cell.adapt(self, product: self.product)
+                    
+                    cell.openWebView = { urlString in
+                        self.openWebView(urlString, title: nil)
+                    }
+                    
                     return cell
                 }
             }
@@ -1098,6 +1130,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else if row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PriceCell") as! AddProduct3PriceCell
                 cell.adapt(self, product: self.product)
+                
+                cell.openWebView = { urlString in
+                    self.openWebView(urlString, title: nil)
+                }
+                
                 return cell
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ChargeCell") as! AddProduct3ChargeCell
@@ -1200,7 +1237,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         super.awakeFromNib()
         
         // TODO: Lihat tips barang Editor's Pick.
-        self.url = ""
+        self.url = "faq"
         
         self.setupCollection()
         
@@ -1634,7 +1671,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
         super.awakeFromNib()
         
         // TODO: Lihat Syarat dan Ketentuan.
-        self.url = ""
+        self.url = "faq"
         
         self.imgFreeOngkir.tint = true
         self.imgPaidOngkir.tint = true
@@ -1943,7 +1980,7 @@ class AddProduct3PriceCell: UITableViewCell {
         super.awakeFromNib()
         
         // TODO: Lihat Syarat dan Ketentuan.
-        self.url = ""
+        self.url = "faq"
         
         // numeric keyboards hack
         let ViewForDoneButtonOnKeyboard = UIToolbar()
