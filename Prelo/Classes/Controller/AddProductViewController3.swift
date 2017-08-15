@@ -104,6 +104,7 @@ enum AddProduct3SectionType {
     
     var faq: String? {
         switch(self) {
+        case .checklist        : return "https://prelo.co.id/"
         default                : return nil
         }
     }
@@ -1223,7 +1224,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         self.collectionView.backgroundColor = UIColor.white
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(top: 4, left: 4, bottom: 4, right: 4)
+        layout.sectionInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         layout.itemSize = CGSize(width: 82, height: 82)
         layout.minimumInteritemSpacing = 4
         layout.minimumLineSpacing = 4
@@ -1233,6 +1234,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         self.collectionView.isScrollEnabled = true
         self.collectionView.isPagingEnabled = false
         self.collectionView.isDirectionalLockEnabled = true
+        self.collectionView.showsHorizontalScrollIndicator = false
     }
     
     func adapt(_ product: SelectedProductItem) {
@@ -1246,7 +1248,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     static func heightFor() -> CGFloat {
         let sub = "Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada). Lihat tips barang Editor's Pick."
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
-        return 116 + t.height // count subtitle height
+        return 108 + t.height // count subtitle height
     }
     
     @IBAction func btnFAQPressed(_ sender: Any) {

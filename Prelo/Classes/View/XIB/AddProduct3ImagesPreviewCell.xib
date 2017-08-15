@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="ohG-8P-0fv">
-                        <rect key="frame" x="12" y="12" width="351" height="90"/>
+                        <rect key="frame" x="0.0" y="4" width="375" height="90"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="90" id="Uuc-nh-4Of"/>
@@ -32,7 +32,7 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oaw-hC-wlh">
-                        <rect key="frame" x="12" y="106" width="351" height="42"/>
+                        <rect key="frame" x="12" y="98" width="351" height="42"/>
                         <attributedString key="attributedText">
                             <fragment content="Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada).">
                                 <attributes>
@@ -71,7 +71,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iz9-gH-Dtc">
-                        <rect key="frame" x="12" y="106" width="351" height="42"/>
+                        <rect key="frame" x="12" y="98" width="351" height="42"/>
                         <connections>
                             <action selector="btnFAQPressed:" destination="n3v-9K-cwe" eventType="touchUpInside" id="mjE-ba-ZA8"/>
                         </connections>
@@ -80,11 +80,11 @@
                 <constraints>
                     <constraint firstItem="Iz9-gH-Dtc" firstAttribute="width" secondItem="oaw-hC-wlh" secondAttribute="width" id="45D-BL-vbU"/>
                     <constraint firstAttribute="trailingMargin" secondItem="oaw-hC-wlh" secondAttribute="trailing" constant="4" id="9fB-Rp-56K"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="ohG-8P-0fv" secondAttribute="trailing" constant="4" id="DTC-NV-EEM"/>
-                    <constraint firstItem="ohG-8P-0fv" firstAttribute="leading" secondItem="Ezb-oV-pZh" secondAttribute="leadingMargin" constant="4" id="Oq3-YI-NbP"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ohG-8P-0fv" secondAttribute="trailing" constant="-8" id="DTC-NV-EEM"/>
+                    <constraint firstItem="ohG-8P-0fv" firstAttribute="leading" secondItem="Ezb-oV-pZh" secondAttribute="leadingMargin" constant="-8" id="Oq3-YI-NbP"/>
                     <constraint firstItem="oaw-hC-wlh" firstAttribute="leading" secondItem="Ezb-oV-pZh" secondAttribute="leadingMargin" constant="4" id="QDa-Ma-6oi"/>
                     <constraint firstItem="Iz9-gH-Dtc" firstAttribute="centerY" secondItem="oaw-hC-wlh" secondAttribute="centerY" id="Si9-dX-CvQ"/>
-                    <constraint firstItem="ohG-8P-0fv" firstAttribute="top" secondItem="Ezb-oV-pZh" secondAttribute="topMargin" constant="4" id="dh1-ZA-b2B"/>
+                    <constraint firstItem="ohG-8P-0fv" firstAttribute="top" secondItem="Ezb-oV-pZh" secondAttribute="topMargin" constant="-4" id="dh1-ZA-b2B"/>
                     <constraint firstItem="Iz9-gH-Dtc" firstAttribute="height" secondItem="oaw-hC-wlh" secondAttribute="height" id="lmH-uV-EZV"/>
                     <constraint firstItem="Iz9-gH-Dtc" firstAttribute="centerX" secondItem="oaw-hC-wlh" secondAttribute="centerX" id="qVP-5r-lYy"/>
                     <constraint firstItem="oaw-hC-wlh" firstAttribute="top" secondItem="ohG-8P-0fv" secondAttribute="bottom" constant="4" id="uyA-B0-zLW"/>
