@@ -435,9 +435,11 @@ class AddProductViewController3: BaseViewController {
         // Images Preview Cell
         if let imgs = product.json["_data"]["display_picts"].array, let lbls = product.json["_data"]["display_pict_labels"].array {
             
+            var j = 0
             for i in 0..<imgs.count {
                 if let _ = imgs[i].string {
-                    self.product.imagesIndex.append(i)
+                    self.product.imagesIndex.append(j)
+                    j += 1
                     self.product.imagesDetail.append(PreviewImage.init(image: nil, url: imgs[i].stringValue, label: lbls[i].stringValue, labelOther: ""))
                     /*
                     if let imageUrl = imgs[i].string {
