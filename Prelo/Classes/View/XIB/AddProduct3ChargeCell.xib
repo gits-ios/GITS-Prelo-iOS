@@ -70,6 +70,9 @@
                             <userDefinedRuntimeAttribute type="color" keyPath="borderColorHighlight">
                                 <color key="value" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="2"/>
+                            </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
                         <connections>
                             <action selector="btnRemovePressed:" destination="PeS-z6-1pJ" eventType="touchUpInside" id="nnr-2R-VrL"/>
