@@ -87,8 +87,6 @@ class AddProduct3ListImagesViewController: BaseViewController {
             self.isFirst = false
             
             self.setupLabels()
-            
-            self.btnAddImages.setTitle("Tambah Gambar (\(self.maxImages - self.previewImages.count))", for: UIControlState.normal)
         }
         
         // gesture override
@@ -125,8 +123,6 @@ class AddProduct3ListImagesViewController: BaseViewController {
                 let tinyDelay = DispatchTime.now() + Double(Int64(0.01 * Float(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)
                 DispatchQueue.main.asyncAfter(deadline: tinyDelay, execute: {
                     self.setupLabels()
-                    
-                    self.btnAddImages.setTitle("Tambah Gambar (\(self.maxImages - self.previewImages.count))", for: UIControlState.normal)
                 })
             }
             
@@ -175,11 +171,15 @@ class AddProduct3ListImagesViewController: BaseViewController {
     
     // MARK: - Edit Profile button (right top)
     func setEditButton() {
-        let btnEdit = self.createButtonWithIcon(UIImage(named: "ic_edit_white")!)
+        let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.done, target:self, action: #selector(AddProduct3ListImagesViewController.backPressed(_:)))
         
-        btnEdit.addTarget(self, action: #selector(AddProduct3ListImagesViewController.editTable), for: UIControlEvents.touchUpInside)
+        applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], for: UIControlState())
         
-        self.navigationItem.rightBarButtonItem = btnEdit.toBarButton()
+        let btnReorder = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.done, target:self, action: #selector(AddProduct3ListImagesViewController.editTable))
+        
+        btnReorder.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "PreloAwesome", size: 18)!], for: UIControlState())
+        
+        self.navigationItem.rightBarButtonItems = [ applyButton, btnReorder ]
     }
     
     func editTable() {
@@ -218,12 +218,12 @@ class AddProduct3ListImagesViewController: BaseViewController {
         }
         
         // Adjust tags
-        if self.labels.count >  0 {
+        if self.labels.count > 0 {
             let arr : [String] = self.labels
-            var y : CGFloat = 4.0
-            var x : CGFloat = 4.0
-            let sw = vwLabels.width
-            var curMaxY : CGFloat = 4.0
+            var y : CGFloat = 8.0
+            var x : CGFloat = 8.0
+            let sw = vwLabels.width - 16.0
+            var curMaxY : CGFloat = 8.0
             for s in arr {
                 if !self.isLabelExist(s) {
                     let tag = SearchTag.instance(s)
@@ -231,9 +231,9 @@ class AddProduct3ListImagesViewController: BaseViewController {
                     tag.y = y
                     let maxx = tag.maxX
                     if (maxx > sw) {
-                        x = 4
+                        x = 8.0
                         tag.x = x
-                        y = curMaxY + 4
+                        y = curMaxY + 4.0
                         tag.y = y
                     }
                     
@@ -243,18 +243,20 @@ class AddProduct3ListImagesViewController: BaseViewController {
                     
                     self.vwLabels.addSubview(tag)
                     self.consHeightVwLabels.constant = tag.maxY
-                    x = tag.maxX + 8
+                    x = tag.maxX + 4.0
                 }
             }
             
             if self.consHeightVwLabels.constant > 0 {
-                self.consHeightVwLabels.constant += 5
+                self.consHeightVwLabels.constant += 9.0
                 
                 let line1px = UIView(frame: CGRect(x: 0, y: self.consHeightVwLabels.constant - 1, width: self.vwLabels.width, height: 1))
                 line1px.backgroundColor = UIColor.darkGray
                 self.vwLabels.addSubview(line1px)
             }
         }
+        
+        self.btnAddImages.setTitle("Tambah Gambar (\(self.maxImages - self.previewImages.count))", for: UIControlState.normal)
     }
 }
 
@@ -349,6 +351,10 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
             self.removeImageFromArray(indexPath.row)
             
             self.tableView.deleteRows(at: [indexPath], with: .fade)
+            
+            // update dropDown
+            self.setupLabels()
+            self.tableView.reloadData()
         }
         return [remove]
     }
