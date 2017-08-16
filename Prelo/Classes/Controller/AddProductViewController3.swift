@@ -144,6 +144,7 @@ struct SelectedProductItem {
     
     // status -> Edit Product
     var status = 0
+    var segment = ""
     
     // Images Preview Cell
     var imagesIndex: Array<Int> = []
@@ -487,12 +488,15 @@ class AddProductViewController3: BaseViewController {
         // Auth Verfication Cell
         if let luxData = editProduct?.json["_data"]["luxury_data"], luxData.count > 0 {
             self.product.isLuxuryMerk = true
+            self.product.segment = "luxury"
             
             self.product.styleName = luxData["style_name"].stringValue
             self.product.serialNumber = luxData["serial_number"].stringValue
             self.product.lokasiBeli = luxData["purchase_location"].stringValue
             self.product.tahunBeli = luxData["purchase_year"].stringValue
         }
+        
+        // TODO: Segment
         
         // Checklist Cell
         self.getLabels(false)
@@ -727,11 +731,38 @@ class AddProductViewController3: BaseViewController {
     
     func getLabels(_ isNeedSetup: Bool) {
         // TODO: From backend
-        self.labels = ["Gambar Utama", "Label atau Merek", "Cacat (Opsional)"]
+        
+        self.labels = ["Gambar Utama"]
+        
+        if self.product.merkId != "56ea7146788ae3c12eb06999" {
+            self.labels.append(contentsOf: ["Label atau Merek"])
+        }
+        
+        self.labels.append(contentsOf: ["Cacat (Opsional)"])
+        
+        if let cat = CDCategory.getCategoryWithID(self.product.categoryId) {
+            
+            print(cat.debugDescription)
+            
+            if self.product.segment == "budget" && cat.image_label_budget != nil {
+                self.labels.append(contentsOf: self.toArray(cat.image_label_budget!))
+            } else if self.product.segment == "everyday" && cat.image_label_everyday != nil {
+                self.labels.append(contentsOf: self.toArray(cat.image_label_everyday!))
+            } else if self.product.segment == "luxury" && cat.image_label_luxury != nil {
+                self.labels.append(contentsOf: self.toArray(cat.image_label_luxury!))
+            }
+        }
         
         if isNeedSetup {
             self.setupLabels()
         }
+    }
+    
+    func toArray(_ image_labels: String) -> Array<String> {
+        let arr = image_labels.characters.split{$0 == ";"}.map(String.init)
+        
+        // Split based on characters.
+        return arr
     }
     
     // images labels
@@ -1039,7 +1070,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                         if let isLux = data[i]["is_luxury"].bool {
                                             isLuxury = isLux
                                         }
-                                        strToHide += ";" + (isLuxury ? "1" : "0")
+                                        var segment = ""
+                                        if let seg = data[i]["segments"].array, seg.count > 0 {
+                                            segment = seg[0].stringValue
+                                        }
+                                        strToHide += ";" + (isLuxury ? "1" : "0") + ";" + segment
                                         names.append(merkName + PickerViewController.TAG_START_HIDDEN + strToHide + PickerViewController.TAG_END_HIDDEN)
                                     }
                                 }
@@ -1058,9 +1093,15 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                     if (hiddenStr.count >= 2) {
                                         self.product.merkId = hiddenStr[0]
                                         self.product.isLuxuryMerk = (hiddenStr[1] == "1") ? true : false
+                                        if hiddenStr.count > 2 {
+                                            self.product.segment = hiddenStr[2]
+                                        } else {
+                                            self.product.segment = ""
+                                        }
                                     } else {
                                         self.product.merkId = ""
                                         self.product.isLuxuryMerk = false
+                                        self.product.segment = ""
                                     }
                                     var x : String = PickerViewController.HideHiddenString(s)
                                     

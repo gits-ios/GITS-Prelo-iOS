@@ -1892,6 +1892,7 @@
 		B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
 		B258A30A1EBAD95F005CC92C /* CartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
 		B26DB3F01E2D3C6F00224675 /* ic_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_achievement.png; sourceTree = "<group>"; };
+		B26E10861F44765E008755A4 /* Prelo 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 12.xcdatamodel"; sourceTree = "<group>"; };
 		B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-standar-white.png"; sourceTree = "<group>"; };
 		B271A67F1EDED6D900C6A973 /* placeholder-transparent-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent-ipad.png"; sourceTree = "<group>"; };
 		B271A6801EDED6D900C6A973 /* placeholder-transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-transparent.png"; sourceTree = "<group>"; };
@@ -5602,6 +5603,7 @@
 		B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B26E10861F44765E008755A4 /* Prelo 12.xcdatamodel */,
 				B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */,
 				B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */,
 				B2D119D51E2922A10064045B /* Prelo 9.xcdatamodel */,
@@ -5614,7 +5616,7 @@
 				B2D119D21E2922870064045B /* Prelo 8.xcdatamodel */,
 				B2D119D31E2922870064045B /* Prelo.xcdatamodel */,
 			);
-			currentVersion = B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */;
+			currentVersion = B26E10861F44765E008755A4 /* Prelo 12.xcdatamodel */;
 			path = Prelo.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
