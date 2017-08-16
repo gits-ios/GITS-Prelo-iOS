@@ -405,6 +405,12 @@ class AddProductViewController3: BaseViewController {
                 self.listSections.insert(.checklist, at: _idx2)
             }
             
+            // labels checklist
+            if self.labels.count > 0 {
+                let idx = self.findSectionFromType(.weight)
+                self.listSections.insert(.checklist, at: idx)
+            }
+            
             /*
             if self.product.imagesDetail.count == 0 {
                 self.product.imagesIndex.append(0)
@@ -425,6 +431,28 @@ class AddProductViewController3: BaseViewController {
     
     func setupEditMode() {
         let product = self.editProduct!
+        
+        // Images Preview Cell
+        if let imgs = product.json["_data"]["display_picts"].array, let lbls = product.json["_data"]["display_pict_labels"].array {
+            
+            for i in 0..<imgs.count {
+                if let _ = imgs[i].string {
+                    self.product.imagesIndex.append(i)
+                    self.product.imagesDetail.append(PreviewImage.init(image: nil, url: imgs[i].stringValue, label: lbls[i].stringValue, labelOther: ""))
+                    /*
+                    if let imageUrl = imgs[i].string {
+                        request(imageUrl, method: .get).responseImage { response in
+                            DispatchQueue.main.async(execute: {
+                                if let image = response.result.value {
+                                    self.product.imagesDetail[i].image = image
+                                }
+                            })
+                        }
+                    }
+                    */
+                }
+            }
+        }
         
         // Product Details Cell
         self.product.name = product.name
@@ -464,13 +492,16 @@ class AddProductViewController3: BaseViewController {
             self.product.tahunBeli = luxData["purchase_year"].stringValue
         }
         
+        // Checklist Cell
+        self.getLabels(false)
+        
         // Weight Cell
         self.product.weight = product.json["_data"]["weight"].intValue.string
         
         // Size Cell
         self.product.size = product.size
         if self.product.size != "" {
-            self.getSizes()
+            self.product.isCategoryContainSize = true
         }
         
         // Postal Fee Cell
@@ -692,11 +723,17 @@ class AddProductViewController3: BaseViewController {
         }
     }
     
-    // images labels
-    func getLabels() {
+    func getLabels(_ isNeedSetup: Bool) {
         // TODO: From backend
         self.labels = ["Gambar Utama", "Label atau Merek", "Cacat (Opsional)"]
         
+        if isNeedSetup {
+            self.setupLabels()
+        }
+    }
+    
+    // images labels
+    func setupLabels() {
         if self.labels.count > 0 {
             self.insertChecklistSection()
         } else {
@@ -966,7 +1003,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                             self.removeSection(.authVerification)
                         }
                         
-                        self.getLabels()
+                        self.getLabels(true)
                         
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
                         
@@ -1037,7 +1074,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                         self.removeSection(.authVerification)
                                     }
                                     
-                                    self.getLabels()
+                                    self.getLabels(true)
                                     
                                     /*
                                     // Show submit label
@@ -1528,7 +1565,7 @@ extension AddProduct3ImagesPreviewCell: UICollectionViewDelegate, UICollectionVi
         if indexPath.row < self.images.count {
             // Create cell
             let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "AddProduct3ImagesPreviewCellCollectionCell", for: indexPath) as! AddProduct3ImagesPreviewCellCollectionCell
-            cell.adapt(self.images[self.index[indexPath.row]].image, label: self.images[self.index[indexPath.row]].label)
+            cell.adapt(self.images[self.index[indexPath.row]].image, urlString: self.images[self.index[indexPath.row]].url, label: self.images[self.index[indexPath.row]].label)
             
             return cell
         } else {
@@ -1563,8 +1600,17 @@ class AddProduct3ImagesPreviewCellCollectionCell: UICollectionViewCell {
         self.labelView.backgroundColor = UIColor.init(hexString: "#B4B4B4").alpha(0.75)
     }
     
-    func adapt(_ image: UIImage?, label: String) {
-        self.imagesPreview.image = (image ?? UIImage(named: "placeholder-standar-white"))
+    func adapt(_ image: UIImage?, urlString: String, label: String) {
+        if image == nil && urlString != "" {
+            if let url = URL(string: urlString) {
+                self.imagesPreview.afSetImage(withURL: url)
+            } else {
+                self.imagesPreview.image = UIImage(named: "placeholder-standar-white")
+            }
+        } else {
+            self.imagesPreview.image = (image ?? UIImage(named: "placeholder-standar-white"))
+        }
+        
         self.label.text = label
     }
     

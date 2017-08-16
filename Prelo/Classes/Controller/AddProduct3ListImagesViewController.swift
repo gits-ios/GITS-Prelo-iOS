@@ -391,7 +391,15 @@ class AddProduct3ListImagesCell: UITableViewCell {
     }
     
     func adapt(_ previewImage: PreviewImage) {
-        self.imgPreview.image = previewImage.image ?? UIImage(named: "placeholder-standar-white")
+        if previewImage.image == nil && previewImage.url != "" {
+            if let url = URL(string: previewImage.url) {
+                self.imgPreview.afSetImage(withURL: url)
+            } else {
+                self.imgPreview.image = UIImage(named: "placeholder-standar-white")
+            }
+        } else {
+            self.imgPreview.image = previewImage.image ?? UIImage(named: "placeholder-standar-white")
+        }
         
         self.lblLabel.text = previewImage.label
         
