@@ -143,7 +143,7 @@ struct SelectedProductItem {
     var isCategoryContainSize = false
     
     // status -> Edit Product
-    var status = 2
+    var status = 0
     
     // Images Preview Cell
     var imagesIndex: Array<Int> = []
@@ -213,6 +213,18 @@ class AddProductViewController3: BaseViewController {
     var maxImages = 10
     
     var topBannerText: String?
+    
+    // for edit & draft
+    var editProduct: ProductDetail?
+    var draftProduct: CDDraftProduct?
+    
+    // add product v2
+    var editDoneBlock : EditDoneBlock = {}
+    var screenBeforeAddProduct = ""
+    var uniqueCodeString : String!
+    
+    // for refresh product sell list when product deleted
+    weak var delegate: MyProductDelegate?
     
     // view
     var listSections: Array<AddProduct3SectionType> = []
@@ -319,12 +331,20 @@ class AddProductViewController3: BaseViewController {
             //self.product.isLuxuryMerk = true
             //self.product.isWomenMenCategory = true
             
+            // TODO: fakeApprove
+            
             // setup product from edit or draft
-            if self.product.isEditMode {
+            if self.editProduct != nil {
+                self.product.isEditMode = true
+                
                 self.chargeLabel = nil
+                
                 self.setupEditMode()
-            } else if self.product.isDraftMode {
+            } else if self.draftProduct != nil {
+                self.product.isDraftMode = true
+                
                 self.chargeLabel = nil
+                
                 self.setupDraftMode()
             } else { // default init
                 if self.product.addProductType == .sell {
@@ -385,9 +405,6 @@ class AddProductViewController3: BaseViewController {
                 self.listSections.insert(.checklist, at: _idx2)
             }
             
-            // setup warning if contain
-            self.setupTopBanner()
-            
             /*
             if self.product.imagesDetail.count == 0 {
                 self.product.imagesIndex.append(0)
@@ -407,7 +424,68 @@ class AddProductViewController3: BaseViewController {
     }
     
     func setupEditMode() {
-        // TODO: setupEditMode
+        let product = self.editProduct!
+        
+        // Product Details Cell
+        self.product.name = product.name
+        
+        if let category_breadcrumbs = product.json["_data"]["category_breadcrumbs"].array {
+            for i in 0...category_breadcrumbs.count-1 {
+                let c = category_breadcrumbs[i]
+                self.product.categoryId = c["_id"].string!
+                self.product.category = c["name"].string!
+                
+                if (c["level"].intValue == 1) {
+                    if (c["_id"].stringValue == "55de6dbc5f6522562a2c73ef" || c["_id"].stringValue == "55de6dbc5f6522562a2c73f0") {
+                        self.product.isWomenMenCategory = true
+                    } else {
+                        self.product.isWomenMenCategory = false
+                    }
+                }
+            }
+        }
+        
+        self.product.merk = product.json["_data"]["brand"].stringValue
+        self.product.merkId = product.json["_data"]["brand_id"].stringValue
+        self.product.conditionId = product.json["_data"]["product_condition_id"].stringValue
+        self.product.condition = product.json["_data"]["condition"].stringValue
+        self.product.cacat = product.defectDescription
+        self.product.specialStory = product.specialStory
+        self.product.alasanJual = product.sellReason
+        self.product.description = product.json["_data"]["description"].stringValue
+        
+        // Auth Verfication Cell
+        if let luxData = editProduct?.json["_data"]["luxury_data"], luxData.count > 0 {
+            self.product.isLuxuryMerk = true
+            
+            self.product.styleName = luxData["style_name"].stringValue
+            self.product.serialNumber = luxData["serial_number"].stringValue
+            self.product.lokasiBeli = luxData["purchase_location"].stringValue
+            self.product.tahunBeli = luxData["purchase_year"].stringValue
+        }
+        
+        // Weight Cell
+        self.product.weight = product.json["_data"]["weight"].intValue.string
+        
+        // Size Cell
+        self.product.size = product.size
+        if self.product.size != "" {
+            self.getSizes()
+        }
+        
+        // Postal Fee Cell
+        self.product.isFreeOngkir = product.json["_data"]["free_ongkir"].intValue.string
+        
+        // Price Cell
+        self.product.hargaBeli = product.json["_data"]["price_original"].int64Value.string
+        self.product.hargaJual = product.json["_data"]["price"].int64Value.string
+        //self.product.hargaSewa = ""
+        //self.product.deposit = ""
+        
+        // helper
+        self.product.status = product.status
+        
+        self.setupTopBanner()
     }
     
     func setupDraftMode() {
