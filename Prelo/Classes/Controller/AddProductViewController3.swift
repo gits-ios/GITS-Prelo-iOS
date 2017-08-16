@@ -142,6 +142,9 @@ struct SelectedProductItem {
     var isWomenMenCategory = false
     var isCategoryContainSize = false
     
+    // status -> Edit Product
+    var status = 2
+    
     // Images Preview Cell
     var imagesIndex: Array<Int> = []
     var imagesDetail: Array<PreviewImage> = []
@@ -194,6 +197,8 @@ struct SelectedProductItem {
 
 // MARK: - Class
 class AddProductViewController3: BaseViewController {
+    @IBOutlet weak var vwNotification: UIView!
+    @IBOutlet weak var consHeightVwNotification: NSLayoutConstraint! // 0 -> dinamyc
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loadingPanel: UIView!
     
@@ -206,6 +211,8 @@ class AddProductViewController3: BaseViewController {
     
     var labels: Array<String> = []
     var maxImages = 10
+    
+    var topBannerText: String?
     
     // view
     var listSections: Array<AddProduct3SectionType> = []
@@ -377,6 +384,9 @@ class AddProductViewController3: BaseViewController {
                 self.listSections.insert(.authVerification, at: _idx)
                 self.listSections.insert(.checklist, at: _idx2)
             }
+            
+            // setup warning if contain
+            self.setupTopBanner()
             
             /*
             if self.product.imagesDetail.count == 0 {
@@ -628,6 +638,32 @@ class AddProductViewController3: BaseViewController {
                 } else {
                     self.product.imagesDetail[i].label = "Lainnya"
                 }
+            }
+        }
+    }
+    
+    // MARK: - Warning top bar
+    func setupTopBanner() {
+        if let tbText = self.topBannerText {
+            if (self.product.status == 5 && !tbText.isEmpty) {
+                let screenSize: CGRect = UIScreen.main.bounds
+                let screenWidth = screenSize.width
+                var topBannerHeight : CGFloat = 30.0
+                let textRect = tbText.boundsWithFontSize(UIFont.systemFont(ofSize: 11), width: screenWidth - 16)
+                topBannerHeight += textRect.height
+                let topLabelMargin : CGFloat = 8.0
+                let topBanner : UIView = UIView(frame: CGRect(x: 0, y: 0, width: screenWidth, height: topBannerHeight), backgroundColor: Theme.ThemeOrange)
+                let topLabel : UILabel = UILabel(frame: CGRect(x: topLabelMargin, y: 0, width: screenWidth - (topLabelMargin * 2), height: topBannerHeight))
+                topLabel.textColor = UIColor.white
+                topLabel.font = UIFont.systemFont(ofSize: 11)
+                topLabel.lineBreakMode = .byWordWrapping
+                topLabel.numberOfLines = 0
+                topBanner.addSubview(topLabel)
+                //if (self.product.status == 5) {
+                    topLabel.text = tbText
+                    self.vwNotification.addSubview(topBanner)
+                    self.consHeightVwNotification.constant = topBannerHeight
+                //}
             }
         }
     }

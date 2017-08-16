@@ -19,6 +19,13 @@
                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qou-Xw-LJm" userLabel="Notification">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="HY7-90-pc7"/>
+                        </constraints>
+                    </view>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Ea8-ga-EFf">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -40,20 +47,25 @@
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="PF1-Jk-qaN" secondAttribute="trailing" id="6Wg-4P-o7t"/>
-                    <constraint firstAttribute="trailing" secondItem="Ea8-ga-EFf" secondAttribute="trailing" id="Ixn-Fc-bgg"/>
-                    <constraint firstItem="Ea8-ga-EFf" firstAttribute="leading" secondItem="mKl-93-ZMV" secondAttribute="leading" id="Kif-hy-m0t"/>
-                    <constraint firstItem="PF1-Jk-qaN" firstAttribute="leading" secondItem="mKl-93-ZMV" secondAttribute="leading" id="QQg-qd-4wt"/>
-                    <constraint firstItem="Ea8-ga-EFf" firstAttribute="top" secondItem="cfP-Lw-usG" secondAttribute="bottom" id="bDq-la-e73"/>
-                    <constraint firstItem="UpY-Ga-0Eo" firstAttribute="top" secondItem="Ea8-ga-EFf" secondAttribute="bottom" id="e8Q-KY-QW7"/>
-                    <constraint firstAttribute="bottom" secondItem="PF1-Jk-qaN" secondAttribute="bottom" id="fpt-gq-itd"/>
-                    <constraint firstItem="PF1-Jk-qaN" firstAttribute="top" secondItem="mKl-93-ZMV" secondAttribute="top" id="xkV-jy-26d"/>
+                    <constraint firstItem="Ea8-ga-EFf" firstAttribute="leading" secondItem="mKl-93-ZMV" secondAttribute="leading" id="18G-jw-SpC"/>
+                    <constraint firstAttribute="trailing" secondItem="PF1-Jk-qaN" secondAttribute="trailing" id="3sX-J3-pmT"/>
+                    <constraint firstItem="Ea8-ga-EFf" firstAttribute="top" secondItem="Qou-Xw-LJm" secondAttribute="bottom" id="9uR-qS-UTq"/>
+                    <constraint firstAttribute="trailing" secondItem="Ea8-ga-EFf" secondAttribute="trailing" id="Bcp-2G-fbd"/>
+                    <constraint firstAttribute="trailing" secondItem="Qou-Xw-LJm" secondAttribute="trailing" id="MF6-A0-w9V"/>
+                    <constraint firstItem="PF1-Jk-qaN" firstAttribute="top" secondItem="mKl-93-ZMV" secondAttribute="top" id="WWb-67-Jsh"/>
+                    <constraint firstItem="UpY-Ga-0Eo" firstAttribute="top" secondItem="Ea8-ga-EFf" secondAttribute="bottom" id="ZvI-tX-lrY"/>
+                    <constraint firstItem="Qou-Xw-LJm" firstAttribute="top" secondItem="cfP-Lw-usG" secondAttribute="bottom" id="dSU-id-dts"/>
+                    <constraint firstItem="Qou-Xw-LJm" firstAttribute="leading" secondItem="mKl-93-ZMV" secondAttribute="leading" id="e7W-rK-bEF"/>
+                    <constraint firstAttribute="bottom" secondItem="PF1-Jk-qaN" secondAttribute="bottom" id="n0R-RK-K1r"/>
+                    <constraint firstItem="PF1-Jk-qaN" firstAttribute="leading" secondItem="mKl-93-ZMV" secondAttribute="leading" id="z5R-cH-Q84"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
+                <outlet property="consHeightVwNotification" destination="HY7-90-pc7" id="IMb-5l-m03"/>
                 <outlet property="loadingPanel" destination="PF1-Jk-qaN" id="F7r-VS-0UC"/>
                 <outlet property="tableView" destination="Ea8-ga-EFf" id="o4C-g8-Ir3"/>
+                <outlet property="vwNotification" destination="Qou-Xw-LJm" id="khx-hs-Lbg"/>
             </connections>
             <point key="canvasLocation" x="26.5" y="-673.5"/>
         </viewController>
