@@ -519,6 +519,9 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         
         // add product v3
         let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        if AppTools.isRent {
+            addProduct3VC.product.addProductType = .rent
+        }
         self.navigationController?.pushViewController(addProduct3VC, animated: true)
         
         // multipleimagepicker -- OKE

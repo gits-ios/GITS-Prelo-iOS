@@ -175,6 +175,7 @@ struct SelectedProductItem {
     
     // Postal Fee Cell
     var isFreeOngkir = "1"
+    // asuransi & lokal free ongkir disable
     var freeOngkirRegions : Array<FreeOngkirRegion> = []
     var isInsurance = "0"
     
@@ -612,6 +613,22 @@ class AddProductViewController3: BaseViewController {
             self.insertChecklistSection()
         } else {
             self.removeSection(.checklist)
+        }
+        
+        self.resetImagesLabel()
+    }
+    
+    func resetImagesLabel() {
+        if self.product.imagesDetail.count > 0 {
+            for i in 0..<self.product.imagesDetail.count {
+                if self.labels.count > 0 {
+                    if !self.labels.contains(self.product.imagesDetail[i].label) {
+                        self.product.imagesDetail[i].label = "Lainnya"
+                    }
+                } else {
+                    self.product.imagesDetail[i].label = "Lainnya"
+                }
+            }
         }
     }
 }
@@ -1749,6 +1766,7 @@ class AddProduct3WeightCell: UITableViewCell {
 }
 
 // MARK: - Postal Fee Cell (Sell)
+// TODO: Aktifkan & Beri Fungsi (Action) -> Asuransi & Lokal Free Ongkir
 class AddProduct3PostalFeeCell: UITableViewCell {
     @IBOutlet weak var vwFreeOngkir: BorderedView!
     @IBOutlet weak var imgFreeOngkir: TintedImageView!
@@ -1767,6 +1785,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        // asuransi & lokal free ongkir disable
         // TODO: Lihat Syarat dan Ketentuan.
         self.url = "faq"
         
@@ -1784,7 +1803,10 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     
     func adapt(_  parent: AddProductViewController3, product: SelectedProductItem) {
         self.parent = parent
+        // asuransi & lokal free ongkir disable
+        /*
         self.btnSwitch.isOn = (product.isInsurance == "1")
+        */
         
         if product.isFreeOngkir == "1" {
             self.vwFreeOngkir.borderColor = Theme.PrimaryColor
@@ -1804,6 +1826,8 @@ class AddProduct3PostalFeeCell: UITableViewCell {
             self.lblPaidOngkir.textColor = Theme.PrimaryColor
         }
         
+        // asuransi & lokal free ongkir disable
+        /*
         if product.freeOngkirRegions.count > 0 {
             var region = ""
             for i in product.freeOngkirRegions {
@@ -1811,17 +1835,26 @@ class AddProduct3PostalFeeCell: UITableViewCell {
             }
             self.lblRegion.text = region.trimmingCharacters(in: CharacterSet.init(charactersIn: ", "))
         }
+        */
     }
     
     // 206, count teks height
     static func heightFor() -> CGFloat {
+        // asuransi & lokal free ongkir disable
+        /*
         let sub = "Barang yang biasanya butuh asuransi kurir: handphone, laptop, dll. Ongkos kirim barang jualan kamu akan sesuai dengan kurir yang tersimpan di sistem. Lihat Syarat dan Ketentuan."
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
         return 164 + t.height // count subtitle height
+        */
+        
+        return 72
     }
     
     @IBAction func btnFAQPressed(_ sender: Any) {
+        // asuransi & lokal free ongkir disable
+        /*
         self.openWebView(self.url)
+        */
     }
     
     @IBAction func btnFreeOngkirPressed(_ sender: Any) {

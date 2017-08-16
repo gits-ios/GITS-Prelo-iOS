@@ -593,14 +593,33 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         
         lblSigCart.frame = CGRect(x: 0, y: tglNewShop.height + 8 + tglNewCart.height + 8, width: width - tglSigCart.width - 8, height: tglSigCart.height)
         
+        let lblRent = UILabel()
+        
+        lblRent.text = "Add Product Rent?"
+        lblRent.font = Constant.appearance.kTextFont
+        lblRent.textColor = alertView.labelTitle.textColor
+        lblRent.numberOfLines = 1
+        lblRent.textAlignment = .left
+        
+        let tglRent = UISwitch()
+        
+        tglRent.isOn = AppTools.isRent
+        tglRent.addTarget(self, action: #selector(self.rentToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglRent.frame = CGRect(x: width - tglRent.width, y: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height + 8, width: tglRent.width, height: tglRent.height)
+        
+        lblRent.frame = CGRect(x: 0, y: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height + 8, width: width - tglRent.width - 8, height: tglRent.height)
+        
         // Creat the subview
-        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height))
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height + 8 + tglRent.height))
         subview.addSubview(lblNewShop)
         subview.addSubview(tglNewShop)
         subview.addSubview(lblNewCart)
         subview.addSubview(tglNewCart)
         subview.addSubview(lblSigCart)
         subview.addSubview(tglSigCart)
+        subview.addSubview(lblRent)
+        subview.addSubview(tglRent)
         
         alertView.customSubview = subview
         
@@ -619,5 +638,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     func sigCartToggle(sender: UISwitch) {
         AppTools.switchToSingleCart(sender.isOn)
+    }
+    
+    func rentToggle(sender: UISwitch) {
+        AppTools.switchToRent(sender.isOn)
     }
 }

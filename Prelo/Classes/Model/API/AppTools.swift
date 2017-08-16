@@ -99,6 +99,17 @@ class AppTools: NSObject {
     static func switchToSingleCart(_ isOn: Bool) {
         _isSingleCart = isOn
     }
+    
+    fileprivate static var _isRent = false
+    static var isRent : Bool {
+        get {
+            return _isRent
+        }
+    }
+    
+    static func switchToRent(_ isOn: Bool) {
+        _isRent = isOn
+    }
 }
 
 enum AppFont {
