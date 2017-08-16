@@ -241,6 +241,11 @@ class AddProduct3ListImagesViewController: BaseViewController {
                         curMaxY = tag.maxY
                     }
                     
+                    let tap = UITapGestureRecognizer(target: self, action: #selector(AddProduct3ListImagesViewController.assignLabel(_:)))
+                    tag.addGestureRecognizer(tap)
+                    tag.isUserInteractionEnabled = true
+                    tag.captionTitle.isUserInteractionEnabled = true
+                    
                     self.vwLabels.addSubview(tag)
                     self.consHeightVwLabels.constant = tag.maxY
                     x = tag.maxX + 4.0
@@ -257,6 +262,23 @@ class AddProduct3ListImagesViewController: BaseViewController {
         }
         
         self.btnAddImages.setTitle("Tambah Gambar (\(self.maxImages - self.previewImages.count))", for: UIControlState.normal)
+    }
+    
+    func assignLabel(_ sender : UITapGestureRecognizer) {
+        let searchTag = sender.view as! SearchTag
+        let label = searchTag.captionTitle.text
+        
+        for i in 0..<self.previewImages.count {
+            if self.previewImages[self.index[i]].label == "Lainnya" {
+                self.previewImages[self.index[i]].label = label!
+                self.tableView.reloadRows(at: [IndexPath.init(row: i, section: 0)], with: .fade)
+                
+                break
+            }
+        }
+        
+        self.setupLabels()
+        self.tableView.reloadData()
     }
 }
 
