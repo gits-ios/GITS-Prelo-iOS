@@ -2487,7 +2487,7 @@ class AddProduct3SizeCell: UITableViewCell {
         super.awakeFromNib()
         
         self.txtSize.delegate = self
-        self.txtSize.isEnabled = false
+        //self.txtSize.isEnabled = false
         
         self.setupPickerView()
         
