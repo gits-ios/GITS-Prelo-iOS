@@ -119,7 +119,8 @@ struct PreviewImage {
     var image: UIImage? // local image / downloaded image
     var url = "" // downloaded image url
     var label = ""
-    var labelOther = ""
+    //var labelOther = ""
+    var orientation: Int?
 }
 
 struct FreeOngkirRegion {
@@ -141,6 +142,7 @@ struct SelectedProductItem {
     var isLuxuryMerk = false
     var isWomenMenCategory = false
     var isCategoryContainSize = false
+    var localId = ""
     
     // status -> Edit Product
     var status = 0
@@ -223,7 +225,6 @@ class AddProductViewController3: BaseViewController {
     // add product v2
     var editDoneBlock : EditDoneBlock = {}
     var screenBeforeAddProduct = ""
-    var uniqueCodeString : String!
     
     // for refresh product sell list when product deleted
     weak var delegate: MyProductDelegate?
@@ -376,6 +377,13 @@ class AddProductViewController3: BaseViewController {
             
             if self.product.isEditMode {
                 self.title = "Edit"
+            } else {
+                // handle if is new draft product
+                if self.product.localId == "" {
+                    // set init id
+                    let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
+                    self.product.localId = uniqueCode.description
+                }
             }
             
             // init default sections
@@ -443,7 +451,7 @@ class AddProductViewController3: BaseViewController {
                 if let _ = imgs[i].string {
                     self.product.imagesIndex.append(j)
                     j += 1
-                    self.product.imagesDetail.append(PreviewImage.init(image: nil, url: imgs[i].stringValue, label: lbls[i].stringValue, labelOther: ""))
+                    self.product.imagesDetail.append(PreviewImage.init(image: nil, url: imgs[i].stringValue, label: lbls[i].stringValue, orientation: nil))
                 }
             }
         }
@@ -517,7 +525,80 @@ class AddProductViewController3: BaseViewController {
     }
     
     func setupDraftMode() {
-        // TODO: setupDraftMode
+        let product = self.draftProduct!
+        let jsonstring = "{\"_data\":" + product.imagesPathAndLabel + "}"
+        //print(jsonstring)
+        
+        let json = self.convertToDictionary(jsonstring) ?? [:]
+        
+        // Images Preview Cell
+        if let imgs = JSON(json)["_data"].array {
+            
+            for i in 0..<imgs.count {
+                self.product.imagesIndex.append(i)
+                // load images
+                
+                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)
+                if image == nil {
+                    print ("Failed to load image")
+                }
+                
+                self.product.imagesDetail.append(PreviewImage.init(image: image, url: imgs[i]["url"].stringValue, label: imgs[i]["label"].stringValue, orientation: imgs[i]["orientation"].stringValue.int))
+            }
+        }
+        
+        // Product Details Cell
+        self.product.name = product.name
+        
+        self.product.categoryId = product.categoryId
+        self.product.category = product.category
+        self.product.isWomenMenCategory = product.isCategWomenOrMenSelected
+        
+        self.product.merk = product.brand
+        self.product.merkId = product.brandId
+        self.product.conditionId = product.conditionId
+        self.product.condition = product.condition
+        self.product.cacat = product.defectDescription
+        self.product.specialStory = product.specialStory
+        self.product.alasanJual = product.sellReason
+        self.product.description = product.descriptionText
+        
+        // Auth Verfication Cell
+        if product.isLuxury {
+            self.product.isLuxuryMerk = true
+            self.product.segment = "luxury"
+            
+            self.product.styleName = product.luxuryData_styleName
+            self.product.serialNumber = product.luxuryData_serialNumber
+            self.product.lokasiBeli = product.luxuryData_purchaseLocation
+            self.product.tahunBeli = product.luxuryData_purchaseYear
+        } else {
+            self.product.segment = product.segment
+        }
+        
+        // Checklist Cell
+        self.getLabels(false)
+        
+        // Weight Cell
+        self.product.weight = product.weight
+        
+        // Size Cell
+        self.product.size = product.size
+        if self.product.size != "" {
+            self.product.isCategoryContainSize = true
+        }
+        
+        // Postal Fee Cell
+        self.product.isFreeOngkir = product.freeOngkir.stringValue
+        
+        // Price Cell
+        self.product.hargaBeli = product.priceOriginal
+        self.product.hargaJual = product.price
+        self.product.hargaSewa = product.priceRent
+        self.product.deposit = product.priceDeposit
+        
+        // local id
+        self.product.localId = product.localId
     }
     
     // MARK: - Other
@@ -883,6 +964,36 @@ class AddProductViewController3: BaseViewController {
         
         return imagesParam
     }
+    
+    // savedraft
+    func saveDraft(_ isBack: Bool) {
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                            qos: .background,
+                                            attributes: .concurrent,
+                                            target: nil)
+        backgroundQueue.async {
+            //print("Work on background queue")
+            
+            // save to core data
+            CDDraftProduct.saveDraftV2(self.product)
+        }
+        
+        if isBack {
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
+    // json helper
+    func convertToDictionary(_ text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
 }
 
 extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource {
@@ -992,6 +1103,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 imagePicker.index = self.product.imagesIndex
                 imagePicker.labels = self.labels
                 imagePicker.maxImages = self.maxImages
+                imagePicker.localId = self.product.localId
                 
                 imagePicker.blockDone = { previewImages, index in
                     self.product.imagesDetail = previewImages
@@ -1288,6 +1400,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     imagePicker.index = self.product.imagesIndex
                     imagePicker.labels = self.labels
                     imagePicker.maxImages = self.maxImages
+                    imagePicker.localId = self.product.localId
                     
                     imagePicker.blockDone = { previewImages, index in
                         self.product.imagesDetail = previewImages
@@ -1528,8 +1641,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     let imageParam = self.setupImagesForUpload(&param)
                     
                     // TEST
-                    print(param.description)
-                    print(imageParam.description)
+                    //print(param.description)
+                    //print(imageParam.description)
                     
                     if self.product.isEditMode {
                         // TODO: save edited product
@@ -1540,6 +1653,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     } else { // new or draft
                         // TODO: goto share product & upload
                         
+                        self.saveDraft(false)
                         
                         self.hideLoading()
                         self.tableView.reloadData()

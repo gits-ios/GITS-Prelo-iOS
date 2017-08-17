@@ -25,6 +25,8 @@ class AddProduct3ListImagesViewController: BaseViewController {
     
     var isFirst = true
     
+    var localId = ""
+    
     // Delegate
     var blockDone : BlockImagesSelected?
     
@@ -103,7 +105,27 @@ class AddProduct3ListImagesViewController: BaseViewController {
                 
                 for asset in assets {
                     asset.fetchOriginalImage(true, completeBlock: { img, info in
-                        self.previewImages.append(PreviewImage(image: img, url: "", label: "", labelOther: ""))
+                        
+                        // set init id
+                        let uniqueCode : TimeInterval = Date().timeIntervalSinceReferenceDate
+                        let uniqueId = uniqueCode.description
+                        let imageName = "prelo-image-" + self.localId + "-" + uniqueId
+                        
+                        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.temporer-image",
+                                                            qos: .background,
+                                                            attributes: .concurrent,
+                                                            target: nil)
+                        backgroundQueue.async {
+                            //print("Work on background queue")
+                            
+                            // save image to temporary
+                            let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
+                            if (pathToSavedImage == nil) {
+                                print("Failed to save image")
+                            }
+                        }
+                        
+                        self.previewImages.append(PreviewImage(image: img, url: imageName, label: "", orientation: img?.imageOrientation.rawValue))
                         self.index.append(self.previewImages.count-1)
                         
                         let lastIndex = self.index.count-1

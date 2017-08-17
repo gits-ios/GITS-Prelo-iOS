@@ -665,6 +665,7 @@
 		B229F4DE1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */; };
 		B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E301E090FA900C3D661 /* ic_love_96px.png */; };
 		B22C0E331E091C2D00C3D661 /* ic_love_96px_trp.png in Resources */ = {isa = PBXBuildFile; fileRef = B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */; };
+		B22DA8131F459637009B9E2E /* TemporaryImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B22DA8121F459637009B9E2E /* TemporaryImageManager.swift */; };
 		B2314BE51E4B029000731B88 /* AddressAddEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */; };
 		B2314BE71E4B042300731B88 /* AddressAddEdit.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2314BE61E4B042300731B88 /* AddressAddEdit.xib */; };
 		B23243391E265F8400367BDE /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B23243381E265F8400367BDE /* Banner.swift */; };
@@ -1875,6 +1876,7 @@
 		B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3RentPostalFeeCell.xib; sourceTree = "<group>"; };
 		B22C0E301E090FA900C3D661 /* ic_love_96px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px.png; sourceTree = "<group>"; };
 		B22C0E321E091C2D00C3D661 /* ic_love_96px_trp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_love_96px_trp.png; sourceTree = "<group>"; };
+		B22DA8121F459637009B9E2E /* TemporaryImageManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TemporaryImageManager.swift; sourceTree = "<group>"; };
 		B2314BE41E4B029000731B88 /* AddressAddEditViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressAddEditViewController.swift; sourceTree = "<group>"; };
 		B2314BE61E4B042300731B88 /* AddressAddEdit.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressAddEdit.xib; sourceTree = "<group>"; };
 		B23243381E265F8400367BDE /* Banner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
@@ -2738,6 +2740,7 @@
 				B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */,
 				B258A30A1EBAD95F005CC92C /* CartManager.swift */,
 				B271A6971EDFFFAC00C6A973 /* Reachability.swift */,
+				B22DA8121F459637009B9E2E /* TemporaryImageManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -4834,6 +4837,7 @@
 				5858877A1DBF0F34006EC6D5 /* SearchViewController.swift in Sources */,
 				21679A241B901C5300F18F90 /* MPApplicationStateSerializer.m in Sources */,
 				21B467E81CCE5EDB00E145ED /* BFTouchID.swift in Sources */,
+				B22DA8131F459637009B9E2E /* TemporaryImageManager.swift in Sources */,
 				21C658951B8EF25E0037F85F /* ActionSheetCustomPicker.m in Sources */,
 				21D3875C1B6B967A00D0FA90 /* UIViewController+KeyboardAnimation.m in Sources */,
 				585887801DBF17FD006EC6D5 /* CarConfirmViewController.swift in Sources */,

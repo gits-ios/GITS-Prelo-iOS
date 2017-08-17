@@ -58,6 +58,7 @@
         <attribute name="imagePath3" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imagePath4" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imagePath5" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imagesPathAndLabel" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="isCategWomenOrMenSelected" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="isLuxury" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="isUploading" optional="YES" attributeType="Boolean" usesScalarValueType="NO" syncable="YES"/>
@@ -72,7 +73,10 @@
         <attribute name="luxuryData_styleName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="price" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priceDeposit" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="priceOriginal" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="priceRent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="segment" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="sellReason" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="size" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="specialStory" optional="YES" attributeType="String" syncable="YES"/>
@@ -185,7 +189,7 @@
         <element name="CDBrand" positionX="27" positionY="-270" width="128" height="105"/>
         <element name="CDCategory" positionX="-11" positionY="117" width="128" height="270"/>
         <element name="CDCategorySize" positionX="144" positionY="63" width="128" height="133"/>
-        <element name="CDDraftProduct" positionX="27" positionY="-270" width="128" height="630"/>
+        <element name="CDDraftProduct" positionX="27" positionY="-270" width="128" height="690"/>
         <element name="CDNotification" positionX="-180" positionY="180" width="128" height="270"/>
         <element name="CDProductCondition" positionX="153" positionY="216" width="128" height="103"/>
         <element name="CDProvince" positionX="-180" positionY="72" width="128" height="90"/>

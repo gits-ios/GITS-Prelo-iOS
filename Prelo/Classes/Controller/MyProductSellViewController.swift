@@ -464,11 +464,19 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         tableView.deselectRow(at: indexPath, animated: true)
         if (indexPath as NSIndexPath).section == 0 {
             self.delegate?.setFromDraftOrNew(true)
+            
+            /*
             let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
             add.screenBeforeAddProduct = PageName.MyProducts
             add.draftMode = true
             add.draftProduct = localProducts[(indexPath as NSIndexPath).row]
             self.navigationController?.pushViewController(add, animated: true)
+            */
+            
+            let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+            addProduct3VC.screenBeforeAddProduct = PageName.ProductDetailMine
+            addProduct3VC.draftProduct = localProducts[(indexPath as NSIndexPath).row]
+            self.navigationController?.pushViewController(addProduct3VC, animated: true)
         } else {
             selectedProduct = products[(indexPath as NSIndexPath).row]
             if (selectedProduct!.isLokal)
