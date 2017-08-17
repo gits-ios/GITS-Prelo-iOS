@@ -1540,17 +1540,20 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     // TEST
                     print(param.description)
                     print(imageParam.description)
-                    self.hideLoading()
-                    self.tableView.reloadData()
                     
                     if self.product.isEditMode {
                         // TODO: save edited product
+                        
+                        
+                        // refresh product detail
+                        self.editDoneBlock()
                     } else { // new or draft
                         // TODO: goto share product & upload
+                        
+                        
+                        self.hideLoading()
+                        self.tableView.reloadData()
                     }
-                    
-                    // refresh product detail
-                    self.editDoneBlock()
                 }
                 
                 cell.removePressed = {
@@ -1564,7 +1567,6 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     } else if self.product.isDraftMode {
                         // TODO: remove draft
                     }
-                    
                 }
                 
                 return cell
