@@ -521,6 +521,12 @@ class AddProductViewController3: BaseViewController {
         // helper
         self.product.status = product.status
         
+        if self.product.hargaSewa != "" || self.product.deposit != "" {
+            self.product.isRent = true
+        }
+        
+        // TODO: load RENT mode
+        
         self.setupTopBanner()
     }
     
@@ -600,9 +606,11 @@ class AddProductViewController3: BaseViewController {
         // local id
         self.product.localId = product.localId
         
-        if product.priceRent != "" || product.priceDeposit != "" {
+        if self.product.hargaSewa != "" || self.product.deposit != "" {
             self.product.isRent = true
         }
+        
+        // TODO: load RENT mode
     }
     
     // MARK: - Other
@@ -1660,8 +1668,18 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     
                     let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Ya") {
+                        
+                        // check local image & remove
+                        for i in self.product.imagesDetail {
+                            if i.url != "" && i.image != nil {
+                                _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: i.url)
+                            }
+                        }
+                        
                         if self.product.isEditMode {
                             // TODO: remove product
+                            
+                            
                         } else if self.product.isDraftMode {
                             CDDraftProduct.delete(self.product.localId)
                             _ = self.navigationController?.popViewController(animated: true)
