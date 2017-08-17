@@ -526,7 +526,6 @@ class AddProductViewController3: BaseViewController {
         // Size Cell
         self.product.size = product.size
         if self.product.size != "" {
-            self.product.isCategoryContainSize = true
             self.getSizes()
         }
         
@@ -615,7 +614,6 @@ class AddProductViewController3: BaseViewController {
         // Size Cell
         self.product.size = product.size
         if self.product.size != "" {
-            self.product.isCategoryContainSize = true
             self.getSizes()
         }
         
@@ -822,7 +820,9 @@ class AddProductViewController3: BaseViewController {
                             self.sizes.removeLast()
                         }
                         
-                        self.product.size = self.sizes[0]
+                        if self.product.size == "" {
+                            self.product.size = self.sizes[0]
+                        }
                         self.product.isCategoryContainSize = true
                         DispatchQueue.main.async(execute: {
                             self.insertSizeSection()
@@ -901,6 +901,8 @@ class AddProductViewController3: BaseViewController {
                     self.product.imagesDetail[i].label = "Lainnya"
                 }
             }
+            
+            self.tableView.reloadRows(at: [IndexPath.init(row: 0, section: 0)], with: .fade)
         }
     }
     
@@ -3135,7 +3137,6 @@ class AddProduct3SizeCell: UITableViewCell {
         if (self.sizes.count > 0) {
             self.sizePickerView.collectionView.reloadData()
             self.sizePickerView.selectItem(0, animated: false)
-            self.sizePickerView.superview?.isHidden = false
             
             var s = product.size
             if s != "" {
@@ -3157,8 +3158,6 @@ class AddProduct3SizeCell: UITableViewCell {
                 }
             }
         }
-        
-        self.sizePickerView.reloadData()
     }
     
     // 120
