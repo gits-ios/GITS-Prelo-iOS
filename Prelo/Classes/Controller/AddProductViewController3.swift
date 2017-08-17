@@ -210,7 +210,8 @@ class AddProductViewController3: BaseViewController {
     var sizes: Array<String> = []
     var sizesTitle: String = ""
     
-    var labels: Array<String> = []
+    // init labels
+    var labels: Array<String> = ["Gambar Utama", "Label atau Merek", "Cacat (Opsional)"]
     var maxImages = 10
     
     var topBannerText: String?
@@ -730,8 +731,6 @@ class AddProductViewController3: BaseViewController {
     }
     
     func getLabels(_ isNeedSetup: Bool) {
-        // TODO: From backend
-        
         self.labels = ["Gambar Utama"]
         
         if self.product.merkId != "56ea7146788ae3c12eb06999" {
