@@ -38,6 +38,7 @@
         <attribute name="v" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <entity name="CDDraftProduct" representedClassName="CDDraftProduct" syncable="YES">
+        <attribute name="addProductType" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="brand" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="brandId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="category" optional="YES" attributeType="String" syncable="YES"/>
@@ -189,7 +190,7 @@
         <element name="CDBrand" positionX="27" positionY="-270" width="128" height="105"/>
         <element name="CDCategory" positionX="-11" positionY="117" width="128" height="270"/>
         <element name="CDCategorySize" positionX="144" positionY="63" width="128" height="133"/>
-        <element name="CDDraftProduct" positionX="27" positionY="-270" width="128" height="690"/>
+        <element name="CDDraftProduct" positionX="27" positionY="-270" width="128" height="705"/>
         <element name="CDNotification" positionX="-180" positionY="180" width="128" height="270"/>
         <element name="CDProductCondition" positionX="153" positionY="216" width="128" height="103"/>
         <element name="CDProvince" positionX="-180" positionY="72" width="128" height="90"/>

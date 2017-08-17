@@ -109,9 +109,9 @@ enum AddProduct3SectionType {
     }
 }
 
-enum AddProduct3Type {
-    case sell
-    case rent
+enum AddProduct3Type: Int {
+    case sell = 0
+    case rent = 1
 }
 
 // MARK: - Struct
@@ -634,6 +634,8 @@ class AddProductViewController3: BaseViewController {
         if self.product.hargaSewa != "" || self.product.deposit != "" {
             self.product.isRent = true
         }
+        
+        self.product.addProductType = AddProduct3Type(rawValue: product.addProductType.intValue)!
         
         // TODO: load RENT mode
     }
