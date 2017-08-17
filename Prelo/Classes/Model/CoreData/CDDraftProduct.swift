@@ -78,10 +78,13 @@ class CDDraftProduct: NSManagedObject {
         fetchRequest.includesPropertyValues = false
         
         do {
-            let r = try m.fetch(fetchRequest) as? [NSManagedObject]
+            let r = try m.fetch(fetchRequest) as? [CDDraftProduct]
             if let results = r
             {
                 for result in results {
+                    
+                    self.removeImages(result)
+                    
                     m.delete(result)
                 }
                 
@@ -359,6 +362,21 @@ class CDDraftProduct: NSManagedObject {
         return AppToolsObjC.jsonString(from: images)
     }
     
+    fileprivate static func removeImages(_ draft: CDDraftProduct) {
+        let jsonstring = "{\"_data\":" + draft.imagesPathAndLabel + "}"
+        //print(jsonstring)
+        
+        let json = jsonstring.convertToDictionary() ?? [:]
+        
+        // Images Preview Cell
+        if let imgs = JSON(json)["_data"].array, imgs.count > 0 {
+            
+            for i in imgs {
+                _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: i["url"].stringValue)
+            }
+        }
+    }
+    
     static func setUploading(_ localId: String, isUploading: Bool) {
         let m = UIApplication.appDelegate.managedObjectContext
         let draft : CDDraftProduct? = self.getOne(localId)
@@ -377,6 +395,9 @@ class CDDraftProduct: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         let result : CDDraftProduct? = self.getOne(localId)
         if (result != nil) {
+            
+            self.removeImages(result!)
+            
             m.delete(result!)
         }
         if (m.saveSave() != false) {

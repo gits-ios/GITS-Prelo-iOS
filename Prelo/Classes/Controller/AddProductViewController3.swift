@@ -541,6 +541,9 @@ class AddProductViewController3: BaseViewController {
         //self.product.hargaSewa = ""
         //self.product.deposit = ""
         
+        // Charge Cell
+        self.product.commision = product.json["_data"]["commission"].intValue.string + "%"
+        
         // helper
         self.product.status = product.status
         
@@ -625,6 +628,9 @@ class AddProductViewController3: BaseViewController {
         self.product.hargaJual = product.price
         self.product.hargaSewa = product.priceRent
         self.product.deposit = product.priceDeposit
+        
+        // Charge Cell
+        self.product.commision = product.commission
         
         // local id
         self.product.localId = product.localId
@@ -1024,7 +1030,7 @@ class AddProductViewController3: BaseViewController {
     
     // MARK: - Navigation
     func handleBackPressedOrSwipe() {
-        let title = self.product.isEditMode ? "Edit" : "Jual"
+        let title = self.product.isEditMode ? "Edit" : (self.product.addProductType == .sell ? "Jual" : "Sewa")
         
         var message = "Kamu yakin mau keluar dari \(title) Barang? "
         if title == "Edit" {
@@ -1791,14 +1797,14 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     let alertView = SCLAlertView(appearance: Constant.appearance)
                     alertView.addButton("Ya") {
                         
-                        // check local image & remove
-                        for i in self.product.imagesDetail {
-                            if i.url != "" && i.image != nil {
-                                _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: i.url)
-                            }
-                        }
-                        
                         if self.product.isEditMode {
+                            // check local image & remove
+                            for i in self.product.imagesDetail {
+                                if i.url != "" && i.image != nil {
+                                    _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: i.url)
+                                }
+                            }
+                            
                             // TODO: remove product
                             
                             
