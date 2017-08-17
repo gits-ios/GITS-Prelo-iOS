@@ -144,6 +144,9 @@ struct SelectedProductItem {
     var isCategoryContainSize = false
     var localId = ""
     
+    // helper for backpress
+    var isStartInput: Bool = false
+    
     // status -> Edit Product
     var status = 0
     var segment = ""
@@ -606,6 +609,8 @@ class AddProductViewController3: BaseViewController {
         // local id
         self.product.localId = product.localId
         
+        self.product.isStartInput = true
+        
         if self.product.hargaSewa != "" || self.product.deposit != "" {
             self.product.isRent = true
         }
@@ -994,6 +999,50 @@ class AddProductViewController3: BaseViewController {
             _ = self.navigationController?.popViewController(animated: true)
         }
     }
+    
+    // MARK: - Navigation
+    override func backPressed(_ sender: UIBarButtonItem) {
+        let title = self.product.isEditMode ? "Edit" : "Jual"
+        
+        var message = "Kamu yakin mau keluar dari \(title) Barang? "
+        if title == "Edit" {
+            message += "Seluruh perubahan akan dihapus"
+        } else {
+            message += "Seluruh keterangan yang telah diisi akan dihapus"
+        }
+        message += self.product.isStartInput && !self.product.isEditMode ? ". Ingin disimpan?" : ""
+        
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        
+        alertView.addButton((!self.product.isStartInput || self.product.isEditMode) ? "Keluar" : "Simpan") {
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
+            if (self.product.isStartInput && !self.product.isEditMode){
+                
+                // save the draft
+                self.saveDraft(true)
+            } else {
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
+        if (!self.product.isStartInput || self.product.isEditMode) {
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        } else {
+            alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
+                _ = self.navigationController?.popViewController(animated: true)
+            }
+            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        }
+        
+        alertView.showCustom(title, subTitle: message, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
 }
 
 extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource {
@@ -1117,6 +1166,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         indexPaths.append(IndexPath.init(row: 1, section: idx))
                     }
                     
+                    self.product.isStartInput = true
+                    
                     self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
                 
@@ -1144,6 +1195,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 cell.updateSize = {
                     self.tableView.beginUpdates()
                     self.tableView.endUpdates()
+                    
+                    self.product.isStartInput = true
                     
                     cell.txtDescription.becomeFirstResponder()
                 }
@@ -1217,6 +1270,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         }
                         
                         self.getLabels(true)
+                        
+                        self.product.isStartInput = true
                         
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
                         
@@ -1310,6 +1365,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                     }
                                     */
                                     
+                                    self.product.isStartInput = true
+                                    
                                     self.tableView.reloadRows(at: [indexPath], with: .fade)
                                 }
                                 p.showSearch = true
@@ -1348,6 +1405,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         self.product.conditionId = PickerViewController.RevealHiddenString(s)
                         let x = PickerViewController.HideHiddenString(s)
                         self.product.condition = x
+                        
+                        self.product.isStartInput = true
                         
                         self.tableView.reloadRows(at: [indexPath], with: .fade)
                         
@@ -1414,6 +1473,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                             indexPaths.append(IndexPath.init(row: 0, section: idx))
                         }
                         
+                        self.product.isStartInput = true
+                        
                         self.tableView.reloadRows(at: indexPaths, with: .fade)
                     }
                     
@@ -1441,6 +1502,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     if cell.vwBerat.isHidden {
                         cell.vwBerat.isHidden = false
                     }
+                    
+                    self.product.isStartInput = true
                     
                     self.tableView.endUpdates()
                     
@@ -1547,6 +1610,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         isAppend = self.product.isSell
                     }
                     
+                    self.product.isStartInput = true
+                    
                     if isAppend {
                         self.tableView.insertRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
                     } else {
@@ -1641,8 +1706,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     let imageParam = self.setupImagesForUpload(&param)
                     
                     // TEST
-                    //print(param.description)
-                    //print(imageParam.description)
+                    print(param.description)
+                    print(imageParam.description)
                     
                     if self.product.isEditMode {
                         // TODO: save edited product
@@ -2023,6 +2088,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
 extension AddProduct3DetailProductCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        self.parent.product.isStartInput = true
         if textField == self.txtProductName {
             self.parent.product.name = self.txtProductName.text!
         } else if textField == self.txtCacat {
@@ -2053,6 +2119,7 @@ extension AddProduct3DetailProductCell: UITextViewDelegate {
         
         if text == "\n" {
             textView.resignFirstResponder()
+            self.parent.product.isStartInput = true
             return false
         }
         
@@ -2110,6 +2177,7 @@ class AddProduct3WeightCell: UITableViewCell {
     func doneBtnfromKeyboardClicked() {
         self.parent.product.weight = self.txtWeight.text!
         self.txtWeight.resignFirstResponder()
+        self.parent.product.isStartInput = true
         self.reloadThisRow()
     }
     
@@ -2388,6 +2456,7 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
     func doneBtnfromKeyboardClicked() {
         self.parent.product.tahunBeli = self.txtTahunBeli.text!
         self.txtTahunBeli.resignFirstResponder()
+        self.parent.product.isStartInput = true
     }
     
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
@@ -2408,6 +2477,7 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
 extension AddProduct3ProductAuthVerificationCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        self.parent.product.isStartInput = true
         if textField == self.txtStyleName {
             self.parent.product.styleName = self.txtStyleName.text!
         } else if textField == self.txtSerialNumber {
@@ -2622,6 +2692,7 @@ class AddProduct3PriceCell: UITableViewCell {
         self.txtHargaJual.resignFirstResponder()
         self.txtHargaSewa.resignFirstResponder()
         self.txtDeposit.resignFirstResponder()
+        self.parent.product.isStartInput = true
     }
     
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
@@ -3057,6 +3128,7 @@ extension AddProduct3SizeCell: AKPickerViewDelegate, AKPickerViewDataSource {
 extension AddProduct3SizeCell: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        self.parent.product.isStartInput = true
         if textField == self.txtSize {
             self.parent.product.size = self.txtSize.text!
         }
