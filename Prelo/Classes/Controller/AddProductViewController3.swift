@@ -232,6 +232,9 @@ class AddProductViewController3: BaseViewController {
     var listSections: Array<AddProduct3SectionType> = []
     var isFirst = true
     
+    // login
+    var allowLaunchLogin = true
+    
     func setupTableView() {
         // Setup table
         tableView.dataSource = self
@@ -309,9 +312,20 @@ class AddProductViewController3: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        // TODO: Tracking
+        // TODO: Tracking - update data ?
+        if self.editProduct != nil {
+            // Google Analytics
+            GAI.trackPageVisit(PageName.EditProduct)
+        } else {
+            // Google Analytics
+            GAI.trackPageVisit(PageName.AddProduct)
+        }
         
-        // TODO: Login
+        if (User.IsLoggedIn == false) {
+            if (allowLaunchLogin) {
+                LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+            }
+        }
         
         if self.isFirst {
             self.isFirst = false
@@ -413,19 +427,6 @@ class AddProductViewController3: BaseViewController {
                 self.listSections.insert(.checklist, at: idx)
             }
             
-            /*
-            if self.product.imagesDetail.count == 0 {
-                self.product.imagesIndex.append(0)
-                self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Utama"))
-                
-                self.product.imagesIndex.append(1)
-                self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Label Merek"))
-                
-                self.product.imagesIndex.append(2)
-                self.product.imagesDetail.append(PreviewImage(image: nil, url: "", label: "Gambar Cacat"))
-            }
-            */
-            
             self.tableView.reloadData()
         }
         self.hideLoading()
@@ -443,17 +444,6 @@ class AddProductViewController3: BaseViewController {
                     self.product.imagesIndex.append(j)
                     j += 1
                     self.product.imagesDetail.append(PreviewImage.init(image: nil, url: imgs[i].stringValue, label: lbls[i].stringValue, labelOther: ""))
-                    /*
-                    if let imageUrl = imgs[i].string {
-                        request(imageUrl, method: .get).responseImage { response in
-                            DispatchQueue.main.async(execute: {
-                                if let image = response.result.value {
-                                    self.product.imagesDetail[i].image = image
-                                }
-                            })
-                        }
-                    }
-                    */
                 }
             }
         }
@@ -497,7 +487,7 @@ class AddProductViewController3: BaseViewController {
             self.product.tahunBeli = luxData["purchase_year"].stringValue
         }
         
-        // TODO: Segment
+        // TODO: Segment & RENT
         
         // Checklist Cell
         self.getLabels(false)
@@ -1577,6 +1567,23 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // do nothing
         // TODO: next
+    }
+}
+
+extension AddProductViewController3: UserRelatedDelegate {
+    // MARK: - login functions
+    
+    func userLoggedIn() {
+        
+    }
+    
+    func userCancelLogin() {
+        allowLaunchLogin = false
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        
+        _ = self.navigationController?.popViewController(animated: true)
     }
 }
 
