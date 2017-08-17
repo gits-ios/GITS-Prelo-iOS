@@ -310,11 +310,26 @@ class AddProductViewController3: BaseViewController {
             self.product.commision = "\(String(minCommission))% - 10%"
         }
         
+        // MARK: - GESTURE HACK
+        
+        // swipe gesture for carbon (pop view)
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.respondToSwipeGesture))
+        swipeRight.direction = UISwipeGestureRecognizerDirection.right
+        
+        let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
+        vwLeft.backgroundColor = UIColor.clear
+        vwLeft.addGestureRecognizer(swipeRight)
+        self.view.addSubview(vwLeft)
+        self.view.bringSubview(toFront: vwLeft)
+        
         self.setupTableView()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        
+        // gesture override
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         
         // TODO: Tracking - update data ?
         if self.editProduct != nil {
@@ -368,14 +383,19 @@ class AddProductViewController3: BaseViewController {
                 self.setupDraftMode()
             } else { // default init
                 if self.product.addProductType == .sell {
-                    self.title = "Jual"
                     self.product.isSell = true
                     self.product.isRent = false
                 } else {
-                    self.title = "Sewa"
                     self.product.isSell = false
                     self.product.isRent = true
                 }
+            }
+            
+            // init title
+            if self.product.addProductType == .sell {
+                self.title = "Jual"
+            } else {
+                self.title = "Sewa"
             }
             
             if self.product.isEditMode {
@@ -1001,7 +1021,7 @@ class AddProductViewController3: BaseViewController {
     }
     
     // MARK: - Navigation
-    override func backPressed(_ sender: UIBarButtonItem) {
+    func handleBackPressedOrSwipe() {
         let title = self.product.isEditMode ? "Edit" : "Jual"
         
         var message = "Kamu yakin mau keluar dari \(title) Barang? "
@@ -1042,6 +1062,25 @@ class AddProductViewController3: BaseViewController {
         }
         
         alertView.showCustom(title, subTitle: message, color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
+    override func backPressed(_ sender: UIBarButtonItem) {
+        self.handleBackPressedOrSwipe()
+    }
+    
+    // MARK: - Swipe Navigation Override
+    func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+            switch swipeGesture.direction {
+            case UISwipeGestureRecognizerDirection.right:
+                //print("Swiped right")
+                
+                self.handleBackPressedOrSwipe()
+                
+            default:
+                break
+            }
+        }
     }
 }
 
@@ -1171,6 +1210,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
                 
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
                 self.navigationController?.pushViewController(imagePicker, animated: true)
             }
             
@@ -1278,6 +1320,10 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         self.hideLoading()
                     }
                     p.root = self
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                    
                     self.navigationController?.pushViewController(p, animated: true)
                 }
                 
@@ -1371,6 +1417,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                 }
                                 p.showSearch = true
                                 
+                                // gesture override
+                                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                                
                                 self.navigationController?.pushViewController(p, animated: true)
                                 
                                 self.hideLoading()
@@ -1412,6 +1461,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         
                         self.hideLoading()
                     }
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     
                     self.navigationController?.pushViewController(p, animated: true)
                 }
@@ -1477,6 +1529,9 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         
                         self.tableView.reloadRows(at: indexPaths, with: .fade)
                     }
+                    
+                    // gesture override
+                    self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     
                     self.navigationController?.pushViewController(imagePicker, animated: true)
                 }
