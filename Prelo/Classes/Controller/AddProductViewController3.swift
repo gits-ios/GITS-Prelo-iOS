@@ -599,6 +599,10 @@ class AddProductViewController3: BaseViewController {
         
         // local id
         self.product.localId = product.localId
+        
+        if product.priceRent != "" || product.priceDeposit != "" {
+            self.product.isRent = true
+        }
     }
     
     // MARK: - Other
@@ -1654,11 +1658,17 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     cell.btnSubmit.isEnabled = false
                     cell.btnRemove.isEnabled = false
                     
-                    if self.product.isEditMode {
-                        // TODO: remove product
-                    } else if self.product.isDraftMode {
-                        // TODO: remove draft
+                    let alertView = SCLAlertView(appearance: Constant.appearance)
+                    alertView.addButton("Ya") {
+                        if self.product.isEditMode {
+                            // TODO: remove product
+                        } else if self.product.isDraftMode {
+                            CDDraftProduct.delete(self.product.localId)
+                            _ = self.navigationController?.popViewController(animated: true)
+                        }
                     }
+                    alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+                    alertView.showCustom("Hapus", subTitle: "Hapus Barang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
                 }
                 
                 return cell
