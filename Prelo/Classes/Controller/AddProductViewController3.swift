@@ -814,6 +814,56 @@ class AddProductViewController3: BaseViewController {
             }
         }
     }
+    
+    // MARK: - validate & prepare for submit
+    func validateField() -> Bool {
+        // TODO: validate field
+        
+        return true
+    }
+    
+    func setupParam() -> [String:String] {
+        var param: [String:String] = [
+            "name"                 : self.product.name,
+            "category_id"          : self.product.categoryId,
+            "price"                : self.product.hargaJual,
+            "price_original"       : self.product.hargaBeli,
+            "weight"               : self.product.weight,
+            "free_ongkir"          : self.product.isFreeOngkir,
+            "product_condition_id" : self.product.conditionId,
+            "defect_description"   : self.product.cacat,
+            "size"                 : self.product.size,
+            "is_luxury"            : self.product.isLuxuryMerk ? "1" : "0",
+            "style_name"           : self.product.styleName,
+            "serial_number"        : self.product.serialNumber,
+            "purchase_location"    : self.product.lokasiBeli,
+            "purchase_year"        : self.product.tahunBeli,
+            "platform_sent_from"   : "ios"
+        ]
+        
+        if self.product.description != "" {
+            param["description"]    = self.product.description
+        }
+        
+        if self.product.merkId == "" {
+            param["proposed_brand"] = self.product.merk
+        } else {
+            param["brand_id"]       = self.product.merkId
+            param["brand_name"]     = self.product.merk
+        }
+        
+        if self.product.specialStory != "" {
+            param["special_story"]  = self.product.specialStory
+        }
+        
+        if self.product.alasanJual != "" {
+            param["sell_reason"]    = self.product.alasanJual
+        }
+        
+        // TODO: setup image for upload
+        
+        return param
+    }
 }
 
 extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource {
@@ -1439,6 +1489,48 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ChargeCell") as! AddProduct3ChargeCell
                 cell.adapt(self.product, subtitle: self.chargeLabel)
+                
+                cell.submitPressed = {
+                    self.showLoading()
+                    
+                    cell.btnSubmit.isEnabled = false
+                    cell.btnRemove.isEnabled = false
+                    
+                    if !self.validateField() {
+                        self.hideLoading()
+                        
+                        cell.btnSubmit.isEnabled = true
+                        cell.btnRemove.isEnabled = true
+                        
+                        return
+                    }
+                    
+                    var params = self.setupParam()
+                    
+                    if self.product.isEditMode {
+                        // TODO: save edited product
+                    } else { // new or draft
+                        // TODO: goto share product & upload
+                    }
+                    
+                    // refresh product detail
+                    self.editDoneBlock()
+                }
+                
+                cell.removePressed = {
+                    self.showLoading()
+                    
+                    cell.btnSubmit.isEnabled = false
+                    cell.btnRemove.isEnabled = false
+                    
+                    if self.product.isEditMode {
+                        // TODO: remove product
+                    } else if self.product.isDraftMode {
+                        // TODO: remove draft
+                    }
+                    
+                }
+                
                 return cell
             }
         }
@@ -2416,10 +2508,15 @@ class AddProduct3ChargeCell: UITableViewCell {
     
     @IBOutlet weak var consTopBtnSubmit: NSLayoutConstraint! // 8 + (8 + height)
     
+    var submitPressed: ()->() = {}
+    var removePressed: ()->() = {}
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.btnRemove.isHidden = true
+        
+        self.btnSubmit.setTitle("Loading...", for: .disabled)
         
         self.selectionStyle = .none
         self.alpha = 1.0
@@ -2427,8 +2524,16 @@ class AddProduct3ChargeCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.btnSubmit.isEnabled = true
+        self.btnRemove.isEnabled = true
+    }
+    
     func adapt(_ product: SelectedProductItem, subtitle: String?) {
         if product.isEditMode || product.isDraftMode {
+            self.btnSubmit.setTitle("SIMPAN", for: .normal)
             self.btnRemove.isHidden = false
         }
         
@@ -2456,11 +2561,11 @@ class AddProduct3ChargeCell: UITableViewCell {
     }
     
     @IBAction func btnSubmitPressed(_ sender: Any) {
-        // TODO: btnSubmitPressed
+        self.submitPressed()
     }
     
     @IBAction func btnRemovePressed(_ sender: Any) {
-        // TODO: btnRemovePressed
+        self.removePressed()
     }
 }
 
