@@ -529,10 +529,10 @@ class AddProductViewController3: BaseViewController {
         let jsonstring = "{\"_data\":" + product.imagesPathAndLabel + "}"
         //print(jsonstring)
         
-        let json = self.convertToDictionary(jsonstring) ?? [:]
+        let json = jsonstring.convertToDictionary() ?? [:]
         
         // Images Preview Cell
-        if let imgs = JSON(json)["_data"].array {
+        if let imgs = JSON(json)["_data"].array, imgs.count > 0 {
             
             for i in 0..<imgs.count {
                 self.product.imagesIndex.append(i)
@@ -981,18 +981,6 @@ class AddProductViewController3: BaseViewController {
         if isBack {
             _ = self.navigationController?.popViewController(animated: true)
         }
-    }
-    
-    // json helper
-    func convertToDictionary(_ text: String) -> [String: Any]? {
-        if let data = text.data(using: .utf8) {
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        return nil
     }
 }
 

@@ -336,12 +336,31 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 if localProductPrimaryImages.count <= idx {
                     var image : UIImage?
+                    
+                    /*
                     if let data = NSData(contentsOfFile: p.imagePath1){
                         if let imageUrl = UIImage(data: data as Data) {
                             let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as! Int)!).resizeWithWidth(120)
                             image = img
                         }
                     } else { // placeholder image
+                        image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
+                    }
+                    */
+                    
+                    // v2
+                    let jsonstring = "{\"_data\":" + p.imagesPathAndLabel + "}"
+                    //print(jsonstring)
+                    
+                    let json = jsonstring.convertToDictionary() ?? [:]
+                    
+                    // Images Preview Cell
+                    if let imgs = JSON(json)["_data"].array, imgs.count > 0 {
+                        
+                        image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[0]["url"].stringValue)
+                    }
+                    
+                    if image == nil {
                         image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
                     }
                     

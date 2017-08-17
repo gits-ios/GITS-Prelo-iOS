@@ -211,6 +211,10 @@ class AddProduct3ListImagesViewController: BaseViewController {
     // MARK: - Helper
     func removeImageFromArray(_ index: Int) {
         let idx = self.index[index]
+        
+        let imageName = self.previewImages[idx].url
+        _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: imageName)
+        
         self.previewImages.remove(at: idx)
         
         for i in 0..<self.index.count {

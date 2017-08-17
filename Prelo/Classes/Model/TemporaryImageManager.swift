@@ -37,6 +37,24 @@ class TemporaryImageManager: NSObject {
         return nil
     }
     
+    // Delete:
+    func deleteImage(imageName: String) -> Bool {
+        let tempDirPath = getDocumentDirectoryPath()
+        let imageFilePath = tempDirPath.appendingPathComponent(imageName)
+        
+        let fileManager = FileManager.default
+        do {
+            try fileManager.removeItem(atPath: imageFilePath)
+            print("Successfully removed image at path: \(imageFilePath)")
+            return true
+        }
+        catch let error as NSError {
+            print("Ooops! Something went wrong: \(error)")
+        }
+        
+        return false
+    }
+    
     // Loading:
     func loadImageFromDocumentsDirectory(imageName: String) -> UIImage? {
         let tempDirPath = getDocumentDirectoryPath()
