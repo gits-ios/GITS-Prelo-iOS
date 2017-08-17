@@ -860,9 +860,38 @@ class AddProductViewController3: BaseViewController {
             param["sell_reason"]    = self.product.alasanJual
         }
         
-        // TODO: setup image for upload
-        
         return param
+    }
+    
+    func setupImagesForUpload(_ param: inout [String:String]) -> Array<UIImage> {
+        var imagesParam: Array<UIImage> = []
+        
+        var images: Array<[String:String]> = []
+        
+        if self.product.imagesDetail.count > 0 {
+            var j = 1
+            for i in 0..<self.product.imagesDetail.count {
+                var url = self.product.imagesDetail[self.product.imagesIndex[i]].url
+                let lbl = self.product.imagesDetail[self.product.imagesIndex[i]].label
+                if let img = self.product.imagesDetail[self.product.imagesIndex[i]].image {
+                    imagesParam.append(img)
+                    url = "image\(j)"
+                    
+                    j += 1
+                }
+                
+                let image: [String:String] = [
+                    "url"   : url,
+                    "label" : lbl
+                ]
+                
+                images.append(image)
+            }
+        }
+        
+        param["images"] = AppToolsObjC.jsonString(from: images)
+        
+        return imagesParam
     }
 }
 
@@ -1505,7 +1534,14 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         return
                     }
                     
-                    var params = self.setupParam()
+                    var param = self.setupParam()
+                    let imageParam = self.setupImagesForUpload(&param)
+                    
+                    // TEST
+                    print(param.description)
+                    print(imageParam.description)
+                    self.hideLoading()
+                    self.tableView.reloadData()
                     
                     if self.product.isEditMode {
                         // TODO: save edited product
