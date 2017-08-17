@@ -275,7 +275,7 @@ class CDDraftProduct: NSManagedObject {
             draft?.price = product.hargaJual
             draft?.commission = product.commision
             draft?.category = product.category
-            draft?.categoryId = product.category
+            draft?.categoryId = product.categoryId
             draft?.isCategWomenOrMenSelected = product.isWomenMenCategory
             draft?.condition = product.condition
             draft?.conditionId = product.conditionId
@@ -308,7 +308,7 @@ class CDDraftProduct: NSManagedObject {
             newVer.price = product.hargaJual
             newVer.commission = product.commision
             newVer.category = product.category
-            newVer.categoryId = product.category
+            newVer.categoryId = product.categoryId
             newVer.isCategWomenOrMenSelected = product.isWomenMenCategory
             newVer.condition = product.condition
             newVer.conditionId = product.conditionId

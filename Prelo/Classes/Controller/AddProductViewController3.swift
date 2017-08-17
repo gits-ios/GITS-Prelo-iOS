@@ -441,15 +441,12 @@ class AddProductViewController3: BaseViewController {
                 let idx2 = self.findSectionFromType(.size)
                 
                 var _idx = idx+1
-                var _idx2 = idx+2
                 
                 if idx2 > -1 {
                     _idx += 1
-                    _idx2 += 1
                 }
                 
                 self.listSections.insert(.authVerification, at: _idx)
-                self.listSections.insert(.checklist, at: _idx2)
             }
             
             // labels checklist
@@ -530,6 +527,7 @@ class AddProductViewController3: BaseViewController {
         self.product.size = product.size
         if self.product.size != "" {
             self.product.isCategoryContainSize = true
+            self.getSizes()
         }
         
         // Postal Fee Cell
@@ -618,6 +616,7 @@ class AddProductViewController3: BaseViewController {
         self.product.size = product.size
         if self.product.size != "" {
             self.product.isCategoryContainSize = true
+            self.getSizes()
         }
         
         // Postal Fee Cell
