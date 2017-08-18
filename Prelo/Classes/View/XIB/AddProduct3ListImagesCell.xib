@@ -80,6 +80,7 @@
             <connections>
                 <outlet property="btnPickLabel" destination="tW6-Vo-pyy" id="hbt-Uh-ImL"/>
                 <outlet property="imgPreview" destination="TrA-ck-g17" id="Wfo-9N-X21"/>
+                <outlet property="lbDropDown" destination="IB0-7a-YF8" id="6Jk-sE-M62"/>
                 <outlet property="lblLabel" destination="XCc-Dh-Clk" id="Fka-cB-EIV"/>
             </connections>
             <point key="canvasLocation" x="-7.5" y="11"/>

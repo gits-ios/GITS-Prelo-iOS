@@ -868,7 +868,7 @@ class AddProductViewController3: BaseViewController {
         
         if let cat = CDCategory.getCategoryWithID(self.product.categoryId) {
             
-            print(cat.debugDescription)
+            //print(cat.debugDescription)
             
             if self.product.segment == "budget" && cat.image_label_budget != nil {
                 self.labels.append(contentsOf: self.toArray(cat.image_label_budget!))
@@ -877,6 +877,9 @@ class AddProductViewController3: BaseViewController {
             } else if self.product.segment == "luxury" && cat.image_label_luxury != nil {
                 self.labels.append(contentsOf: self.toArray(cat.image_label_luxury!))
             }
+        } else {
+            Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+            _ = self.navigationController?.popToRootViewController(animated: true)
         }
         
         if isNeedSetup {

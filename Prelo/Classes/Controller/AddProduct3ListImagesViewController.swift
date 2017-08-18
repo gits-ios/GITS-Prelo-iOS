@@ -426,7 +426,8 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // TODO: lock position Gambar Utama
+        // buggy
+        /*
         if let cell = tableView.cellForRow(at: indexPath) {
             if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
                 return false
@@ -434,10 +435,25 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
                 return true
             }
         }
+        */
+        if indexPath.row == 0 {
+            return false
+        }
         return true
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        if destinationIndexPath.row == 0 {
+            Constant.showDialog("Pindah Gambar", message: "Selain \"Gambar Utama\" tidak dapat dipasang sebagai gambar pertama")
+            //self.tableView.isEditing = false
+            self.tableView.reloadData()
+            // buggy
+            /*
+            self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
+            */
+            return
+        }
+        
         let itemToMove = self.index[sourceIndexPath.row]
         self.index.remove(at: sourceIndexPath.row)
         self.index.insert(itemToMove, at: destinationIndexPath.row)
@@ -458,14 +474,19 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // TODO: disable remove Gambar Utama
         if self.tableView.isEditing {
+            // buggy
+            /*
             if let cell = tableView.cellForRow(at: indexPath) {
                 if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
                     return false
                 } else {
                     return true
                 }
+            }
+            */
+            if indexPath.row == 0 {
+                return false
             }
             return true
         }
@@ -477,6 +498,7 @@ class AddProduct3ListImagesCell: UITableViewCell {
     @IBOutlet weak var imgPreview: UIImageView!
     @IBOutlet weak var lblLabel: UILabel!
     @IBOutlet weak var btnPickLabel: UIButton!
+    @IBOutlet weak var lbDropDown: UILabel!
     
     var dropDown = DropDown()
     var setupDropDown: ()->() = {}
@@ -510,7 +532,14 @@ class AddProduct3ListImagesCell: UITableViewCell {
         
         self.lblLabel.text = previewImage.label
         
-        self.setupDropDown()
+        if previewImage.label == "Gambar Utama" {
+            self.btnPickLabel.isEnabled = false
+            self.lbDropDown.isHidden = true
+        } else {
+            self.btnPickLabel.isEnabled = true
+            self.lbDropDown.isHidden = false
+            self.setupDropDown()
+        }
     }
     
     static func heightFor() -> CGFloat {
