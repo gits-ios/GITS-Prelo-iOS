@@ -879,6 +879,11 @@ class AddProductViewController3: BaseViewController {
             }
         } else {
             Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+            
+            if self.editProduct == nil {
+                self.saveDraft(false)
+            }
+            
             _ = self.navigationController?.popToRootViewController(animated: true)
         }
         
