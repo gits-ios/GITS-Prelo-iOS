@@ -45,7 +45,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             } else {
                 l.screenBeforeLogin = PageName.DashboardLoggedOut
             }
-        } else if (parentType == "CartViewController" || parentType == "CHeckout2ShipViewController" || parentType == "Checkout2PayViewController") {
+        } else if (parentType == "CartViewController" || parentType == "Checkout2ShipViewController" || parentType == "Checkout2PayViewController" || parentType == "Checkout2ViewController") {
             l.screenBeforeLogin = PageName.Checkout
         } else if (parentType == "AddProductViewController" || parentType == "AddProductViewController2") {
             l.screenBeforeLogin = PageName.AddProduct
