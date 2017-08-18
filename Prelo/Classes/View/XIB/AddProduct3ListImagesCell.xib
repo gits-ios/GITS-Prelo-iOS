@@ -30,6 +30,12 @@
                             <constraint firstAttribute="height" constant="74" id="Ym4-6m-bsq"/>
                         </constraints>
                     </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iqs-DA-q38">
+                        <rect key="frame" x="12" y="12" width="74" height="74"/>
+                        <connections>
+                            <action selector="btnImgPreviewPressed:" destination="Tmg-ex-97o" eventType="touchUpInside" id="YZD-Wp-DeK"/>
+                        </connections>
+                    </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tW6-Vo-pyy">
                         <rect key="frame" x="94" y="12" width="273" height="30"/>
                         <connections>
@@ -54,12 +60,16 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="Iqs-DA-q38" firstAttribute="trailing" secondItem="TrA-ck-g17" secondAttribute="trailing" id="1yP-Pk-qHj"/>
                     <constraint firstItem="IB0-7a-YF8" firstAttribute="trailing" secondItem="eER-1s-BMp" secondAttribute="trailingMargin" id="69z-EF-bzg"/>
                     <constraint firstItem="tW6-Vo-pyy" firstAttribute="leading" secondItem="XCc-Dh-Clk" secondAttribute="leading" id="7hJ-sx-SWR"/>
                     <constraint firstItem="tW6-Vo-pyy" firstAttribute="top" secondItem="XCc-Dh-Clk" secondAttribute="top" id="7q5-Lz-190"/>
                     <constraint firstItem="TrA-ck-g17" firstAttribute="leading" secondItem="eER-1s-BMp" secondAttribute="leadingMargin" constant="4" id="F9P-CY-0Sr"/>
                     <constraint firstItem="tW6-Vo-pyy" firstAttribute="bottom" secondItem="XCc-Dh-Clk" secondAttribute="bottom" id="OM5-Y0-owG"/>
+                    <constraint firstItem="Iqs-DA-q38" firstAttribute="leading" secondItem="TrA-ck-g17" secondAttribute="leading" id="TW7-5U-Q1A"/>
                     <constraint firstItem="IB0-7a-YF8" firstAttribute="leading" secondItem="XCc-Dh-Clk" secondAttribute="trailing" constant="8" id="ZCs-GK-22O"/>
+                    <constraint firstItem="Iqs-DA-q38" firstAttribute="bottom" secondItem="TrA-ck-g17" secondAttribute="bottom" id="Znp-Aq-oef"/>
+                    <constraint firstItem="Iqs-DA-q38" firstAttribute="top" secondItem="TrA-ck-g17" secondAttribute="top" id="dTp-IJ-pR5"/>
                     <constraint firstItem="tW6-Vo-pyy" firstAttribute="trailing" secondItem="IB0-7a-YF8" secondAttribute="trailing" id="gwf-Ox-fZx"/>
                     <constraint firstItem="XCc-Dh-Clk" firstAttribute="leading" secondItem="TrA-ck-g17" secondAttribute="trailing" constant="8" id="laD-fQ-LqN"/>
                     <constraint firstItem="TrA-ck-g17" firstAttribute="top" secondItem="eER-1s-BMp" secondAttribute="topMargin" constant="4" id="qRm-qg-Lox"/>

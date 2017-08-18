@@ -567,7 +567,7 @@ class AddProductViewController3: BaseViewController {
                 self.product.imagesIndex.append(i)
                 // load images
                 
-                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)
+                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)?.resizeWithMaxWidthOrHeight(82 * UIScreen.main.scale)
                 if image == nil {
                     print ("Failed to load image")
                 }
@@ -1002,8 +1002,15 @@ class AddProductViewController3: BaseViewController {
             for i in 0..<self.product.imagesDetail.count {
                 var url = self.product.imagesDetail[self.product.imagesIndex[i]].url
                 let lbl = self.product.imagesDetail[self.product.imagesIndex[i]].label
-                if let img = self.product.imagesDetail[self.product.imagesIndex[i]].image {
-                    imagesParam.append(img)
+                if let _ = self.product.imagesDetail[self.product.imagesIndex[i]].image {
+                    
+                    let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: url)?.resizeWithMaxWidthOrHeight(1600)
+                    if image == nil {
+                        print ("Failed to load image")
+                        
+                        continue
+                    }
+                    imagesParam.append(image!)
                     url = "image\(j)"
                     
                     j += 1

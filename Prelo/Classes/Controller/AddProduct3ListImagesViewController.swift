@@ -306,6 +306,20 @@ class AddProduct3ListImagesViewController: BaseViewController {
         self.setupLabels()
         self.tableView.reloadData()
     }
+    
+    func imagesPreviewSplit(_ urls: inout Array<String>, labels: inout Array<String>) {
+        if self.previewImages.count == 0 {
+            return
+        }
+        
+        urls = []
+        labels = []
+        
+        for i in 0..<self.index.count {
+            urls.append(self.previewImages[self.index[i]].url)
+            labels.append(self.previewImages[self.index[i]].label)
+        }
+    }
 }
 
 extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -376,6 +390,24 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         
         cell.adapt(self.previewImages[self.index[indexPath.row]])
         
+        cell.zoomImage = {
+            //let index = self.index[indexPath.row]
+            let c = CoverZoomController()
+            
+            // one image only
+            /*
+            c.labels = [ self.previewImages[index].label ]
+            c.images = [ self.previewImages[index].url ]
+            c.index = 0
+            */
+            
+            // all image will present
+            self.imagesPreviewSplit(&c.images, labels: &c.labels)
+            c.index = indexPath.row
+            
+            self.parent?.present(c, animated: true, completion: nil)
+        }
+        
         return cell
     }
     
@@ -391,6 +423,8 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         let itemToMove = self.index[sourceIndexPath.row]
         self.index.remove(at: sourceIndexPath.row)
         self.index.insert(itemToMove, at: destinationIndexPath.row)
+        
+        self.tableView.reloadData()
     }
     
     
@@ -422,6 +456,7 @@ class AddProduct3ListImagesCell: UITableViewCell {
     
     var dropDown = DropDown()
     var setupDropDown: ()->() = {}
+    var zoomImage: ()->() = {}
     
     var selectedIndex = -1
     
@@ -461,5 +496,9 @@ class AddProduct3ListImagesCell: UITableViewCell {
     @IBAction func btnPickLabelPressed(_ sender: Any) {
         self.dropDown.hide()
         self.dropDown.show()
+    }
+    
+    @IBAction func btnImgPreviewPressed(_ sender: Any) {
+        self.zoomImage()
     }
 }
