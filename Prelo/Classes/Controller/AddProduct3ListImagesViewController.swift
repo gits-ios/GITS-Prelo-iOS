@@ -162,13 +162,22 @@ class AddProduct3ListImagesViewController: BaseViewController {
         }
     }
     
-    override func backPressed(_ sender: UIBarButtonItem) {
+    func gotoBack() {
+        if self.tableView.isEditing {
+            Constant.showDialog("Perhatian", message: "Pastikan kamu telah berganti ke mode biasa")
+            return
+        }
+        
         self.blockDone!(self.previewImages, self.index)
         
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         _ = self.navigationController?.popViewController(animated: true)
+    }
+    
+    override func backPressed(_ sender: UIBarButtonItem) {
+        self.gotoBack()
     }
     
     // MARK: - Swipe Navigation Override
@@ -178,12 +187,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
             case UISwipeGestureRecognizerDirection.right:
                 //print("Swiped right")
                 
-                self.blockDone!(self.previewImages, self.index)
-                
-                // gesture override
-                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
-                
-                _ = self.navigationController?.popViewController(animated: true)
+                self.gotoBack()
                 
             default:
                 break
@@ -193,7 +197,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
     
     // MARK: - Edit Profile button (right top)
     func setEditButton() {
-        let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.done, target:self, action: #selector(AddProduct3ListImagesViewController.backPressed(_:)))
+        let applyButton = UIBarButtonItem(title: "", style:UIBarButtonItemStyle.done, target:self, action: #selector(AddProduct3ListImagesViewController.gotoBack))
         
         applyButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: "Prelo2", size: 18)!], for: UIControlState())
         
@@ -206,6 +210,11 @@ class AddProduct3ListImagesViewController: BaseViewController {
     
     func editTable() {
         self.tableView.isEditing = !self.tableView.isEditing
+        
+        if !self.tableView.isEditing {
+            // re-arrange index
+            self.tableView.reloadData()
+        }
     }
     
     // MARK: - Helper
@@ -391,6 +400,11 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         cell.adapt(self.previewImages[self.index[indexPath.row]])
         
         cell.zoomImage = {
+            if self.tableView.isEditing {
+                Constant.showDialog("Perbesar Gambar", message: "Perbesar gambar hanya dapat dilakukan pada mode biasa")
+                return
+            }
+            
             //let index = self.index[indexPath.row]
             let c = CoverZoomController()
             
@@ -411,11 +425,15 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         return cell
     }
     
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        
-//    }
-    
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // TODO: lock position Gambar Utama
+        if let cell = tableView.cellForRow(at: indexPath) {
+            if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
+                return false
+            } else {
+                return true
+            }
+        }
         return true
     }
     
@@ -423,8 +441,6 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         let itemToMove = self.index[sourceIndexPath.row]
         self.index.remove(at: sourceIndexPath.row)
         self.index.insert(itemToMove, at: destinationIndexPath.row)
-        
-        self.tableView.reloadData()
     }
     
     
@@ -442,7 +458,15 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        // TODO: disable remove Gambar Utama
         if self.tableView.isEditing {
+            if let cell = tableView.cellForRow(at: indexPath) {
+                if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
+                    return false
+                } else {
+                    return true
+                }
+            }
             return true
         }
         return false
