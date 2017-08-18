@@ -681,6 +681,10 @@ class AddProductViewController3: BaseViewController {
     func insertSizeSection() {
         let idx = self.findSectionFromType(.productDetail)
         
+        if idx == -1 {
+            return
+        }
+        
         var _idx = self.findSectionFromType(.size)
         if _idx == -1 {
             _idx = idx+1
@@ -700,6 +704,10 @@ class AddProductViewController3: BaseViewController {
     func insertLuxurySection() {
         let idx = self.findSectionFromType(.productDetail)
         let idx2 = self.findSectionFromType(.size)
+        
+        if idx == -1 {
+            return
+        }
         
         var _idx = self.findSectionFromType(.authVerification)
         
@@ -724,6 +732,10 @@ class AddProductViewController3: BaseViewController {
     
     func insertChecklistSection() {
         let idx = self.findSectionFromType(.weight)
+        
+        if idx == -1 {
+            return
+        }
         
         var _idx = self.findSectionFromType(.checklist)
         if _idx == -1 {
@@ -820,7 +832,7 @@ class AddProductViewController3: BaseViewController {
                             self.sizes.removeLast()
                         }
                         
-                        if self.product.size == "" {
+                        if self.product.size == "" || !self.sizes.contains(self.product.size) {
                             self.product.size = self.sizes[0]
                         }
                         self.product.isCategoryContainSize = true
