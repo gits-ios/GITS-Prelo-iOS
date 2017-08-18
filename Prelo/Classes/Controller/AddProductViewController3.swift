@@ -877,7 +877,7 @@ class AddProductViewController3: BaseViewController {
             } else if self.product.segment == "luxury" && cat.image_label_luxury != nil {
                 self.labels.append(contentsOf: self.toArray(cat.image_label_luxury!))
             }
-        } else {
+        } else if self.product.categoryId != "" {
             Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
             
             if self.editProduct == nil {
@@ -2869,7 +2869,7 @@ class AddProduct3ChargeCell: UITableViewCell {
     }
     
     func adapt(_ product: SelectedProductItem, subtitle: String?) {
-        if product.isEditMode || product.isDraftMode {
+        if product.isEditMode {
             self.btnSubmit.setTitle("SIMPAN", for: .normal)
             self.btnRemove.isHidden = false
         }

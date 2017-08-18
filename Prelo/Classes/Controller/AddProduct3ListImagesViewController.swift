@@ -233,6 +233,10 @@ class AddProduct3ListImagesViewController: BaseViewController {
         }
         
         self.index.remove(at: index)
+        
+        if index == 0 {
+            self.previewImages[self.index[0]].label = "Gambar Utama"
+        }
     }
     
     func isLabelExist(_ label: String) -> Bool {
@@ -426,6 +430,8 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     }
     
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
+        // disabled
+        /*
         // buggy
         /*
         if let cell = tableView.cellForRow(at: indexPath) {
@@ -439,10 +445,13 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         if indexPath.row == 0 {
             return false
         }
+        */
         return true
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        // disabled
+        /*
         if destinationIndexPath.row == 0 {
             Constant.showDialog("Pindah Gambar", message: "Selain \"Gambar Utama\" tidak dapat dipasang sebagai gambar pertama")
             //self.tableView.isEditing = false
@@ -453,10 +462,20 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
             */
             return
         }
+        */
         
         let itemToMove = self.index[sourceIndexPath.row]
         self.index.remove(at: sourceIndexPath.row)
         self.index.insert(itemToMove, at: destinationIndexPath.row)
+        
+        let labelsrc = self.previewImages[self.index[sourceIndexPath.row]].label
+        let labeldes = self.previewImages[self.index[destinationIndexPath.row]].label
+        
+        self.previewImages[self.index[sourceIndexPath.row]].label = labeldes
+        self.previewImages[self.index[destinationIndexPath.row]].label = labelsrc
+        
+        self.tableView.reloadData()
+        self.setupLabels()
     }
     
     
@@ -468,6 +487,7 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
             
             // update dropDown
             self.setupLabels()
+            
             self.tableView.reloadData()
         }
         return [remove]
@@ -475,6 +495,8 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         if self.tableView.isEditing {
+            // disabled
+            /*
             // buggy
             /*
             if let cell = tableView.cellForRow(at: indexPath) {
@@ -488,6 +510,7 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
             if indexPath.row == 0 {
                 return false
             }
+            */
             return true
         }
         return false
