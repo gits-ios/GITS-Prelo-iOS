@@ -35,6 +35,13 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
     
     var isNeedReload = false
     
+    override func backPressed(_ sender: UIBarButtonItem) {
+        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+        
+        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+    }
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ini average nya")
@@ -91,6 +98,7 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("udah kesini dulu")
         if isNeedReload {
             print("masuk sini kok")
             print("ini average nya")

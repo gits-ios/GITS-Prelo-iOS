@@ -268,7 +268,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                     
                     print("ini balesannya")
-                    TransactionDetailTools.TextReply = data["rejectReply"].string!
+                    print(data["progress"])
+                    if(data["progress"].int == -4){
+                        TransactionDetailTools.TextReply = data["rejectReply"].string!
+                    }
+                    
                     // Mixpanel
 //                    let param = [
 //                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
@@ -914,7 +918,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                         }
                     } else if (idx == 10) {
-                        return DefaultHeight
+                        if(trxProductDetail?.buyerReviewerName == ""){
+                            return DefaultHeight
+                        } else {
+                            return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
+                        }
                     } else if (idx == 11) {
                         return ContactPreloHeight
                     }
@@ -1545,7 +1553,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     } else if (idx == 9) {
                         return self.createReviewCell()
                     } else if (idx == 10) {
-                        return self.createButtonCell(2)
+                        if(trxProductDetail?.buyerReviewerName == ""){
+                            return self.createButtonCell(2)
+                        } else {
+                            return self.createBuyerReviewCell()
+                        }
                     } else if (idx == 11) {
                         return self.createContactPreloCell()
                     }
@@ -2457,6 +2469,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
+    func createBuyerReviewCell() -> TransactionDetailReviewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailReviewCellId) as! TransactionDetailReviewCell
+        
+        // Adapt cell
+        if (trxProductDetail != nil) {
+            cell.adapt2(trxProductDetail!)
+        }
+        
+        return cell
+    }
+    
     func createContactPreloCell() -> TransactionDetailContactPreloCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailContactPreloCellId) as! TransactionDetailContactPreloCell
         
@@ -3081,7 +3104,7 @@ class TransactionDetailTools : NSObject {
     static let TextDikembalikanDitolak = "Pembayaran barang ini telah dikembalikan kepada pembeli." // reject by seller
     static let TextDikembalikanTidakDikirim = "Pembayaran barang ini telah dikembalikan kepada pembeli. Lupa konfirmasi pengiriman? Hubungi Prelo." // not sent seller
     static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena "
-    static var TextReply = ""
+    static var TextReply = "lalala"
     static let TextReimburse2 = ". Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
     static let TextReimburse3 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
@@ -4914,7 +4937,7 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 } else {
                     if (order == 1) {
-                        lblDesc.text = TransactionDetailTools.TextReimburse1 + TransactionDetailTools.TextReimburse2
+                        lblDesc.text = TransactionDetailTools.TextReimburse1 + TransactionDetailTools.TextReply + TransactionDetailTools.TextReimburse2
                     } else if (order == 2) {
                         lblDesc.text = TransactionDetailTools.TextReimburse3
                     }
@@ -5658,6 +5681,8 @@ class TransactionDetailReviewCell : UITableViewCell {
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
     
+    @IBOutlet weak var consImageLeading: NSLayoutConstraint!
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -5712,6 +5737,43 @@ class TransactionDetailReviewCell : UITableViewCell {
         self.floatRatingView.maxRating = 5
         self.floatRatingView.minRating = 0
         self.floatRatingView.rating = Float(trxProductDetail.reviewStar)
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+    }
+    
+    func adapt2(_ trxProductDetail : TransactionProductDetail) {
+        consImageLeading.constant = 20
+        // Image
+        
+        self.imgReviewer?.layoutIfNeeded()
+        self.imgReviewer?.layer.cornerRadius = (self.imgReviewer?.width ?? 0) / 2
+        self.imgReviewer?.layer.masksToBounds = true
+        
+        self.imgReviewer?.layer.borderColor = Theme.GrayLight.cgColor
+        self.imgReviewer?.layer.borderWidth = 3
+        
+        if let url = trxProductDetail.buyerReviewerImageURL {
+            imgReviewer.afSetImage(withURL: url, withFilter: .circle)
+        }
+        
+        // Text
+        lblName.text = trxProductDetail.buyerReviewerName
+        lblContent.text = trxProductDetail.buyerReviewComment
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = Float(trxProductDetail.buyerReviewStar)
         self.floatRatingView.editable = false
         self.floatRatingView.halfRatings = true
         self.floatRatingView.floatRatings = true

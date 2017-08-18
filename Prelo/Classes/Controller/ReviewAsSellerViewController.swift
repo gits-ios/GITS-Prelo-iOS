@@ -26,6 +26,12 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     
     var floatRatingView: FloatRatingView!
     
+    override func backPressed(_ sender: UIBarButtonItem) {
+        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+        
+        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+    }
+    
     func adapt(_ star : Float) {
         circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
         
@@ -75,30 +81,33 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("masuk sini ga3?")
-        
-        print("masuk sini loh lalala")
-        // Do any additional setup after loading the view.
-        self.lblEmpty.isHidden = false
-        self.tableView.isHidden = false
-        self.btnRefresh.isHidden = false
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        
-        self.getReviewSellers()
-        
-        // Register custom cell
-        let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
-        tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
-        
-        print("masuk sini ga?")
-        print(reload)
-        print(averageSeller)
-        if reload {
-            adapt(averageSeller)
+        if(reload){
+            print("masuk sini ga3?")
+            
+            print("masuk sini loh lalala")
+            // Do any additional setup after loading the view.
+            self.lblEmpty.isHidden = false
+            self.tableView.isHidden = false
+            self.btnRefresh.isHidden = false
+            
+            tableView.dataSource = self
+            tableView.delegate = self
+            tableView.tableFooterView = UIView()
+            
+            self.getReviewSellers()
+            
+            // Register custom cell
+            let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
+            tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
+            
+            print("masuk sini ga?")
+            print(reload)
+            print(averageSeller)
+            if reload {
+                adapt(averageSeller)
+            }
         }
+        
     }
     
     

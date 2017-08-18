@@ -2398,6 +2398,39 @@ class TransactionProductDetail : NSObject {
         }
     }
     
+    var buyerReviewerName : String {
+        if (json["buyer_review"]["seller_username"] != nil) {
+            return json["buyer_review"]["seller_username"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerReviewerImageURL : URL? {
+        if json["buyer_review"]["seller_pict"].error != nil
+        {
+            return nil
+        }
+        let url = json["buyer_review"]["seller_pict"].string!
+        return URL(string: url)
+    }
+    
+    var buyerReviewStar : Int {
+        if (json["buyer_review"]["star"] != nil) {
+            return json["buyer_review"]["star"].intValue
+        } else {
+            return 0
+        }
+    }
+    
+    var buyerReviewComment : String {
+        if (json["buyer_review"]["comment"] != nil) {
+            return json["buyer_review"]["comment"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
     var myPreloBalance : Int64 {
         if let j = json["my_prelo_balance"].int64 {
             return j
