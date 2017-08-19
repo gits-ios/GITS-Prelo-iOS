@@ -3394,6 +3394,6 @@ class ButtonJualView: UIView {
         
         let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
         addProduct3VC.screenBeforeAddProduct = self.currentPage
-        self.navigationController?.pushViewController(addProduct3VC, animated: true)
+        self.parent.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
 }
