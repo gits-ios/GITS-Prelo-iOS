@@ -652,6 +652,8 @@
 		B22855FA1F42B7DF001F26AA /* AddProduct3ListImages.xib in Resources */ = {isa = PBXBuildFile; fileRef = B22855F91F42B7DF001F26AA /* AddProduct3ListImages.xib */; };
 		B228560C1F42B834001F26AA /* AddProduct3ListImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B228560B1F42B834001F26AA /* AddProduct3ListImagesCell.xib */; };
 		B228560E1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */; };
+		B229DDD61F48B00D0062F5DF /* KYCircleMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B229DDD51F48B00D0062F5DF /* KYCircleMenu.m */; };
+		B229DDDC1F48BCF10062F5DF /* CircleMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B229DDDB1F48BCF10062F5DF /* CircleMenuViewController.swift */; };
 		B229F4BA1F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */; };
 		B229F4CC1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4CB1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib */; };
 		B229F4CE1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4CD1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib */; };
@@ -1862,6 +1864,9 @@
 		B22855F91F42B7DF001F26AA /* AddProduct3ListImages.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ListImages.xib; sourceTree = "<group>"; };
 		B228560B1F42B834001F26AA /* AddProduct3ListImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ListImagesCell.xib; sourceTree = "<group>"; };
 		B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProduct3ListImagesViewController.swift; sourceTree = "<group>"; };
+		B229DDD41F48B00D0062F5DF /* KYCircleMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KYCircleMenu.h; sourceTree = "<group>"; };
+		B229DDD51F48B00D0062F5DF /* KYCircleMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KYCircleMenu.m; sourceTree = "<group>"; };
+		B229DDDB1F48BCF10062F5DF /* CircleMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMenuViewController.swift; sourceTree = "<group>"; };
 		B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesChecklistCell.xib; sourceTree = "<group>"; };
 		B229F4CB1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCellCollectionCell.xib; sourceTree = "<group>"; };
 		B229F4CD1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCellNewOneCell.xib; sourceTree = "<group>"; };
@@ -2340,10 +2345,9 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
-				B2207F801ED67C0700BCE613 /* DKImagePickerController */,
 				21D387401B6B95A500D0FA90 /* FakeBridge.h */,
-				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
 				21D387411B6B95A500D0FA90 /* FakeBridge.m */,
+				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
 				44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */,
 				B23243381E265F8400367BDE /* Banner.swift */,
 				B2C3A3BB1E2B6B550082A15D /* FloatRatingView.swift */,
@@ -2360,9 +2364,11 @@
 				21B467A11CCE5EDB00E145ED /* BFKit-Swift */,
 				58A999DF1C6D864E00E3E7D7 /* Branch-SDK */,
 				21D387511B6B967A00D0FA90 /* CarbonKit */,
+				B2207F801ED67C0700BCE613 /* DKImagePickerController */,
 				FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */,
 				2124FFC91BBD2AC000194B8F /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				211BC9951B96D53300FDB1DC /* GrowingTextView */,
+				B229DDD31F48B00D0062F5DF /* KYCircleMenu */,
 				21E7A75A1B9FF2BC00FC9B38 /* LineKit */,
 				2141BB8A1B54BE4C00787F5D /* MaterialKit */,
 				21E7A7541B9FDE4F00FC9B38 /* MGInstagram */,
@@ -2718,6 +2724,7 @@
 				58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */,
 				B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */,
 				B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */,
+				B229DDDB1F48BCF10062F5DF /* CircleMenuViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3696,6 +3703,15 @@
 				B2207FA91ED67C2F00BCE613 /* DKAssetGroupDetailVideoCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		B229DDD31F48B00D0062F5DF /* KYCircleMenu */ = {
+			isa = PBXGroup;
+			children = (
+				B229DDD41F48B00D0062F5DF /* KYCircleMenu.h */,
+				B229DDD51F48B00D0062F5DF /* KYCircleMenu.m */,
+			);
+			path = KYCircleMenu;
 			sourceTree = "<group>";
 		};
 		B24FCEF31E536E8000B517A9 /* Products */ = {
@@ -4710,6 +4726,7 @@
 				21B467F41CCE5EDB00E145ED /* NSObject+BFKit.swift in Sources */,
 				216799911B8F8AB900F18F90 /* AFURLResponseSerialization.m in Sources */,
 				B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */,
+				B229DDDC1F48BCF10062F5DF /* CircleMenuViewController.swift in Sources */,
 				21679A3D1B901C5300F18F90 /* MPPropertyDescription.m in Sources */,
 				585887731DBEF571006EC6D5 /* TransactionDetailViewController.swift in Sources */,
 				B2207FB71ED67C2F00BCE613 /* DKImageResource.swift in Sources */,
@@ -5069,6 +5086,7 @@
 				58A99A361C6D864E00E3E7D7 /* BranchActivityItemProvider.m in Sources */,
 				5847E15E1DBD9D6E00C1B2BA /* CDRegion.swift in Sources */,
 				58A99A481C6D864E00E3E7D7 /* BranchShortUrlRequest.m in Sources */,
+				B229DDD61F48B00D0062F5DF /* KYCircleMenu.m in Sources */,
 				21B468011CCE5EDB00E145ED /* UINavigationBar+BFKit.swift in Sources */,
 				B2CAF7931E79219E00ACB361 /* RegexParser.swift in Sources */,
 				21B467EA1CCE5EDB00E145ED /* Array+BFKit.swift in Sources */,

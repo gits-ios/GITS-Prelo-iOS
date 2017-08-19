@@ -373,10 +373,18 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         add.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(add, animated: true)
         */
-        
+        /*
         let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
         addProduct3VC.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(addProduct3VC, animated: true)
+        */
+        
+        let circleMenuViewController = CircleMenuViewController(buttonCount: 2, menuSize: 280, buttonSize: 64, buttonImageNameFormat: "placeholder-circle.png", centerButtonSize: 64, centerButtonImageName: "placeholder-circle.png", centerButtonBackgroundImageName: "placeholder-circle.png")
+        
+        circleMenuViewController?.root = self
+        
+        self.parent?.present(circleMenuViewController!, animated: true, completion: nil)
+
     }
     
     // MARK: - Version check and load/update metadata
