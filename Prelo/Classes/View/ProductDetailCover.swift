@@ -40,6 +40,10 @@ class ProductDetailCover: UIView {
         imageURLS = images
         for i in 0...images.count - 1 {
             
+            if i == 5 {
+                break
+            }
+            
             var iv : UIImageView?
             
             for v in self.subviews {
