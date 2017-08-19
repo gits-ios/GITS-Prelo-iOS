@@ -977,10 +977,118 @@ class AddProductViewController3: BaseViewController {
     }
     
     // MARK: - validate & prepare for submit
-    func validateField() -> Bool {
-        // TODO: validate field
+    func isLabelCheckedAll() -> Bool {
+        var isOke = false
+        for label in self.labels {
+            isOke = false
+            for img in self.product.imagesDetail {
+                if label == img.label {
+                    isOke = true
+                    break
+                }
+            }
+            
+            if !isOke {
+                Constant.showDialog("Perhatian", message: "\(label) tidak boleh kosong")
+                return false
+            }
+            
+        }
         
+        return isOke
+    }
+    
+    func validateString(_ text : String, message : String) -> Bool {
+        if text == "" {
+            Constant.showDialog("Perhatian", message: message)
+            return false
+        }
         return true
+    }
+    
+    func validateField() -> Bool {
+        // TODO: update - validate field (with others constraint)
+        
+        if !self.isLabelCheckedAll() {
+            return false
+        }
+        
+        if !self.validateString(self.product.name, message: "Nama barang masih kosong") {
+            return false
+        }
+        
+        if !self.validateString(self.product.weight, message: "Berat barang masih kosong") {
+            return false
+        }
+        
+        let weightRegex = "^[0-9]+$"
+        if !self.product.weight.match(weightRegex) {
+            Constant.showDialog("Perhatian", message: "Berat barang harus hanya berupa angka (contoh: 500)")
+            return false
+        } else if self.product.weight.int <= 0 {
+            Constant.showDialog("Perhatian", message: "Berat barang tidak boleh kurang dari sama dengan 0")
+            return false
+        }
+        
+        if !self.validateString(self.product.hargaBeli, message: "Harga Beli barang masih kosong") {
+            return false
+        }
+        
+        if self.product.isSell {
+            if !self.validateString(self.product.hargaJual, message: "Harga Jual barang masih kosong") {
+                return false
+            }
+        }
+        
+        if self.product.isRent {
+            if !self.validateString(self.product.hargaSewa, message: "Harga Sewa barang masih kosong") {
+                return false
+            }
+            
+            if !self.validateString(self.product.deposit, message: "Harga Deposit barang masih kosong") {
+                return false
+            }
+        }
+        
+        if !self.validateString(self.product.categoryId, message: "Silahkan pilih kategori barang") {
+            return false
+        }
+        
+        if !self.validateString(self.product.conditionId, message: "Silahkan pilih kondisi barang") {
+            return false
+        }
+        
+        if !self.validateString(self.product.alasanJual, message: "Silahkan isi alasan jual kamu") {
+            return false
+        }
+        
+        if (self.product.condition.lowercased() as NSString).range(of: "cukup").location != NSNotFound && !self.validateString(self.product.cacat, message: "Silahkan jelaskan cacat barang kamu") {
+            return false
+        }
+        
+        if self.product.merk == "" && !self.validateString(self.product.merkId, message: "Silahkan pilih merek barang") {
+            return false
+        }
+        
+        if self.product.isCategoryContainSize && !self.validateString(self.product.size, message: "Silahkan pilih ukuran") {
+            return false
+        }
+
+        var isOke = true
+        for i in 0..<self.product.imagesDetail.count {
+            if let img = self.product.imagesDetail[self.product.imagesIndex[i]].image {
+                if (img.size.width * img.scale < (AppTools.isDev ? 480 : 640) || img.size.height * img.scale < (AppTools.isDev ? 480 : 640)) {
+                    let imgType = self.product.imagesDetail[self.product.imagesIndex[i]].label
+                    
+                    Constant.showDialog("Perhatian", message: "\(imgType) tidak boleh lebih kecil dari \(AppTools.isDev ? "480x480" : "640x640") px")
+                    
+                    isOke = false
+                    break
+                }
+            }
+        }
+        
+        return isOke
     }
     
     func setupParam() -> [String:String] {
