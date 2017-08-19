@@ -527,9 +527,10 @@ class AddProductViewController3: BaseViewController {
             self.product.serialNumber = luxData["serial_number"].stringValue
             self.product.lokasiBeli = luxData["purchase_location"].stringValue
             self.product.tahunBeli = luxData["purchase_year"].stringValue
+        } else {
+            // TODO: segment
+            self.product.segment = ""
         }
-        
-        // TODO: Segment & RENT
         
         // Checklist Cell
         self.getLabels(false)
@@ -989,7 +990,11 @@ class AddProductViewController3: BaseViewController {
             "serial_number"        : self.product.serialNumber,
             "purchase_location"    : self.product.lokasiBeli,
             "purchase_year"        : self.product.tahunBeli,
-            "platform_sent_from"   : "ios"
+            "platform_sent_from"   : "ios",
+            
+            "rent_price"           : self.product.hargaSewa,
+            "rent_price_deposit"   : self.product.deposit,
+            "rent_period_type"     : self.product.modeSewa.rawValue.string
         ]
         
         if self.product.description != "" {
@@ -1011,12 +1016,18 @@ class AddProductViewController3: BaseViewController {
             param["sell_reason"]    = self.product.alasanJual
         }
         
+        if self.product.isSell && self.product.isRent {
+            param["listing_type"]   = "2"
+        } else {
+            param["listing_type"]   = self.product.addProductType.rawValue.string
+        }
+        
         return param
     }
     
     func setupImagesForUpload(_ param: inout [String:String]) -> Array<UIImage> {
         var imagesParam: Array<UIImage> = []
-        
+        /*
         var images: Array<[String:String]> = []
         
         if self.product.imagesDetail.count > 0 {
@@ -1048,6 +1059,37 @@ class AddProductViewController3: BaseViewController {
         }
         
         param["images"] = AppToolsObjC.jsonString(from: images)
+        */
+        
+        var display_picts: Array<String> = []
+        var image_label: Array<String> = []
+        
+        if self.product.imagesDetail.count > 0 {
+            var j = 1
+            for i in 0..<self.product.imagesDetail.count {
+                var url = self.product.imagesDetail[self.product.imagesIndex[i]].url
+                let lbl = self.product.imagesDetail[self.product.imagesIndex[i]].label
+                if let _ = self.product.imagesDetail[self.product.imagesIndex[i]].image {
+                    
+                    let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: url)?.resizeWithMaxWidthOrHeight(1600)
+                    if image == nil {
+                        print ("Failed to load image")
+                        
+                        continue
+                    }
+                    imagesParam.append(image!)
+                    url = "image\(j)"
+                    
+                    j += 1
+                }
+                
+                display_picts.append(url)
+                image_label.append(lbl)
+            }
+        }
+        
+        param["display_picts"] = AppToolsObjC.jsonString(from: display_picts)
+        param["image_label"] = AppToolsObjC.jsonString(from: image_label)
         
         return imagesParam
     }
@@ -2883,8 +2925,10 @@ class AddProduct3ChargeCell: UITableViewCell {
     }
     
     func adapt(_ product: SelectedProductItem, subtitle: String?) {
-        if product.isEditMode {
-            self.btnSubmit.setTitle("SIMPAN", for: .normal)
+        if product.isEditMode || product.isDraftMode {
+            if product.isEditMode {
+                self.btnSubmit.setTitle("SIMPAN", for: .normal)
+            }
             self.btnRemove.isHidden = false
         }
         
