@@ -556,6 +556,9 @@ class AddProductViewController3: BaseViewController {
         // Charge Cell
         self.product.commision = product.json["_data"]["commission"].intValue.string + "%"
         
+        // local id -> product id
+        self.product.localId = product.productID
+        
         // helper
         self.product.status = product.status
         
@@ -1112,6 +1115,164 @@ class AddProductViewController3: BaseViewController {
         }
     }
     
+    // submit (go to share v2)
+    func gotoShareAndUpload(_ param: [String:String], images: Array<UIImage>) {
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
+            
+            // TODO: analytic buat rent
+            /*
+            // Prelo Analytic - Submit Product
+            let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                                qos: .background,
+                                                attributes: .concurrent,
+                                                target: nil)
+            backgroundQueue.async {
+                //print("Work on background queue")
+                
+                let loginMethod = User.LoginMethod ?? ""
+                
+                // brand
+                let brand = [
+                    "ID"       : self.product.merkId,
+                    "Name"     : self.product.merk,
+                    "Verified" : (self.product.merkId != "" ? true : false)
+                    ] as [String : Any]
+             
+                var pdata = [
+                    "Local ID"       : self.product.localId,
+                    "Product Name"   : self.product.name,
+                    "Condition"      : self.product.condition,
+                    "Brand"          : self.product.merk,
+                    "Free Shipping"  : self.product.isFreeOngkir,
+                    "Weight"         : self.product.weight,
+                    "Price Original" : self.product.hargaBeli,
+                    "Price"          : self.product.hargaJual
+                    ] as [String : Any]
+                
+                var isOke = true
+                if let c = CDCategory.getCategoryWithID(self.product.categoryId) {
+                    // cat
+                    var cat : Array<String> = []
+                    var catId : Array<String> = []
+                    catId.append(self.product.categoryId)
+                    var temp = c
+                    cat.append(temp.name)
+                    while (true) {
+                        if let cur = CDCategory.getParent(temp.id) {
+                            temp = cur
+                            cat.append(temp.name)
+                            catId.append(temp.id)
+                        } else {
+                            break
+                        }
+                    }
+                    
+                    cat = cat.reversed()
+                    pdata["Category Names"] = cat
+                    
+                    catId = catId.reversed()
+                    pdata["Category IDs"] = catId
+                } else {
+                    isOke = false
+                    DispatchQueue.main.async(execute: {
+                        Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+                        _ = self.navigationController?.popToRootViewController(animated: true)
+                    })
+                }
+                
+                // imgae
+                var imagesOke : [Bool] = []
+                for i in 0..<images.count {
+                    imagesOke.append(true)
+                }
+                if images.count < 10 {
+                    for i in images.count..<10 {
+                        imagesOke.append(false)
+                    }
+                }
+                pdata["Images"] = imagesOke
+                
+                if isOke {
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                }
+            }
+            */
+            
+            
+            let share = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShareViewController2
+            share.sendProductParam = param
+            share.sendProductImages = images
+            share.basePrice = self.product.hargaJual.int64
+            share.productName = self.product.name
+            share.productImgImage = images.first
+            share.sendProductBeforeScreen = PageName.AddProduct
+            share.sendProductKondisi = self.product.condition
+            share.shouldSkipBack = false
+            share.localId = self.product.localId
+            
+            self.navigationController?.pushViewController(share, animated: true)
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Jual", subTitle: "Pastikan barang yang kamu jual original. Jika barang kamu terbukti bukan original, pembeli berhak melakukan refund atas barang tersebut.", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
+    func submitEditProduct(_ param: [String:String], images: Array<UIImage>) {
+        let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
+        
+        // http://dev.prelo.id/docs/#api-Product-editProductV2
+        let url = "\(AppTools.PreloBaseUrl)/api/v2/product/" + self.product.localId
+        
+        AppToolsObjC.sendMultipart(param, images: images, withToken: User.Token!, andUserAgent: userAgent!, to:url, success: {op, res in
+            
+            self.delegate?.setFromDraftOrNew(true)
+            self.editDoneBlock()
+            
+            // gesture override
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+            
+            _ = self.navigationController?.popViewController(animated: true)
+            return
+            
+        }, failure: { op, err in
+            var msgContent = "Terdapat kesalahan saat upload barang, silahkan coba beberapa saat lagi"
+            if let msg = op?.responseString {
+                if let range1 = msg.range(of: "{\"_message\":\"") {
+                    let msg1 = msg.substring(from: range1.upperBound)
+                    if let range2 = msg1.range(of: "\"}") {
+                        msgContent = msg1.substring(to: range2.lowerBound)
+                    }
+                }
+            }
+            Constant.showDialog("Upload Barang", message: msgContent)
+        })
+    }
+    
+    func deleteEditProduct() {
+        let _ = request(APIProduct.delete(productID: self.product.localId)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
+            {
+                // Prelo Analytic - Erase Product
+                let loginMethod = User.LoginMethod ?? ""
+                let pdata = [
+                    "Product ID": self.product.localId
+                    ] as [String : Any]
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.EraseProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                
+                if var v = self.navigationController?.viewControllers
+                {
+                    v.removeLast()
+                    v.removeLast()
+                    
+                    self.delegate?.setFromDraftOrNew(true)
+                    self.navigationController?.setViewControllers(v, animated: true)
+                }
+            } else {
+                self.tableView.reloadData()
+            }
+        }
+    }
+
     // MARK: - Navigation
     func handleBackPressedOrSwipe() {
         let title = self.product.isEditMode ? "Edit" : (self.product.addProductType == .sell ? "Jual" : "Sewa")
@@ -1857,15 +2018,11 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     print(imageParam.description)
                     
                     if self.product.isEditMode {
-                        // TODO: save edited product
+                        self.submitEditProduct(param, images: imageParam)
                         
-                        
-                        // refresh product detail
-                        self.editDoneBlock()
                     } else { // new or draft
-                        // TODO: goto share product & upload
-                        
                         self.saveDraft(false)
+                        self.gotoShareAndUpload(param, images: imageParam)
                         
                         self.hideLoading()
                         self.tableView.reloadData()
@@ -1889,8 +2046,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                 }
                             }
                             
-                            // TODO: remove product
-                            
+                            self.deleteEditProduct()
                             
                         } else if self.product.isDraftMode {
                             CDDraftProduct.delete(self.product.localId)

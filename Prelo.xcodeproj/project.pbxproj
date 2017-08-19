@@ -750,7 +750,6 @@
 		B2CAF78F1E79219E00ACB361 /* ActiveBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF7881E79219E00ACB361 /* ActiveBuilder.swift */; };
 		B2CAF7901E79219E00ACB361 /* ActiveLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78A1E79219E00ACB361 /* ActiveLabel.swift */; };
 		B2CAF7911E79219E00ACB361 /* ActiveType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78B1E79219E00ACB361 /* ActiveType.swift */; };
-		B2CAF7921E79219E00ACB361 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B2CAF78C1E79219E00ACB361 /* Info.plist */; };
 		B2CAF7931E79219E00ACB361 /* RegexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78D1E79219E00ACB361 /* RegexParser.swift */; };
 		B2CAF7941E79219E00ACB361 /* StringTrimExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */; };
 		B2CB4C441E08C61C00F5D0F2 /* FilterLocationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */; };
@@ -1965,7 +1964,6 @@
 		B2CAF7891E79219E00ACB361 /* ActiveLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActiveLabel.h; sourceTree = "<group>"; };
 		B2CAF78A1E79219E00ACB361 /* ActiveLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveLabel.swift; sourceTree = "<group>"; };
 		B2CAF78B1E79219E00ACB361 /* ActiveType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActiveType.swift; sourceTree = "<group>"; };
-		B2CAF78C1E79219E00ACB361 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2CAF78D1E79219E00ACB361 /* RegexParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegexParser.swift; sourceTree = "<group>"; };
 		B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringTrimExtension.swift; sourceTree = "<group>"; };
 		B2CB4C431E08C61C00F5D0F2 /* FilterLocationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FilterLocationCell.xib; sourceTree = "<group>"; };
@@ -3808,7 +3806,6 @@
 				B2CAF7891E79219E00ACB361 /* ActiveLabel.h */,
 				B2CAF78A1E79219E00ACB361 /* ActiveLabel.swift */,
 				B2CAF78B1E79219E00ACB361 /* ActiveType.swift */,
-				B2CAF78C1E79219E00ACB361 /* Info.plist */,
 				B2CAF78D1E79219E00ACB361 /* RegexParser.swift */,
 				B2CAF78E1E79219E00ACB361 /* StringTrimExtension.swift */,
 			);
@@ -4588,7 +4585,6 @@
 				B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
-				B2CAF7921E79219E00ACB361 /* Info.plist in Resources */,
 				B29482561E91E397001B6C75 /* cover_shop_persegi_1024px.png in Resources */,
 				58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */,
 				58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */,
