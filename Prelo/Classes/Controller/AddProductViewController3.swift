@@ -528,8 +528,11 @@ class AddProductViewController3: BaseViewController {
             self.product.lokasiBeli = luxData["purchase_location"].stringValue
             self.product.tahunBeli = luxData["purchase_year"].stringValue
         } else {
-            // TODO: segment
-            self.product.segment = ""
+            if let arr = product.json["_data"]["segments"].array, arr.count > 0 {
+                self.product.segment = arr[0].stringValue
+            } else {
+                self.product.segment = ""
+            }
         }
         
         // Checklist Cell
@@ -3078,7 +3081,7 @@ class AddProduct3ChargeCell: UITableViewCell {
         self.btnRemove.isHidden = true
         
         self.btnSubmit.setTitle("Loading...", for: .disabled)
-        self.btnSubmit.setTitle("Menghapus barang...", for: .disabled)
+        self.btnRemove.setTitle("Menghapus barang...", for: .disabled)
         
         self.selectionStyle = .none
         self.alpha = 1.0
