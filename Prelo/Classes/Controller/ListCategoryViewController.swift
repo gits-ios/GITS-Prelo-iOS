@@ -281,10 +281,19 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             }
         }
         
+        /*
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
             firstChild.tabNumber = 0
             HomeHelper.switchActiveTab(0)
+        }
+        */
+        
+        let idx = getHomeIndex()
+        if let home = self.childViewControllers[idx] as? ListItemViewController { // First rendered view
+            home.setupContent()
+            home.tabNumber = idx
+            HomeHelper.switchActiveTab(idx)
         }
         
         scroll_View.layoutIfNeeded()
@@ -572,6 +581,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         
         //setCurrentTab((categoryNames.count > 1) ? 0 : 0)
+        /*
         let name = categoriesFix[1]["name"].string
         if (name?.lowercased() == "all" || name?.lowercased() == "home") {
             setCurrentTab(1)
@@ -582,6 +592,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             self.fixer(0)
         }
+        */
+        
+        let idx = getHomeIndex()
+        self.setCurrentTab(idx)
+        self.fixer(idx)
     }
     
     func setCurrentTab(_ index : Int)
@@ -954,6 +969,18 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             }
         }
         return nil
+    }
+    
+    // helper
+    func getHomeIndex() -> Int {
+        if self.categoriesFix.count > 0 {
+            for i in 0..<self.categoriesFix.count {
+                if self.categoriesFix[i]["name"].stringValue.lowercased() == "all" || self.categoriesFix[i]["name"].stringValue.lowercased() == "home" {
+                    return i
+                }
+            }
+        }
+        return 0
     }
 }
 
