@@ -114,6 +114,20 @@ enum AddProduct3Type: Int {
     case rent = 1
 }
 
+enum AddProduct3RentPeriodType: Int {
+    case day = 0
+    case week = 1
+    case month = 2
+    
+    var title: String {
+        switch (self) {
+        case .day  : return "hari"
+        case .week : return "minggu"
+        case .month: return "bulan"
+        }
+    }
+}
+
 // MARK: - Struct
 struct PreviewImage {
     var image: UIImage? // local image / downloaded image
@@ -195,7 +209,7 @@ struct SelectedProductItem {
     var deposit = ""
     
     // Rent
-    var modeSewa = "hari" // per hari, minggu, bulan
+    var modeSewa: AddProduct3RentPeriodType = .day // per hari, minggu, bulan
     
     // Charge Cell
     var commision = "0%(Free) - 10%"
@@ -535,8 +549,8 @@ class AddProductViewController3: BaseViewController {
         // Price Cell
         self.product.hargaBeli = product.json["_data"]["price_original"].int64Value.string
         self.product.hargaJual = product.json["_data"]["price"].int64Value.string
-        //self.product.hargaSewa = ""
-        //self.product.deposit = ""
+        self.product.hargaSewa = product.json["_data"]["rent_price"].int64Value.string
+        self.product.deposit = product.json["_data"]["rent_price_deposit"].int64Value.string
         
         // Charge Cell
         self.product.commision = product.json["_data"]["commission"].intValue.string + "%"
@@ -548,7 +562,7 @@ class AddProductViewController3: BaseViewController {
             self.product.isRent = true
         }
         
-        // TODO: load RENT mode
+        self.product.modeSewa = AddProduct3RentPeriodType(rawValue: product.json["_data"]["rent_period_type"].stringValue.int)!
         
         self.setupTopBanner()
     }
@@ -640,7 +654,7 @@ class AddProductViewController3: BaseViewController {
         
         self.product.addProductType = AddProduct3Type(rawValue: product.addProductType.intValue)!
         
-        // TODO: load RENT mode
+        self.product.modeSewa = AddProduct3RentPeriodType(rawValue: product.rentPeriodType.intValue)!
     }
     
     // MARK: - Other
@@ -2789,8 +2803,8 @@ class AddProduct3PriceCell: UITableViewCell {
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
         self.parent = parent
         
-        if product.isRent && product.modeSewa != "" {
-            self.lblHargaSewa.text = "Harga Sewa (Per " + product.modeSewa.uppercased() + ")"
+        if product.isRent /*&& product.modeSewa != ""*/ {
+            self.lblHargaSewa.text = "Harga Sewa (Per " + product.modeSewa.title.uppercased() + ")"
         }
         
         self.txtHargaBeli.text = product.hargaBeli
@@ -2933,7 +2947,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
         self.parent = parent
         
-        if product.modeSewa == "hari" {
+        if product.modeSewa == .day {
             self.vwPerHari.borderColor = Theme.PrimaryColor
             self.lblPerHari.textColor = Theme.PrimaryColor
             
@@ -2942,7 +2956,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             
             self.vwPerBulan.borderColor = disactiveColor
             self.lblPerBulan.textColor = disactiveColor
-        } else if product.modeSewa == "minggu" {
+        } else if product.modeSewa == .week {
             self.vwPerHari.borderColor = disactiveColor
             self.lblPerHari.textColor = disactiveColor
             
@@ -2951,7 +2965,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             
             self.vwPerBulan.borderColor = disactiveColor
             self.lblPerBulan.textColor = disactiveColor
-        } else if product.modeSewa == "bulan" {
+        } else if product.modeSewa == .month {
             self.vwPerHari.borderColor = disactiveColor
             self.lblPerHari.textColor = disactiveColor
             
@@ -2969,7 +2983,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
     }
     
     @IBAction func btnPerHariPressed(_ sender: Any) {
-        if self.parent.product.modeSewa != "hari" {
+        if self.parent.product.modeSewa != .day {
             self.vwPerHari.borderColor = Theme.PrimaryColor
             self.lblPerHari.textColor = Theme.PrimaryColor
             
@@ -2979,14 +2993,14 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.vwPerBulan.borderColor = disactiveColor
             self.lblPerBulan.textColor = disactiveColor
             
-            self.parent.product.modeSewa = "hari"
+            self.parent.product.modeSewa = .day
             self.reloadRows([ 1 ], .price)
             //self.reloadSections([ .price ])
         }
     }
     
     @IBAction func btnPerMingguPressed(_ sender: Any) {
-        if self.parent.product.modeSewa != "minggu" {
+        if self.parent.product.modeSewa != .week {
             self.vwPerHari.borderColor = disactiveColor
             self.lblPerHari.textColor = disactiveColor
             
@@ -2996,14 +3010,14 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.vwPerBulan.borderColor = disactiveColor
             self.lblPerBulan.textColor = disactiveColor
             
-            self.parent.product.modeSewa = "minggu"
+            self.parent.product.modeSewa = .week
             self.reloadRows([ 1 ], .price)
             //self.reloadSections([ .price ])
         }
     }
     
     @IBAction func btnPerBulanPressed(_ sender: Any) {
-        if self.parent.product.modeSewa != "bulan" {
+        if self.parent.product.modeSewa != .month {
             self.vwPerHari.borderColor = disactiveColor
             self.lblPerHari.textColor = disactiveColor
             
@@ -3013,7 +3027,7 @@ class AddProduct3RentPeriodCell: UITableViewCell {
             self.vwPerBulan.borderColor = Theme.PrimaryColor
             self.lblPerBulan.textColor = Theme.PrimaryColor
             
-            self.parent.product.modeSewa = "bulan"
+            self.parent.product.modeSewa = .month
             self.reloadRows([ 1 ], .price)
             //self.reloadSections([ .price ])
         }

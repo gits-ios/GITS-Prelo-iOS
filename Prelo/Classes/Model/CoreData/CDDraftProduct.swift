@@ -59,6 +59,7 @@ class CDDraftProduct: NSManagedObject {
     @NSManaged var priceDeposit : String
     @NSManaged var segment : String
     @NSManaged var addProductType : NSNumber
+    @NSManaged var rentPeriodType : NSNumber
     
     static func getAll() -> [CDDraftProduct] {
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
@@ -296,6 +297,7 @@ class CDDraftProduct: NSManagedObject {
             draft?.priceDeposit = product.deposit
             draft?.segment = product.segment
             draft?.addProductType = NSNumber(value: product.addProductType.rawValue)
+            draft?.rentPeriodType = NSNumber(value: product.modeSewa.rawValue)
         } else {
             // Make new
             let newVer = NSEntityDescription.insertNewObject(forEntityName: "CDDraftProduct", into: m) as! CDDraftProduct
@@ -329,6 +331,7 @@ class CDDraftProduct: NSManagedObject {
             newVer.priceDeposit = product.deposit
             newVer.segment = product.segment
             newVer.addProductType = NSNumber(value: product.addProductType.rawValue)
+            newVer.rentPeriodType = NSNumber(value: product.modeSewa.rawValue)
             
             newVer.isUploading = false
         }
