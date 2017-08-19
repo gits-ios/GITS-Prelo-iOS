@@ -1120,85 +1120,7 @@ class AddProductViewController3: BaseViewController {
         let alertView = SCLAlertView(appearance: Constant.appearance)
         alertView.addButton("Ya") {
             
-            // TODO: analytic buat rent
-            /*
-            // Prelo Analytic - Submit Product
-            let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
-                                                qos: .background,
-                                                attributes: .concurrent,
-                                                target: nil)
-            backgroundQueue.async {
-                //print("Work on background queue")
-                
-                let loginMethod = User.LoginMethod ?? ""
-                
-                // brand
-                let brand = [
-                    "ID"       : self.product.merkId,
-                    "Name"     : self.product.merk,
-                    "Verified" : (self.product.merkId != "" ? true : false)
-                    ] as [String : Any]
-             
-                var pdata = [
-                    "Local ID"       : self.product.localId,
-                    "Product Name"   : self.product.name,
-                    "Condition"      : self.product.condition,
-                    "Brand"          : self.product.merk,
-                    "Free Shipping"  : self.product.isFreeOngkir,
-                    "Weight"         : self.product.weight,
-                    "Price Original" : self.product.hargaBeli,
-                    "Price"          : self.product.hargaJual
-                    ] as [String : Any]
-                
-                var isOke = true
-                if let c = CDCategory.getCategoryWithID(self.product.categoryId) {
-                    // cat
-                    var cat : Array<String> = []
-                    var catId : Array<String> = []
-                    catId.append(self.product.categoryId)
-                    var temp = c
-                    cat.append(temp.name)
-                    while (true) {
-                        if let cur = CDCategory.getParent(temp.id) {
-                            temp = cur
-                            cat.append(temp.name)
-                            catId.append(temp.id)
-                        } else {
-                            break
-                        }
-                    }
-                    
-                    cat = cat.reversed()
-                    pdata["Category Names"] = cat
-                    
-                    catId = catId.reversed()
-                    pdata["Category IDs"] = catId
-                } else {
-                    isOke = false
-                    DispatchQueue.main.async(execute: {
-                        Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
-                        _ = self.navigationController?.popToRootViewController(animated: true)
-                    })
-                }
-                
-                // imgae
-                var imagesOke : [Bool] = []
-                for i in 0..<images.count {
-                    imagesOke.append(true)
-                }
-                if images.count < 10 {
-                    for i in images.count..<10 {
-                        imagesOke.append(false)
-                    }
-                }
-                pdata["Images"] = imagesOke
-                
-                if isOke {
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
-                }
-            }
-            */
-            
+            self.analyticsAddProduct(images)
             
             let share = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShareViewController2
             share.sendProductParam = param
@@ -1252,12 +1174,7 @@ class AddProductViewController3: BaseViewController {
         let _ = request(APIProduct.delete(productID: self.product.localId)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hapus Barang"))
             {
-                // Prelo Analytic - Erase Product
-                let loginMethod = User.LoginMethod ?? ""
-                let pdata = [
-                    "Product ID": self.product.localId
-                    ] as [String : Any]
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.EraseProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+                self.analyticsDeleteProduct()
                 
                 if var v = self.navigationController?.viewControllers
                 {
@@ -1268,6 +1185,8 @@ class AddProductViewController3: BaseViewController {
                     self.navigationController?.setViewControllers(v, animated: true)
                 }
             } else {
+                Constant.showDialog("Hapus Barang", message: "Terdapat kesalahan")
+                self.hideLoading()
                 self.tableView.reloadData()
             }
         }
@@ -1334,6 +1253,96 @@ class AddProductViewController3: BaseViewController {
                 break
             }
         }
+    }
+    
+    // MARK: - Prelo Analytics
+    // Prelo Analytic - Submit Product
+    func analyticsAddProduct(_ images: Array<UIImage>) {
+        // TODO: analytic buat rent
+        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.PreloAnalytic",
+                                            qos: .background,
+                                            attributes: .concurrent,
+                                            target: nil)
+        backgroundQueue.async {
+            //print("Work on background queue")
+            
+            let loginMethod = User.LoginMethod ?? ""
+            
+            // brand
+            let brand = [
+                "ID"       : self.product.merkId,
+                "Name"     : self.product.merk,
+                "Verified" : (self.product.merkId != "" ? true : false)
+            ] as [String : Any]
+            
+            var pdata = [
+                "Local ID"       : self.product.localId,
+                "Product Name"   : self.product.name,
+                "Condition"      : self.product.condition,
+                "Brand"          : brand,
+                "Free Shipping"  : self.product.isFreeOngkir,
+                "Weight"         : self.product.weight,
+                "Price Original" : self.product.hargaBeli,
+                "Price"          : self.product.hargaJual
+            ] as [String : Any]
+            
+            var isOke = true
+            if let c = CDCategory.getCategoryWithID(self.product.categoryId) {
+                // cat
+                var cat : Array<String> = []
+                var catId : Array<String> = []
+                catId.append(self.product.categoryId)
+                var temp = c
+                cat.append(temp.name)
+                while (true) {
+                    if let cur = CDCategory.getParent(temp.id) {
+                        temp = cur
+                        cat.append(temp.name)
+                        catId.append(temp.id)
+                    } else {
+                        break
+                    }
+                }
+                
+                cat = cat.reversed()
+                pdata["Category Names"] = cat
+                
+                catId = catId.reversed()
+                pdata["Category IDs"] = catId
+            } else {
+                isOke = false
+                DispatchQueue.main.async(execute: {
+                    Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+                    _ = self.navigationController?.popToRootViewController(animated: true)
+                })
+            }
+            
+            // imgae
+            var imagesOke : [Bool] = []
+            for _ in 0..<images.count {
+                imagesOke.append(true)
+            }
+            if images.count < 10 {
+                for _ in images.count..<10 {
+                    imagesOke.append(false)
+                }
+            }
+            pdata["Images"] = imagesOke
+            
+            if isOke {
+                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SubmitProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
+            }
+        }
+    }
+    
+    // Prelo Analytic - Erase Product
+    func analyticsDeleteProduct() {
+        let loginMethod = User.LoginMethod ?? ""
+        let pdata = [
+            "Product ID": self.product.localId
+        ] as [String : Any]
+        
+        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.EraseProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
     }
 }
 
@@ -1999,7 +2008,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     self.showLoading()
                     
                     cell.btnSubmit.isEnabled = false
-                    cell.btnRemove.isEnabled = false
+                    //cell.btnRemove.isEnabled = false
                     
                     if !self.validateField() {
                         self.hideLoading()
@@ -2032,7 +2041,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 cell.removePressed = {
                     self.showLoading()
                     
-                    cell.btnSubmit.isEnabled = false
+                    //cell.btnSubmit.isEnabled = false
                     cell.btnRemove.isEnabled = false
                     
                     let alertView = SCLAlertView(appearance: Constant.appearance)
@@ -3066,6 +3075,7 @@ class AddProduct3ChargeCell: UITableViewCell {
         self.btnRemove.isHidden = true
         
         self.btnSubmit.setTitle("Loading...", for: .disabled)
+        self.btnSubmit.setTitle("Menghapus barang...", for: .disabled)
         
         self.selectionStyle = .none
         self.alpha = 1.0
