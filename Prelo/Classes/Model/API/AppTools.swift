@@ -100,7 +100,7 @@ class AppTools: NSObject {
         _isSingleCart = isOn
     }
     
-    fileprivate static var _isRent = false
+    fileprivate static var _isRent = true
     static var isRent : Bool {
         get {
             return _isRent

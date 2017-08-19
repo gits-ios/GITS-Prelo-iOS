@@ -368,9 +368,15 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     }
     
     @IBAction func launchMenu() {
+        /*
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(add, animated: true)
+        */
+        
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        addProduct3VC.screenBeforeAddProduct = PageName.Home
+        self.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
     
     // MARK: - Version check and load/update metadata
