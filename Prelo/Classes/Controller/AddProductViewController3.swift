@@ -550,8 +550,11 @@ class AddProductViewController3: BaseViewController {
         // Price Cell
         self.product.hargaBeli = product.json["_data"]["price_original"].int64Value.string
         self.product.hargaJual = product.json["_data"]["price"].int64Value.string
-        self.product.hargaSewa = product.json["_data"]["rent_price"].int64Value.string
-        self.product.deposit = product.json["_data"]["rent_price_deposit"].int64Value.string
+        let hargaSewa = product.json["_data"]["rent_price"].int64Value.string
+        let deposit = product.json["_data"]["rent_price_deposit"].int64Value.string
+        
+        self.product.hargaSewa = hargaSewa != "0" ? hargaSewa : ""
+        self.product.deposit = deposit != "0" ? deposit : ""
         
         // Charge Cell
         self.product.commision = product.json["_data"]["commission"].intValue.string + "%"

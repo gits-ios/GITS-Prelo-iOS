@@ -333,6 +333,23 @@ class AddProduct3ListImagesViewController: BaseViewController {
             labels.append(self.previewImages[self.index[i]].label)
         }
     }
+    
+    func resetFirstImageAsGambarUtama() {
+        if self.previewImages[self.index[0]].label != "Gambar Utama" {
+            let lbl = self.previewImages[self.index[0]].label
+            self.previewImages[self.index[0]].label = "Gambar Utama"
+            
+            for i in 1..<self.index.count {
+                if self.previewImages[self.index[i]].label == "Gambar Utama" {
+                    self.previewImages[self.index[i]].label = lbl
+                    
+                    break
+                }
+            }
+            
+            self.tableView.reloadData()
+        }
+    }
 }
 
 extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -468,13 +485,18 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         self.index.remove(at: sourceIndexPath.row)
         self.index.insert(itemToMove, at: destinationIndexPath.row)
         
+        // buggy
+        /*
         let labelsrc = self.previewImages[self.index[sourceIndexPath.row]].label
         let labeldes = self.previewImages[self.index[destinationIndexPath.row]].label
         
         self.previewImages[self.index[sourceIndexPath.row]].label = labeldes
         self.previewImages[self.index[destinationIndexPath.row]].label = labelsrc
+        */
         
         self.tableView.reloadData()
+        
+        self.resetFirstImageAsGambarUtama()
         self.setupLabels()
     }
     
