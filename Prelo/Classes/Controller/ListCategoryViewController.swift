@@ -973,14 +973,17 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     
     // helper
     func getHomeIndex() -> Int {
+        var idx = 0
         if self.categoriesFix.count > 0 {
             for i in 0..<self.categoriesFix.count {
-                if self.categoriesFix[i]["name"].stringValue.lowercased() == "all" || self.categoriesFix[i]["name"].stringValue.lowercased() == "home" {
-                    return i
+                if self.categoriesFix[i]["name"].stringValue.lowercased() == "all"
+                || self.categoriesFix[i]["name"].stringValue.lowercased() == "home" {
+                    idx = i
+                    break
                 }
             }
         }
-        return 0
+        return idx
     }
 }
 
