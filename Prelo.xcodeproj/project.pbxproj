@@ -654,6 +654,7 @@
 		B228560E1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */; };
 		B229DDD61F48B00D0062F5DF /* KYCircleMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = B229DDD51F48B00D0062F5DF /* KYCircleMenu.m */; };
 		B229DDDC1F48BCF10062F5DF /* CircleMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B229DDDB1F48BCF10062F5DF /* CircleMenuViewController.swift */; };
+		B229DDDE1F4946A40062F5DF /* CircleMenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = B229DDDD1F4946A40062F5DF /* CircleMenu.swift */; };
 		B229F4BA1F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */; };
 		B229F4CC1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4CB1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib */; };
 		B229F4CE1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4CD1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib */; };
@@ -1867,6 +1868,7 @@
 		B229DDD41F48B00D0062F5DF /* KYCircleMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KYCircleMenu.h; sourceTree = "<group>"; };
 		B229DDD51F48B00D0062F5DF /* KYCircleMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KYCircleMenu.m; sourceTree = "<group>"; };
 		B229DDDB1F48BCF10062F5DF /* CircleMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMenuViewController.swift; sourceTree = "<group>"; };
+		B229DDDD1F4946A40062F5DF /* CircleMenu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleMenu.swift; sourceTree = "<group>"; };
 		B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesChecklistCell.xib; sourceTree = "<group>"; };
 		B229F4CB1F3706AF00A2F60B /* AddProduct3ImagesPreviewCellCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCellCollectionCell.xib; sourceTree = "<group>"; };
 		B229F4CD1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCellNewOneCell.xib; sourceTree = "<group>"; };
@@ -2764,6 +2766,7 @@
 		21AE67B11B4A59F400D2CF63 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				B229DDDD1F4946A40062F5DF /* CircleMenu.swift */,
 				212C7D341B71F3EA00360C6A /* KumangCustomView.swift */,
 				211312531B675F6900A4DA3B /* ProductDetailCover.swift */,
 				21104AD91BAAA21C00947E7F /* SearchTag.swift */,
@@ -4787,6 +4790,7 @@
 				B2FFCBAC1EA52669004F01D0 /* SocketIOClientSpec.swift in Sources */,
 				21B467EC1CCE5EDB00E145ED /* NSArray+BFKit.swift in Sources */,
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
+				B229DDDE1F4946A40062F5DF /* CircleMenu.swift in Sources */,
 				5847E15C1DBD9C6A00C1B2BA /* CDProductCondition.swift in Sources */,
 				21B467F21CCE5EDB00E145ED /* NSMutableDictionary+BFKit.swift in Sources */,
 				B2207FBC1ED67C2F00BCE613 /* DKAssetGroupDetailCameraCell.swift in Sources */,

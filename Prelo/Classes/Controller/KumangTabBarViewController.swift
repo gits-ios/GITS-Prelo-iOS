@@ -111,6 +111,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         btnAdd?.layer.shadowOffset = CGSize(width: 0, height: 5)
         btnAdd?.layer.shadowOpacity = 0.3
         
+        // TRY HACK
+        /*
+        let circleMenu = CircleMenu()
+        circleMenu.setupView(self, parent: self.btnAdd!, frame: (self.btnAdd?.frame)!)
+        */
+        
         // Init controllers
         let lc : ListCategoryViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdBrowse) as! ListCategoryViewController
         lc.previousController = self
@@ -384,7 +390,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         circleMenuViewController?.root = self
         
         self.parent?.present(circleMenuViewController!, animated: true, completion: nil)
-
     }
     
     // MARK: - Version check and load/update metadata
