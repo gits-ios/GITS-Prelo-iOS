@@ -72,6 +72,10 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubview(toFront: viewJualButton)
         
+        // MARK: HACK Menu Add
+        self.circleMenu = CircleMenu()
+        circleMenu?.setupView(self, name: PageName.MyOrders, parent: self.viewJualButton, frame: self.viewJualButton.frame)
+        
         // Search bar setup
         searchBar.delegate = self
         searchBar.placeholder = "Cari Barang"

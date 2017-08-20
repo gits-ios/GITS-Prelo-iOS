@@ -10,6 +10,7 @@ import Foundation
 
 class CircleMenuViewController: KYCircleMenu {
     var root: BaseViewController!
+    var screenBefore = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,8 +27,7 @@ class CircleMenuViewController: KYCircleMenu {
         super.runButtonActions(sender)
         
         let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
-        addProduct3VC.screenBeforeAddProduct = PageName.Home
-        self.navigationController?.pushViewController(addProduct3VC, animated: true)
+        addProduct3VC.screenBeforeAddProduct = self.screenBefore
         
         if (sender as AnyObject).tag == 2 {
             addProduct3VC.product.addProductType = .rent

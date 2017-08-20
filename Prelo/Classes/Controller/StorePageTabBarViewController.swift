@@ -278,6 +278,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         self.view.addSubview(vw)
         self.view.bringSubview(toFront: vw)
+        
+        // MARK: HACK Menu Add
+        self.circleMenu = CircleMenu()
+        circleMenu?.isHideNavBar = true
+        circleMenu?.setupView(self, name: PageName.ShopMine, parent: vw, frame: vw.frame)
     }
     
     func editProfile()

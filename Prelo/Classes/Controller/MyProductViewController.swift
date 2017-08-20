@@ -53,6 +53,10 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubview(toFront: viewJualButton)
         
+        // MARK: HACK Menu Add
+        self.circleMenu = CircleMenu()
+        circleMenu?.setupView(self, name: PageName.MyProducts, parent: self.viewJualButton, frame: self.viewJualButton.frame)
+        
         // swipe gesture for carbon (pop view)
         let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
         vwLeft.backgroundColor = UIColor.clear

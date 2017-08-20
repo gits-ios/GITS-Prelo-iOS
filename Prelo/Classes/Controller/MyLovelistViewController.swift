@@ -72,6 +72,10 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
         viewJualButton.layer.zPosition = CGFloat.greatestFiniteMagnitude;
+        
+        // MARK: HACK Menu Add
+        self.circleMenu = CircleMenu()
+        circleMenu?.setupView(self, name: PageName.Lovelist, parent: self.viewJualButton, frame: self.viewJualButton.frame)
     }
     
     override func viewWillAppear(_ animated: Bool) {

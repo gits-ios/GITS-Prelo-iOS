@@ -8,8 +8,9 @@
 
 import Foundation
 
-class CircleMenu: NSObject {
-    static let sharedInstance = CircleMenu()
+class CircleMenu: UIView {
+    
+    var overlayTotal: UIView!
     
     var btnCenter: UIButton!
     
@@ -19,58 +20,82 @@ class CircleMenu: NSObject {
     
     var isOpen = false
 
-    var center: CGPoint!
-    var root: UIViewController!
+    //var center: CGPoint!
+    var root: BaseViewController!
     var parent: UIView!
     
     var topLeft: CGPoint!
     var topRight: CGPoint!
     var menuFrame: CGRect!
+    var frameCenter: CGPoint!
     
-    func setupView(_ root: UIViewController, parent: UIView, frame: CGRect) {
+    var screenBefore = ""
+    var isHideNavBar = false
+    
+    func setupView(_ root: BaseViewController, name: String, parent: UIView, frame: CGRect) {
         
         for i in parent.subviews {
             i.isUserInteractionEnabled = false
         }
         
+        self.isUserInteractionEnabled = false
+        
+        // Try
+        self.overlayTotal = UIView()
+        self.overlayTotal.frame = UIScreen.main.bounds
+        self.overlayTotal.backgroundColor = UIColor.colorWithColor(UIColor.lightGray, alpha: 0.5)
+        self.overlayTotal.frame.origin = CGPoint(x: 0, y: AppTools.screenHeight)
+        
         self.root = root
         self.parent = parent
         self.center = CGPoint(x: frame.width/2.0, y: frame.height/2.0)
+        self.screenBefore = name
         
         self.btnCenter = UIButton()
         self.btnCenter.frame = frame
         self.btnCenter.center = self.center
         self.btnCenter.layoutIfNeeded()
-        self.btnCenter.layer.cornerRadius = (self.btnCenter.frame.size.width)/2
+        //self.btnCenter.layer.cornerRadius = (self.btnCenter.frame.size.width)/2
+        self.btnCenter.createBordersWithColor(UIColor.lightGray, radius: (self.btnCenter.frame.size.width)/2, width: 1.0)
         
         self.btnCenter.setTitle("Loh", for: UIControlState())
         self.btnCenter.backgroundColor = UIColor.white
         
         self.btnCenter.isUserInteractionEnabled = true
-        self.btnCenter.addTarget(self, action: #selector(CircleMenu.btnCenterPressed), for: UIControlEvents.touchUpInside)
+        self.btnCenter.addTarget(self.root, action: #selector(self.root.btnCenterPressed), for: UIControlEvents.touchUpInside)
         
+        self.btnCenter.layoutIfNeeded()
+        self.btnCenter.clipsToBounds = true
+        
+        let width: CGFloat = 320 // AppTools.screenWidth
         
         self.menu = UIView()
-        self.menu.frame.size = CGSize(width: AppTools.screenWidth - 64, height: AppTools.screenWidth - 64)
-        self.menu.center = center
+        self.menu.frame.size = CGSize(width: width - 64, height: width - 64)
+        self.menu.center = CGPoint(x: width / 2.0, y: AppTools.screenHeight - (self.isHideNavBar ? 0 : 64) - ((width - 256) / 2.0))
         self.menu.layoutIfNeeded()
         self.menu.layer.cornerRadius = (self.menu.frame.size.width)/2
         
-        self.menu.isUserInteractionEnabled = false
+        self.menu.isUserInteractionEnabled = true
         
-        self.menu.alpha = 1
-        self.menu.backgroundColor = UIColor.clear //UIColor.colorWithColor(UIColor.black, alpha: 0.5)
+        print(menu.frame)
+        
+        self.menu.alpha = 0
+        self.menu.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.5)
+        
+        self.menu.layoutIfNeeded()
+        self.menu.clipsToBounds = true
         
         self.menuFrame = self.menu.frame
-        let frameCenter = CGPoint(x: self.menuFrame.width/2.0, y: self.menuFrame.height/2.0)
+        self.menu.frame = self.parent.frame
+        self.frameCenter = CGPoint(x: self.menuFrame.width/2.0, y: self.menuFrame.height/2.0)
         
         self.topLeft = CGPoint(x: frameCenter.x - (frame.width * 9 / 10), y: frameCenter.y - (frame.height * 9 / 10))
         self.topRight = CGPoint(x: frameCenter.x + (frame.width * 9 / 10), y: frameCenter.y - (frame.height * 9 / 10))
         
         self.btnSell = UIButton()
         self.btnSell.frame = frame
-        self.btnSell.center = self.topLeft
-        self.btnSell.alpha = 1
+        self.btnSell.center = self.center //frameCenter //self.topLeft
+        self.btnSell.alpha = 0
         self.btnSell.layoutIfNeeded()
         self.btnSell.layer.cornerRadius = (self.btnSell.frame.size.width)/2
         
@@ -78,12 +103,15 @@ class CircleMenu: NSObject {
         self.btnSell.backgroundColor = Theme.ThemeOrange
         
         self.btnSell.isUserInteractionEnabled = true
-        self.btnSell.addTarget(self, action: #selector(CircleMenu.btnCenterPressed), for: UIControlEvents.touchUpInside)
+        self.btnSell.addTarget(self.root, action: #selector(self.root.btnSellPressed), for: UIControlEvents.touchUpInside)
+        
+        self.btnSell.layoutIfNeeded()
+        self.btnSell.clipsToBounds = true
         
         self.btnRent = UIButton()
         self.btnRent.frame = frame
-        self.btnRent.center = self.topRight
-        self.btnRent.alpha = 1
+        self.btnRent.center = self.center //frameCenter //self.topRight
+        self.btnRent.alpha = 0
         self.btnRent.layoutIfNeeded()
         self.btnRent.layer.cornerRadius = (self.btnRent.frame.size.width)/2
         
@@ -91,17 +119,34 @@ class CircleMenu: NSObject {
         self.btnRent.backgroundColor = Theme.PrimaryColor
         
         self.btnRent.isUserInteractionEnabled = true
-        self.btnRent.addTarget(self, action: #selector(CircleMenu.btnCenterPressed), for: UIControlEvents.touchUpInside)
+        self.btnRent.addTarget(self.root, action: #selector(self.root.btnRentPressed), for: UIControlEvents.touchUpInside)
+        
+        self.btnRent.layoutIfNeeded()
+        self.btnRent.clipsToBounds = true
         
         self.menu.addSubview(btnSell)
         self.menu.addSubview(btnRent)
         
-        self.parent.addSubview(menu)
         self.parent.addSubview(btnCenter)
         
-        self.root.view.bringSubview(toFront: btnCenter)
-        self.root.view.bringSubview(toFront: btnSell)
-        self.root.view.bringSubview(toFront: btnRent)
+        self.parent.superview?.addSubview(overlayTotal)
+        self.parent.superview?.addSubview(menu)
+        self.parent.superview?.bringSubview(toFront: self.parent)
+        
+        // bug fix
+        self.isOpen = true
+        self.btnCenterPressed()
+        
+        // first init
+        let addTour = UserDefaults.standard.bool(forKey: "newAddProductTourV3")
+        if (addTour == false) {
+            UserDefaults.standard.set(true, forKey: "newAddProductTourV3")
+            UserDefaults.standard.synchronize()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                self.btnCenterPressed()
+            }
+        }
     }
     
     func btnCenterPressed() {
@@ -110,23 +155,61 @@ class CircleMenu: NSObject {
         } else {
             self.open()
         }
-        
-        self.isOpen = !self.isOpen
     }
     
     func open() {
         self.menu.alpha = 1
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.btnSell.center = self.topLeft
+            self.btnRent.center = self.topRight
+            
+            self.menu.frame = self.menuFrame
+            self.overlayTotal.frame.origin = CGPoint(x: 0, y: 0)
+            
+            self.btnSell.alpha = 1
+            self.btnRent.alpha = 1
+            
+            self.isOpen = true
+        })
     }
     
     func close() {
-        self.menu.alpha = 0
+        
+        UIView.animate(withDuration: 0.3, animations: {
+            self.btnSell.center = self.center //self.frameCenter
+            self.btnRent.center = self.center //self.frameCenter
+            
+            self.menu.frame = self.parent.frame
+            self.overlayTotal.frame.origin = CGPoint(x: 0, y: AppTools.screenHeight)
+            
+            self.btnSell.alpha = 0
+            self.btnRent.alpha = 0
+            
+            self.menu.alpha = 0
+            self.isOpen = false
+        })
     }
     
     func btnSellPressed() {
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        addProduct3VC.screenBeforeAddProduct = self.screenBefore
         
+        //addProduct3VC.product.addProductType = .sell // default
+        
+        self.close()
+        
+        self.root.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
     
     func btnRentPressed() {
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        addProduct3VC.screenBeforeAddProduct = self.screenBefore
         
+        addProduct3VC.product.addProductType = .rent
+        
+        self.close()
+        
+        self.root.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
 }

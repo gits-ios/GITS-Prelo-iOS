@@ -111,11 +111,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         btnAdd?.layer.shadowOffset = CGSize(width: 0, height: 5)
         btnAdd?.layer.shadowOpacity = 0.3
         
-        // TRY HACK
-        /*
-        let circleMenu = CircleMenu()
-        circleMenu.setupView(self, parent: self.btnAdd!, frame: (self.btnAdd?.frame)!)
-        */
+        // MARK: HACK Menu Add
+        self.circleMenu = CircleMenu()
+        circleMenu?.setupView(self, name: PageName.Home, parent: self.btnAdd!, frame: (self.btnAdd?.frame)!)
         
         // Init controllers
         let lc : ListCategoryViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdBrowse) as! ListCategoryViewController
@@ -211,6 +209,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         UIView.animate(withDuration: 0.2, animations: {
             self.sectionBar?.layoutIfNeeded()
             self.btnAdd?.layoutIfNeeded()
+            
+            // Cirle menu
+            self.circleMenu?.close()
         })
     }
     
@@ -379,17 +380,20 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         add.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(add, animated: true)
         */
-        /*
+        
         let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
         addProduct3VC.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(addProduct3VC, animated: true)
-        */
+ 
         
+        /*
         let circleMenuViewController = CircleMenuViewController(buttonCount: 2, menuSize: 280, buttonSize: 64, buttonImageNameFormat: "placeholder-circle.png", centerButtonSize: 64, centerButtonImageName: "placeholder-circle.png", centerButtonBackgroundImageName: "placeholder-circle.png")
         
         circleMenuViewController?.root = self
+        circleMenuViewController?.screenBefore = PageName.Home
         
         self.parent?.present(circleMenuViewController!, animated: true, completion: nil)
+         */
     }
     
     // MARK: - Version check and load/update metadata

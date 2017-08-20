@@ -39,6 +39,10 @@ class MyPurchaseViewController : BaseViewController, CarbonTabSwipeDelegate {
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubview(toFront: viewJualButton)
+        
+        // MARK: HACK Menu Add
+        self.circleMenu = CircleMenu()
+        circleMenu?.setupView(self, name: PageName.MyOrders, parent: self.viewJualButton, frame: self.viewJualButton.frame)
     }
     
     @IBAction func sellPressed(_ sender: AnyObject) {
