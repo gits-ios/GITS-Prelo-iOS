@@ -7,6 +7,14 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+        <array key="PreloAwesome.ttf">
+            <string>PreloAwesome</string>
+        </array>
+    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -19,18 +27,276 @@
                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Krp-xb-c6V">
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Krp-xb-c6V" userLabel="vw Notif">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" id="2xT-K3-zTP"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qwk-WU-xv1">
-                        <rect key="frame" x="0.0" y="547" width="375" height="56"/>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gtU-tR-kb9">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="563"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qwk-WU-xv1" userLabel="vw Action">
+                        <rect key="frame" x="0.0" y="563" width="375" height="40"/>
+                        <subviews>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CJf-Kj-ywa" userLabel="vw Seller">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="af7-sF-tKE" userLabel="1px">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="33q-Ep-kHa"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="G4O-jw-uid" userLabel="up">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="40"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" UP">
+                                            <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cj0-NL-Mrq" userLabel="sold">
+                                        <rect key="frame" x="125" y="0.0" width="125" height="40"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" SOLD">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lbs-6x-N03" userLabel="edit">
+                                        <rect key="frame" x="250" y="0.0" width="125" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" EDIT">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="af7-sF-tKE" firstAttribute="trailing" secondItem="G4O-jw-uid" secondAttribute="trailing" id="9JG-cx-tgd"/>
+                                    <constraint firstItem="Cj0-NL-Mrq" firstAttribute="width" secondItem="G4O-jw-uid" secondAttribute="width" id="IOZ-Dc-0X3"/>
+                                    <constraint firstItem="Cj0-NL-Mrq" firstAttribute="bottom" secondItem="G4O-jw-uid" secondAttribute="bottom" id="Ng2-6D-Ki8"/>
+                                    <constraint firstItem="Lbs-6x-N03" firstAttribute="width" secondItem="Cj0-NL-Mrq" secondAttribute="width" id="O2K-1q-y1t"/>
+                                    <constraint firstItem="af7-sF-tKE" firstAttribute="top" secondItem="G4O-jw-uid" secondAttribute="top" id="RaI-1l-mrK"/>
+                                    <constraint firstAttribute="trailing" secondItem="Lbs-6x-N03" secondAttribute="trailing" id="WXu-gJ-FYZ"/>
+                                    <constraint firstItem="af7-sF-tKE" firstAttribute="leading" secondItem="G4O-jw-uid" secondAttribute="leading" id="Y02-3h-sYg"/>
+                                    <constraint firstItem="G4O-jw-uid" firstAttribute="leading" secondItem="CJf-Kj-ywa" secondAttribute="leading" id="YCf-fu-zIF"/>
+                                    <constraint firstItem="G4O-jw-uid" firstAttribute="top" secondItem="CJf-Kj-ywa" secondAttribute="top" id="ZSh-wR-mA4"/>
+                                    <constraint firstItem="Lbs-6x-N03" firstAttribute="bottom" secondItem="Cj0-NL-Mrq" secondAttribute="bottom" id="gAO-Ll-5Zu"/>
+                                    <constraint firstItem="Cj0-NL-Mrq" firstAttribute="leading" secondItem="G4O-jw-uid" secondAttribute="trailing" id="igf-Kr-QAY"/>
+                                    <constraint firstItem="Lbs-6x-N03" firstAttribute="leading" secondItem="Cj0-NL-Mrq" secondAttribute="trailing" id="u3q-Fh-dZ9"/>
+                                    <constraint firstAttribute="bottom" secondItem="G4O-jw-uid" secondAttribute="bottom" id="v0W-U3-Chr"/>
+                                    <constraint firstItem="Cj0-NL-Mrq" firstAttribute="top" secondItem="G4O-jw-uid" secondAttribute="top" id="v1l-yI-YuP"/>
+                                    <constraint firstItem="Lbs-6x-N03" firstAttribute="top" secondItem="Cj0-NL-Mrq" secondAttribute="top" id="y3B-jB-ai6"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hsw-ok-4dA" userLabel="vw Buyer (Buy &amp; Rent)">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qN0-9h-Z5Z" userLabel="1px">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="1"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="pes-W3-Adu"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PGP-u3-2Jq" userLabel="chat">
+                                        <rect key="frame" x="0.0" y="0.0" width="125" height="40"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" CHAT">
+                                            <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MYF-3K-i98" userLabel="rent">
+                                        <rect key="frame" x="125" y="0.0" width="125" height="40"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" SEWA">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Hu-RA-E3u" userLabel="buy">
+                                        <rect key="frame" x="250" y="0.0" width="125" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" BELI">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="qN0-9h-Z5Z" firstAttribute="leading" secondItem="PGP-u3-2Jq" secondAttribute="leading" id="6M6-rm-yOd"/>
+                                    <constraint firstItem="MYF-3K-i98" firstAttribute="bottom" secondItem="PGP-u3-2Jq" secondAttribute="bottom" id="7Dt-Nr-f6C"/>
+                                    <constraint firstItem="PGP-u3-2Jq" firstAttribute="leading" secondItem="Hsw-ok-4dA" secondAttribute="leading" id="Bbq-Sq-Z4B"/>
+                                    <constraint firstAttribute="bottom" secondItem="PGP-u3-2Jq" secondAttribute="bottom" id="FUH-WB-0ce"/>
+                                    <constraint firstItem="qN0-9h-Z5Z" firstAttribute="trailing" secondItem="PGP-u3-2Jq" secondAttribute="trailing" id="HlF-D7-WyS"/>
+                                    <constraint firstItem="0Hu-RA-E3u" firstAttribute="bottom" secondItem="MYF-3K-i98" secondAttribute="bottom" id="QLW-gA-gLJ"/>
+                                    <constraint firstItem="MYF-3K-i98" firstAttribute="top" secondItem="PGP-u3-2Jq" secondAttribute="top" id="RA8-Im-0iw"/>
+                                    <constraint firstItem="MYF-3K-i98" firstAttribute="width" secondItem="PGP-u3-2Jq" secondAttribute="width" id="SQd-l9-AKz"/>
+                                    <constraint firstItem="PGP-u3-2Jq" firstAttribute="top" secondItem="Hsw-ok-4dA" secondAttribute="top" id="Sui-gl-dFl"/>
+                                    <constraint firstItem="0Hu-RA-E3u" firstAttribute="top" secondItem="MYF-3K-i98" secondAttribute="top" id="WGs-lZ-k8e"/>
+                                    <constraint firstAttribute="trailing" secondItem="0Hu-RA-E3u" secondAttribute="trailing" id="cUt-hd-V7j"/>
+                                    <constraint firstItem="0Hu-RA-E3u" firstAttribute="width" secondItem="MYF-3K-i98" secondAttribute="width" id="gEk-Vy-IgW"/>
+                                    <constraint firstItem="MYF-3K-i98" firstAttribute="leading" secondItem="PGP-u3-2Jq" secondAttribute="trailing" id="ni9-HY-xjc"/>
+                                    <constraint firstItem="0Hu-RA-E3u" firstAttribute="leading" secondItem="MYF-3K-i98" secondAttribute="trailing" id="odp-DU-dyR"/>
+                                    <constraint firstItem="qN0-9h-Z5Z" firstAttribute="top" secondItem="PGP-u3-2Jq" secondAttribute="top" id="vlU-qZ-htE"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PZR-Tm-OnZ" userLabel="vw Buyer (Buy)">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HVV-gs-GGw" userLabel="1px">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="1"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="fLj-nJ-k8V"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4yl-Q7-CzJ" userLabel="chat">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="40"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" CHAT">
+                                            <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AT-3d-DJf" userLabel="buy">
+                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" BELI">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="7AT-3d-DJf" firstAttribute="width" secondItem="4yl-Q7-CzJ" secondAttribute="width" id="2Xw-qz-JiW"/>
+                                    <constraint firstAttribute="trailing" secondItem="7AT-3d-DJf" secondAttribute="trailing" id="9Yr-yK-ECI"/>
+                                    <constraint firstItem="HVV-gs-GGw" firstAttribute="leading" secondItem="4yl-Q7-CzJ" secondAttribute="leading" id="CJb-2l-bKZ"/>
+                                    <constraint firstItem="4yl-Q7-CzJ" firstAttribute="leading" secondItem="PZR-Tm-OnZ" secondAttribute="leading" id="SND-kR-aWT"/>
+                                    <constraint firstItem="7AT-3d-DJf" firstAttribute="top" secondItem="4yl-Q7-CzJ" secondAttribute="top" id="SRb-MG-dti"/>
+                                    <constraint firstItem="4yl-Q7-CzJ" firstAttribute="top" secondItem="PZR-Tm-OnZ" secondAttribute="top" id="ZLK-Yg-i3P"/>
+                                    <constraint firstItem="HVV-gs-GGw" firstAttribute="trailing" secondItem="4yl-Q7-CzJ" secondAttribute="trailing" id="ZbJ-nV-3Dh"/>
+                                    <constraint firstItem="HVV-gs-GGw" firstAttribute="top" secondItem="4yl-Q7-CzJ" secondAttribute="top" id="cis-k9-VMP"/>
+                                    <constraint firstItem="7AT-3d-DJf" firstAttribute="leading" secondItem="4yl-Q7-CzJ" secondAttribute="trailing" id="keh-7g-BGi"/>
+                                    <constraint firstItem="7AT-3d-DJf" firstAttribute="bottom" secondItem="4yl-Q7-CzJ" secondAttribute="bottom" id="xM5-bf-a0h"/>
+                                    <constraint firstAttribute="bottom" secondItem="4yl-Q7-CzJ" secondAttribute="bottom" id="xqZ-uz-M5e"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iGb-Px-DzT" userLabel="vw Buyer (Rent)">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LUC-Qh-1Fz" userLabel="1px">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="1"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="1" id="yk3-My-0Nk"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aM2-EH-n2g" userLabel="chat">
+                                        <rect key="frame" x="0.0" y="0.0" width="187.5" height="40"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" CHAT">
+                                            <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hKF-1Y-CmZ" userLabel="rent">
+                                        <rect key="frame" x="187.5" y="0.0" width="187.5" height="40"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" SEWA">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="LUC-Qh-1Fz" firstAttribute="trailing" secondItem="aM2-EH-n2g" secondAttribute="trailing" id="0E0-fj-7Ky"/>
+                                    <constraint firstItem="hKF-1Y-CmZ" firstAttribute="leading" secondItem="aM2-EH-n2g" secondAttribute="trailing" id="0zv-KU-wpr"/>
+                                    <constraint firstAttribute="trailing" secondItem="hKF-1Y-CmZ" secondAttribute="trailing" id="1ev-Ly-MPy"/>
+                                    <constraint firstItem="hKF-1Y-CmZ" firstAttribute="bottom" secondItem="aM2-EH-n2g" secondAttribute="bottom" id="HkS-mD-rXf"/>
+                                    <constraint firstItem="LUC-Qh-1Fz" firstAttribute="leading" secondItem="aM2-EH-n2g" secondAttribute="leading" id="R0y-eG-VOe"/>
+                                    <constraint firstItem="hKF-1Y-CmZ" firstAttribute="top" secondItem="aM2-EH-n2g" secondAttribute="top" id="R2O-cC-tdL"/>
+                                    <constraint firstAttribute="bottom" secondItem="aM2-EH-n2g" secondAttribute="bottom" id="TSY-31-bn8"/>
+                                    <constraint firstItem="LUC-Qh-1Fz" firstAttribute="top" secondItem="aM2-EH-n2g" secondAttribute="top" id="TnO-l7-D4F"/>
+                                    <constraint firstItem="aM2-EH-n2g" firstAttribute="leading" secondItem="iGb-Px-DzT" secondAttribute="leading" id="ZTh-Wq-CcW"/>
+                                    <constraint firstItem="aM2-EH-n2g" firstAttribute="top" secondItem="iGb-Px-DzT" secondAttribute="top" id="fPS-7s-c8x"/>
+                                    <constraint firstItem="hKF-1Y-CmZ" firstAttribute="width" secondItem="aM2-EH-n2g" secondAttribute="width" id="jeg-ht-f4H"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HjN-jl-Dxf" userLabel="vw Buyer (Affiliate)">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="u9x-v7-TZY" userLabel="buy">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
+                                        <state key="normal" title=" BELI DI HUNTSTREET">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="u9x-v7-TZY" secondAttribute="trailing" id="LnY-Os-gfh"/>
+                                    <constraint firstItem="u9x-v7-TZY" firstAttribute="leading" secondItem="HjN-jl-Dxf" secondAttribute="leading" id="NmI-yU-twx"/>
+                                    <constraint firstItem="u9x-v7-TZY" firstAttribute="top" secondItem="HjN-jl-Dxf" secondAttribute="top" id="ca6-q9-qxt"/>
+                                    <constraint firstAttribute="bottom" secondItem="u9x-v7-TZY" secondAttribute="bottom" id="gt9-mL-Uoz"/>
+                                </constraints>
+                            </view>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CGa-4c-mAc" userLabel="vw Buyer (Payment Confirm)">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wsj-aH-f5N" userLabel="confirm">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="40"/>
+                                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="17"/>
+                                        <state key="normal" title=" KONFIRMASI BAYAR">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="Wsj-aH-f5N" firstAttribute="top" secondItem="CGa-4c-mAc" secondAttribute="top" id="GdI-jU-4Rm"/>
+                                    <constraint firstAttribute="bottom" secondItem="Wsj-aH-f5N" secondAttribute="bottom" id="GkQ-gi-c7l"/>
+                                    <constraint firstAttribute="trailing" secondItem="Wsj-aH-f5N" secondAttribute="trailing" id="ef2-0d-hP4"/>
+                                    <constraint firstItem="Wsj-aH-f5N" firstAttribute="leading" secondItem="CGa-4c-mAc" secondAttribute="leading" id="fZR-Iz-vaa"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="56" id="2cG-Ic-iBm"/>
+                            <constraint firstAttribute="height" constant="40" id="2cG-Ic-iBm"/>
+                            <constraint firstAttribute="bottom" secondItem="CJf-Kj-ywa" secondAttribute="bottom" id="3d5-gi-Nof"/>
+                            <constraint firstAttribute="bottom" secondItem="iGb-Px-DzT" secondAttribute="bottom" id="3jH-49-p0s"/>
+                            <constraint firstAttribute="bottom" secondItem="CGa-4c-mAc" secondAttribute="bottom" id="6Hu-5W-aRD"/>
+                            <constraint firstItem="iGb-Px-DzT" firstAttribute="top" secondItem="qwk-WU-xv1" secondAttribute="top" id="7sQ-NZ-JJT"/>
+                            <constraint firstItem="Hsw-ok-4dA" firstAttribute="leading" secondItem="qwk-WU-xv1" secondAttribute="leading" id="IaW-SV-tdE"/>
+                            <constraint firstAttribute="bottom" secondItem="PZR-Tm-OnZ" secondAttribute="bottom" id="Ikw-3A-4xb"/>
+                            <constraint firstAttribute="trailing" secondItem="HjN-jl-Dxf" secondAttribute="trailing" id="JLv-gZ-ewP"/>
+                            <constraint firstItem="CJf-Kj-ywa" firstAttribute="leading" secondItem="qwk-WU-xv1" secondAttribute="leading" id="NV0-vN-RSa"/>
+                            <constraint firstAttribute="trailing" secondItem="iGb-Px-DzT" secondAttribute="trailing" id="PwR-J1-2c0"/>
+                            <constraint firstItem="CGa-4c-mAc" firstAttribute="leading" secondItem="qwk-WU-xv1" secondAttribute="leading" id="QjS-SX-rax"/>
+                            <constraint firstItem="CJf-Kj-ywa" firstAttribute="top" secondItem="qwk-WU-xv1" secondAttribute="top" id="UB0-ZX-LJc"/>
+                            <constraint firstAttribute="trailing" secondItem="CJf-Kj-ywa" secondAttribute="trailing" id="Wcv-Gx-wCj"/>
+                            <constraint firstItem="iGb-Px-DzT" firstAttribute="leading" secondItem="qwk-WU-xv1" secondAttribute="leading" id="YkZ-3g-u78"/>
+                            <constraint firstAttribute="trailing" secondItem="Hsw-ok-4dA" secondAttribute="trailing" id="bVB-j2-cLq"/>
+                            <constraint firstItem="PZR-Tm-OnZ" firstAttribute="top" secondItem="qwk-WU-xv1" secondAttribute="top" id="eSS-XW-QPj"/>
+                            <constraint firstAttribute="bottom" secondItem="HjN-jl-Dxf" secondAttribute="bottom" id="eZA-ag-dbL"/>
+                            <constraint firstAttribute="trailing" secondItem="PZR-Tm-OnZ" secondAttribute="trailing" id="g2N-KC-go4"/>
+                            <constraint firstItem="HjN-jl-Dxf" firstAttribute="leading" secondItem="qwk-WU-xv1" secondAttribute="leading" id="gWj-IH-EB3"/>
+                            <constraint firstItem="HjN-jl-Dxf" firstAttribute="top" secondItem="qwk-WU-xv1" secondAttribute="top" id="iDx-09-X3I"/>
+                            <constraint firstItem="Hsw-ok-4dA" firstAttribute="top" secondItem="qwk-WU-xv1" secondAttribute="top" id="iWc-UB-NDk"/>
+                            <constraint firstItem="CGa-4c-mAc" firstAttribute="top" secondItem="qwk-WU-xv1" secondAttribute="top" id="mhv-ZP-TtK"/>
+                            <constraint firstAttribute="bottom" secondItem="Hsw-ok-4dA" secondAttribute="bottom" id="qom-Ag-e0R"/>
+                            <constraint firstItem="PZR-Tm-OnZ" firstAttribute="leading" secondItem="qwk-WU-xv1" secondAttribute="leading" id="wjo-97-SWT"/>
+                            <constraint firstAttribute="trailing" secondItem="CGa-4c-mAc" secondAttribute="trailing" id="xEO-Lg-muW"/>
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TFi-8O-Ggq" userLabel="loadingPanel">
@@ -47,10 +313,6 @@
                             <constraint firstAttribute="centerX" secondItem="Nh0-DM-IHu" secondAttribute="centerX" id="knq-XI-tlo"/>
                         </constraints>
                     </view>
-                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gtU-tR-kb9">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="547"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </tableView>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
@@ -73,5 +335,13 @@
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <point key="canvasLocation" x="-32.5" y="-60.5"/>
         </viewController>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="uvU-Er-re6">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="uvU-Er-re6" id="P2j-1V-oeE">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+            </tableViewCellContentView>
+        </tableViewCell>
     </objects>
 </document>
