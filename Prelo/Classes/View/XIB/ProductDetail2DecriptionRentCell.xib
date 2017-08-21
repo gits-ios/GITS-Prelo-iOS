@@ -70,7 +70,7 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="749" text="Deposi dibayarkan saat menyewa dan akan dikembalikan setelah barang kembali dalam kondisi baik" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="f2l-3j-BVd">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="749" text="Deposi dibayarkan saat menyewa dan akan dikembalikan setelah barang kembali dalam kondisi baik." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="f2l-3j-BVd">
                                 <rect key="frame" x="42" y="27" width="310" height="43"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -100,12 +100,12 @@
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="33E-u0-RDA"/>
-                                <exclude reference="U4z-Gp-n9F"/>
                                 <exclude reference="EML-ya-rPm"/>
+                                <exclude reference="U4z-Gp-n9F"/>
+                                <exclude reference="6hx-FI-Bfs"/>
+                                <exclude reference="I3G-qT-KyZ"/>
                                 <exclude reference="dnU-GE-90Z"/>
                                 <exclude reference="wgb-aI-82F"/>
-                                <exclude reference="I3G-qT-KyZ"/>
-                                <exclude reference="6hx-FI-Bfs"/>
                             </mask>
                         </variation>
                     </view>

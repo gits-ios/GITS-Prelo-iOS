@@ -57,6 +57,9 @@
                                         <state key="normal" title=" UP">
                                             <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnUpPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="Glv-6f-smO"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cj0-NL-Mrq" userLabel="sold">
                                         <rect key="frame" x="125" y="0.0" width="125" height="40"/>
@@ -65,6 +68,9 @@
                                         <state key="normal" title=" SOLD">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnSoldPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="rpj-wL-ySb"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lbs-6x-N03" userLabel="edit">
                                         <rect key="frame" x="250" y="0.0" width="125" height="40"/>
@@ -73,6 +79,9 @@
                                         <state key="normal" title=" EDIT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnEditPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="Mvo-0G-uFa"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -110,6 +119,9 @@
                                         <state key="normal" title=" CHAT">
                                             <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnChatPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="5TI-n4-o0c"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MYF-3K-i98" userLabel="rent">
                                         <rect key="frame" x="125" y="0.0" width="125" height="40"/>
@@ -118,6 +130,9 @@
                                         <state key="normal" title=" SEWA">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnRentPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="XFE-v6-bBS"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Hu-RA-E3u" userLabel="buy">
                                         <rect key="frame" x="250" y="0.0" width="125" height="40"/>
@@ -126,6 +141,9 @@
                                         <state key="normal" title=" BELI">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnBuyPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="Jzk-OC-aea"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -163,6 +181,9 @@
                                         <state key="normal" title=" CHAT">
                                             <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnChatPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="Uwc-Rk-raC"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AT-3d-DJf" userLabel="buy">
                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="40"/>
@@ -171,6 +192,9 @@
                                         <state key="normal" title=" BELI">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnBuyPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="YjE-Uf-ktd"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -204,6 +228,9 @@
                                         <state key="normal" title=" CHAT">
                                             <color key="titleColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnChatPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="aTQ-6b-hsr"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hKF-1Y-CmZ" userLabel="rent">
                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="40"/>
@@ -212,6 +239,9 @@
                                         <state key="normal" title=" SEWA">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnRentPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="Rgw-5m-avd"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -239,6 +269,9 @@
                                         <state key="normal" title=" BELI DI HUNTSTREET">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnBuyAffiliatePressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="iZj-1e-xlX"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -259,6 +292,9 @@
                                         <state key="normal" title=" KONFIRMASI BAYAR">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="btnConfirmPressed:" destination="Crb-B4-NZE" eventType="touchUpInside" id="7FV-Hv-oYZ"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

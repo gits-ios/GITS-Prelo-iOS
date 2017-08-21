@@ -42,6 +42,9 @@
                                 <real key="value" value="1"/>
                             </userDefinedRuntimeAttribute>
                         </userDefinedRuntimeAttributes>
+                        <connections>
+                            <action selector="btnAddCommentPressed:" destination="EWF-o7-Pyo" eventType="touchUpInside" id="h9h-QZ-OBc"/>
+                        </connections>
                     </button>
                 </subviews>
                 <constraints>

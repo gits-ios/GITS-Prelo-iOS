@@ -8,8 +8,20 @@
 
 import Foundation
 
+struct ProductHelperItem {
+    var productProfit = 90
+    
+    var isSharedViaInstagram = false
+    var isSharedViaFacebook = false
+    var isSharedViaTwitter = false
+    
+    var isLoved = false
+    var loveCount = 0
+}
+
 // MARK: - Class
 class ProductDetailViewController2: BaseViewController {
+    // MARK: - Properties
     // default height 0
     @IBOutlet weak var vwNotification: UIView!
     @IBOutlet weak var consHeightVwNotification: NSLayoutConstraint!
@@ -46,12 +58,42 @@ class ProductDetailViewController2: BaseViewController {
     // default hide
     @IBOutlet weak var vwBuyer_PaymentConfirmation: UIView!
     @IBOutlet weak var btnConfirmVwBuyer_PaymentConfirmation: UIButton!
+    
+    var shareItem = ShareItem()
+    
+    // MARK: - Init
+    
+    // MARK: - Button Action
+    @IBAction func btnUpPressed(_ sender: Any) {
+    }
+    @IBAction func btnSoldPressed(_ sender: Any) {
+    }
+    @IBAction func btnEditPressed(_ sender: Any) {
+    }
+    
+    @IBAction func btnChatPressed(_ sender: Any) {
+    }
+    @IBAction func btnRentPressed(_ sender: Any) {
+    }
+    @IBAction func btnBuyPressed(_ sender: Any) {
+    }
+    
+    @IBAction func btnBuyAffiliatePressed(_ sender: Any) {
+    }
+    
+    @IBAction func btnConfirmPressed(_ sender: Any) {
+    }
 }
 
 // MARK: - Cover Cell
 class ProductDetail2CoverCell: UITableViewCell {
     @IBOutlet weak var vwContainerCarousel: UIView!
     
+    
+    // 216
+    static func heightFor() -> CGFloat {
+        return 216
+    }
 }
 
 // MARK: - Title (Product) Cell
@@ -69,7 +111,7 @@ class ProductDetail2TitleCell: UITableViewCell {
     @IBOutlet weak var consTopVwRent: NSLayoutConstraint! // 38 -> 8
     @IBOutlet weak var lbPriceRent: UILabel!
     
-    @IBOutlet weak var vwShareSeller: UIView!
+    @IBOutlet weak var vwShareSeller: UIView! // hide
     @IBOutlet weak var consTopVwShareSeller: NSLayoutConstraint! // 68 -> 38
     @IBOutlet weak var lbShareDetail: UILabel!
     @IBOutlet weak var vwInstagram: BorderedView! // subview
@@ -77,14 +119,190 @@ class ProductDetail2TitleCell: UITableViewCell {
     @IBOutlet weak var Twitter: BorderedView! // subview
     @IBOutlet weak var imgShareSeller: TintedImageView! // tint
     
-    @IBOutlet weak var vwShareBuyer: UIView!
+    @IBOutlet weak var vwShareBuyer: UIView! // hide
     @IBOutlet weak var consTopVwShareBuyer: NSLayoutConstraint! // 68 -> 38
     @IBOutlet weak var vwLove: BorderedView! // subview
     @IBOutlet weak var lbCountLove: UILabel!
     @IBOutlet weak var vwComment: BorderedView! // subview
+    @IBOutlet weak var imgComment: TintedImageView! // tinted
     @IBOutlet weak var lbCountComment: UILabel!
     @IBOutlet weak var imgShareBuyer: TintedImageView! // tint
     
+    var shareInstagram: ()->() = {}
+    var shareFacebook: ()->() = {}
+    var shareTwitter: ()->() = {}
+    var shareNative: ()->() = {} // check , is seller or not
+    var addLove: ()->() = {}
+    var addComment: ()->() = {}
+    
+    override func awakeFromNib() {
+        self.imgSee.tint = true
+        self.imgSee.tintColor = self.lbCountSee.textColor
+        
+        self.imgComment.tint = true
+        self.imgComment.tintColor = self.vwComment.borderColor
+    }
+    
+    func adapt(_ productDetail: ProductDetail, isSeller: Bool, productItem: ProductHelperItem) {
+        let product = productDetail.json["_data"]
+        
+        //TODO: mapping ke sewa-rombakAddProduct
+        self.lbTitle.text = productDetail.name
+        
+        let c = productDetail.totalViews > 1000 ? (Double(productDetail.totalViews) / 1000.0).roundString + "K" : productDetail.totalViews.string
+        self.lbCountSee.text = c
+        
+        if productDetail.priceInt > 0 {
+            self.lbPriceSell.text = productDetail.price
+            self.vwSell.isHidden = false
+        } else {
+            self.consTopVwRent.constant = 8
+            self.vwSell.isHidden = true
+        }
+        
+        if product["rent_price"].int64Value > 0 {
+            self.lbPriceRent.text = product["rent_price"].int64Value.asPrice + "/" + product["rent_period_type"].intValue.string
+            self.vwRent.isHidden = false
+            
+            if !self.vwSell.isHidden {
+                self.consTopVwRent.constant = 38
+            }
+        } else {
+            self.vwRent.isHidden = true
+        }
+        
+        if self.vwSell.isHidden || self.vwRent.isHidden {
+            self.consTopVwShareSeller.constant = 38
+            self.consTopVwShareBuyer.constant = 38
+        } else {
+            self.consTopVwShareSeller.constant = 68
+            self.consTopVwShareBuyer.constant = 68
+        }
+        
+        if isSeller {
+            self.vwShareSeller.isHidden = false
+            self.vwShareBuyer.isHidden = true
+            
+            let txt = "Share utk keuntungan lebih, keuntungan sekarang: \(productItem.productProfit)%"
+            let attTxt = NSMutableAttributedString(string: txt)
+            attTxt.addAttributes([NSForegroundColorAttributeName: Theme.PrimaryColor], range: (txt as NSString).range(of: "\(productItem.productProfit)%"))
+            self.lbShareDetail.attributedText = attTxt
+            
+            for i in vwInstagram.subviews {
+                if i.isKind(of: UILabel.self) {
+                    if ((i as! UILabel).text?.contains("+"))! {
+                        (i as! UILabel).text = "+" + UserDefaults.standard.string(forKey: UserDefaultsKey.ComInstagram)! + "%"
+                    }
+                    if productItem.isSharedViaInstagram {
+                        (i as! UILabel).textColor = Theme.PrimaryColor
+                    }
+                }
+                
+                if productItem.isSharedViaInstagram {
+                    self.vwInstagram.borderColor = Theme.PrimaryColor
+                }
+            }
+            
+            for i in vwFaceBook.subviews {
+                if i.isKind(of: UILabel.self) {
+                    if ((i as! UILabel).text?.contains("+"))! {
+                        (i as! UILabel).text = "+" + UserDefaults.standard.string(forKey: UserDefaultsKey.ComFacebook)! + "%"
+                    }
+                    if productItem.isSharedViaFacebook {
+                        (i as! UILabel).textColor = Theme.PrimaryColor
+                    }
+                }
+                
+                if productItem.isSharedViaFacebook {
+                    self.vwFaceBook.borderColor = Theme.PrimaryColor
+                }
+            }
+            
+            for i in Twitter.subviews {
+                if i.isKind(of: UILabel.self) {
+                    if ((i as! UILabel).text?.contains("+"))! {
+                        (i as! UILabel).text = "+" + UserDefaults.standard.string(forKey: UserDefaultsKey.ComTwitter)! + "%"
+                    }
+                    if productItem.isSharedViaTwitter {
+                        (i as! UILabel).textColor = Theme.PrimaryColor
+                    }
+                }
+                
+                if productItem.isSharedViaTwitter {
+                    self.Twitter.borderColor = Theme.PrimaryColor
+                }
+            }
+            
+        } else {
+            self.vwShareSeller.isHidden = true
+            self.vwShareBuyer.isHidden = false
+            
+            self.lbCountLove.text = productItem.loveCount
+            
+            if productItem.isLoved {
+                self.vwLove.borderColor = Theme.PrimaryColor
+                
+                for i in vwLove.subviews {
+                    if i.isKind(of: UIButton.self) {
+                        continue
+                    } else if i.isKind(of: TintedImageView.self) {
+                        (i as! TintedImageView).tint = true
+                        (i as! TintedImageView).tintColor = Theme.PrimaryColor
+                    } else if i.isKind(of: UILabel.self) {
+                        (i as! UILabel).textColor = Theme.PrimaryColor
+                    } else if i.isKind(of: UIView.self) {
+                        i.backgroundColor = Theme.PrimaryColor
+                    }
+                }
+            }
+            
+            self.lbCountComment.text = productDetail.discussionCountText
+        }
+    }
+    
+    // count text -> title, sell/rent, seller/buyer
+    static func heightFor(_ title: String, listingType: Int, isSeller: Bool) -> CGFloat {
+        // 12 + 8 + 20 + 4 + 21 + 12, fs 14pt
+        let t = title.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 8 + 20 + 4 + 21 + 12))
+        
+        var h: CGFloat = 38 // type 0/1
+        if listingType == 2 {
+            h += 38
+        }
+        
+        h += 8
+        if isSeller {
+            h += 50
+        } else {
+            h += 34
+        }
+        
+        return 12 + t.height + h // count subtitle height
+    }
+    
+    @IBAction func btnInstagramPressed(_ sender: Any) {
+        self.shareInstagram()
+    }
+    
+    @IBAction func btnFacebookPressed(_ sender: Any) {
+        self.shareFacebook()
+    }
+    
+    @IBAction func btnTwitterPressed(_ sender: Any) {
+        self.shareTwitter()
+    }
+    
+    @IBAction func btnSharePressed(_ sender: Any) {
+        self.shareNative()
+    }
+    
+    @IBAction func btnLovePressed(_ sender: Any) {
+        self.addLove()
+    }
+    
+    @IBAction func btnCommentPressed(_ sender: Any) {
+        self.addComment()
+    }
 }
 
 // MARK: - Seller Cell
@@ -96,6 +314,11 @@ class ProductDetail2SellerCell: UITableViewCell {
     @IBOutlet weak var vwContainerLove: UIView!
     @IBOutlet weak var lbLastActiveTime: UILabel!
     
+    
+    // 94
+    static func heightFor() -> CGFloat {
+        return 94
+    }
 }
 
 // MARK: - Description (Product) Cell
@@ -105,40 +328,80 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     @IBOutlet weak var lbMerk: ZSWTappableLabel!
     @IBOutlet weak var lbWeight: UILabel!
     
-    @IBOutlet weak var consHeightVwSize: NSLayoutConstraint! // 0 -> 17
+    @IBOutlet weak var consHeightVwSize: NSLayoutConstraint! // 0 -> 21
     @IBOutlet weak var lbSize: UILabel!
     
     @IBOutlet weak var lbCondition: UILabel!
     
-    @IBOutlet weak var consHeightVwCacat: NSLayoutConstraint! // 0 -> 17
+    @IBOutlet weak var consHeightVwCacat: NSLayoutConstraint! // 0 -> 21
     @IBOutlet weak var lbCacat: UILabel!
     
     @IBOutlet weak var lbAlasanJual: UILabel!
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbTimeStamp: UILabel!
     
+    
+    // count special story, description, + standard
+    static func heightFor(_ specialStory: String, description: String, isSize: Bool, isCacat: Bool) -> CGFloat {
+        // 12 + 12, ft 14
+        let t = specialStory.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
+        
+        let d = description.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
+        
+        var h: CGFloat = 21 * 5 + 8 * 3
+        if isSize {
+            h += 21
+        }
+        
+        if isCacat {
+            h += 21
+        }
+        
+        return 12 + t.height + d.height + h + 21 + 12
+    }
 }
 
 // MARK: - Description (Product) Sell Cell
 class ProductDetail2DescriptionSellCell: UITableViewCell {
     @IBOutlet weak var lbSellerRegion: UILabel!
     
+    
+    // count description
+    static func heightFor() -> CGFloat {
+        // 12 + 8 + 32 + 2 + 8 + 12, ft 12
+        let text = "Waktu Jaminan Prelo. Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang \"Diterima\" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan."
+        let t = text.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
+        
+        return 79 + t.height + 8 + 12
+    }
 }
 
 // MARK: - Description (Product) Rent Cell
 class ProductDetail2DescriptionRentCell: UITableViewCell {
     @IBOutlet weak var lbDeposit: UILabel!
     
+    
+    // count description
+    static func heightFor() -> CGFloat {
+        // 12 + 8 + 32 + 2 + 8 + 12, ft 12
+        let text = "Deposi dibayarkan saat menyewa dan akan dikembalikan setelah barang kembali dalam kondisi baik."
+        let t = text.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
+        
+        return 79 + t.height + 8 + 12
+    }
 }
 
 // MARK: - Title Section Cell
 // KOMENTAR / JUAL / SEWA
 class ProductDetail2TitleSectionCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
-    @IBOutlet weak var lbAccordion: UILabel! // hide if commentar, open: , close: 
+    @IBOutlet weak var lbAccordion: UILabel! // default hide, hide if commentar, open: , close: 
     
     
-    
+    // 43
+    static func heightFor() -> CGFloat {
+        return 43
+    }
 }
 
 // MARK: - Comment Cell
@@ -151,9 +414,36 @@ class ProductDetail2CommentCell: UITableViewCell {
     @IBOutlet weak var btnAction: UIButton! // hide if no action (self)
     @IBOutlet weak var vw1px: UIView! // hide if bottom cell
     
+    var openShop: ()->() = {}
+    var reportComment: ()->() = {}
+    
+    // 72 / 73
+    static func heightFor(_ isBottomest: Bool) -> CGFloat {
+        if isBottomest {
+            return 72
+        }
+        return 73
+    }
+    
+    @IBAction func btnSellerPressed(_ sender: Any) {
+        self.openShop()
+    }
+    
+    @IBAction func btnReportPressed(_ sender: Any) {
+        self.reportComment()
+    }
 }
 
 // MARK: - Add Comment Cell (btn)
 class ProductDetail2AddCommentCell: UITableViewCell {
+    var addComment: ()->() = {}
     
+    // 75
+    static func heightFor() -> CGFloat {
+        return 75
+    }
+    
+    @IBAction func btnAddCommentPressed(_ sender: Any) {
+        self.addComment()
+    }
 }
