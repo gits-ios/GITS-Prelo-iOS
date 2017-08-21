@@ -124,6 +124,11 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     // MARK: - Init
     
+    override func backPressed(_ sender: UIBarButtonItem) {
+        let viewControllers: [UIViewController] = self.navigationController!.viewControllers as [UIViewController]
+        self.navigationController!.popToViewController(viewControllers[viewControllers.count - 3], animated: true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

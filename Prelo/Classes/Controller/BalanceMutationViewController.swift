@@ -72,19 +72,19 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     @IBAction func mutasiButtonPressed(_ sender: Any) {
         isTopUp = false
-        tblMutation.reloadData()
         lblMutasi.text = "Mutasi"
         lblPreloBalance.text = "Prelo Balance"
         vwMutasiSelected.isHidden = false
         vwTopUpSelected.isHidden = true
+        refreshTable()
     }
     @IBAction func topUpButtonPressed(_ sender: Any) {
         isTopUp = true
-        tblMutation.reloadData()
         lblMutasi.text = "Transaksi"
         lblPreloBalance.text = "Status"
         vwMutasiSelected.isHidden = true
         vwTopUpSelected.isHidden = false
+        refreshTable()
     }
     
     
@@ -240,6 +240,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         print(isTopUp)
         if(isTopUp){
+            print("masuk sini coba")
+            print(topUpItems!.count)
             print(topUpItems != nil)
             if (topUpItems != nil) {
                 return topUpItems!.count
@@ -424,15 +426,28 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     func showContent() {
-        if (self.balanceMutationItems?.count <= 0) {
-            self.lblEmpty.isHidden = false
-            self.btnRefresh.isHidden = false
-            self.tblMutation.isHidden = true
+        if(isTopUp){
+            if (self.topUpItems?.count <= 0) {
+                self.lblEmpty.isHidden = false
+                self.btnRefresh.isHidden = true
+                self.tblMutation.isHidden = true
+            } else {
+                self.lblEmpty.isHidden = true
+                self.btnRefresh.isHidden = true
+                self.tblMutation.isHidden = false
+                self.setupTable()
+            }
         } else {
-            self.lblEmpty.isHidden = true
-            self.btnRefresh.isHidden = true
-            self.tblMutation.isHidden = false
-            self.setupTable()
+            if (self.balanceMutationItems?.count <= 0) {
+                self.lblEmpty.isHidden = false
+                self.btnRefresh.isHidden = true
+                self.tblMutation.isHidden = true
+            } else {
+                self.lblEmpty.isHidden = true
+                self.btnRefresh.isHidden = true
+                self.tblMutation.isHidden = false
+                self.setupTable()
+            }
         }
     }
     
