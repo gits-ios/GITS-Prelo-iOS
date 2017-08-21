@@ -26,12 +26,6 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     
     var floatRatingView: FloatRatingView!
     
-    override func backPressed(_ sender: UIBarButtonItem) {
-        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-        
-        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
-    }
-    
     func adapt(_ star : Float) {
         circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
         
@@ -81,8 +75,7 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if(reload){
-            print("masuk sini ga3?")
+        print("masuk sini ga3?")
             
             print("masuk sini loh lalala")
             // Do any additional setup after loading the view.
@@ -106,8 +99,6 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
             if reload {
                 adapt(averageSeller)
             }
-        }
-        
     }
     
     

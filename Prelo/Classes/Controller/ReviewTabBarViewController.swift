@@ -34,24 +34,15 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
     var isFromDraft = false
     
     var isNeedReload = false
-    
-    override func backPressed(_ sender: UIBarButtonItem) {
-        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-        
-        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
-    }
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print("ini average nya")
         print(averageBuyer)
         print(averageSeller)
-        reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as! ReviewAsSellerViewController
-        //reviewAsSellerVC?.adapt(averageSeller)
+        reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as? ReviewAsSellerViewController
         
-        reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController
-        //reviewAsBuyerVC?.adapt(averageBuyer)
+        reviewAsBuyerVC = (Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController)
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["SEBAGAI PENJUAL" as AnyObject, "SEBAGAI PEMBELI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
@@ -75,10 +66,13 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
     }
     
     func back(sender: UIBarButtonItem) {
-        // Perform your custom actions
-        // ...
-        // Go back to the previous ViewController
-        self.dismiss(animated: true, completion: nil)
+
+        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+        
+        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+
+        
+//        self.navigationController?.popViewController(animated: true)
     }
     
     var first = true
@@ -104,12 +98,13 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
             print("ini average nya")
             print(averageBuyer)
             print(averageSeller)
-            reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as! ReviewAsSellerViewController
+            reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as? ReviewAsSellerViewController
             reviewAsSellerVC?.reload = true
             reviewAsSellerVC?.averageSeller = averageSeller
             reviewAsSellerVC?.adapt(averageSeller)
             reviewAsSellerVC?.tableView.reloadData()
-            reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController
+            reviewAsSellerVC?.loadingPanel.isHidden = true
+            reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as? ReviewAsBuyerViewController
         }
     }
     
