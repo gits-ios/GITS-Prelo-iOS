@@ -684,6 +684,9 @@
 		B2B948E51F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948E41F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib */; };
 		B2B948E71F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948E61F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib */; };
 		B2B948E91F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948E81F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib */; };
+		B2B948EB1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */; };
+		B2B948ED1F4B252A00A69321 /* ProductDetail2CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */; };
+		B2B948EF1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -1860,6 +1863,9 @@
 		B2B948E41F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2DescriptionCell.xib; sourceTree = "<group>"; };
 		B2B948E61F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2DescriptionSellCell.xib; sourceTree = "<group>"; };
 		B2B948E81F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2DecriptionRentCell.xib; sourceTree = "<group>"; };
+		B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2TitleSectionCell.xib; sourceTree = "<group>"; };
+		B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2CommentCell.xib; sourceTree = "<group>"; };
+		B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2AddCommentCell.xib; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -3520,6 +3526,9 @@
 				B2B948E41F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib */,
 				B2B948E61F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib */,
 				B2B948E81F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib */,
+				B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */,
+				B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */,
+				B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */,
 			);
 			name = "Product Detail Version 2";
 			path = XIB;
@@ -4133,6 +4142,7 @@
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
 				5827E9611E03F844007F0833 /* ic_trx_refund4.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
+				B2B948EF1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib in Resources */,
 				21679A151B901C5300F18F90 /* Media.xcassets in Resources */,
 				210702E31BE7A8F100DD9E52 /* cu_sms@2x.png in Resources */,
 				212007BB1B6A087F00D9C84B /* ic_ico_label@2x.png in Resources */,
@@ -4338,6 +4348,7 @@
 				580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */,
 				589A6FBC1D8C08F600654CDD /* ic_faq.png in Resources */,
 				585887371DBEDA33006EC6D5 /* ExpiringProductsCell.xib in Resources */,
+				B2B948ED1F4B252A00A69321 /* ProductDetail2CommentCell.xib in Resources */,
 				B2369B241F31E1C0001761F4 /* TarikTunai2Cell.xib in Resources */,
 				440AF6651BE1090800074CBC /* ic_round_email.png in Resources */,
 				21D386A71B6B93CD00D0FA90 /* Default-Portrait-736h@3x.png in Resources */,
@@ -4398,6 +4409,7 @@
 				B2D119921E290BF80064045B /* banner_harga.png in Resources */,
 				21E7A7641B9FF2BC00FC9B38 /* LKActivity-Flat.png in Resources */,
 				B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */,
+				B2B948EB1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib in Resources */,
 				58C431B21CF8138300EB99AE /* InitialMetadata.json in Resources */,
 				5895E86C1C49315400752ACA /* chat-rp.png in Resources */,
 				B2CAF7921E79219E00ACB361 /* Info.plist in Resources */,
