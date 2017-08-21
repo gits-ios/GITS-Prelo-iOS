@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <array key="Prelo2.ttf">
+            <string>Prelo2</string>
+        </array>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="170" id="9il-0L-k8B">
+            <rect key="frame" x="0.0" y="0.0" width="384" height="170"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9il-0L-k8B" id="El9-HM-Wrq">
+                <rect key="frame" x="0.0" y="0.0" width="384" height="169.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dikirim Dari" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Apy-b0-ahY">
+                        <rect key="frame" x="12" y="16" width="77" height="16"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="77" id="eav-3z-hGf"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
+                        <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZTc-qg-toY">
+                        <rect key="frame" x="97" y="16" width="275" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gTb-7f-Meb">
+                        <rect key="frame" x="12" y="49" width="360" height="107"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6k-HD-HbI">
+                                <rect key="frame" x="8" y="8" width="32" height="91"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="r6k-HD-HbI" secondAttribute="height" id="OUK-qX-7uf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="32"/>
+                                <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="OUK-qX-7uf"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Belanja Bergaransi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMo-jb-c3N">
+                                <rect key="frame" x="42" y="8" width="310" height="17"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="124" id="ku1-8F-MZk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                                <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="ku1-8F-MZk"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kC9-hc-IvB">
+                                <rect key="frame" x="42" y="27" width="310" height="72"/>
+                                <string key="text">Waktu Jaminan Prelo. Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang "Diterima" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.98823529409999999" green="0.99215686270000003" blue="0.71764705880000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="kC9-hc-IvB" secondAttribute="bottom" constant="8" id="2x5-fq-Axj"/>
+                            <constraint firstAttribute="trailing" secondItem="XMo-jb-c3N" secondAttribute="trailing" constant="8" id="5kP-Jn-Tq0"/>
+                            <constraint firstAttribute="bottom" secondItem="r6k-HD-HbI" secondAttribute="bottom" constant="8" id="8N3-Zr-rw1"/>
+                            <constraint firstItem="kC9-hc-IvB" firstAttribute="leading" secondItem="gTb-7f-Meb" secondAttribute="leading" constant="42" id="DXb-YS-W71"/>
+                            <constraint firstAttribute="trailing" secondItem="kC9-hc-IvB" secondAttribute="trailing" constant="8" id="G16-J6-zih"/>
+                            <constraint firstItem="kC9-hc-IvB" firstAttribute="leading" secondItem="r6k-HD-HbI" secondAttribute="trailing" constant="2" id="Gjg-yW-q6l"/>
+                            <constraint firstItem="XMo-jb-c3N" firstAttribute="leading" secondItem="r6k-HD-HbI" secondAttribute="trailing" constant="2" id="HkK-8n-gdD"/>
+                            <constraint firstItem="r6k-HD-HbI" firstAttribute="top" secondItem="gTb-7f-Meb" secondAttribute="top" constant="8" id="HvI-Oa-k3W"/>
+                            <constraint firstAttribute="trailing" secondItem="kC9-hc-IvB" secondAttribute="trailing" constant="8" id="TZE-Bt-Abg"/>
+                            <constraint firstAttribute="bottom" secondItem="kC9-hc-IvB" secondAttribute="bottom" constant="4" id="Vzm-3T-zm3"/>
+                            <constraint firstItem="XMo-jb-c3N" firstAttribute="leading" secondItem="kC9-hc-IvB" secondAttribute="leading" id="Wjm-1g-hgd"/>
+                            <constraint firstItem="r6k-HD-HbI" firstAttribute="leading" secondItem="gTb-7f-Meb" secondAttribute="leading" constant="8" id="eIV-SB-uUe"/>
+                            <constraint firstItem="kC9-hc-IvB" firstAttribute="top" secondItem="XMo-jb-c3N" secondAttribute="bottom" constant="2" id="eU8-uR-obJ"/>
+                            <constraint firstItem="XMo-jb-c3N" firstAttribute="leading" secondItem="gTb-7f-Meb" secondAttribute="leading" constant="42" id="kt8-b9-Bvc"/>
+                            <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="kC9-hc-IvB" secondAttribute="bottom" constant="4" id="oks-gZ-ehb"/>
+                            <constraint firstItem="XMo-jb-c3N" firstAttribute="top" secondItem="gTb-7f-Meb" secondAttribute="top" constant="8" id="r5U-fZ-4Ac"/>
+                            <constraint firstAttribute="height" constant="42" id="woZ-Po-VpZ"/>
+                        </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="woZ-Po-VpZ"/>
+                                <exclude reference="Wjm-1g-hgd"/>
+                                <exclude reference="kt8-b9-Bvc"/>
+                                <exclude reference="oks-gZ-ehb"/>
+                                <exclude reference="G16-J6-zih"/>
+                                <exclude reference="Vzm-3T-zm3"/>
+                                <exclude reference="DXb-YS-W71"/>
+                            </mask>
+                        </variation>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="ZTc-qg-toY" firstAttribute="leading" secondItem="Apy-b0-ahY" secondAttribute="trailing" constant="8" id="Coc-Cv-Qiz"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="ZTc-qg-toY" secondAttribute="trailing" constant="4" id="Dcy-yt-Xgd"/>
+                    <constraint firstItem="Apy-b0-ahY" firstAttribute="top" secondItem="El9-HM-Wrq" secondAttribute="topMargin" constant="8" id="FQr-bW-beu"/>
+                    <constraint firstItem="gTb-7f-Meb" firstAttribute="trailing" secondItem="ZTc-qg-toY" secondAttribute="trailing" id="Gkw-Nd-lLh"/>
+                    <constraint firstItem="Apy-b0-ahY" firstAttribute="leading" secondItem="El9-HM-Wrq" secondAttribute="leadingMargin" constant="4" id="OFJ-Q1-Wmf"/>
+                    <constraint firstItem="Apy-b0-ahY" firstAttribute="top" secondItem="ZTc-qg-toY" secondAttribute="top" id="Pbs-eL-pHp"/>
+                    <constraint firstItem="gTb-7f-Meb" firstAttribute="leading" secondItem="Apy-b0-ahY" secondAttribute="leading" id="PmH-ZL-Yjw"/>
+                    <constraint firstItem="Apy-b0-ahY" firstAttribute="top" secondItem="ZTc-qg-toY" secondAttribute="top" id="VVl-h8-rWD"/>
+                    <constraint firstItem="gTb-7f-Meb" firstAttribute="top" secondItem="ZTc-qg-toY" secondAttribute="bottom" constant="16" id="Zhe-Ae-Xcx"/>
+                    <constraint firstItem="Apy-b0-ahY" firstAttribute="centerY" secondItem="ZTc-qg-toY" secondAttribute="centerY" id="iGv-Oq-ShR"/>
+                </constraints>
+                <variation key="default">
+                    <mask key="constraints">
+                        <exclude reference="VVl-h8-rWD"/>
+                        <exclude reference="iGv-Oq-ShR"/>
+                    </mask>
+                </variation>
+            </tableViewCellContentView>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <point key="canvasLocation" x="25" y="-15"/>
+        </tableViewCell>
+    </objects>
+</document>
