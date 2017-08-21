@@ -78,11 +78,11 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
             self.imgContohFoto.image = nil
         }
         if(selectedIndex == 1){
-            self.imgContohFoto.image = UIImage(named: "arrow_right.png")
+            self.imgContohFoto.image = UIImage(named: "Verifikasi Sewa - Kampus.jpg")
         } else if(selectedIndex == 2){
-            self.imgContohFoto.image = UIImage(named: "arrow_down.png")
+            self.imgContohFoto.image = UIImage(named: "Verifikasi Sewa - Kantor.jpg")
         } else if(selectedIndex == 3){
-            self.imgContohFoto.image = UIImage(named: "arrow_left.png")
+            self.imgContohFoto.image = UIImage(named: "Verifikasi Sewa - Kelurahan.jpg")
         }
 
     }
@@ -235,12 +235,12 @@ class VerifikasiIdentitasViewController: BaseViewController, UIImagePickerContro
                     if(index == 0){
                         self.imgContohFoto.image = nil
                     }
-                    if(index == 1){
-                        self.imgContohFoto.image = UIImage(named: "arrow_right.png")
-                    } else if(index == 2){
-                        self.imgContohFoto.image = UIImage(named: "arrow_down.png")
-                    } else if(index == 3){
-                        self.imgContohFoto.image = UIImage(named: "arrow_left.png")
+                    if(self.selectedIndex == 1){
+                        self.imgContohFoto.image = UIImage(named: "Verifikasi Sewa - Kampus.jpg")
+                    } else if(self.selectedIndex == 2){
+                        self.imgContohFoto.image = UIImage(named: "Verifikasi Sewa - Kantor.jpg")
+                    } else if(self.selectedIndex == 3){
+                        self.imgContohFoto.image = UIImage(named: "Verifikasi Sewa - Kelurahan.jpg")
                     }
                 } else {
                     self.isNeedSetup = true

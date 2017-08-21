@@ -284,6 +284,9 @@
 		5806A18E1EFA325E005B4CBE /* Pilih_Foto.png in Resources */ = {isa = PBXBuildFile; fileRef = 5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */; };
 		580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */; };
 		580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */; };
+		5811FCBF1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5811FCBC1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg */; };
+		5811FCC01F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5811FCBD1F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg */; };
+		5811FCC11F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5811FCBE1F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg */; };
 		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
 		581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */; };
 		581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */; };
@@ -1427,6 +1430,9 @@
 		5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pilih_Foto.png; sourceTree = "<group>"; };
 		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
 		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
+		5811FCBC1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kampus.jpg"; sourceTree = "<group>"; };
+		5811FCBD1F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kantor.jpg"; sourceTree = "<group>"; };
+		5811FCBE1F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kelurahan.jpg"; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
 		581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_dashboard_cover@2x.jpg"; sourceTree = "<group>"; };
 		581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cover-shop-page.jpg"; sourceTree = "<group>"; };
@@ -2501,6 +2507,9 @@
 				B2D1198A1E290BE20064045B /* banner */,
 				B2EE39C91E76903C00113E03 /* paid push */,
 				B2BEBC7D1E4C30C9009982F9 /* placeholder */,
+				5811FCBC1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg */,
+				5811FCBD1F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg */,
+				5811FCBE1F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg */,
 				58969E3B1F3069D100CBD064 /* Exclamation_32px.png */,
 				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
 				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
@@ -3777,6 +3786,7 @@
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
+				5811FCBF1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
@@ -3871,6 +3881,7 @@
 				B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */,
 				B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */,
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
+				5811FCC11F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
 				B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */,
 				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
@@ -3881,6 +3892,7 @@
 				589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */,
 				585887471DBEDB50006EC6D5 /* MyPurchaseProcessing.xib in Resources */,
 				585887331DBED9FC006EC6D5 /* CategoryPreferencesCell.xib in Resources */,
+				5811FCC01F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg in Resources */,
 				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				58BED8E61DA62CB20063E11E /* ic_cart_white.png in Resources */,
