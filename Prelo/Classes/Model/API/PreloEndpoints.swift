@@ -40,6 +40,8 @@ class PreloEndpoints: NSObject {
         print("\(reqAlias) req = \(req)")
 
         if let response = resp {
+            print("response code nya ")
+            print(response.statusCode)
             if (response.statusCode != 200) {
                 if (res != nil) {
                     if let msg = JSON(res!)["_message"].string {
@@ -638,7 +640,8 @@ enum APIMe : URLRequestConvertible {
         case .deleteBankAccount(_) : return .post
         case .setDefaultBankAccount(_) : return .post
         case .editBankAccount(_, _, _, _, _, _) : return .post
-        
+        case .deleteAddress(_) : return .post
+        case .setDefaultAddress(_) : return .post
         case .getUsersShopData(_) : return .get
         case .closeUsersShop(_, _, _, _) : return .post
         case .openUsersShop : return .post

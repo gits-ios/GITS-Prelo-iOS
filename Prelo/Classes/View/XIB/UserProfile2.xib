@@ -1123,16 +1123,15 @@
                                     <constraint firstAttribute="bottom" secondItem="PzZ-cX-2dY" secondAttribute="bottom" constant="32" id="cxX-TK-86i"/>
                                     <constraint firstItem="DEW-pw-WYS" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" id="d8b-PZ-Bwp"/>
                                     <constraint firstItem="eog-Pr-abg" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" id="dPa-bk-j7Z"/>
+                                    <constraint firstItem="VwM-xd-1aD" firstAttribute="leading" secondItem="eog-Pr-abg" secondAttribute="leading" id="eBI-fj-SIs"/>
                                     <constraint firstAttribute="trailing" secondItem="VwM-xd-1aD" secondAttribute="trailing" id="ffi-X8-aug"/>
                                     <constraint firstItem="f6Z-3G-rKS" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" constant="8" id="gZ6-hU-JCR"/>
                                     <constraint firstItem="eeW-uS-khR" firstAttribute="top" secondItem="DEW-pw-WYS" secondAttribute="bottom" constant="15" id="iXa-MI-7rJ"/>
                                     <constraint firstAttribute="trailing" secondItem="f6Z-3G-rKS" secondAttribute="trailing" constant="8" id="ixd-ds-LjN"/>
                                     <constraint firstAttribute="trailing" secondItem="bLR-aZ-6gk" secondAttribute="trailing" constant="8" id="jcb-Iy-2Qu"/>
-                                    <constraint firstItem="VwM-xd-1aD" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" id="jwY-6s-rnO"/>
                                     <constraint firstItem="DEW-pw-WYS" firstAttribute="top" secondItem="f6Z-3G-rKS" secondAttribute="bottom" constant="8" id="l1m-uq-Ghi"/>
                                     <constraint firstItem="eeW-uS-khR" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" constant="8" id="lHh-dR-Ymt"/>
                                     <constraint firstItem="TbM-B8-7bP" firstAttribute="top" secondItem="2KZ-GY-Tho" secondAttribute="bottom" constant="18" id="m8y-ek-alZ"/>
-                                    <constraint firstAttribute="trailing" secondItem="eog-Pr-abg" secondAttribute="trailing" id="oHi-EQ-Dij"/>
                                     <constraint firstItem="bLR-aZ-6gk" firstAttribute="leading" secondItem="dNF-CU-kOd" secondAttribute="leading" constant="8" id="p9d-Yb-BtW"/>
                                     <constraint firstAttribute="trailing" secondItem="sgl-Sw-0oj" secondAttribute="trailing" id="q4b-Ge-2QU"/>
                                     <constraint firstAttribute="trailing" secondItem="eog-Pr-abg" secondAttribute="trailing" id="q9l-is-bv4"/>
@@ -1160,13 +1159,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="1216"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="kxN-E5-e5J" userLabel="loading">
-                                <rect key="frame" x="177.5" y="25" width="20" height="20"/>
+                                <rect key="frame" x="178" y="25" width="20" height="20"/>
                                 <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="kxN-E5-e5J" secondAttribute="centerX" id="4cX-Z5-o9H"/>
-                            <constraint firstItem="kxN-E5-e5J" firstAttribute="top" secondItem="CHA-oh-PNi" secondAttribute="top" constant="25" id="ycL-9O-gx7"/>
+                            <constraint firstItem="kxN-E5-e5J" firstAttribute="top" secondItem="CHA-oh-PNi" secondAttribute="top" constant="25" id="IRy-O2-aoQ"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -1199,16 +1198,16 @@
                 <outlet property="VwRek" destination="j70-Wl-Tj9" id="srk-Ew-wmK"/>
                 <outlet property="btnSimpanData" destination="PzZ-cX-2dY" id="cMM-1J-qmz"/>
                 <outlet property="btnUserImage" destination="CtZ-ki-qEz" id="bxA-yx-nFi"/>
-                <outlet property="consHeightShippingOptions" destination="1ac-zP-3VJ" id="S6q-gS-4ZB"/>
-                <outlet property="fieldNama" destination="Yep-vx-KC8" id="5NJ-7H-yAj"/>
+                <outlet property="consHeightShippingOptions" destination="1ac-zP-3VJ" id="Fad-9A-vZs"/>
+                <outlet property="fieldNama" destination="Yep-vx-KC8" id="Gkj-Rm-on9"/>
                 <outlet property="fieldTentangShop" destination="t5C-94-zeP" id="N6g-SS-IBR"/>
-                <outlet property="fieldTentangShopHeightConstraint" destination="bdD-ji-Has" id="pL5-Mo-TBE"/>
+                <outlet property="fieldTentangShopHeightConstraint" destination="bdD-ji-Has" id="lzr-uY-BTM"/>
                 <outlet property="fieldTentangShopTop" destination="55m-HK-IcS" id="5Z5-dO-2Y5"/>
-                <outlet property="imgLogoBank" destination="yz9-hG-4Qb" id="yf2-fY-gVF"/>
+                <outlet property="imgLogoBank" destination="yz9-hG-4Qb" id="fla-IE-rxh"/>
                 <outlet property="imgUser" destination="Cdg-o9-kAS" id="nLh-3L-uEr"/>
                 <outlet property="lblAddress" destination="2jI-DQ-Hyq" id="zlv-Ct-KMn"/>
                 <outlet property="lblAddressName" destination="NSO-ZT-4nM" id="lPA-jH-ZM9"/>
-                <outlet property="lblBank" destination="p2A-Ak-gH2" id="coE-p0-Dzc"/>
+                <outlet property="lblBank" destination="p2A-Ak-gH2" id="WEa-XM-BzR"/>
                 <outlet property="lblClose" destination="3bz-pm-e8O" id="dhk-UU-Pd7"/>
                 <outlet property="lblEmail" destination="hfy-sx-4Yc" id="Wb1-c6-Be2"/>
                 <outlet property="lblJenisKelamin" destination="8f8-yW-ki6" id="KhJ-Rs-zgi"/>
