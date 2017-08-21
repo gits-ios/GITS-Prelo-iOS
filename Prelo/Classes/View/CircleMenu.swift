@@ -160,6 +160,8 @@ class CircleMenu: UIView {
     func open() {
         self.menu.alpha = 1
         
+        self.menu.addCornerRadiusAnimation(from: self.parent.frame.width / 2, to: self.menuFrame.width / 2, duration: 0.3)
+        
         UIView.animate(withDuration: 0.3, animations: {
             self.btnSell.center = self.topLeft
             self.btnRent.center = self.topRight
@@ -175,6 +177,8 @@ class CircleMenu: UIView {
     }
     
     func close() {
+        
+        self.menu.addCornerRadiusAnimation(from: self.menuFrame.width / 2, to: self.parent.frame.width / 2, duration: 0.3)
         
         UIView.animate(withDuration: 0.3, animations: {
             self.btnSell.center = self.center //self.frameCenter
@@ -211,5 +215,19 @@ class CircleMenu: UIView {
         self.close()
         
         self.root.navigationController?.pushViewController(addProduct3VC, animated: true)
+    }
+}
+
+extension UIView
+{
+    func addCornerRadiusAnimation(from: CGFloat, to: CGFloat, duration: CFTimeInterval)
+    {
+        let animation = CABasicAnimation(keyPath:"cornerRadius")
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.fromValue = from
+        animation.toValue = to
+        animation.duration = duration
+        self.layer.add(animation, forKey: "cornerRadius")
+        self.layer.cornerRadius = to
     }
 }
