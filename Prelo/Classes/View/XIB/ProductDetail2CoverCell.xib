@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -18,16 +17,16 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="215.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RjI-Yd-fVs">
-                        <rect key="frame" x="12" y="12" width="351" height="191.5"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RjI-Yd-fVs" userLabel="vw Carousel">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="216"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="RjI-Yd-fVs" firstAttribute="top" secondItem="9fC-RR-2gC" secondAttribute="topMargin" constant="4" id="2kM-C0-YiD"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="RjI-Yd-fVs" secondAttribute="bottom" constant="4" id="OUJ-J6-arg"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="RjI-Yd-fVs" secondAttribute="trailing" constant="4" id="WmB-hI-rCH"/>
-                    <constraint firstItem="RjI-Yd-fVs" firstAttribute="leading" secondItem="9fC-RR-2gC" secondAttribute="leadingMargin" constant="4" id="qnk-9Z-6aB"/>
+                    <constraint firstItem="RjI-Yd-fVs" firstAttribute="top" secondItem="9fC-RR-2gC" secondAttribute="top" id="5sD-YD-mUh"/>
+                    <constraint firstAttribute="trailing" secondItem="RjI-Yd-fVs" secondAttribute="trailing" id="EAH-G3-ZR2"/>
+                    <constraint firstAttribute="bottom" secondItem="RjI-Yd-fVs" secondAttribute="bottom" id="Wcv-q6-s8e"/>
+                    <constraint firstItem="RjI-Yd-fVs" firstAttribute="leading" secondItem="9fC-RR-2gC" secondAttribute="leading" id="dLX-ho-8EY"/>
                 </constraints>
             </tableViewCellContentView>
             <point key="canvasLocation" x="22.5" y="21"/>
