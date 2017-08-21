@@ -237,7 +237,7 @@ class ProductDetail2TitleCell: UITableViewCell {
             self.vwShareSeller.isHidden = true
             self.vwShareBuyer.isHidden = false
             
-            self.lbCountLove.text = productItem.loveCount
+            self.lbCountLove.text = productItem.loveCount.string
             
             if productItem.isLoved {
                 self.vwLove.borderColor = Theme.PrimaryColor
