@@ -256,19 +256,28 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                         } else {
                             self.shopBuka = false
                             self.vwClose.isHidden = false
+                            self.disableButton(self.btnBuy)
                             self.disableMyProductBtnSet()
                             if(self.detail?.theirId==User.Id){
                                 let end_date = self.detail?.myShop["end_date"]?.string
                                 var arrEnd = end_date?.components(separatedBy: "T")
                                 var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
                                 var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                                self.lblEnd.text = "Kamu sedang menutup shop sampai tanggal : " + labelEnd
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
+                                let date = dateFormatter.date(from: labelEnd)
+                                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date!)
+                                self.lblEnd.text = "Kamu akan membuka shop pada tanggal " + dateFormatter.string(from: tomorrow!)
                             } else {
                                 let end_date = self.detail?.myShop["end_date"]?.string
                                 var arrEnd = end_date?.components(separatedBy: "T")
                                 var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
                                 var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                                self.lblEnd.text = "Penjual barang ini sedang menutup shop sampai tanggal : " + labelEnd
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
+                                let date = dateFormatter.date(from: labelEnd)
+                                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date!)
+                                self.lblEnd.text = "Penjual barang ini akan membuka shop pada tanggal " + dateFormatter.string(from: tomorrow!)
                                 self.btnOpenShop.isHidden = true
                                 self.consVwCloseHeight.constant = 50
                             }

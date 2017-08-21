@@ -217,14 +217,14 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.consHeightVwNavigationButton.constant = 94
                 self.vwCloseNavButton.isHidden = false
                 subFrame = CGRect(x: 0, y: 49, width: self.vwNavBar.width, height: 44)
-                lblTutupSampai.text = "Shop tutup sampai tanggal : "+tanggalTutup
+                lblTutupSampai.text = "Shop akan dibuka pada tanggal "+tanggalTutup
             } else {
                 btnBukaShop.isHidden = true
                 self.consHeightVwNavigationButton.constant = 74
                 self.consHeightCloseNavButton.constant = 29
                 self.vwCloseNavButton.isHidden = false
                 subFrame = CGRect(x: 0, y: 29, width: self.vwNavBar.width, height: 44)
-                lblTutupSampai.text = "Shop ini tutup sampai tanggal : "+tanggalTutup
+                lblTutupSampai.text = "Shop ini akan dibuka pada tanggal "+tanggalTutup
             }
         }
         
@@ -457,7 +457,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 var arrEnd = end_date?.components(separatedBy: "T")
                 var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
                 var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                self.tanggalTutup = labelEnd
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
+                let date = dateFormatter.date(from: labelEnd)
+                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date!)
+                
+                self.tanggalTutup = dateFormatter.string(from: tomorrow!)
             }
         }
         
