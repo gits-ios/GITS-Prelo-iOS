@@ -71,7 +71,7 @@ class CircleMenu: UIView {
         
         self.menu = UIView()
         self.menu.frame.size = CGSize(width: width - 64, height: width - 64)
-        self.menu.center = CGPoint(x: width / 2.0, y: AppTools.screenHeight - (self.isHideNavBar ? 0 : 64) - ((width - 256) / 2.0))
+        self.menu.center = CGPoint(x: width / 2.0, y: AppTools.screenHeight - (self.isHideNavBar ? 12 : 76) - ((width - 256) / 2.0))
         self.menu.layoutIfNeeded()
         self.menu.layer.cornerRadius = (self.menu.frame.size.width)/2
         
