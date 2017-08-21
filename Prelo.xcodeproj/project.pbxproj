@@ -615,7 +615,7 @@
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		B204104B1F4A8C8C00CCE4B1 /* ProductDetail2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */; };
 		B204104D1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */; };
-		B204104F1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104E1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib */; };
+		B204104F1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104E1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib */; };
 		B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */; };
 		B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
@@ -680,6 +680,7 @@
 		B2B688801EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */; };
 		B2B688811EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */; };
 		B2B688821EFA6C95005B5E8A /* ic_checkout_master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */; };
+		B2B948D31F4ABE8D00A69321 /* ProductDetail2SellerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948D21F4ABE8D00A69321 /* ProductDetail2SellerCell.xib */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -1784,7 +1785,7 @@
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2.xib; sourceTree = "<group>"; };
 		B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2CoverCell.xib; sourceTree = "<group>"; };
-		B204104E1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail3TitleCell.xib; sourceTree = "<group>"; };
+		B204104E1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2TitleCell.xib; sourceTree = "<group>"; };
 		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
 		B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
@@ -1852,6 +1853,7 @@
 		B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_mandiri_clickpay.png; sourceTree = "<group>"; };
 		B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkout_mandiri_e-cash.png"; sourceTree = "<group>"; };
 		B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_master_card.png; sourceTree = "<group>"; };
+		B2B948D21F4ABE8D00A69321 /* ProductDetail2SellerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2SellerCell.xib; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -3507,7 +3509,8 @@
 			children = (
 				B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */,
 				B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */,
-				B204104E1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib */,
+				B204104E1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib */,
+				B2B948D21F4ABE8D00A69321 /* ProductDetail2SellerCell.xib */,
 			);
 			name = "Product Detail Version 2";
 			path = XIB;
@@ -4096,7 +4099,7 @@
 				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
 				5858873A1DBEDA4D006EC6D5 /* FilterChecklistCell.xib in Resources */,
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
-				B204104F1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib in Resources */,
+				B204104F1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib in Resources */,
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
@@ -4419,6 +4422,7 @@
 				58DBE8181D8F9B1100355608 /* ic_round.png in Resources */,
 				58A223C41C898CB600619518 /* ic_trx_canceled.png in Resources */,
 				21156EC71B8F5DBC001D7842 /* arrow_down.png in Resources */,
+				B2B948D31F4ABE8D00A69321 /* ProductDetail2SellerCell.xib in Resources */,
 				B2D965DD1E9E1B1A00B2C29C /* Checkout2PaymentBankCell.xib in Resources */,
 				B2EE39CF1E76905500113E03 /* ic_paid_video.png in Resources */,
 				B2C3A3C41E2B8E2D0082A15D /* ShopAchievement.xib in Resources */,
