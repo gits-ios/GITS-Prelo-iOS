@@ -2034,6 +2034,47 @@ class TransactionDetail : NSObject {
         }
         return ""
     }
+    
+    var RejectReason : RejectReasonItem? {
+        if let j = RejectReasonItem.instance(json["rejectReasonEnum"]) {
+            return j
+        }
+        return nil
+    }
+}
+
+class RejectReasonItem: NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> RejectReasonItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = RejectReasonItem()
+            u.json = json!
+            return u
+        }
+    }
+    var record : String {
+        if let j = json["record"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var notes : String {
+        if let j = json["notes"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var reply : String {
+        if let j = json["reply"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class TransactionProductDetail : NSObject {
@@ -2080,6 +2121,13 @@ class TransactionProductDetail : NSObject {
     
     var buyerId : String {
         if let j = json["buyer_id"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var rejection_reason : String {
+        if let j = json["rejection_reason"].string {
             return j
         }
         return ""
@@ -2399,6 +2447,39 @@ class TransactionProductDetail : NSObject {
         }
     }
     
+    var buyerReviewerName : String {
+        if (json["buyer_review"]["seller_username"] != nil) {
+            return json["buyer_review"]["seller_username"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerReviewerImageURL : URL? {
+        if json["buyer_review"]["seller_pict"].error != nil
+        {
+            return nil
+        }
+        let url = json["buyer_review"]["seller_pict"].string!
+        return URL(string: url)
+    }
+    
+    var buyerReviewStar : Int {
+        if (json["buyer_review"]["star"] != nil) {
+            return json["buyer_review"]["star"].intValue
+        } else {
+            return 0
+        }
+    }
+    
+    var buyerReviewComment : String {
+        if (json["buyer_review"]["comment"] != nil) {
+            return json["buyer_review"]["comment"].stringValue
+        } else {
+            return ""
+        }
+    }
+    
     var myPreloBalance : Int64 {
         if let j = json["my_prelo_balance"].int64 {
             return j
@@ -2604,6 +2685,69 @@ class UserReview : NSObject {
     var buyerPictURL : URL? {
         if (json["buyer_pict"] != nil) {
             let url = json["buyer_pict"].string!
+            return URL(string: url)
+        }
+        return nil
+    }
+}
+
+class BuyerReview : NSObject {
+    
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> BuyerReview? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = BuyerReview()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var id : String {
+        if (json["_id"] != nil) {
+            return json["_id"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerFullname : String {
+        if (json["seller_fullname"] != nil) {
+            return json["seller_fullname"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerUsername : String {
+        if (json["seller_username"] != nil) {
+            return json["seller_username"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var star : Int {
+        if (json["star"] != nil) {
+            return json["star"].int!
+        } else {
+            return 0
+        }
+    }
+    
+    var comment : String {
+        if (json["comment"] != nil) {
+            return json["comment"].string!
+        } else {
+            return ""
+        }
+    }
+    
+    var buyerPictURL : URL? {
+        if (json["seller_pict"] != nil) {
+            let url = json["seller_pict"].string!
             return URL(string: url)
         }
         return nil

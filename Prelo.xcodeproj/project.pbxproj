@@ -560,6 +560,12 @@
 		58BBF5961EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */; };
 		58BBF5981EF30FF300A0E2A2 /* TarikTunai3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */; };
 		58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */; };
+		58B5A2CC1F1CA87F00A80E81 /* ReviewTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */; };
+		58B5A2DE1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */; };
+		58B5A2E01F1D9AFB00A80E81 /* ReviewAsSeller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */; };
+		58B5A2E21F1D9B1D00A80E81 /* ReviewAsBuyer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */; };
+		58B5A2E41F1D9BE800A80E81 /* ReviewAsSellerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */; };
+		58B5A2E61F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */; };
 		58BE535B1D460E2E00E358EB /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535C1D479F5B00E358EB /* courier_jne.png */; };
 		58BE53601D479F5B00E358EB /* courier_pos.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535D1D479F5B00E358EB /* courier_pos.png */; };
@@ -687,6 +693,7 @@
 		B2B688801EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */; };
 		B2B688811EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */; };
 		B2B688821EFA6C95005B5E8A /* ic_checkout_master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */; };
+		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverage.xib */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -1720,6 +1727,12 @@
 		58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountViewController2.swift; sourceTree = "<group>"; };
 		58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai3.xib; sourceTree = "<group>"; };
 		58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController3.swift; sourceTree = "<group>"; };
+		58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewTabBar.xib; sourceTree = "<group>"; };
+		58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTabBarViewController.swift; sourceTree = "<group>"; };
+		58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewAsSeller.xib; sourceTree = "<group>"; };
+		58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReviewAsBuyer.xib; path = ../ReviewAsBuyer.xib; sourceTree = "<group>"; };
+		58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAsSellerViewController.swift; sourceTree = "<group>"; };
+		58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAsBuyerViewController.swift; sourceTree = "<group>"; };
 		58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
 		58BE535C1D479F5B00E358EB /* courier_jne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_jne.png; sourceTree = "<group>"; };
 		58BE535D1D479F5B00E358EB /* courier_pos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_pos.png; sourceTree = "<group>"; };
@@ -1866,6 +1879,7 @@
 		B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_mandiri_clickpay.png; sourceTree = "<group>"; };
 		B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkout_mandiri_e-cash.png"; sourceTree = "<group>"; };
 		B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_master_card.png; sourceTree = "<group>"; };
+		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverage.xib; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -2652,6 +2666,9 @@
 				588113261F0A101900AF17D7 /* ChangeShopStatusViewController.swift */,
 				58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */,
 				58969E631F31710000CBD064 /* TopUpConfirmViewController.swift */,
+				58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */,
+				58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */,
+				58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3275,7 +3292,7 @@
 				B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */,
 				B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */,
 				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
-				B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */,
+				B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverage.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
@@ -3302,6 +3319,9 @@
 				58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */,
 				58969E511F316C0400CBD064 /* TopUpConfirm.xib */,
 				588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */,
+				58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */,
+				58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */,
+				58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -4109,6 +4129,7 @@
 				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
 				5858873A1DBEDA4D006EC6D5 /* FilterChecklistCell.xib in Resources */,
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
+				58B5A2E01F1D9AFB00A80E81 /* ReviewAsSeller.xib in Resources */,
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
@@ -4261,7 +4282,7 @@
 				585887351DBEDA22006EC6D5 /* ConfirmShippingCell.xib in Resources */,
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				585887341DBEDA08006EC6D5 /* ConfirmShipping.xib in Resources */,
-				B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */,
+				B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverage.xib in Resources */,
 				5858874C1DBEDB9B006EC6D5 /* NotifAnggiTransaction.xib in Resources */,
 				B2D965EA1E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib in Resources */,
 				B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */,
@@ -4311,6 +4332,7 @@
 				B2E448B41EC9B321007110B6 /* ic_address_undefined.png in Resources */,
 				589A6FB71D8C08F600654CDD /* ic_comment.png in Resources */,
 				B27948231E35C700002CEED4 /* TarikTunai2.xib in Resources */,
+				58B5A2CC1F1CA87F00A80E81 /* ReviewTabBar.xib in Resources */,
 				5858874D1DBEDBA3006EC6D5 /* NotifAnggiTransactionCell.xib in Resources */,
 				B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */,
 				B2223D941EDEA64F0013E886 /* ic_verified.png in Resources */,
@@ -4362,6 +4384,7 @@
 				589A6FC31D8C08F600654CDD /* ic_location.png in Resources */,
 				B2B688811EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png in Resources */,
 				5858874F1DBEDBC2006EC6D5 /* PaymentConfirmation.xib in Resources */,
+				58B5A2E21F1D9B1D00A80E81 /* ReviewAsBuyer.xib in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				58A3874A1C7DBABC00281B85 /* banner_review.png in Resources */,
 				58A4F9781CB5146B00E717AF /* ic_trx_reserved.png in Resources */,
@@ -4529,6 +4552,7 @@
 				B2FFCBA21EA52669004F01D0 /* SocketEngineClient.swift in Sources */,
 				21679A1F1B901C5300F18F90 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				2167998B1B8F8AB900F18F90 /* AFHTTPRequestOperationManager.m in Sources */,
+				58B5A2E61F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift in Sources */,
 				5858878E1DBF314B006EC6D5 /* InboxViewController.swift in Sources */,
 				21679A421B901C5300F18F90 /* MPSurveyQuestion.m in Sources */,
 				585887891DBF2DDC006EC6D5 /* CategoryPreferencesViewController.swift in Sources */,
@@ -4652,6 +4676,7 @@
 				585887971DBF3309006EC6D5 /* MyPurchaseDetailViewController.swift in Sources */,
 				2109BCB01BDF3529004F36C5 /* AKPickerView.m in Sources */,
 				21679A211B901C5300F18F90 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
+				58B5A2E41F1D9BE800A80E81 /* ReviewAsSellerViewController.swift in Sources */,
 				21679A4E1B901C5300F18F90 /* MPUITableViewBinding.m in Sources */,
 				21B467E01CCE5EDB00E145ED /* README.md in Sources */,
 				21679A2B1B901C5300F18F90 /* MPCGSizeToNSDictionaryValueTransformer.m in Sources */,
@@ -4679,6 +4704,7 @@
 				B2FFCBB51EA52669004F01D0 /* SwiftyJSON.swift in Sources */,
 				B2A834461E7055EB004C575A /* SCLExtensions.swift in Sources */,
 				585887951DBF3309006EC6D5 /* MyProductProcessingViewController.swift in Sources */,
+				58B5A2DE1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift in Sources */,
 				5847E19B1DBE0FF000C1B2BA /* ProfileSetupViewController.swift in Sources */,
 				58DD28EB1DAF36D000130B6F /* Data+BFKit.swift in Sources */,
 				21C658981B8EF25E0037F85F /* ActionSheetLocalePicker.m in Sources */,

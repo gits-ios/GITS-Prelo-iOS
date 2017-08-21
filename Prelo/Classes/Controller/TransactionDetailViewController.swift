@@ -67,6 +67,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // ReviewSeller pop up
     @IBOutlet weak var vwReviewSeller: UIView!
+    @IBOutlet weak var lblTitleRvwSeller: UILabel!
     @IBOutlet weak var lblRvwSellerName: UILabel!
     @IBOutlet weak var lblRvwProductName: UILabel!
     @IBOutlet weak var txtvwReview: UITextView!
@@ -91,9 +92,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var txtvwReviewGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvwReview: NSLayoutConstraint!
     @IBOutlet weak var consTopVwReviewSeller: NSLayoutConstraint! // centery
-    let TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
+    var TxtvwReviewPlaceholder = "Tulis review tentang penjual ini"
+    @IBOutlet weak var vwAgreement: UIView!
     @IBOutlet var lblChkRvwAgreement: UILabel!
     var isRvwAgreed = false
+    @IBOutlet weak var lblNotification: UILabel!
+    @IBOutlet weak var consHeightRvwPopUp: NSLayoutConstraint!
     
     // TundaPengiriman pop up
     @IBOutlet var vwTundaPengiriman: UIView!
@@ -116,6 +120,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     // affiliate
     var isAffiliate: Bool = false
+    
+    var dataReject : Array<String> = []
     
     // MARK: - Init
     
@@ -250,6 +256,23 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     // Refundable check
                     if let r = data["refundable"].bool {
                         self.isRefundable = r
+                    }
+                    
+                    print("ini reject reason enum")
+                    if let arr = data["rejectReasonEnum"].array {
+                        
+                        if(arr.count != 0){
+                            for i in 0 ..< arr.count {
+                                print(arr[i]["record"])
+                                self.dataReject.append(arr[i]["record"].string!)
+                            }
+                        }
+                    }
+                    
+                    print("ini balesannya")
+                    print(data["progress"])
+                    if(data["progress"].int == -4){
+                        TransactionDetailTools.TextReply = data["rejectReply"].string!
                     }
                     
                     // Mixpanel
@@ -432,7 +455,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if isAffiliate {
             if progress == TransactionDetailTools.ProgressReviewed {
-                return 6
+                return 7
             } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
                 return 7
             } else  {
@@ -482,7 +505,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else if (progress == TransactionDetailTools.ProgressReviewed) {
                 if (userIsSeller()) {
-                    return 11
+                    return 12
                 } else {
                     return 11
                 }
@@ -568,6 +591,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if idx == 4 {
                     return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                 } else if idx == 5 {
+                    return DefaultHeight
+                } else if idx == 6 {
                     return ContactPreloHeight
                 }
             } else  {
@@ -895,6 +920,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                             return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
                         }
                     } else if (idx == 10) {
+                        if(trxProductDetail?.buyerReviewerName == ""){
+                            return DefaultHeight
+                        } else {
+                            return TransactionDetailReviewCell.heightFor(trxProductDetail!.reviewComment)
+                        }
+                    } else if (idx == 11) {
                         return ContactPreloHeight
                     }
                 } else {
@@ -1229,6 +1260,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 } else if idx == 4 {
                     return self.createReviewCell()
                 } else if idx == 5 {
+                    return self.createButtonCell(2)
+                } else if idx == 6 {
                     return self.createContactPreloCell()
                 }
             } else  {
@@ -1522,6 +1555,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     } else if (idx == 9) {
                         return self.createReviewCell()
                     } else if (idx == 10) {
+                        if(trxProductDetail?.buyerReviewerName == ""){
+                            return self.createButtonCell(2)
+                        } else {
+                            return self.createBuyerReviewCell()
+                        }
+                    } else if (idx == 11) {
                         return self.createContactPreloCell()
                     }
                 } else {
@@ -2041,6 +2080,11 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 confirmShippingVC.trxDetail = self.trxDetail!
                 confirmShippingVC.setDefaultKurir()
                 confirmShippingVC.previousScreen = PageName.TransactionDetail
+                print("ini di trans detail")
+                print(self.dataReject)
+                
+                
+                confirmShippingVC.dropDown = self.dataReject
                 self.navigationController?.pushViewController(confirmShippingVC, animated: true)
             }
         }
@@ -2076,7 +2120,24 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else {
                 self.vwShadow.isHidden = false
                 self.vwReviewSeller.isHidden = false
+                self.btnRvwKirim.setTitle("OK", for: .normal)
             }
+        }
+        cell.reviewBuyer = {
+            self.vwShadow.isHidden = false
+            self.vwReviewSeller.isHidden = false
+            self.lblTitleRvwSeller.text = "REVIEW PEMBELI"
+            self.btnRvwKirim.setTitle("OK", for: .normal)
+            
+            if (self.trxProductDetail != nil) {
+                self.lblRvwSellerName.text = self.trxProductDetail!.buyerUsername
+                self.lblRvwProductName.text = self.trxProductDetail!.productName
+            }
+            self.TxtvwReviewPlaceholder = "Tulis review tentang pembeli ini"
+            self.txtvwReview.text = self.TxtvwReviewPlaceholder
+            self.vwAgreement.isHidden = true
+            self.lblNotification.text = "Pastikan bahwa pembeli sudah menerima barang kamu"
+            // self.consHeightRvwPopUp.constant=300
         }
         cell.seeFAQ = {
             let helpVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
@@ -2443,6 +2504,17 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
+    func createBuyerReviewCell() -> TransactionDetailReviewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailReviewCellId) as! TransactionDetailReviewCell
+        
+        // Adapt cell
+        if (trxProductDetail != nil) {
+            cell.adapt2(trxProductDetail!)
+        }
+        
+        return cell
+    }
+    
     func createContactPreloCell() -> TransactionDetailContactPreloCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailContactPreloCellId) as! TransactionDetailContactPreloCell
         
@@ -2601,38 +2673,75 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     }
     
     @IBAction func reviewKirimPressed(_ sender: AnyObject) {
-        if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
-            Constant.showDialog("Review Penjual", message: "Isi review tidak boleh kosong")
-            return
-        } else if (!isRvwAgreed) {
-            Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
-            return
-        }
-        
-        self.sendMode(true)
-        if (self.trxProductDetail != nil) {
-            let _ = request(APIProduct.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
-                    let json = JSON(resp.result.value!)
-                    let dataBool : Bool = json["_data"].boolValue
-                    let dataInt : Int = json["_data"].intValue
-                    ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
-                    if (dataBool == true || dataInt == 1) {
-                        // Prelo Analytic - Review and Rate Seller
-                        self.sendReviewRateSellerAnalytic()
+        if(self.lblTitleRvwSeller.text == "REVIEW PENJUAL"){
+            if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+                Constant.showDialog("Review Penjual", message: "Isi review tidak boleh kosong")
+                return
+            } else if (!isRvwAgreed) {
+                Constant.showDialog("Review Penjual", message: "Isi checkbox sebagai tanda persetujuan")
+                return
+            }
+            
+            self.sendMode(true)
+            if (self.trxProductDetail != nil) {
+                let _ = request(APIProduct.postReview(productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Penjual")) {
+                        let json = JSON(resp.result.value!)
+                        let dataBool : Bool = json["_data"].boolValue
+                        let dataInt : Int = json["_data"].intValue
+                        ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                        if (dataBool == true || dataInt == 1) {
+                            // Prelo Analytic - Review and Rate Seller
+                            self.sendReviewRateSellerAnalytic()
+                            
+                            Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                        } else {
+                            Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                        }
                         
-                        Constant.showDialog("Success", message: "Review berhasil ditambahkan")
-                    } else {
-                        Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                        // Hide pop up
+                        self.sendMode(false)
+                        self.vwShadow.isHidden = true
+                        self.vwReviewSeller.isHidden = true
+                        
+                        // Reload content
+                        self.getTransactionDetail()
                     }
-                    
-                    // Hide pop up
-                    self.sendMode(false)
-                    self.vwShadow.isHidden = true
-                    self.vwReviewSeller.isHidden = true
-                    
-                    // Reload content
-                    self.getTransactionDetail()
+                }
+            }
+
+        } else if(self.lblTitleRvwSeller.text == "REVIEW PEMBELI"){
+            if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
+                Constant.showDialog("Review Pembeli", message: "Isi review tidak boleh kosong")
+                return
+            }
+            
+            self.sendMode(true)
+            if (self.trxProductDetail != nil) {
+                print(trxProductDetail!.productId)
+                let _ = request(APIUser.postBuyerReview(userID: self.trxProductDetail!.buyerId, productID: self.trxProductDetail!.productId, comment: (txtvwReview.text == TxtvwReviewPlaceholder) ? "" : txtvwReview.text, star: loveValue)).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Pembeli")) {
+                        let json = JSON(resp.result.value!)
+                        let dataBool : Bool = json["_data"].boolValue
+                        let dataInt : Int = json["_data"].intValue
+                        ////print("dataBool = \(dataBool), dataInt = \(dataInt)")
+                        if (dataBool == true || dataInt == 1) {
+                            // Prelo Analytic - Review and Rate Seller
+                            self.sendReviewRateSellerAnalytic()
+                            
+                            Constant.showDialog("Success", message: "Review berhasil ditambahkan")
+                        } else {
+                            Constant.showDialog("Success", message: "Terdapat kesalahan saat memproses data")
+                        }
+                        
+                        // Hide pop up
+                        self.sendMode(false)
+                        self.vwShadow.isHidden = true
+                        self.vwReviewSeller.isHidden = true
+                        
+                        // Reload content
+                        self.getTransactionDetail()
+                    }
                 }
             }
         }
@@ -3044,8 +3153,10 @@ class TransactionDetailTools : NSObject {
     static let TextHubungiBuyer = "Beritahu pembeli bahwa barang sudah dikirim. Minta pembeli untuk memberikan review apabila barang sudah diterima."
     static let TextDikembalikanDitolak = "Pembayaran barang ini telah dikembalikan kepada pembeli." // reject by seller
     static let TextDikembalikanTidakDikirim = "Pembayaran barang ini telah dikembalikan kepada pembeli. Lupa konfirmasi pengiriman? Hubungi Prelo." // not sent seller
-    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena keterbatasan pada penjual. Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
-    static let TextReimburse2 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
+    static let TextReimburse1 = "Mohon maaf, pesanan kamu tidak bisa dikirim karena "
+    static var TextReply = "lalala"
+    static let TextReimburse2 = ". Jangan khawatir, pembayaranmu telah disimpan dalam bentuk:"
+    static let TextReimburse3 = "Kamu dapat menggunakannya untuk transaksi selanjutnya atau tarik uang Prelo Balance."
     static let TextNotPaid = "Transaksi ini belum dibayar dan akan expired pada "
     static let TextNotPaidSeller = "Ingatkan pembeli untuk segera membayar."
     static let TextNotPaidBuyerTransfer = "Segera konfirmasi pembayaran."
@@ -5191,6 +5302,12 @@ class TransactionDetailProductCell : UITableViewCell {
 class TransactionDetailDescriptionCell : UITableViewCell {
     @IBOutlet weak var lblDesc: UILabel!
     
+    static func combineRect(left: CGRect, right: CGRect) -> CGRect {
+        let origin = CGPoint(x: left.origin.x + right.origin.x, y: left.origin.y + right.origin.y)
+        let size = CGSize(width: left.size.width + right.size.width, height: left.size.height + right.size.height)
+        return CGRect(origin: origin, size: size)
+    }
+    
     static func heightFor(_ progress : Int?, isSeller : Bool?, order : Int) -> CGFloat {
         if (progress != nil && isSeller != nil) {
             var textRect : CGRect?
@@ -5209,9 +5326,10 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 } else {
                     if (order == 1) {
-                        textRect = TransactionDetailTools.TextReimburse1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect =  combineRect(left: combineRect(left: TransactionDetailTools.TextReimburse1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin)),right: TransactionDetailTools.TextReply.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))), right: TransactionDetailTools.TextReimburse2.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin)))
+                        
                     } else if (order == 2) {
-                        textRect = TransactionDetailTools.TextReimburse2.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                        textRect = TransactionDetailTools.TextReimburse3.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     }
                 }
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
@@ -5414,9 +5532,9 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     }
                 } else {
                     if (order == 1) {
-                        lblDesc.text = TransactionDetailTools.TextReimburse1
+                        lblDesc.text = TransactionDetailTools.TextReimburse1 + TransactionDetailTools.TextReply + TransactionDetailTools.TextReimburse2
                     } else if (order == 2) {
-                        lblDesc.text = TransactionDetailTools.TextReimburse2
+                        lblDesc.text = TransactionDetailTools.TextReimburse3
                     }
                 }
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
@@ -5907,6 +6025,7 @@ class TransactionDetailButtonCell : UITableViewCell {
     var continuePayment : () -> () = {}
     var confirmShipping : () -> () = {}
     var reviewSeller : () -> () = {}
+    var reviewBuyer : () -> () = {}
     var seeFAQ : () -> () = {}
     var confirmReturnShipping : () -> () = {}
     var confirmReturned : () -> () = {}
@@ -5943,6 +6062,8 @@ class TransactionDetailButtonCell : UITableViewCell {
         } else if (progress == TransactionDetailTools.ProgressExpired) {
             let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
             btn.setTitle(TitlePesanLagi, for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressReviewed) {
+            btn.setTitle("REVIEW PEMBELI", for: UIControlState())
         }
     }
     
@@ -5955,6 +6076,8 @@ class TransactionDetailButtonCell : UITableViewCell {
         } else if progress == TransactionDetailTools.ProgressNotPaid {
             btn.setTitle("KONFIRMASI PEMBAYARAN", for: UIControlState())
         } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
+            btn.setTitle("REVIEW " + affiliateName.uppercased(), for: UIControlState())
+        } else if (progress == TransactionDetailTools.ProgressReviewed) {
             btn.setTitle("REVIEW " + affiliateName.uppercased(), for: UIControlState())
         } else {
             btn.setTitle("LIHAT DI " + affiliateName.uppercased(), for: UIControlState())
@@ -5969,6 +6092,8 @@ class TransactionDetailButtonCell : UITableViewCell {
                 self.confirmPaymentAffiliate()
             } else if progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived {
                 self.reviewSeller() // review affiliate
+            } else if (progress == TransactionDetailTools.ProgressReviewed) {
+                self.reviewBuyer()
             } else {
                 self.seeAffiliate()
             }
@@ -5985,6 +6110,8 @@ class TransactionDetailButtonCell : UITableViewCell {
                 self.confirmShipping()
             } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
                 self.reviewSeller()
+            } else if (progress == TransactionDetailTools.ProgressReviewed) {
+                self.reviewBuyer()
             } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
                 self.seeFAQ()
             } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
@@ -6160,6 +6287,8 @@ class TransactionDetailReviewCell : UITableViewCell {
     @IBOutlet var vwLove: UIView!
     var floatRatingView: FloatRatingView!
     
+    @IBOutlet weak var consImageLeading: NSLayoutConstraint!
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -6214,6 +6343,43 @@ class TransactionDetailReviewCell : UITableViewCell {
         self.floatRatingView.maxRating = 5
         self.floatRatingView.minRating = 0
         self.floatRatingView.rating = Float(trxProductDetail.reviewStar)
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwLove.addSubview(self.floatRatingView )
+    }
+    
+    func adapt2(_ trxProductDetail : TransactionProductDetail) {
+        consImageLeading.constant = 20
+        // Image
+        
+        self.imgReviewer?.layoutIfNeeded()
+        self.imgReviewer?.layer.cornerRadius = (self.imgReviewer?.width ?? 0) / 2
+        self.imgReviewer?.layer.masksToBounds = true
+        
+        self.imgReviewer?.layer.borderColor = Theme.GrayLight.cgColor
+        self.imgReviewer?.layer.borderWidth = 3
+        
+        if let url = trxProductDetail.buyerReviewerImageURL {
+            imgReviewer.afSetImage(withURL: url, withFilter: .circle)
+        }
+        
+        // Text
+        lblName.text = trxProductDetail.buyerReviewerName
+        lblContent.text = trxProductDetail.buyerReviewComment
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        // Optional params
+        //                self.floatRatingView.delegate = self
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        self.floatRatingView.rating = Float(trxProductDetail.buyerReviewStar)
         self.floatRatingView.editable = false
         self.floatRatingView.halfRatings = true
         self.floatRatingView.floatRatings = true

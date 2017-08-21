@@ -897,6 +897,9 @@ class Tags : NSObject {
     static let XibNameChangeShopStatus = "ChangeShopStatus"
     static let XibNameTopUp = "TopUp"
     static let XibNameTopUpConfirm = "TopUpConfirm"
+    static let XibNameReviewAsSeller = "ReviewAsSeller"
+    static let XibNameReviewAsBuyer = "ReviewAsBuyer"
+    static let XibNameReviewTabBar = "ReviewTabBar"
 }
 
 class OrderStatus : NSObject {
