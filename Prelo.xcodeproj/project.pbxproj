@@ -613,6 +613,9 @@
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
+		B204104B1F4A8C8C00CCE4B1 /* ProductDetail2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */; };
+		B204104D1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */; };
+		B204104F1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104E1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib */; };
 		B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */; };
 		B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
@@ -1779,6 +1782,9 @@
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
+		B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2.xib; sourceTree = "<group>"; };
+		B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2CoverCell.xib; sourceTree = "<group>"; };
+		B204104E1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail3TitleCell.xib; sourceTree = "<group>"; };
 		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
 		B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
@@ -2676,6 +2682,7 @@
 				21104AD71BAAA15500947E7F /* SearchTag.xib */,
 				2190B4DF1BBE39F500AC6145 /* StoreHeader.xib */,
 				B2D965ED1E9E391E00B2C29C /* Checkout Version 2 */,
+				B20410391F4A8C6200CCE4B1 /* Product Detail Version 2 */,
 				B2EE39BF1E76548B00113E03 /* Popup */,
 				21EEB45D1B87038400CAD5C9 /* XIB */,
 			);
@@ -3495,6 +3502,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B20410391F4A8C6200CCE4B1 /* Product Detail Version 2 */ = {
+			isa = PBXGroup;
+			children = (
+				B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */,
+				B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */,
+				B204104E1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib */,
+			);
+			name = "Product Detail Version 2";
+			path = XIB;
+			sourceTree = "<group>";
+		};
 		B24FCEF31E536E8000B517A9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -4078,6 +4096,7 @@
 				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
 				5858873A1DBEDA4D006EC6D5 /* FilterChecklistCell.xib in Resources */,
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
+				B204104F1F4A909F00CCE4B1 /* ProductDetail3TitleCell.xib in Resources */,
 				440AF66C1BE1090800074CBC /* ic_round_whatsapp.png in Resources */,
 				2115E6D61B4A27E500509D2A /* Main.storyboard in Resources */,
 				589A6FCC1D8C08F600654CDD /* ic_ukuran.png in Resources */,
@@ -4170,6 +4189,7 @@
 				58A223C51C898CB600619518 /* ic_trx_done.png in Resources */,
 				B2B6887F1EFA6C95005B5E8A /* ic_checkout_kredivo.png in Resources */,
 				58EBCD661EE63C2E002A3ED5 /* ic_socmed_google.png in Resources */,
+				B204104D1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
@@ -4318,6 +4338,7 @@
 				B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */,
 				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				589A6FB11D8C08F600654CDD /* ic_about.png in Resources */,
+				B204104B1F4A8C8C00CCE4B1 /* ProductDetail2.xib in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */,
 				585887391DBEDA45006EC6D5 /* FilterCheckboxCell.xib in Resources */,
