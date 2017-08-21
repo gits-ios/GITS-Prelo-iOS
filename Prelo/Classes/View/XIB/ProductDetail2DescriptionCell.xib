@@ -11,7 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="204" id="IBP-og-Gui">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" rowHeight="204" id="IBP-og-Gui" customClass="ProductDetail2DescriptionCell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="384" height="204"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="IBP-og-Gui" id="3u1-aU-yjt">
@@ -260,6 +260,20 @@
                 </variation>
             </tableViewCellContentView>
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
+            <connections>
+                <outlet property="consHeightVwCacat" destination="uUN-wW-BcB" id="UbP-YR-TSg"/>
+                <outlet property="consHeightVwSize" destination="AfV-mX-6fZ" id="MHt-Ak-TiX"/>
+                <outlet property="lbAlasanJual" destination="Bw3-6C-l9J" id="4uH-w3-lbk"/>
+                <outlet property="lbCacat" destination="whj-Pd-sPo" id="aCk-iV-hpS"/>
+                <outlet property="lbCategory" destination="9RM-uN-Ztm" id="OUM-xQ-zyS"/>
+                <outlet property="lbCondition" destination="Alc-9Q-q4a" id="Rv4-ou-ITP"/>
+                <outlet property="lbDescription" destination="uRw-49-M2y" id="MRZ-Zf-s5h"/>
+                <outlet property="lbMerk" destination="Spk-FF-Srf" id="Cvt-A0-jmE"/>
+                <outlet property="lbSize" destination="idF-9l-kTc" id="cwQ-bq-Mfv"/>
+                <outlet property="lbSpecialStory" destination="n2n-Cv-NuJ" id="hFJ-3p-YWN"/>
+                <outlet property="lbTimeStamp" destination="Tml-RW-Y3F" id="iu5-LR-KZQ"/>
+                <outlet property="lbWeight" destination="oWb-CI-OBj" id="iQJ-Cn-4n7"/>
+            </connections>
             <point key="canvasLocation" x="25" y="2"/>
         </tableViewCell>
     </objects>

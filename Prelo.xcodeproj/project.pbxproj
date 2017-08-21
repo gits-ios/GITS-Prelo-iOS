@@ -687,6 +687,7 @@
 		B2B948EB1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */; };
 		B2B948ED1F4B252A00A69321 /* ProductDetail2CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */; };
 		B2B948EF1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */; };
+		B2B948F11F4B2E0D00A69321 /* ProductDetailViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B948F01F4B2E0D00A69321 /* ProductDetailViewController2.swift */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -1866,6 +1867,7 @@
 		B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2TitleSectionCell.xib; sourceTree = "<group>"; };
 		B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2CommentCell.xib; sourceTree = "<group>"; };
 		B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2AddCommentCell.xib; sourceTree = "<group>"; };
+		B2B948F01F4B2E0D00A69321 /* ProductDetailViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductDetailViewController2.swift; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -2649,6 +2651,7 @@
 				5804CBD71EEE6CC100B7D032 /* RekeningAddViewController.swift */,
 				58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */,
 				58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */,
+				B2B948F01F4B2E0D00A69321 /* ProductDetailViewController2.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -4608,6 +4611,7 @@
 				58DD28E41DAF36BB00130B6F /* BFKit.swift in Sources */,
 				58DD28E31DAF36BB00130B6F /* BFDate.swift in Sources */,
 				B2C59AA31E2E4B31002E4597 /* SMSegmentViewConstants.swift in Sources */,
+				B2B948F11F4B2E0D00A69321 /* ProductDetailViewController2.swift in Sources */,
 				B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */,
 				585887811DBF1802006EC6D5 /* OrderConfirmViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,

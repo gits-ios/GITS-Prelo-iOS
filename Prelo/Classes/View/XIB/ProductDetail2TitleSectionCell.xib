@@ -16,7 +16,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="41" id="dfS-MM-4Vb">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="41" id="dfS-MM-4Vb" customClass="ProductDetail2TitleSectionCell" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="dfS-MM-4Vb" id="HNd-hv-SqJ">
@@ -49,6 +49,10 @@
                     <constraint firstAttribute="trailingMargin" secondItem="cfu-55-mZA" secondAttribute="trailing" constant="4" id="otn-Km-g6Q"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="lbAccordion" destination="cfu-55-mZA" id="M4L-hb-Zzn"/>
+                <outlet property="lbTitle" destination="zeA-Le-LYz" id="caq-hG-eMR"/>
+            </connections>
             <point key="canvasLocation" x="-26.5" y="-97.5"/>
         </tableViewCell>
     </objects>
