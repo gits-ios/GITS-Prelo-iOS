@@ -220,6 +220,7 @@ class CircleMenu: UIView {
 
 extension UIView
 {
+    // https://stackoverflow.com/questions/5948167/uiview-animatewithduration-doesnt-animate-cornerradius-variation
     func addCornerRadiusAnimation(from: CGFloat, to: CGFloat, duration: CFTimeInterval)
     {
         let animation = CABasicAnimation(keyPath:"cornerRadius")
