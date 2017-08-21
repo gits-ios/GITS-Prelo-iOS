@@ -55,7 +55,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.tableView.tableFooterView = UIView()
         
         // title
-        self.title = "Top Up"
+        self.title = "Top-Up"
         
         // init
         _ = PaymentMethodHelper.sharedInstance
@@ -276,6 +276,14 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         if idx.row == 2 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "TopUpAmountCell") as! TopUpAmountCell
             cell.txtJumlahUang.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
+            let ViewForDoneButtonOnKeyboard = UIToolbar()
+            ViewForDoneButtonOnKeyboard.sizeToFit()
+            let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+            let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.dismissKeyboard))
+            ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+            cell.txtJumlahUang.inputAccessoryView = ViewForDoneButtonOnKeyboard
+
+            cell.adapt()
             return cell
         }
         if idx.row == 3 {
@@ -428,6 +436,10 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             Constant.showDialog("Perhatian", message: "Mohon isi jumlah uang")
             return false
         }
+        if (self.tempTextField > 5000000){
+            Constant.showDialog("Perhatian", message: "Maksimal top-up adalah Rp5.000.000")
+            return false
+        }
         if (self.tempTextField < 10000){
             let ndx = IndexPath(row:2, section: 0)
             let cell2 = tableView.cellForRow(at:ndx) as! TopUpAmountCell
@@ -572,6 +584,15 @@ class TopUpHeaderCell: UITableViewCell {
 class TopUpAmountCell: UITableViewCell {
     @IBOutlet weak var txtJumlahUang: UITextField!
     @IBOutlet weak var lblNotification: UILabel!
+    
+    func adapt(){
+        
+    }
+    
+    @IBAction func doneBtnfromKeyboardClicked (sender: Any) {
+        print("Done Button Clicked.")
+    }
+
 }
 
 class TopUpMethodCell: UITableViewCell {
