@@ -36,8 +36,8 @@
                                 </attributedString>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang - barang ini banyak dicari di Prelo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RAi-0o-lDV">
-                                <rect key="frame" x="0.0" y="42.5" width="200" height="29"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang-barang ini banyak dicari di Prelo" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RAi-0o-lDV">
+                                <rect key="frame" x="4" y="42.5" width="192" height="29"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -71,11 +71,11 @@
                             <constraint firstItem="Fsx-Hv-f8n" firstAttribute="top" secondItem="yIO-Hu-Tc2" secondAttribute="top" constant="8" id="U2z-Ie-1D2"/>
                             <constraint firstItem="EpD-Q6-vzt" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" id="Ums-dx-6xU"/>
                             <constraint firstAttribute="trailing" secondItem="Fsx-Hv-f8n" secondAttribute="trailing" constant="8" id="Y3w-u4-6Ro"/>
-                            <constraint firstItem="RAi-0o-lDV" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" id="d4h-vo-O2i"/>
+                            <constraint firstItem="RAi-0o-lDV" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" constant="4" id="d4h-vo-O2i"/>
                             <constraint firstAttribute="trailing" secondItem="IrB-8V-rYR" secondAttribute="trailing" id="fFi-js-awo"/>
                             <constraint firstItem="Fsx-Hv-f8n" firstAttribute="leading" secondItem="yIO-Hu-Tc2" secondAttribute="leading" constant="8" id="hHN-hC-hjJ"/>
                             <constraint firstAttribute="bottom" secondItem="EpD-Q6-vzt" secondAttribute="bottom" id="jwx-La-thq"/>
-                            <constraint firstAttribute="trailing" secondItem="RAi-0o-lDV" secondAttribute="trailing" id="xfx-84-zBB"/>
+                            <constraint firstAttribute="trailing" secondItem="RAi-0o-lDV" secondAttribute="trailing" constant="4" id="xfx-84-zBB"/>
                             <constraint firstItem="EpD-Q6-vzt" firstAttribute="top" secondItem="IrB-8V-rYR" secondAttribute="bottom" id="ywD-u6-gVE"/>
                         </constraints>
                     </view>

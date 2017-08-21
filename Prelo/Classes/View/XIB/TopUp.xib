@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -27,20 +28,39 @@
                             <outlet property="delegate" destination="mic-Kg-aIu" id="fHT-4u-V5o"/>
                         </connections>
                     </tableView>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yy9-I2-eEJ">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="tr4-MG-0xk">
+                                <rect key="frame" x="177.5" y="69" width="20" height="20"/>
+                                <color key="color" red="0.30755189059999999" green="0.65839862819999995" blue="0.75064152480000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="tr4-MG-0xk" firstAttribute="top" secondItem="yy9-I2-eEJ" secondAttribute="top" constant="69" id="D2r-2V-vXn"/>
+                            <constraint firstItem="tr4-MG-0xk" firstAttribute="centerX" secondItem="yy9-I2-eEJ" secondAttribute="centerX" id="WcL-gB-FQL"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="Jjt-bj-0e3" firstAttribute="leading" secondItem="UGG-LE-FOc" secondAttribute="leading" id="5AS-aq-eu6"/>
                     <constraint firstItem="Jjt-bj-0e3" firstAttribute="top" secondItem="UGG-LE-FOc" secondAttribute="top" id="AmV-Nn-6Se"/>
                     <constraint firstItem="Jjt-bj-0e3" firstAttribute="top" secondItem="UGG-LE-FOc" secondAttribute="top" id="BH3-9o-Suf"/>
+                    <constraint firstItem="yy9-I2-eEJ" firstAttribute="top" secondItem="0fd-mb-puZ" secondAttribute="bottom" constant="-20" id="FB3-VN-a09"/>
                     <constraint firstAttribute="trailing" secondItem="Jjt-bj-0e3" secondAttribute="trailing" id="LMh-Dd-bKc"/>
                     <constraint firstAttribute="trailing" secondItem="Jjt-bj-0e3" secondAttribute="trailing" id="OP9-EP-woT"/>
                     <constraint firstItem="NgL-37-8uC" firstAttribute="top" secondItem="Jjt-bj-0e3" secondAttribute="bottom" id="RL6-ye-QRY"/>
                     <constraint firstItem="Jjt-bj-0e3" firstAttribute="leading" secondItem="UGG-LE-FOc" secondAttribute="leading" id="Z9x-KU-CAo"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="yy9-I2-eEJ" secondAttribute="trailing" constant="-16" id="Zkz-aW-2iT"/>
                     <constraint firstItem="NgL-37-8uC" firstAttribute="top" secondItem="Jjt-bj-0e3" secondAttribute="bottom" id="fgh-8W-WXd"/>
+                    <constraint firstItem="yy9-I2-eEJ" firstAttribute="leading" secondItem="UGG-LE-FOc" secondAttribute="leadingMargin" constant="-16" id="jjb-0m-jKT"/>
+                    <constraint firstItem="NgL-37-8uC" firstAttribute="top" secondItem="yy9-I2-eEJ" secondAttribute="bottom" id="taC-ZY-rg0"/>
                 </constraints>
             </view>
             <connections>
+                <outlet property="loadingPanel" destination="yy9-I2-eEJ" id="3qQ-EW-Dfu"/>
                 <outlet property="tableView" destination="Jjt-bj-0e3" id="lyg-Uw-N8t"/>
             </connections>
             <point key="canvasLocation" x="-167.5" y="-199.5"/>

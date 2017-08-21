@@ -41,6 +41,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     var random = arc4random_uniform(201) + 300
     var tempTopUpId = ""
     
+    @IBOutlet weak var loadingPanel: UIView!
+    
     // MARK: - Init
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -421,7 +423,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
                 }
                 alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {
                 }
-                alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan topUp sebesar \(self.tempTotalAmount) menggunakan \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+                alertView.showCustom("Perhatian", subTitle: "Kamu akan melakukan top-up sebesar \(self.tempTotalAmount) menggunakan \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title). Lanjutkan?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
             }
 
             
@@ -484,7 +486,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func performCheckout() {
-        
+        self.loadingPanel.isHidden = false
         // request api top up
         let _ = request(APIWallet.topUp(amount: self.tempTotalAmount, banktransfer_digit: Int(self.random), payment_method: "Bank Transfer", target_bank: self.targetBank)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Up Request")){
@@ -498,6 +500,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
                 // Prepare to navigate to next page
                 if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
                     self.navigateToOrderConfirmVC(false)
+                    self.loadingPanel.isHidden = true
                 }
             }
         }
