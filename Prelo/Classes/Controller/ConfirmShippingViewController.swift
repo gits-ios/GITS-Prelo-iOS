@@ -44,7 +44,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // Data container
     var trxProductDetails : [TransactionProductDetail]!
     var isCellSelected : [Bool]!
-    var selectedReason : [String]!
+    var selectedIndex : [Int] = []
     var selectedAvailabilities : [ConfirmShippingAvailability?]!
     var isFirstAppearance : Bool = true
     var isPictSelected : Bool = false
@@ -72,6 +72,21 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         // Delegate
         self.txtFldNoResi.delegate = self
         
+        DropDown.startListeningToKeyboard()
+        
+        let appearance = DropDown.appearance()
+        
+        //appearance.cellHeight = 60
+        appearance.backgroundColor = UIColor(white: 1, alpha: 1)
+        appearance.selectionBackgroundColor = UIColor(red: 0.6494, green: 0.8155, blue: 1.0, alpha: 0.2)
+        appearance.separatorColor = UIColor(white: 0.7, alpha: 0.8)
+        appearance.cornerRadius = 0
+        appearance.shadowColor = UIColor(white: 0.6, alpha: 1)
+        appearance.shadowOpacity = 1
+        appearance.shadowRadius = 2
+        appearance.animationduration = 0.25
+        appearance.textColor = .darkGray
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -90,10 +105,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     // For default, all transaction product is set as selected
                     // All selected availability is nil
                     isCellSelected = []
-                    selectedReason = []
+                    selectedIndex = []
                     selectedAvailabilities = []
                     for _ in 0 ..< trxProductDetails.count {
-                        selectedReason.append("Alasan Penolakan")
+                        selectedIndex.append(0)
                         isCellSelected.append(true)
                         selectedAvailabilities.append(nil)
                     }
@@ -142,17 +157,22 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if (isCellSelected.count >= (indexPath as NSIndexPath).row + 1) {
-            print("lalala")
-            print(selectedReason[(indexPath as NSIndexPath).row])
             if (isCellSelected[(indexPath as NSIndexPath).row] == true) {
                 return 102
             } else {
-                if(selectedReason[(indexPath as NSIndexPath).row] == "Alasan Penolakan" || selectedReason[(indexPath as NSIndexPath).row] == "Barang sudah terbeli (akan dilabeli SOLD)"){
+                if (selectedIndex[(indexPath as NSIndexPath).row] == 0 || self.dataReject[selectedIndex[(indexPath as NSIndexPath).row]].contains("SOLD")) {
                     return 180
-                } else if (selectedReason[(indexPath as NSIndexPath).row] == "Ada kepentingan lain"){
-                    return 320
                 } else {
-                    return 270
+                    // + 30
+                    let text = self.dataRejectNote[selectedIndex[(indexPath as NSIndexPath).row]]
+                    let t = text.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - (37 - 8))
+                    
+                    var h: CGFloat = 0
+                    if self.dataReject[selectedIndex[(indexPath as NSIndexPath).row]].contains("lain") {
+                        h = 50
+                    }
+                    
+                    return 180 + h + t.height + 8
                 }
             }
         }
@@ -163,16 +183,18 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         if (trxProductDetails.count >= (indexPath as NSIndexPath).row + 1) {
             let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
             cell.selectionStyle = .none
-            print("ini recordnya")
-            //print(self.dataReject)
+            
             cell.dataReject = self.dataReject
             cell.dataRejectNote = self.dataRejectNote
             
-            cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row], selectedAvailability : self.selectedAvailabilities[(indexPath as NSIndexPath).row], selectedReason: self.selectedReason[(indexPath as NSIndexPath).row])
+            cell.adapt(trxProductDetails[ (indexPath as NSIndexPath).row],
+                       isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row],
+                       selectedAvailability: self.selectedAvailabilities[(indexPath as NSIndexPath).row],
+                       selectedIndex: self.selectedIndex[indexPath.row])
             
             cell.refreshTable = {
                 self.isCellSelected[(indexPath as NSIndexPath).row] = !self.isCellSelected[(indexPath as NSIndexPath).row]
-                self.selectedReason[(indexPath as NSIndexPath).row] = cell.selectedReason
+                self.selectedIndex[(indexPath as NSIndexPath).row] = cell.selectedIndex
                 self.setupTable()
                 if (self.isAllCellUnselected()) {
                     self.consHeightVwKurirResiFields.constant = 0
@@ -183,7 +205,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             }
             
             cell.refreshTable2 = {
-                self.selectedReason[(indexPath as NSIndexPath).row] = cell.selectedReason
+                self.selectedIndex[(indexPath as NSIndexPath).row] = cell.selectedIndex
                 self.setupTable()
                 if (self.isAllCellUnselected()) {
                     self.consHeightVwKurirResiFields.constant = 0
@@ -413,7 +435,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     }
                     
                 }, failure: { op, err in
-                    print("Ini error nya = \(err)")
+                    //print("Ini error nya = \(err)")
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
                     self.hideLoading()
                 })
@@ -758,10 +780,8 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     
     let dropDown = DropDown()
     var selectedIndex = 0
-    var isNeedSetup = false
     
     var isCellSelected : Bool!
-    var selectedReason : String! = "Alasan Penolakan"
     var selectedAvailability : ConfirmShippingAvailability?
     
     var refreshTable : () -> () = {}
@@ -772,8 +792,12 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
         
     }
     
-    func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool, selectedAvailability : ConfirmShippingAvailability?, selectedReason: String) {
+    func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool, selectedAvailability : ConfirmShippingAvailability?, selectedIndex: Int) {
         super.adapt(trxProductDetail)
+        
+        if self.dropDown.dataSource.count == 0 {
+            setupDropdownReason()
+        }
         
         // Set checkbox
         self.isCellSelected = isCellSelected
@@ -787,12 +811,12 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
         txtvwGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: consHeightTxtvw)
         txtvwGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 2)
         
-        self.selectedReason = selectedReason
+        self.selectedIndex = selectedIndex
     }
     
     @IBAction func cellTapped(_ sender: AnyObject) {
         isCellSelected = !isCellSelected
-        if(selectedReason == "Alasan Penolakan"){
+        if (selectedIndex == 0) { // alasan penolakan
             fieldCustomReason.isHidden = true
             notification.isHidden = true
         }
@@ -841,54 +865,64 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     
     @IBOutlet weak var dropDownReason: UIButton!
     @IBAction func dropDownReasonPressed(_ sender: Any) {
-        setupDropdownReason()
         dropDown.hide()
         dropDown.show()
     }
     
     func setupDropdownReason() {
         //dropDown = DropDown()
-        dropDown.dataSource = []
-        dropDown.dataSource = ["Alasan Penolakan"]
-        dropDown.dataSource.append(contentsOf: self.dataReject)
+        dropDown.dataSource = self.dataReject
         
         // Action triggered on selection
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
             if index != self.selectedIndex {
-                self.isNeedSetup = false
                 self.selectedIndex = index
+                
                 if index < self.dropDown.dataSource.count {
-                    self.lblReason.text = self.dropDown.dataSource[self.selectedIndex]
+                    self.lblReason.text = self.dropDown.dataSource[index]
                     if index > 0 {
-                        self.notification.text = self.dataRejectNote[index - 1] != "" ? "Catatan: " : "" + self.dataRejectNote[index - 1]
-                    } else if index == 0 {
-                        self.notification.text = ""
+                        var notes = "Catatan: " + self.dataRejectNote[index]
+                        var bold = ""
+                        
+                        if notes.contains("<b>") {
+                            bold = notes.substring(from: notes.index(of: "<b>")!)
+                            bold = bold.substring(to: bold.index(of: "</b>")!)
+                            
+                            notes = notes.replace("<b>", template: "").replace("</b>", template: "")
+                            bold = bold.replace("<b>", template: "").replace("</b>", template: "")
+                        }
+                        
+                        self.notification.text = notes
+                        
+                        if bold != "" {
+                            self.notification.boldSubstring(bold)
+                        }
+                        
+                        if self.dropDown.dataSource[index].contains("SOLD") {
+                            self.notification.isHidden = true
+                            self.fieldCustomReason.isHidden = true
+                            self.selectedAvailability = .soldOut
+                            
+                        } else if self.dropDown.dataSource[index].contains("lain") {
+                            self.notification.isHidden = false
+                            self.fieldCustomReason.isHidden = false
+                            self.consNotifTop.constant = 20
+                            self.selectedAvailability = .available
+                            
+                        } else {
+                            self.notification.isHidden = false
+                            self.fieldCustomReason.isHidden = true
+                            self.consNotifTop.constant = -30
+                            self.selectedAvailability = .available
+                            
+                        }
+                    } else { // Alasan Penolakan
+                        self.notification.isHidden = true
+                        self.fieldCustomReason.isHidden = true
+                        
                     }
                     
-                    if(self.lblReason.text == "Alasan Penolakan"){
-                        self.notification.isHidden = true
-                        self.fieldCustomReason.isHidden = true
-                    } else if(self.lblReason.text == "Barang sudah terjual (akan dilabeli SOLD)"){
-                        self.notification.isHidden = true
-                        self.fieldCustomReason.isHidden = true
-                        self.selectedAvailability = .soldOut
-                    } else if(self.lblReason.text == "Ada kepentingan lain"){
-                        self.notification.isHidden = false
-                        self.fieldCustomReason.isHidden = false
-                        self.consNotifTop.constant = 20
-                        self.selectedAvailability = .available
-                    } else {
-                        self.notification.isHidden = false
-                        self.fieldCustomReason.isHidden = true
-                        self.consNotifTop.constant = -30
-                        self.selectedAvailability = .available
-                    }
-                    self.selectedReason = self.dropDown.dataSource[self.selectedIndex]
                     self.refreshTable2()
-                    print(self.selectedReason)
-                } else {
-                    self.isNeedSetup = true
-                    self.selectedIndex = self.dropDown.dataSource.count
                 }
             }
         }

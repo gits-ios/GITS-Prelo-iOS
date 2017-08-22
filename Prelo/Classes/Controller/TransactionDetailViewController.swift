@@ -261,8 +261,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                     print("ini reject reason enum")
                     if let arr = data["rejectReasonEnum"].array {
-                        self.dataReject = []
-                        self.dataRejectNote = []
+                        self.dataReject = ["Alasan Penolakan"]
+                        self.dataRejectNote = [""]
                         if(arr.count != 0){
                             for i in 0 ..< arr.count {
                                 print(arr[i]["record"])
