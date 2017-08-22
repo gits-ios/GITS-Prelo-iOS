@@ -281,6 +281,8 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         case .newShop: // Set navbar & register cell
             let StoreInfo = UINib(nibName: "StorePageShopHeader", bundle: nil)
             gridView.register(StoreInfo, forCellWithReuseIdentifier: "StorePageShopHeader")
+            let UploadSuggestion = UINib(nibName: "UploadSuggestionCell", bundle: nil)
+            gridView.register(UploadSuggestion, forCellWithReuseIdentifier: "cellUpload")
             self.navigationController?.navigationBar.isTranslucent = true
             
         default: // Set title
@@ -2043,6 +2045,24 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
         case .segments:
             return self.segments.count
         case .products:
+            if (currentMode == .newShop) {
+                if(User.Id == self.shopId){
+                    if let p = products, adsCellProvider != nil && p.count > 0 {
+                        return Int(adsCellProvider.adjustCount(UInt(p.count), forStride: UInt(adRowStep)))
+                    }
+                    else if let p = products {
+                        return p.count+1
+                    }
+                } else {
+                    if let p = products, adsCellProvider != nil && p.count > 0 {
+                        return Int(adsCellProvider.adjustCount(UInt(p.count), forStride: UInt(adRowStep)))
+                    }
+                    else if let p = products {
+                        return p.count
+                    }
+                }
+                return 0
+            } else {
             if let p = products, adsCellProvider != nil && p.count > 0 {
                 return Int(adsCellProvider.adjustCount(UInt(p.count), forStride: UInt(adRowStep)))
             }
@@ -2050,6 +2070,7 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
                 return p.count
             }
             return 0
+            }
         case .aboutShop:
             return 1
         }
@@ -2103,45 +2124,98 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             
             return cell
         case .products:
-            if adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item - adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) && indexPath.item > adRowOffset {
-                return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
-            }
-            else {
-                var idx  = (indexPath as NSIndexPath).item
-                if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
-                    idx = indexPath.row - (indexPath.row - adRowOffset) / adRowStep
-                }
-                
-                // Load next products here
-                if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
-                    if (idx == (products?.count)! - 4 && requesting == false && done == false) {
-                        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
-                                                            qos: .background,
-                                                            attributes: .concurrent,
-                                                            target: nil)
-                        backgroundQueue.async {
-                            if !Reachability.isConnectedToNetwork() {
-                                Constant.showDisconnectBanner()
-                                return
-                            }
-                            //print("Work on background queue")
-                            self.getProducts()
+            if (currentMode == .newShop && User.Id == self.shopId) {
+                if(indexPath.row == 0){
+                    print("ini isi shop data")
+                    print(User.Id)
+                    print(self.shopId)
+                    let cell : UploadSuggestionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellUpload", for: indexPath) as! UploadSuggestionCell
+                    if(self.shopData != nil){
+                        cell.adapt(images: self.shopData["upload_suggestions"])
+                    }
+                    return cell
+                } else {
+                    if adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: (indexPath.item - adRowOffset), section: indexPath.section)) , forStride: UInt(adRowStep)) && indexPath.item > adRowOffset {
+                        return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
+                    }
+                    else {
+                        var idx  = (indexPath as NSIndexPath).item - 1
+                        if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
+                            idx = (indexPath.row - (indexPath.row - adRowOffset) / adRowStep)
                         }
+                        // Load next products here
+                        if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
+                            if (idx == (products?.count)! - 4 && requesting == false && done == false) {
+                                let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                                                    qos: .background,
+                                                                    attributes: .concurrent,
+                                                                    target: nil)
+                                backgroundQueue.async {
+                                    if !Reachability.isConnectedToNetwork() {
+                                        Constant.showDisconnectBanner()
+                                        return
+                                    }
+                                    //print("Work on background queue")
+                                    self.getProducts()
+                                }
+                            }
+                        }
+                        
+                        let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
+                        if (products?.count > idx) {
+                            let p = products?[idx]
+                            cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                            cell.isFeatured = self.isFeatured
+                        }
+                        if (currentMode == .featured) {
+                            // Hide featured ribbon
+                            cell.imgFeatured.isHidden = true
+                        }
+                        
+                        return cell
                     }
                 }
-                
-                let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
-                if (products?.count > idx) {
-                    let p = products?[idx]
-                    cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
-                    cell.isFeatured = self.isFeatured
+            } else {
+                if adsCellProvider != nil && adsCellProvider.isAdCell(at: (IndexPath(item: indexPath.item - adRowOffset, section: indexPath.section)), forStride: UInt(adRowStep)) && indexPath.item > adRowOffset {
+                    return adsCellProvider.collectionView(gridView, cellForItemAt: indexPath)
                 }
-                if (currentMode == .featured) {
-                    // Hide featured ribbon
-                    cell.imgFeatured.isHidden = true
+                else {
+                    var idx  = (indexPath as NSIndexPath).item
+                    if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
+                        idx = indexPath.row - (indexPath.row - adRowOffset) / adRowStep
+                    }
+                    
+                    // Load next products here
+                    if (currentMode == .default || currentMode == .standalone || currentMode == .shop || currentMode == .filter || (currentMode == .segment && listItemSections.contains(.products)) || currentMode == .newShop) {
+                        if (idx == (products?.count)! - 4 && requesting == false && done == false) {
+                            let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
+                                                                qos: .background,
+                                                                attributes: .concurrent,
+                                                                target: nil)
+                            backgroundQueue.async {
+                                if !Reachability.isConnectedToNetwork() {
+                                    Constant.showDisconnectBanner()
+                                    return
+                                }
+                                //print("Work on background queue")
+                                self.getProducts()
+                            }
+                        }
+                    }
+                    
+                    let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
+                    if (products?.count > idx) {
+                        let p = products?[idx]
+                        cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                        cell.isFeatured = self.isFeatured
+                    }
+                    if (currentMode == .featured) {
+                        // Hide featured ribbon
+                        cell.imgFeatured.isHidden = true
+                    }
+                    
+                    return cell
                 }
-                
-                return cell
             }
         case .aboutShop:
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "StorePageShopHeader", for: indexPath) as! StoreInfo
@@ -2280,50 +2354,59 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             self.refresh()
         case .products:
             var idx  = (indexPath as NSIndexPath).item
-            if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
-                idx = indexPath.row - (indexPath.row - adRowOffset) / adRowStep
-            }
-            
-            self.selectedProduct = products?[idx]
-            if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
-                if (currentMode == .featured) {
-                    self.selectedProduct?.setToFeatured()
-                }
-                self.launchDetail()
-            } else if self.selectedProduct?.isAffiliate == false {
-                let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-                l.currentMode = .filter
-                l.fltrAggregateId = (self.selectedProduct?.id)!
-                l.fltrSortBy = "recent"
-                l.fltrName = ""
-                
-                // Prelo Analytic - Visit Aggregate
-                let loginMethod = User.LoginMethod ?? ""
-                let pdata = [
-                    "Aggregate ID": (self.selectedProduct?.id)!,
-                    "Aggregate Name" : (self.selectedProduct?.name)!
-                    ] as [String : Any]
-                
-                // previous screen is current screen
-                var currentPage = PageName.Home
-                if currentMode == .filter {
-                    currentPage = PageName.SearchResult
-                } else if currentMode == .shop || currentMode == .newShop {
-                    if User.IsLoggedIn && User.Id! == self.shopId {
-                        currentPage = PageName.ShopMine
-                    } else {
-                        currentPage = PageName.Shop
-                    }
-                }
-                
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
-                
-                self.navigationController?.pushViewController(l, animated: true)
+            if(idx == 0  && User.Id == self.shopId){
+                let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+                add.screenBeforeAddProduct = PageName.MyProducts
+                self.navigationController?.pushViewController(add, animated: true)
             } else {
-                let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
-                
-                let url = NSURL(string: urlString!)!
-                UIApplication.shared.openURL(url as URL)
+                if (adsCellProvider != nil && adRowStep != 0 && indexPath.item > adRowOffset) {
+                    idx = indexPath.row - (indexPath.row - adRowOffset) / adRowStep
+                }
+                if(User.Id == self.shopId){
+                    self.selectedProduct = products?[idx - 1]
+                } else {
+                    self.selectedProduct = products?[idx]
+                }
+                if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
+                    if (currentMode == .featured) {
+                        self.selectedProduct?.setToFeatured()
+                    }
+                    self.launchDetail()
+                } else if self.selectedProduct?.isAffiliate == false {
+                    let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                    l.currentMode = .filter
+                    l.fltrAggregateId = (self.selectedProduct?.id)!
+                    l.fltrSortBy = "recent"
+                    l.fltrName = ""
+                    
+                    // Prelo Analytic - Visit Aggregate
+                    let loginMethod = User.LoginMethod ?? ""
+                    let pdata = [
+                        "Aggregate ID": (self.selectedProduct?.id)!,
+                        "Aggregate Name" : (self.selectedProduct?.name)!
+                        ] as [String : Any]
+                    
+                    // previous screen is current screen
+                    var currentPage = PageName.Home
+                    if currentMode == .filter {
+                        currentPage = PageName.SearchResult
+                    } else if currentMode == .shop || currentMode == .newShop {
+                        if User.IsLoggedIn && User.Id! == self.shopId {
+                            currentPage = PageName.ShopMine
+                        } else {
+                            currentPage = PageName.Shop
+                        }
+                    }
+                    
+                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
+                    
+                    self.navigationController?.pushViewController(l, animated: true)
+                } else {
+                    let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
+                    
+                    let url = NSURL(string: urlString!)!
+                    UIApplication.shared.openURL(url as URL)
+                }
             }
         case .aboutShop:
             self.isExpand = !self.isExpand
@@ -2729,6 +2812,61 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
             self.lblDesc.textColor = UIColor(hexString: "#5d5d5d")
         }
     }
+}
+
+// MARK: - Class
+
+class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
+    @IBOutlet var contentVwUploadSuggestion: UIView!
+    @IBOutlet var imgUploadSuggestion: UIImageView!
+    
+    var imagesUploadSuggestion : JSON = []
+    
+    var timer : Timer!
+    var updateCounter : Int!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.layer.rasterizationScale = UIScreen.main.scale
+    }
+    
+    func adapt(images:JSON) {
+        imagesUploadSuggestion = images
+        
+        self.updateCounter = (images.array?.count)!
+        for i in 0...(images.array?.count)! - 1 {
+            if let arr = images.array {
+                if let url = NSURL(string: arr[i].string!) {
+                    if let data = NSData(contentsOf: url as URL) {
+                        self.imgUploadSuggestion.image = UIImage(data: data as Data)
+                    }
+                }
+            }
+        }
+        
+        setUploadTimer()
+    }
+    
+    func setUploadTimer() {
+        // Scroll timer
+        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(UploadSuggestionCell.autoScrollUploadSuggestion), userInfo: nil, repeats: true)
+    }
+    
+    func autoScrollUploadSuggestion() {
+        if(updateCounter <= 2){
+            if let url = NSURL(string: (imagesUploadSuggestion.array?[updateCounter].string!)!) {
+                if let data = NSData(contentsOf: url as URL) {
+                    self.imgUploadSuggestion.image = UIImage(data: data as Data)
+                }
+            }
+            updateCounter = updateCounter + 1
+        } else {
+            updateCounter = 0
+        }
+    }
+    
+    
 }
 
 // MARK: - Class ListItemCell

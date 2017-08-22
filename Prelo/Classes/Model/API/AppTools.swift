@@ -924,6 +924,12 @@ class Tags : NSObject {
     static let XibNameTarikTunaiwithSaveBankAccount2 = "TarikTunaiwithSaveBankAccount2"
     static let XibNameListBank = "ListBank"
     static let XibNameTarikTunai3 = "TarikTunai3"
+    static let XibNameChangeShopStatus = "ChangeShopStatus"
+    static let XibNameTopUp = "TopUp"
+    static let XibNameTopUpConfirm = "TopUpConfirm"
+    static let XibNameReviewAsSeller = "ReviewAsSeller"
+    static let XibNameReviewAsBuyer = "ReviewAsBuyer"
+    static let XibNameReviewTabBar = "ReviewTabBar"
 }
 
 class OrderStatus : NSObject {
@@ -1002,6 +1008,8 @@ class PageName {
     static let EditAddress = "Edit Address"
     static let RekeningList = "Rekening List"
     static let RekeningAdd = "Add Rekening"
+    static let ChangeShopStatus = "Change Shop Status"
+    static let BalanceMutation = "Balance Mutation"
 }
 
 extension Mixpanel {
