@@ -2823,7 +2823,7 @@ class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
     var imagesUploadSuggestion : JSON = []
     
     var timer : Timer!
-    var updateCounter : Int!
+    var updateCounter : Int = 0
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -2834,6 +2834,7 @@ class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
     func adapt(images:JSON) {
         imagesUploadSuggestion = images
         
+        /*
         self.updateCounter = (images.array?.count)!
         for i in 0...(images.array?.count)! - 1 {
             if let arr = images.array {
@@ -2844,6 +2845,16 @@ class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
                 }
             }
         }
+        */
+        
+        if let arr = images.array, arr.count > 0 {
+            self.updateCounter = arr.count > 1 ? 1 : 0
+            let i = arr[0]
+            if let url = i.string {
+                self.imgUploadSuggestion.afSetImage(withURL: URL(string: url)!, withFilter: imageFilterMode.fitWithoutPlaceHolder)
+            }
+        }
+        
         
         setUploadTimer()
     }
@@ -2854,12 +2865,24 @@ class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
     }
     
     func autoScrollUploadSuggestion() {
+        updateCounter = updateCounter % 3
+        
         if(updateCounter <= 2){
+            /*
             if let url = NSURL(string: (imagesUploadSuggestion.array?[updateCounter].string!)!) {
                 if let data = NSData(contentsOf: url as URL) {
                     self.imgUploadSuggestion.image = UIImage(data: data as Data)
                 }
             }
+            */
+            
+            if let arr = imagesUploadSuggestion.array, arr.count > 0 {
+                let i = arr[updateCounter]
+                if let url = i.string {
+                    self.imgUploadSuggestion.afSetImage(withURL: URL(string: url)!, withFilter: imageFilterMode.fitWithoutPlaceHolder)
+                }
+            }
+
             updateCounter = updateCounter + 1
         } else {
             updateCounter = 0
