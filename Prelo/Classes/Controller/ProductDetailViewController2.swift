@@ -314,6 +314,67 @@ class ProductDetail2SellerCell: UITableViewCell {
     @IBOutlet weak var vwContainerLove: UIView!
     @IBOutlet weak var lbLastActiveTime: UILabel!
     
+    var floatRatingView: FloatRatingView!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        imgAvatar.layoutIfNeeded()
+        imgAvatar.layer.cornerRadius = (imgAvatar.frame.size.width)/2
+        imgAvatar.layer.masksToBounds = true
+        
+        imgAvatar.layer.borderColor = Theme.GrayLight.cgColor
+        imgAvatar.layer.borderWidth = 2
+        
+        // Love floatable
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 90, height: 16))
+        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
+        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
+        
+        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
+        self.floatRatingView.maxRating = 5
+        self.floatRatingView.minRating = 0
+        
+        self.floatRatingView.editable = false
+        self.floatRatingView.halfRatings = true
+        self.floatRatingView.floatRatings = true
+        self.floatRatingView.tintColor = Theme.ThemeRed
+        
+        self.vwContainerLove.addSubview(self.floatRatingView)
+    }
+    
+    func adapt(_ productDetail: ProductDetail) {
+        let product = productDetail.json["_data"]
+        
+        self.lbSellerName.text = product["seller"]["username"].stringValue
+        
+        let average_star = product["seller"]["average_star"].floatValue
+        self.floatRatingView.rating = average_star
+        
+        let lastSeenSeller = productDetail.lastSeenSeller
+        if (lastSeenSeller != "") {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+            if let lastSeenDate = formatter.date(from: lastSeenSeller) {
+                self.lbLastActiveTime.text = "Terakhir aktif: \(lastSeenDate.relativeDescription)"
+            }
+        }
+        
+        self.imgAvatar.afSetImage(withURL: productDetail.shopAvatarURL!, withFilter: .circle)
+        
+        // affiliate
+        if productDetail.isCheckout {
+            self.imgVerifiedSeller.isHidden = false
+        }
+        
+        if let arr = product["seller"]["achievements"].array, arr.count > 0 {
+            let ach = AchievementItem.instance(arr[0])
+            
+            if ach?.icon != nil {
+                self.imgBadge.afSetImage(withURL: (ach?.icon)!, withFilter: .circleWithBadgePlaceHolder)
+            }
+        }
+    }
     
     // 94
     static func heightFor() -> CGFloat {
