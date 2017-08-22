@@ -61,7 +61,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var scrollView: UIScrollView!
     
     var isNeedReload = false
-    var isNeedReloadHeader = false
+    //var isNeedReloadHeader = false
     
     var isTransparent : Bool = true
     var isFirst : Bool = true
@@ -79,7 +79,11 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     @IBOutlet weak var vwCloseNavButton: UIView!
     @IBOutlet weak var lblTutupSampai: UILabel!
     @IBOutlet weak var btnBukaShop: UIButton!
+    // 49 -> 0
     @IBOutlet weak var consHeightCloseNavButton: NSLayoutConstraint!
+    
+    // 94 -> 45
+    @IBOutlet weak var consHeightVwNavigationButton: NSLayoutConstraint!
     
     // MARK: - Init
     override func viewDidLoad() {
@@ -129,26 +133,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         } else {
             GAI.trackPageVisit(PageName.Shop)
         }
-        
-        if isNeedReload {
-            loadingPanel.isHidden = false
-            listItemVC?.shopId = self.shopId
-            listItemVC?.previousScreen = self.previousScreen
-            shopReviewVC?.sellerId = self.shopId
-            shopReviewVC?.sellerName = ""
-            shopBadgeVC?.sellerId = self.shopId
-            shopBadgeVC?.sellerName = ""
-            setupNavBar()
-            // edit button
-            if (self.shopId == User.Id) {
-                setEditButton()
-            }
-            
-            loadingPanel.isHidden = true
-            
-            isNeedReload = false
-        }
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -172,7 +156,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 if (self.shopId == User.Id) {
                     setEditButton()
                 }
-                print("")
+                //print("")
                 
                 self.setupNavBar()
                 self.setupSubView()
@@ -181,15 +165,29 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.isFirst = false
             }
             
+            if isNeedReload {
+                self.shopBuka = false
+                self.reloadCloseShopNotif()
+                
+                isNeedReload = false
+            }
+            
             if (self.isOnTop) {
                 self.isOnTop = false
                 self.dereaseHeader()
             }
         }
     }
-    @IBOutlet weak var consHeightVwNavigationButton: NSLayoutConstraint!
+    
+    func reloadCloseShopNotif() {
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        self.loadingPanel.isHidden = false
+        self.listItemVC?.refresh()
+    }
     
     func setupNavBar() {
+        self.vwNavBar.viewWithTag(999)?.removeFromSuperview()
+        
         // custom navbar
         // need size & style
         let appearance = SMSegmentAppearance()
@@ -208,23 +206,25 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         var subFrame = CGRect(x: 0, y: 0, width: self.vwNavBar.width, height: 44)
         
         if(shopBuka){
-            self.consHeightVwNavigationButton.constant = 44
+            self.consHeightVwNavigationButton.constant = 45
+            self.consHeightCloseNavButton.constant = 0
             self.vwCloseNavButton.isHidden = true
             subFrame = CGRect(x: 0, y: 0, width: self.vwNavBar.width, height: 44)
         } else {
             if(self.shopId == User.Id) {
                 btnBukaShop.isHidden = false
                 self.consHeightVwNavigationButton.constant = 94
+                self.consHeightCloseNavButton.constant = 49
                 self.vwCloseNavButton.isHidden = false
                 subFrame = CGRect(x: 0, y: 49, width: self.vwNavBar.width, height: 44)
-                lblTutupSampai.text = "Shop akan dibuka pada tanggal "+tanggalTutup
+                lblTutupSampai.text = "Shop akan dibuka pada tanggal " + tanggalTutup
             } else {
                 btnBukaShop.isHidden = true
                 self.consHeightVwNavigationButton.constant = 74
                 self.consHeightCloseNavButton.constant = 29
                 self.vwCloseNavButton.isHidden = false
                 subFrame = CGRect(x: 0, y: 29, width: self.vwNavBar.width, height: 44)
-                lblTutupSampai.text = "Shop ini akan dibuka pada tanggal "+tanggalTutup
+                lblTutupSampai.text = "Shop ini akan dibuka pada tanggal " + tanggalTutup
             }
         }
         
@@ -233,6 +233,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         segmentView.addTarget(self, action: #selector(StorePageTabBarViewController.navigateSegment(_:)), for: .valueChanged)
         
         segmentView.addSegmentWithTitle("Shop", onSelectionImage: nil, offSelectionImage: nil)
+        segmentView.tag = 999
         
 //        segmentView.addSegmentWithTitle("Review", onSelectionImage: nil, offSelectionImage: nil)
 //        
@@ -241,7 +242,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.vwNavBar.addSubview(segmentView)
         
         // only 3 -- toko, review, badge
-        self.seletionBar.frame = CGRect(x: 0.0, y: 89.0, width: self.segmentView.frame.size.width/3, height: 4.0)
+        self.seletionBar.frame = CGRect(x: 0.0, y: 40.0 + self.consHeightCloseNavButton.constant, width: self.segmentView.frame.size.width/3, height: 4.0)
         self.seletionBar.backgroundColor = Theme.PrimaryColorDark
         
         self.vwNavBar.addSubview(seletionBar)
@@ -376,7 +377,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.vwNavBar.frame = cur2View
                 
                 var cur3View = self.vwChild.frame
-                cur3View.origin.y = 215 + 64
+                cur3View.origin.y = 215 + 64 + self.consHeightCloseNavButton.constant
                 self.vwChild.frame = cur3View
                 
                 var cur4View = self.dashboardCover.frame
@@ -413,7 +414,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 self.vwNavBar.frame = cur2View
                 
                 var cur3View = self.vwChild.frame
-                cur3View.origin.y = 45 + 64
+                cur3View.origin.y = 45 + 64 + self.consHeightCloseNavButton.constant
                 self.vwChild.frame = cur3View
                 
                 var cur4View = self.dashboardCover.frame
@@ -444,8 +445,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         
         self.idUser = json["_id"].stringValue
         
-        print("ini json shop")
-        print(json["shop"].dictionary)
+        //print("ini json shop")
+        //print(json["shop"].dictionary)
         if(json["shop"].isEmpty){
             self.shopBuka = true
         } else {
@@ -456,7 +457,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
                 let end_date = json["shop"]["end_date"].string
                 var arrEnd = end_date?.components(separatedBy: "T")
                 var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                let labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
                 self.tanggalTutup = labelEnd
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
@@ -535,6 +536,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
             self.segmentView.addSegmentWithTitle("Badge", onSelectionImage: nil, offSelectionImage: nil)
         }
         self.loadingPanel.isHidden = true
+        self.loadingPanel.backgroundColor = UIColor.white
         
         // setup review
         self.shopReviewVC?.userReviews = []
@@ -570,7 +572,7 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     @IBAction func btnOpenShopPressed(_ sender: Any) {
         isNeedReload = true
-        isNeedReloadHeader = true
+        //isNeedReloadHeader = true
         
         let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
         self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
