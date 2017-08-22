@@ -647,12 +647,44 @@ class ProductDetail2CommentCell: UITableViewCell {
     var openShop: ()->() = {}
     var reportComment: ()->() = {}
     
-    // 72 / 73
-    static func heightFor(_ isBottomest: Bool) -> CGFloat {
-        if isBottomest {
-            return 72
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        imgAvatar.layoutIfNeeded()
+        imgAvatar.layer.cornerRadius = (imgAvatar.frame.size.width)/2
+        imgAvatar.layer.masksToBounds = true
+        
+        imgAvatar.layer.borderColor = Theme.GrayLight.cgColor
+        imgAvatar.layer.borderWidth = 2
+    }
+    
+    func adapt(_ productDiscussion: ProductDiscussion, isBottom: Bool) {
+        self.imgAvatar.afSetImage(withURL: productDiscussion.posterImageURL!, withFilter: .circle)
+        
+        self.lbComment.text = productDiscussion.message
+        
+        self.lbSellerName.text = productDiscussion.json["sender_username"].stringValue
+        
+        self.lbTimeStamp.text = productDiscussion.json["time"].stringValue
+        
+        if User.Id == productDiscussion.json["sender_id"].stringValue {
+            self.btnAction.isHidden = true
+        } else {
+            self.btnAction.isHidden = false
         }
-        return 73
+        
+        if isBottom {
+            self.vw1px.isHidden = true
+        } else {
+            self.vw1px.isHidden = false
+        }
+    }
+    
+    // 72 / 73, count comment
+    static func heightFor(_ productDiscussion: ProductDiscussion) -> CGFloat {
+        let s = productDiscussion.message.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: UIScreen.main.bounds.size.width - 72 - 8)
+        
+        return 59 + s.height
     }
     
     @IBAction func btnSellerPressed(_ sender: Any) {
