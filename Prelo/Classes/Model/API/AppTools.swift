@@ -151,6 +151,7 @@ extension UIView {
     class func fromNib<T : UIView>() -> T {
         return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
+    
     var snapshot: UIImage {
 //        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
 //        drawHierarchy(in: bounds, afterScreenUpdates: true)
@@ -164,6 +165,33 @@ extension UIView {
         let screenShot = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return screenShot!
+    }
+    
+    /// Create snapshot
+    ///
+    /// - parameter rect: The `CGRect` of the portion of the view to return. If `nil` (or omitted),
+    ///                   return snapshot of the whole view.
+    ///
+    /// - returns: Returns `UIImage` of the specified portion of the view.
+    
+    func snapshot(of rect: CGRect? = nil) -> UIImage? {
+        // snapshot entire view
+        
+        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0)
+        drawHierarchy(in: bounds, afterScreenUpdates: true)
+        let wholeImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // if no `rect` provided, return image of whole view
+        
+        guard let image = wholeImage, let rect = rect else { return wholeImage }
+        
+        // otherwise, grab specified `rect` of image
+        
+        let scale = image.scale
+        let scaledRect = CGRect(x: rect.origin.x * scale, y: rect.origin.y * scale, width: rect.size.width * scale, height: rect.size.height * scale)
+        guard let cgImage = image.cgImage?.cropping(to: scaledRect) else { return nil }
+        return UIImage(cgImage: cgImage, scale: scale, orientation: .up)
     }
 }
 
@@ -884,6 +912,8 @@ class Tags : NSObject {
     static let XibNameAddressAddEdit = "AddressAddEdit"
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
+    static let XibNameShareProfile = "ShareProfile"
+    static let XibNameShareReferral = "ShareReferral"
     static let XibNameAddProductShare2 = "AddProductShare2"
     static let XibNameCheckout2Ship = "Checkout2Ship"
     static let XibNameCheckout2Pay = "Checkout2Pay"

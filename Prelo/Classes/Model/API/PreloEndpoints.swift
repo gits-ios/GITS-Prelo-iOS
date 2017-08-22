@@ -584,10 +584,11 @@ enum APIMe : URLRequestConvertible {
     case createAddress(addressName: String, recipientName: String, phone: String, provinceId: String, provinceName: String, regionId: String, regionName: String, subdistrictId: String, subdistricName: String, address: String, postalCode: String, coordinate: String, coordinateAddress: String)
     case deleteAddress(addressId: String)
     case setDefaultAddress(addressId: String)
+    case referralProfile
+    case referralPicture(frameType: String)
     case updateCoordinate(addressId: String, coordinate: String, coordinateAddress: String)
     case updateNameAndAddress(addressId: String, recipientName: String, phone: String)
     case getTopUps(current : Int, limit : Int)
-    
     case getBankAccount
     case addBankAccount(target_bank: String, account_number: String, name: String, branch:String)
     case deleteBankAccount(bankAccountId: String)
@@ -629,6 +630,8 @@ enum APIMe : URLRequestConvertible {
         case .setUserUUID : return .post
         case .achievement : return .get
         case .getAddressBook : return .get
+        case .referralProfile : return .get
+        case .referralPicture(_) : return .get
         case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _),
              .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _),
              .deleteAddress(_),
@@ -640,8 +643,6 @@ enum APIMe : URLRequestConvertible {
         case .deleteBankAccount(_) : return .post
         case .setDefaultBankAccount(_) : return .post
         case .editBankAccount(_, _, _, _, _, _) : return .post
-        case .deleteAddress(_) : return .post
-        case .setDefaultAddress(_) : return .post
         case .getUsersShopData(_) : return .get
         case .closeUsersShop(_, _, _, _) : return .post
         case .openUsersShop : return .post
@@ -676,6 +677,8 @@ enum APIMe : URLRequestConvertible {
         case .createAddress(_, _, _, _, _, _, _, _, _, _, _, _, _) : return "address_book/add"
         case .deleteAddress(_) : return "address_book/delete"
         case .setDefaultAddress(_) : return "address_book/set_default"
+        case .referralProfile : return "referral_profile"
+        case .referralPicture(_) : return "referral_picture"
         case .updateAddress(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _),
              .updateCoordinate(_, _, _),
              .updateNameAndAddress(_, _, _) : return "address_book/update"
@@ -835,6 +838,11 @@ enum APIMe : URLRequestConvertible {
                 "address_id": addressId,
                 "platform_sent_from" : "ios"
             ]
+        case .referralPicture(let frameType) :
+            p = [
+                "frame_type": frameType, //Frame type: fashion, gadget, hobby, book, beauty
+                "platform_sent_from" : "ios"
+            ]
         case .updateCoordinate(let addressId, let coordinate, let coordinateAddress) :
             p = [
                 "address_id": addressId,
@@ -884,6 +892,11 @@ enum APIMe : URLRequestConvertible {
                 "end_date": end_date,
                 "reason" : alasan,
                 "custom_reason" : alasan_custom
+            ]
+        case.getTopUps(let current, let limit) :
+            p = [
+                "current": current,
+                "limit": limit
             ]
         default : break
         }
