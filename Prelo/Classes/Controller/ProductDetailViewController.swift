@@ -150,7 +150,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
         
-        
+        // hide closed shop
+        self.vwClose.isHidden = true
+        //self.consVwCloseHeight.constant = 0
+        self.consTableViewTop.constant = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
