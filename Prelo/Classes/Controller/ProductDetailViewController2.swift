@@ -612,6 +612,21 @@ class ProductDetail2TitleSectionCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbAccordion: UILabel! // default hide, hide if commentar, open: , close: 
     
+    func adapt(_ title: String, isOpen: Bool, isShow: Bool) {
+        self.lbTitle.text = title
+        
+        if isShow {
+            self.lbAccordion.isHidden = false
+            
+            if isOpen {
+                self.lbAccordion.text = ""
+            } else {
+                self.lbAccordion.text = ""
+            }
+        } else {
+            self.lbAccordion.isHidden = true
+        }
+    }
     
     // 43
     static func heightFor() -> CGFloat {
