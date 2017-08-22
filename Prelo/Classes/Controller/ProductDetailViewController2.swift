@@ -59,7 +59,7 @@ class ProductDetailViewController2: BaseViewController {
     @IBOutlet weak var vwBuyer_PaymentConfirmation: UIView!
     @IBOutlet weak var btnConfirmVwBuyer_PaymentConfirmation: UIButton!
     
-    var shareItem = ShareItem()
+    var productItem = ProductHelperItem()
     
     // MARK: - Init
     
