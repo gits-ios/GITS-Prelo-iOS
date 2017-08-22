@@ -118,6 +118,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     @IBAction func clearCache() {
         toClearCache(isButton: true)
+        
+        Constant.showDialog("Clear Cache", message: "Clear Cache telah berhasil")
+        self.enableBtnClearCache()
     }
     
     func toClearCache(isButton : Bool) {
