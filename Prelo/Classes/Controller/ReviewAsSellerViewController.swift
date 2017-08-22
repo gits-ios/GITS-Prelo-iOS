@@ -58,15 +58,17 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.adapt(averageSeller)
+        
+        // Register custom cell
+        let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
+        tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
     }
     
     var first = true
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        // Register custom cell
-        let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
-        tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
     }
     
@@ -75,9 +77,7 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        print("masuk sini ga3?")
-            
-            print("masuk sini loh lalala")
+        if first {
             // Do any additional setup after loading the view.
             self.lblEmpty.isHidden = false
             self.tableView.isHidden = false
@@ -99,6 +99,9 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
             if reload {
                 adapt(averageSeller)
             }
+            
+            first = false
+        }
     }
     
     

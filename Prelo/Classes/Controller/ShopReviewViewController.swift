@@ -43,12 +43,14 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     var countAsBuyerReview : Int = 0
     var countAsSellerReview: Int = 0
     
+    var root: UIViewController?
+    
     @IBAction func btnMoreReviewPressed(_ sender: Any) {
         let ReviewTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameReviewTabBar, owner: nil, options: nil)?.first as! ReviewTabBarViewController
         ReviewTabBarVC.averageBuyer = self.averageBuyer
         ReviewTabBarVC.averageSeller = self.averageRate
         ReviewTabBarVC.isNeedReload = true
-        self.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
+        self.root?.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
 //        self.previousController?.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
     }
     
@@ -66,7 +68,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         tableView.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
         tableViewRvwasBuyer.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
-        let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverage", bundle: nil)
+        //let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverage", bundle: nil)
        
         
         // for button baca lebih lanjut

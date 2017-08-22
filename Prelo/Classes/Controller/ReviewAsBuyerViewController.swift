@@ -21,6 +21,8 @@ class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet weak var averageStar: UILabel!
     @IBOutlet weak var countReview: UILabel!
     
+    var averageBuyer : Float = 0.0
+    
     var floatRatingView: FloatRatingView!
     
     func adapt(_ star : Float) {
@@ -54,6 +56,8 @@ class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.adapt(averageBuyer)
         
         print("masuk sini loh lalala")
         // Do any additional setup after loading the view.

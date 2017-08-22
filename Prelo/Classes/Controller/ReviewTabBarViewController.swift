@@ -5,44 +5,30 @@
 //  Created by Prelo on 7/17/17.
 //  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
+
 import UIKit
 
-protocol ReviewTabBarDelegate: class {
-    func setFromDraftOrNew(_ isFromDraft: Bool)
-    func getFromDraftOrNew() -> Bool
-}
-
-class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, ReviewTabBarDelegate {
+class ReviewTabBarViewController: BaseViewController, CarbonTabSwipeDelegate {
    
     var averageBuyer : Float = 0.0
     var averageSeller : Float = 0.0
-    
-    // MARK: - Delegate
-    func setFromDraftOrNew(_ isFromDraft: Bool) {
-        self.isFromDraft = isFromDraft
-    }
-    
-    func getFromDraftOrNew() -> Bool {
-        return self.isFromDraft
-    }
 
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var reviewAsSellerVC : ReviewAsSellerViewController?
     var reviewAsBuyerVC : ReviewAsBuyerViewController?
     
-    var isFromDraft = false
     
-    var isNeedReload = false
+    var isNeedReload = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("ini average nya")
-        print(averageBuyer)
-        print(averageSeller)
-        reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as? ReviewAsSellerViewController
         
-        reviewAsBuyerVC = (Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as! ReviewAsBuyerViewController)
+        reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as? ReviewAsSellerViewController
+        reviewAsSellerVC?.averageSeller = averageSeller
+        
+        reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as? ReviewAsBuyerViewController
+        reviewAsBuyerVC?.averageBuyer = averageBuyer
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["SEBAGAI PENJUAL" as AnyObject, "SEBAGAI PEMBELI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
@@ -60,51 +46,17 @@ class ReviewTabBarViewController : BaseViewController, CarbonTabSwipeDelegate, R
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
         
-        self.navigationItem.hidesBackButton = true
-        let newBackButton = UIBarButtonItem(title: "Back", style: UIBarButtonItemStyle.plain, target: self, action: #selector(ReviewTabBarViewController.back(sender:)))
-        self.navigationItem.leftBarButtonItem = newBackButton
-    }
-    
-    func back(sender: UIBarButtonItem) {
-
-        let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
-        
-        self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
-
-        
-//        self.navigationController?.popViewController(animated: true)
-    }
-    
-    var first = true
-    
-    var shouldSkipBack = true
-    
-    override func viewDidAppear(_ animated: Bool) {
-        if first && shouldSkipBack
-        {
-            first = false
-            super.viewDidAppear(animated)
-            var m = self.navigationController?.viewControllers
-            m?.remove(at: (m?.count)!-2)
-            m?.remove(at: (m?.count)!-2)
-            self.navigationController?.viewControllers = m!
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("udah kesini dulu")
         if isNeedReload {
-            print("masuk sini kok")
-            print("ini average nya")
-            print(averageBuyer)
-            print(averageSeller)
-            reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as? ReviewAsSellerViewController
-            reviewAsSellerVC?.reload = true
             reviewAsSellerVC?.averageSeller = averageSeller
+            reviewAsBuyerVC?.averageBuyer = averageBuyer
+            
             reviewAsSellerVC?.adapt(averageSeller)
-            reviewAsSellerVC?.tableView.reloadData()
-            reviewAsSellerVC?.loadingPanel.isHidden = true
-            reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as? ReviewAsBuyerViewController
+            reviewAsBuyerVC?.adapt(averageBuyer)
+            
+            isNeedReload = false
         }
     }
     
