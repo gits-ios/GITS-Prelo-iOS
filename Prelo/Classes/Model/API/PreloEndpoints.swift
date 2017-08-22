@@ -38,9 +38,10 @@ class PreloEndpoints: NSObject {
         }
         
         print("\(reqAlias) req = \(req)")
-        
+
         if let response = resp {
-            print("response code" + String(response.statusCode))
+            print("response code nya ")
+            print(response.statusCode)
             if (response.statusCode != 200) {
                 if (res != nil) {
                     if let msg = JSON(res!)["_message"].string {
@@ -585,12 +586,16 @@ enum APIMe : URLRequestConvertible {
     case setDefaultAddress(addressId: String)
     case updateCoordinate(addressId: String, coordinate: String, coordinateAddress: String)
     case updateNameAndAddress(addressId: String, recipientName: String, phone: String)
+    case getTopUps(current : Int, limit : Int)
     
     case getBankAccount
     case addBankAccount(target_bank: String, account_number: String, name: String, branch:String)
     case deleteBankAccount(bankAccountId: String)
     case setDefaultBankAccount(bankAccountId: String)
     case editBankAccount(doc_id: String, target_bank: String, account_number: String, name: String, branch: String, is_default: Bool)
+    case getUsersShopData(seller_id: String?)
+    case closeUsersShop(start_date: String, end_date: String, reason: Int, custom_reason: String)
+    case openUsersShop
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
@@ -635,6 +640,12 @@ enum APIMe : URLRequestConvertible {
         case .deleteBankAccount(_) : return .post
         case .setDefaultBankAccount(_) : return .post
         case .editBankAccount(_, _, _, _, _, _) : return .post
+        case .deleteAddress(_) : return .post
+        case .setDefaultAddress(_) : return .post
+        case .getUsersShopData(_) : return .get
+        case .closeUsersShop(_, _, _, _) : return .post
+        case .openUsersShop : return .post
+        case .getTopUps(_, _) : return .get
         }
     }
     
@@ -658,6 +669,7 @@ enum APIMe : URLRequestConvertible {
         case .checkPassword : return "checkpassword"
         case .resendVerificationEmail : return "verify/resend_email"
         case .getBalanceMutations(_, _) : return "getprelobalances"
+        case .getTopUps(_, _) : return "getprelotopups"
         case .setUserUUID : return "setgafaid"
         case .achievement : return "achievements"
         case .getAddressBook : return "address_book"
@@ -672,6 +684,10 @@ enum APIMe : URLRequestConvertible {
         case .deleteBankAccount(_) : return "delete_bank_account"
         case .setDefaultBankAccount(_) : return "set_main_bank_account"
         case .editBankAccount(_, _, _, _, _, _) : return "edit_bank_account"
+            
+        case .getUsersShopData(_) : return "shop_data"
+        case .closeUsersShop(_, _, _, _) : return "close_shop"
+        case .openUsersShop : return "open_shop"
         }
     }
     
@@ -856,6 +872,18 @@ enum APIMe : URLRequestConvertible {
                 "name": name,
                 "branch": branch,
                 "is_default": is_default
+            ]
+            
+        case.getUsersShopData(let seller_id) :
+            p = [
+                "seller_id": (seller_id == nil) ? "" : seller_id!
+            ]
+        case .closeUsersShop(let start_date, let end_date, let alasan, let alasan_custom) :
+            p = [
+                "start_date": start_date,
+                "end_date": end_date,
+                "reason" : alasan,
+                "custom_reason" : alasan_custom
             ]
         default : break
         }
@@ -1716,6 +1744,9 @@ enum APIUser : URLRequestConvertible {
     case testUser(username : String)
     case getAchievement(id : String)
     case rateApp(appVersion : String, rate: Int, review: String)
+    case postBuyerReview(userID : String, productID : String, comment : String, star : Int)
+    case getReviewSellerBuyer(userId : String, limit : Int)
+    case getBuyerReview(id: String)
 
     public func asURLRequest() throws -> URLRequest {
         let basePath = "user/"
@@ -1733,6 +1764,9 @@ enum APIUser : URLRequestConvertible {
         case .testUser(_) : return .get
         case .getAchievement(_) : return .get
         case .rateApp(_, _, _) : return .post
+        case .postBuyerReview(_, _, _, _) : return .post
+        case .getReviewSellerBuyer(_, _) : return .get
+        case .getBuyerReview(_) : return .get
         }
     }
     
@@ -1743,6 +1777,9 @@ enum APIUser : URLRequestConvertible {
         case .testUser(let username) : return "\(username)/id"
         case .getAchievement(let id) : return "\(id)/achievements"
         case .rateApp(_, _, _) : return "rate_app"
+        case .postBuyerReview(let userId, _, _, _) : return "\(userId)/buyer_review"
+        case .getReviewSellerBuyer(let userId, _) : return "\(userId)/review_iOS"
+        case .getBuyerReview(let id) : return "\(id)/buyer_review"
         }
     }
     
@@ -1760,6 +1797,16 @@ enum APIUser : URLRequestConvertible {
                 "rate_num" : rate,
                 "rate_text" : review,
                 "platform_sent_from" : "ios"
+            ]
+        case .postBuyerReview(_, let productID, let comment, let star) :
+            p = [
+                "product_id" : productID,
+                "comment" : comment,
+                "star" : star
+            ]
+        case .getReviewSellerBuyer(_, let limit) :
+            p = [
+                "limit" : limit
             ]
         default : break
         }
@@ -1809,6 +1856,8 @@ enum APIWallet : URLRequestConvertible {
     case getBalance
     case withdraw(amount : String, targetBank : String, norek : String, namarek : String, password : String)
     case getBalanceAndWithdraw
+    case topUp(amount : Int, banktransfer_digit : Int, payment_method: String, target_bank: String)
+    case topUpPaid(_id : String, payment_method_param : String, payment_time : String, target_bank : String)
     
     public func asURLRequest() throws -> URLRequest {
         let basePath = "wallet/"
@@ -1824,6 +1873,8 @@ enum APIWallet : URLRequestConvertible {
         case .withdraw(_, _, _, _, _) : return .post
         case .getBalance : return .get
         case .getBalanceAndWithdraw : return .get
+        case .topUp(_, _, _, _) : return .post
+        case .topUpPaid(_, _, _, _) : return .post
         }
     }
     
@@ -1832,6 +1883,8 @@ enum APIWallet : URLRequestConvertible {
         case .withdraw(_, _, _, _, _) : return "withdraw"
         case .getBalance : return "balance"
         case .getBalanceAndWithdraw : return "balance_and_withdraw"
+        case .topUp(_, _, _, _) : return "topup"
+        case .topUpPaid(_, _, _, _) : return "paid_topup"
         }
     }
     
@@ -1846,6 +1899,20 @@ enum APIWallet : URLRequestConvertible {
                 "name" : namarek,
                 "password" : password,
                 "platform_sent_from" : "ios"
+            ]
+        case .topUp(let amount, let banktransfer_digit, let payment_method, let target_bank) :
+            p = [
+                "amount" : amount,
+                "banktransfer_digit" : banktransfer_digit,
+                "payment_method" : payment_method,
+                "target_bank" : target_bank
+            ]
+        case .topUpPaid(let _id, let payment_method_param, let payment_time, let target_bank) :
+            p = [
+                "_id" : _id,
+                "payment_method_param" : payment_method_param,
+                "payment_time" : payment_time,
+                "target_bank" : target_bank
             ]
         default : break
         }

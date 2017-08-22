@@ -69,6 +69,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBOutlet weak var reservationBtnSet: UIView!
     @IBOutlet weak var btnReservation: BorderedButton!
+    @IBAction func btnOpenShopPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
+        self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
+    }
     
     var pDetailCover : ProductDetailCover?
     
@@ -108,6 +114,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // add to cart popup
     var add2cartPopup: AddToCartPopup?
+    // close
+    @IBOutlet weak var vwClose: UIView!
+    @IBOutlet weak var consVwCloseHeight: NSLayoutConstraint!
+    @IBOutlet weak var lblEnd: UILabel!
+    @IBOutlet weak var btnOpenShop: UIButton!
+    @IBOutlet weak var consTableViewTop: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,6 +149,8 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -213,7 +227,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.thisScreen = PageName.ProductDetail
         }
+        
     }
+    
+    var shopBuka = true
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
@@ -240,6 +257,51 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     }
                     
                     self.title = self.detail?.name
+                    
+                    print("")
+                    
+                    if(self.detail?.myShop.isEmpty)!{
+                        self.shopBuka = true
+                        self.vwClose.isHidden = true
+                        self.consTableViewTop.constant = 0
+                    } else {
+                        if(self.detail?.myShop["status"] == 1){
+                            self.shopBuka = true
+                            self.vwClose.isHidden = true
+                            self.consTableViewTop.constant = 0
+                        } else {
+                            self.shopBuka = false
+                            self.vwClose.isHidden = false
+                            self.disableButton(self.btnBuy)
+                            self.disableMyProductBtnSet()
+                            if(self.detail?.theirId==User.Id){
+                                let end_date = self.detail?.myShop["end_date"]?.string
+                                var arrEnd = end_date?.components(separatedBy: "T")
+                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                self.lblEnd.text = "Kamu sedang menutup shop sampai tanggal : " + labelEnd
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
+                                let date = dateFormatter.date(from: labelEnd)
+                                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date!)
+                                self.lblEnd.text = "Kamu akan membuka shop pada tanggal " + dateFormatter.string(from: tomorrow!)
+                            } else {
+                                let end_date = self.detail?.myShop["end_date"]?.string
+                                var arrEnd = end_date?.components(separatedBy: "T")
+                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
+                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                self.lblEnd.text = "Penjual barang ini sedang menutup shop sampai tanggal : " + labelEnd
+                                let dateFormatter = DateFormatter()
+                                dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
+                                let date = dateFormatter.date(from: labelEnd)
+                                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date!)
+                                self.lblEnd.text = "Penjual barang ini akan membuka shop pada tanggal " + dateFormatter.string(from: tomorrow!)
+                                self.btnOpenShop.isHidden = true
+                                self.consVwCloseHeight.constant = 50
+                            }
+                        }
+                    }
+                    self.hideLoading()
                     
                     self.activated = (self.detail?.isActive)!
                     //print((self.detail?.json ?? ""))

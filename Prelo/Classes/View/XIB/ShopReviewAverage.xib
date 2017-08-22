@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <view contentMode="scaleToFill" id="3mw-cZ-DPY" customClass="ShopReviewAverage" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="90" height="250"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Review sebagai penjual" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rqo-m9-zc4">
+                    <rect key="frame" x="8" y="8" width="74" height="21.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="9"/>
+                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SS9-9X-09f">
+                    <rect key="frame" x="8" y="119.5" width="74" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="jTp-Wx-yyY"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rB8-e0-ciH">
+                    <rect key="frame" x="8" y="37.5" width="74" height="74"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="4.68" textAlignment="center" lineBreakMode="clip" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hoM-jJ-yTB">
+                            <rect key="frame" x="8" y="8" width="58" height="58"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="hoM-jJ-yTB" firstAttribute="top" secondItem="rB8-e0-ciH" secondAttribute="top" constant="8" id="44p-3t-6bX"/>
+                        <constraint firstAttribute="height" constant="74" id="S2z-b1-8IN"/>
+                        <constraint firstItem="hoM-jJ-yTB" firstAttribute="leading" secondItem="rB8-e0-ciH" secondAttribute="leading" constant="8" id="Ztb-CE-LLd"/>
+                        <constraint firstAttribute="bottom" secondItem="hoM-jJ-yTB" secondAttribute="bottom" constant="8" id="nI5-Rx-WIw"/>
+                        <constraint firstAttribute="trailing" secondItem="hoM-jJ-yTB" secondAttribute="trailing" constant="8" id="q7E-c9-w5w"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="Rqo-m9-zc4" firstAttribute="centerX" secondItem="3mw-cZ-DPY" secondAttribute="centerX" id="INM-bb-kbf"/>
+                <constraint firstItem="Rqo-m9-zc4" firstAttribute="top" secondItem="3mw-cZ-DPY" secondAttribute="top" constant="8" id="Pmm-VB-lFL"/>
+                <constraint firstItem="Rqo-m9-zc4" firstAttribute="leading" secondItem="3mw-cZ-DPY" secondAttribute="leading" constant="8" id="Tsa-y8-zCo"/>
+                <constraint firstItem="SS9-9X-09f" firstAttribute="leading" secondItem="3mw-cZ-DPY" secondAttribute="leading" constant="8" id="cMT-oz-n2X"/>
+                <constraint firstAttribute="trailing" secondItem="Rqo-m9-zc4" secondAttribute="trailing" constant="8" id="cux-pX-MWL"/>
+                <constraint firstAttribute="trailing" secondItem="rB8-e0-ciH" secondAttribute="trailing" constant="8" id="g6H-fh-eV0"/>
+                <constraint firstItem="SS9-9X-09f" firstAttribute="top" secondItem="rB8-e0-ciH" secondAttribute="bottom" constant="8" id="o9f-lu-Vdc"/>
+                <constraint firstItem="rB8-e0-ciH" firstAttribute="top" secondItem="Rqo-m9-zc4" secondAttribute="bottom" constant="8" id="pHr-LK-Pf6"/>
+                <constraint firstAttribute="trailing" secondItem="SS9-9X-09f" secondAttribute="trailing" constant="8" id="r0h-dW-uWO"/>
+                <constraint firstItem="rB8-e0-ciH" firstAttribute="leading" secondItem="3mw-cZ-DPY" secondAttribute="leading" constant="8" id="uMN-BS-siv"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="averageStar" destination="hoM-jJ-yTB" id="wuN-gs-qLY"/>
+                <outlet property="circularView" destination="rB8-e0-ciH" id="87G-Tq-Y8O"/>
+                <outlet property="reviewAs" destination="Rqo-m9-zc4" id="k8f-ap-uOn"/>
+                <outlet property="vwLove" destination="SS9-9X-09f" id="xji-gE-fVq"/>
+            </connections>
+        </view>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+    </objects>
+</document>
