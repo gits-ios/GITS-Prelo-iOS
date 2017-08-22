@@ -401,10 +401,94 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbTimeStamp: UILabel!
     
+    func adapt(_ productDetail: ProductDetail) {
+        let product = productDetail.json["_data"]
+        
+        self.lbSpecialStory.text = "\"" + productDetail.specialStory + "\""
+        
+        // category
+        let arr = product["category_breadcrumbs"].array!
+        var categoryString : String = ""
+        var param : Array<[String : Any]> = []
+        if (arr.count > 0) {
+            for i in 1...arr.count-1
+            {
+                let d = arr[i]
+                let name = d["name"].string!
+                let p = [
+                    "category_name":name,
+                    "category_id":d["_id"].string!,
+                    "range":NSStringFromRange(NSMakeRange(categoryString.length, name.length)),
+                    ZSWTappableLabelTappableRegionAttributeName: Int(true),
+                    ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGray,
+                    ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.white,
+                    NSForegroundColorAttributeName : Theme.PrimaryColorDark
+                ] as [String : Any]
+                param.append(p)
+                
+                categoryString += name
+                if (i != arr.count-1) {
+                    categoryString += "  "
+                }
+            }
+        }
+        
+        let mystr = categoryString
+        let searchstr = ""
+        let ranges: [NSRange]
+        
+        do {
+            // Create the regular expression.
+            let regex = try NSRegularExpression(pattern: searchstr, options: [])
+            
+            // Use the regular expression to get an array of NSTextCheckingResult.
+            // Use map to extract the range from each result.
+            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
+        }
+        catch {
+            // There was a problem creating the regular expression
+            ranges = []
+        }
+        
+        //print(ranges)  // prints [(0,3), (18,3), (27,3)]
+        
+        let attString : NSMutableAttributedString = NSMutableAttributedString(string: categoryString)
+        for p in param
+        {
+            let r = NSRangeFromString(p["range"] as! String)
+            attString.addAttributes(p, range: r)
+            if ranges.count > 0 {
+                for i in 0...ranges.count-1 {
+                    attString.addAttributes([NSFontAttributeName:UIFont(name: "prelo2", size: 14.0)!], range: ranges[i])
+                }
+            }
+            
+        }
+        
+        self.lbCategory.attributedText = attString
+        
+        // merk
+        if let merk = product["brand"].string {
+            let p = [
+                "brand_id":product["brand_id"].stringValue + " ",
+                "brand":product["brand"].stringValue,
+                "range":NSStringFromRange(NSMakeRange(0, merk.length)),
+                ZSWTappableLabelTappableRegionAttributeName: Int(true),
+                ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGray,
+                ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.white,
+                NSForegroundColorAttributeName : Theme.PrimaryColorDark
+            ] as [String : Any]
+            self.lbMerk.attributedText = NSAttributedString(string: merk, attributes: p)
+        } else {
+            self.lbMerk.text = "Unknown"
+        }
+    }
+    
     
     // count special story, description, + standard
     static func heightFor(_ specialStory: String, description: String, isSize: Bool, isCacat: Bool) -> CGFloat {
         // 12 + 12, ft 14
+        //let text = "\"" + specialStory
         let t = specialStory.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
         
         let d = description.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
