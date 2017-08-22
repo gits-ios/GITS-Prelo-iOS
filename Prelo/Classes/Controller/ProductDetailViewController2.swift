@@ -565,6 +565,16 @@ class ProductDetail2DescriptionCell: UITableViewCell {
 class ProductDetail2DescriptionSellCell: UITableViewCell {
     @IBOutlet weak var lbSellerRegion: UILabel!
     
+    func adapt(_ productDetail: ProductDetail) {
+        let product = productDetail.json["_data"]
+        
+        var region = product["seller_region"]["name"].stringValue
+        if region == "" {
+            region = "Unknown"
+        }
+        
+        self.lbSellerRegion.text = region
+    }
     
     // count description
     static func heightFor() -> CGFloat {
@@ -580,6 +590,11 @@ class ProductDetail2DescriptionSellCell: UITableViewCell {
 class ProductDetail2DescriptionRentCell: UITableViewCell {
     @IBOutlet weak var lbDeposit: UILabel!
     
+    func adapt(_ productDetail: ProductDetail) {
+        let product = productDetail.json["_data"]
+        
+        self.lbDeposit.text = product["seller_region"]["rent_price_deposit"].int64Value.asPrice
+    }
     
     // count description
     static func heightFor() -> CGFloat {
