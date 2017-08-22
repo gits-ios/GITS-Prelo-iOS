@@ -122,6 +122,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var isAffiliate: Bool = false
     
     var dataReject : Array<String> = []
+    var dataRejectNote: Array<String> = []
     
     // MARK: - Init
     
@@ -260,17 +261,19 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                     print("ini reject reason enum")
                     if let arr = data["rejectReasonEnum"].array {
-                        
+                        self.dataReject = []
+                        self.dataRejectNote = []
                         if(arr.count != 0){
                             for i in 0 ..< arr.count {
                                 print(arr[i]["record"])
-                                self.dataReject.append(arr[i]["record"].string!)
+                                self.dataReject.append(arr[i]["record"].stringValue)
+                                self.dataRejectNote.append(arr[i]["notes"].stringValue)
                             }
                         }
                     }
                     
-                    print("ini balesannya")
-                    print(data["progress"])
+                    //print("ini balesannya")
+                    //print(data["progress"])
                     //if(data["progress"].int == -4){
                         TransactionDetailTools.TextReply = data["rejectReply"].stringValue
                     //}
@@ -2080,11 +2083,12 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 confirmShippingVC.trxDetail = self.trxDetail!
                 confirmShippingVC.setDefaultKurir()
                 confirmShippingVC.previousScreen = PageName.TransactionDetail
-                print("ini di trans detail")
-                print(self.dataReject)
+                //print("ini di trans detail")
+                //print(self.dataReject)
                 
                 
-                confirmShippingVC.dropDown = self.dataReject
+                confirmShippingVC.dataReject = self.dataReject
+                confirmShippingVC.dataRejectNote = self.dataRejectNote
                 self.navigationController?.pushViewController(confirmShippingVC, animated: true)
             }
         }

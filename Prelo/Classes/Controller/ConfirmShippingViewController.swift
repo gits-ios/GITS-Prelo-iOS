@@ -31,7 +31,8 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     @IBOutlet var loadingPanel: UIView!
     @IBOutlet var loading: UIActivityIndicatorView!
     
-    var dropDown : Array<String> = []
+    var dataReject : Array<String> = []
+    var dataRejectNote: Array<String> = []
     
     // Predefined value
     // For confirm shipping
@@ -163,9 +164,12 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
             cell.selectionStyle = .none
             print("ini recordnya")
-            print(self.dropDown)
-            cell.dropDownTemp.dataSource = self.dropDown
+            //print(self.dataReject)
+            cell.dataReject = self.dataReject
+            cell.dataRejectNote = self.dataRejectNote
+            
             cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row], selectedAvailability : self.selectedAvailabilities[(indexPath as NSIndexPath).row], selectedReason: self.selectedReason[(indexPath as NSIndexPath).row])
+            
             cell.refreshTable = {
                 self.isCellSelected[(indexPath as NSIndexPath).row] = !self.isCellSelected[(indexPath as NSIndexPath).row]
                 self.selectedReason[(indexPath as NSIndexPath).row] = cell.selectedReason
@@ -177,6 +181,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     self.hideFldKurirLainnya() // This is actually showing vwKurirResiFields
                 }
             }
+            
             cell.refreshTable2 = {
                 self.selectedReason[(indexPath as NSIndexPath).row] = cell.selectedReason
                 self.setupTable()
@@ -187,9 +192,11 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     self.hideFldKurirLainnya() // This is actually showing vwKurirResiFields
                 }
             }
+            
             cell.availabilitySelected = { selection in
                 self.selectedAvailabilities[(indexPath as NSIndexPath).row] = selection
             }
+            
             return cell
         }
         return UITableViewCell()
@@ -744,12 +751,12 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     @IBOutlet weak var fieldCustomReason: UIView!
     @IBOutlet weak var consNotifTop: NSLayoutConstraint!
     
-    
+    var dataReject: Array<String> = []
+    var dataRejectNote: Array<String> = []
     
     let TxtvwPlaceholder = "Tulis alasan kamu menolak pesanan."
     
     let dropDown = DropDown()
-    let dropDownTemp = DropDown()
     var selectedIndex = 0
     var isNeedSetup = false
     
@@ -843,9 +850,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
         //dropDown = DropDown()
         dropDown.dataSource = []
         dropDown.dataSource = ["Alasan Penolakan"]
-        for i in 0 ..< dropDownTemp.dataSource.count {
-            dropDown.dataSource.append(dropDownTemp.dataSource[i])
-        }
+        dropDown.dataSource.append(contentsOf: self.dataReject)
         
         // Action triggered on selection
         dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
@@ -854,6 +859,10 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
                 self.selectedIndex = index
                 if index < self.dropDown.dataSource.count {
                     self.lblReason.text = self.dropDown.dataSource[self.selectedIndex]
+                    if index > 0 {
+                        self.notification.text = "Catatan: " + self.dataRejectNote[index - 1]
+                    }
+                    
                     if(self.lblReason.text == "Alasan Penolakan"){
                         self.notification.isHidden = true
                         self.fieldCustomReason.isHidden = true
