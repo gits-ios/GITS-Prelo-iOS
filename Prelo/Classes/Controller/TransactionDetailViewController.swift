@@ -271,9 +271,9 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     
                     print("ini balesannya")
                     print(data["progress"])
-                    if(data["progress"].int == -4){
-                        TransactionDetailTools.TextReply = data["rejectReply"].string!
-                    }
+                    //if(data["progress"].int == -4){
+                        TransactionDetailTools.TextReply = data["rejectReply"].stringValue
+                    //}
                     
                     // Mixpanel
 //                    let param = [
