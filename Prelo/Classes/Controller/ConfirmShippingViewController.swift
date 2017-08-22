@@ -860,13 +860,15 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
                 if index < self.dropDown.dataSource.count {
                     self.lblReason.text = self.dropDown.dataSource[self.selectedIndex]
                     if index > 0 {
-                        self.notification.text = "Catatan: " + self.dataRejectNote[index - 1]
+                        self.notification.text = self.dataRejectNote[index - 1] != "" ? "Catatan: " : "" + self.dataRejectNote[index - 1]
+                    } else if index == 0 {
+                        self.notification.text = ""
                     }
                     
                     if(self.lblReason.text == "Alasan Penolakan"){
                         self.notification.isHidden = true
                         self.fieldCustomReason.isHidden = true
-                    } else if(self.lblReason.text == "Barang sudah terbeli (akan dilabeli SOLD)"){
+                    } else if(self.lblReason.text == "Barang sudah terjual (akan dilabeli SOLD)"){
                         self.notification.isHidden = true
                         self.fieldCustomReason.isHidden = true
                         self.selectedAvailability = .soldOut
