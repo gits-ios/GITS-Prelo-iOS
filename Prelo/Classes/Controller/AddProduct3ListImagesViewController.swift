@@ -234,7 +234,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
         
         self.index.remove(at: index)
         
-        if index == 0 {
+        if index == 0 && self.index.count > 0 {
             self.previewImages[self.index[0]].label = "Gambar Utama"
         }
     }
