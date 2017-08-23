@@ -379,7 +379,7 @@
 		585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 440AF6591BE0DF1600074CBC /* ReferralPage.xib */; };
 		585887531DBEDC03006EC6D5 /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
 		585887541DBEDC0E006EC6D5 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
-		585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0011BFD84A8001F2600 /* ShopReview.xib */; };
+		585887551DBEDC19006EC6D5 /* ShopReview2.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0011BFD84A8001F2600 /* ShopReview2.xib */; };
 		585887561DBEDC1F006EC6D5 /* ShopReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */; };
 		585887571DBEDC28006EC6D5 /* TransactionListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104AD01BAA8F1200947E7F /* TransactionListCell.xib */; };
 		585887581DBEDC35006EC6D5 /* UserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21156EBB1B8F5B5D001D7842 /* UserProfile.xib */; };
@@ -440,7 +440,7 @@
 		5858879A1DBF337B006EC6D5 /* PaymentConfirmationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */; };
 		5858879B1DBF339A006EC6D5 /* PreloShareController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9991B96EBBE00FDB1DC /* PreloShareController.swift */; };
 		5858879C1DBF33B0006EC6D5 /* ProductCommentsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 211BC9931B96D34600FDB1DC /* ProductCommentsController.swift */; };
-		5858879D1DBF3429006EC6D5 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */; };
+		5858879D1DBF3429006EC6D5 /* ShopReviewViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB19FFF1BFD8454001F2600 /* ShopReviewViewController2.swift */; };
 		5858879E1DBF3441006EC6D5 /* TourViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21621CCC1BA1337D009BBACB /* TourViewController.swift */; };
 		585887A01DBF3606006EC6D5 /* TawarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21629A291BC51A4A00ACD014 /* TawarViewController.swift */; };
 		585887A11DBF36FF006EC6D5 /* ProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2141BB441B53AF7800787F5D /* ProductDetailViewController.swift */; };
@@ -448,9 +448,9 @@
 		585B6AEF1DBE152C005DEBA4 /* AddProductImageSourceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2127A2A71B7B336000469CFC /* AddProductImageSourceViewController.swift */; };
 		5870CFDB1DC6F85900E22EFF /* AlamofireImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; };
 		5870CFDC1DC6F85900E22EFF /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 5870CFCE1DC6F7E600E22EFF /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		588123851EE65F5B005047AD /* PreloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588123841EE65F5B005047AD /* PreloUITests.swift */; };
 		588113251F0A0EB100AF17D7 /* ChangeShopStatus.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */; };
 		588113271F0A101900AF17D7 /* ChangeShopStatusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588113261F0A101900AF17D7 /* ChangeShopStatusViewController.swift */; };
+		588123851EE65F5B005047AD /* PreloUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588123841EE65F5B005047AD /* PreloUITests.swift */; };
 		588148AC1DC09F88004180E1 /* ProductCompareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */; };
 		588148B51DC09FBA004180E1 /* ProductCompare.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B41DC09FBA004180E1 /* ProductCompare.xib */; };
 		588148BA1DC0B244004180E1 /* ProductCompareMainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */; };
@@ -556,16 +556,16 @@
 		58AB578D1CB273190081094B /* libNotifyManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578C1CB273190081094B /* libNotifyManager.a */; };
 		58AB578F1CB273D20081094B /* libAdIdAccess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 58AB578E1CB273D20081094B /* libAdIdAccess.a */; };
 		58AD00FF1D49DAA8002C7CCF /* preloteam.png in Resources */ = {isa = PBXBuildFile; fileRef = 58AD00FE1D49DAA8002C7CCF /* preloteam.png */; };
-		58BBF5941EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */; };
-		58BBF5961EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */; };
-		58BBF5981EF30FF300A0E2A2 /* TarikTunai3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */; };
-		58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */; };
 		58B5A2CC1F1CA87F00A80E81 /* ReviewTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */; };
 		58B5A2DE1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */; };
 		58B5A2E01F1D9AFB00A80E81 /* ReviewAsSeller.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */; };
 		58B5A2E21F1D9B1D00A80E81 /* ReviewAsBuyer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */; };
 		58B5A2E41F1D9BE800A80E81 /* ReviewAsSellerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */; };
 		58B5A2E61F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */; };
+		58BBF5941EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */; };
+		58BBF5961EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */; };
+		58BBF5981EF30FF300A0E2A2 /* TarikTunai3.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */; };
+		58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */; };
 		58BE535B1D460E2E00E358EB /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535C1D479F5B00E358EB /* courier_jne.png */; };
 		58BE53601D479F5B00E358EB /* courier_pos.png in Resources */ = {isa = PBXBuildFile; fileRef = 58BE535D1D479F5B00E358EB /* courier_pos.png */; };
@@ -687,14 +687,13 @@
 		B2B2F3631E8D04FE0039167A /* ic_wjp_refund.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B2F3611E8D04FE0039167A /* ic_wjp_refund.png */; };
 		B2B34BCF1E37042D001B653F /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B34BCE1E37042D001B653F /* NotificationService.swift */; };
 		B2B34BE71E388395001B653F /* ic_exclamation_grey.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B34BE61E388395001B653F /* ic_exclamation_grey.png */; };
-		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */; };
+		B2B4DCC41E2D24B900EBBD33 /* ShopReview2Average.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReview2Average.xib */; };
 		B2B6417A1E98D45C00E23413 /* placeholder-prelo-message.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */; };
 		B2B6887E1EFA6C95005B5E8A /* ic_checkout_indomaret.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */; };
 		B2B6887F1EFA6C95005B5E8A /* ic_checkout_kredivo.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */; };
 		B2B688801EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */; };
 		B2B688811EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */; };
 		B2B688821EFA6C95005B5E8A /* ic_checkout_master_card.png in Resources */ = {isa = PBXBuildFile; fileRef = B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */; };
-		B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverage.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverage.xib */; };
 		B2BC10271E442D72003DF4D7 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10261E442D72003DF4D7 /* CoreMotion.framework */; };
 		B2BC10291E442DBB003DF4D7 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */; };
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
@@ -772,6 +771,8 @@
 		B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF58481E484131005B6CF1 /* AddressBookCell.xib */; };
 		B2DF584B1E4844B9005B6CF1 /* AddressBookNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */; };
 		B2DF584D1E484605005B6CF1 /* AddressBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */; };
+		B2DF6AE01EA8AC280058B59B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */; };
+		B2E0DD6F1EA7554F0076A230 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */; };
 		B2E1760E1F0C992900E9A45A /* bg_all.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E176081F0C992900E9A45A /* bg_all.png */; };
 		B2E1760F1F0C992900E9A45A /* bg_beauty.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E176091F0C992900E9A45A /* bg_beauty.png */; };
 		B2E176101F0C992900E9A45A /* bg_book.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E1760A1F0C992900E9A45A /* bg_book.png */; };
@@ -780,13 +781,11 @@
 		B2E176131F0C992900E9A45A /* bg_hobby.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E1760D1F0C992900E9A45A /* bg_hobby.png */; };
 		B2E176251F0CB75100E9A45A /* ShareReferral.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2E176241F0CB75100E9A45A /* ShareReferral.xib */; };
 		B2E176271F0CB87000E9A45A /* ShareReferralViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2E176261F0CB87000E9A45A /* ShareReferralViewController.swift */; };
-		B2ECB30C1EBC5DEC00DB87E2 /* ShareProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */; };
-		B2ECB31E1EBC64FB00DB87E2 /* ShareProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */; };
-		B2DF6AE01EA8AC280058B59B /* GoogleMaps.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */; };
-		B2E0DD6F1EA7554F0076A230 /* GooglePlaces.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */; };
 		B2E448B31EC9B321007110B6 /* ic_address_defined.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E448B11EC9B321007110B6 /* ic_address_defined.png */; };
 		B2E448B41EC9B321007110B6 /* ic_address_undefined.png in Resources */ = {isa = PBXBuildFile; fileRef = B2E448B21EC9B321007110B6 /* ic_address_undefined.png */; };
 		B2ECB2F61EBC308800DB87E2 /* ic_pin_border.png in Resources */ = {isa = PBXBuildFile; fileRef = B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */; };
+		B2ECB30C1EBC5DEC00DB87E2 /* ShareProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */; };
+		B2ECB31E1EBC64FB00DB87E2 /* ShareProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */; };
 		B2EE39B01E76548100113E03 /* PaidPushPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */; };
 		B2EE39C11E76743D00113E03 /* IronSource.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2EE39C01E76743D00113E03 /* IronSource.framework */; };
 		B2EE39CD1E76905500113E03 /* ic_paid_balance.png in Resources */ = {isa = PBXBuildFile; fileRef = B2EE39CA1E76905500113E03 /* ic_paid_balance.png */; };
@@ -797,9 +796,6 @@
 		B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */; };
 		B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */; };
 		B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */; };
-		B2FCF6931ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */; };
-		B2FCF6C71ED5696B00A6D9E7 /* ic_left.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */; };
-		B2FCF6C81ED5696B00A6D9E7 /* ic_right.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */; };
 		B2F184B71E938A4A001EEB36 /* GoogleMapsBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */; };
 		B2F184CA1E938A66001EEB36 /* GoogleMaps.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C81E938A66001EEB36 /* GoogleMaps.framework */; };
 		B2F184CB1E938A66001EEB36 /* GoogleMapsCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */; };
@@ -809,6 +805,9 @@
 		B2F184D31E938E72001EEB36 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D21E938E72001EEB36 /* GLKit.framework */; };
 		B2F184D51E938E82001EEB36 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D41E938E82001EEB36 /* libc++.tbd */; };
 		B2F184D71E938E9B001EEB36 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F184D61E938E9B001EEB36 /* libz.tbd */; };
+		B2FCF6931ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */; };
+		B2FCF6C71ED5696B00A6D9E7 /* ic_left.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */; };
+		B2FCF6C81ED5696B00A6D9E7 /* ic_right.png in Resources */ = {isa = PBXBuildFile; fileRef = B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */; };
 		B2FFCB9D1EA52669004F01D0 /* SocketAckEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */; };
 		B2FFCB9E1EA52669004F01D0 /* SocketAckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */; };
 		B2FFCB9F1EA52669004F01D0 /* SocketAnyEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */; };
@@ -1572,11 +1571,11 @@
 		585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstagramSharePreview.xib; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
+		588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeShopStatus.xib; sourceTree = "<group>"; };
+		588113261F0A101900AF17D7 /* ChangeShopStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeShopStatusViewController.swift; sourceTree = "<group>"; };
 		588123821EE65F5B005047AD /* PreloUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreloUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		588123841EE65F5B005047AD /* PreloUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreloUITests.swift; sourceTree = "<group>"; };
 		588123861EE65F5B005047AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeShopStatus.xib; sourceTree = "<group>"; };
-		588113261F0A101900AF17D7 /* ChangeShopStatusViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeShopStatusViewController.swift; sourceTree = "<group>"; };
 		588148AB1DC09F88004180E1 /* ProductCompareViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductCompareViewController.swift; sourceTree = "<group>"; };
 		588148B41DC09FBA004180E1 /* ProductCompare.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompare.xib; sourceTree = "<group>"; };
 		588148B91DC0B244004180E1 /* ProductCompareMainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductCompareMainCell.xib; sourceTree = "<group>"; };
@@ -1737,16 +1736,16 @@
 		58AB578E1CB273D20081094B /* libAdIdAccess.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libAdIdAccess.a; sourceTree = "<group>"; };
 		58AD00FE1D49DAA8002C7CCF /* preloteam.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = preloteam.png; sourceTree = "<group>"; };
 		58B16A361C900CC600408534 /* NotifAnggiConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversationCell.xib; sourceTree = "<group>"; };
-		58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiwithSaveBankAccount2.xib; sourceTree = "<group>"; };
-		58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountViewController2.swift; sourceTree = "<group>"; };
-		58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai3.xib; sourceTree = "<group>"; };
-		58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController3.swift; sourceTree = "<group>"; };
 		58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewTabBar.xib; sourceTree = "<group>"; };
 		58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewTabBarViewController.swift; sourceTree = "<group>"; };
 		58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReviewAsSeller.xib; sourceTree = "<group>"; };
 		58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ReviewAsBuyer.xib; path = ../ReviewAsBuyer.xib; sourceTree = "<group>"; };
 		58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAsSellerViewController.swift; sourceTree = "<group>"; };
 		58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReviewAsBuyerViewController.swift; sourceTree = "<group>"; };
+		58BBF5931EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunaiwithSaveBankAccount2.xib; sourceTree = "<group>"; };
+		58BBF5951EF2775000A0E2A2 /* TarikTunaiwithSaveBankAccountViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountViewController2.swift; sourceTree = "<group>"; };
+		58BBF5971EF30FF300A0E2A2 /* TarikTunai3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TarikTunai3.xib; sourceTree = "<group>"; };
+		58BBF5991EF3103B00A0E2A2 /* TarikTunaiViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController3.swift; sourceTree = "<group>"; };
 		58BE535A1D460E2E00E358EB /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
 		58BE535C1D479F5B00E358EB /* courier_jne.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_jne.png; sourceTree = "<group>"; };
 		58BE535D1D479F5B00E358EB /* courier_pos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = courier_pos.png; sourceTree = "<group>"; };
@@ -1887,14 +1886,13 @@
 		B2B34BCE1E37042D001B653F /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		B2B34BD01E37042D001B653F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B2B34BE61E388395001B653F /* ic_exclamation_grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_exclamation_grey.png; sourceTree = "<group>"; };
-		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
+		B2B4DCC31E2D24B900EBBD33 /* ShopReview2Average.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview2Average.xib; sourceTree = "<group>"; };
 		B2B641791E98D45C00E23413 /* placeholder-prelo-message.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "placeholder-prelo-message.jpg"; sourceTree = "<group>"; };
 		B2B688771EFA6C95005B5E8A /* ic_checkout_indomaret.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_indomaret.png; sourceTree = "<group>"; };
 		B2B688781EFA6C95005B5E8A /* ic_checkout_kredivo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_kredivo.png; sourceTree = "<group>"; };
 		B2B688791EFA6C95005B5E8A /* ic_checkout_mandiri_clickpay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_mandiri_clickpay.png; sourceTree = "<group>"; };
 		B2B6887A1EFA6C95005B5E8A /* ic_checkout_mandiri_e-cash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_checkout_mandiri_e-cash.png"; sourceTree = "<group>"; };
 		B2B6887B1EFA6C95005B5E8A /* ic_checkout_master_card.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_master_card.png; sourceTree = "<group>"; };
-		B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverage.xib; sourceTree = "<group>"; };
 		B2BC10261E442D72003DF4D7 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 		B2BC10281E442DBB003DF4D7 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
@@ -1981,6 +1979,8 @@
 		B2DF58481E484131005B6CF1 /* AddressBookCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookCell.xib; sourceTree = "<group>"; };
 		B2DF584A1E4844B9005B6CF1 /* AddressBookNewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddressBookNewCell.xib; sourceTree = "<group>"; };
 		B2DF584C1E484605005B6CF1 /* AddressBookViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddressBookViewController.swift; sourceTree = "<group>"; };
+		B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Prelo/Framework/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
+		B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
 		B2E176081F0C992900E9A45A /* bg_all.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_all.png; sourceTree = "<group>"; };
 		B2E176091F0C992900E9A45A /* bg_beauty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_beauty.png; sourceTree = "<group>"; };
 		B2E1760A1F0C992900E9A45A /* bg_book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_book.png; sourceTree = "<group>"; };
@@ -1989,13 +1989,11 @@
 		B2E1760D1F0C992900E9A45A /* bg_hobby.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bg_hobby.png; sourceTree = "<group>"; };
 		B2E176241F0CB75100E9A45A /* ShareReferral.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareReferral.xib; sourceTree = "<group>"; };
 		B2E176261F0CB87000E9A45A /* ShareReferralViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareReferralViewController.swift; sourceTree = "<group>"; };
-		B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareProfile.xib; sourceTree = "<group>"; };
-		B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareProfileViewController.swift; sourceTree = "<group>"; };
-		B2DF6ADF1EA8AC280058B59B /* GoogleMaps.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = GoogleMaps.bundle; path = Prelo/Framework/GoogleMaps.framework/Versions/A/Resources/GoogleMaps.bundle; sourceTree = "<group>"; };
-		B2E0DD6E1EA7554F0076A230 /* GooglePlaces.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GooglePlaces.framework; sourceTree = "<group>"; };
 		B2E448B11EC9B321007110B6 /* ic_address_defined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_address_defined.png; sourceTree = "<group>"; };
 		B2E448B21EC9B321007110B6 /* ic_address_undefined.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_address_undefined.png; sourceTree = "<group>"; };
 		B2ECB2F51EBC308800DB87E2 /* ic_pin_border.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_pin_border.png; sourceTree = "<group>"; };
+		B2ECB30B1EBC5DEC00DB87E2 /* ShareProfile.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShareProfile.xib; sourceTree = "<group>"; };
+		B2ECB31D1EBC64FB00DB87E2 /* ShareProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareProfileViewController.swift; sourceTree = "<group>"; };
 		B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PaidPushPopup.xib; path = XIB/PaidPushPopup.xib; sourceTree = "<group>"; };
 		B2EE39C01E76743D00113E03 /* IronSource.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IronSource.framework; sourceTree = "<group>"; };
 		B2EE39CA1E76905500113E03 /* ic_paid_balance.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_paid_balance.png; sourceTree = "<group>"; };
@@ -2006,9 +2004,6 @@
 		B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_christmas@3x.png"; sourceTree = "<group>"; };
 		B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@2x.png"; sourceTree = "<group>"; };
 		B2F0EFE71EEECAEB00A678F8 /* ic_ramadhan@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_ramadhan@3x.png"; sourceTree = "<group>"; };
-		B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_balance@2x_128.png"; sourceTree = "<group>"; };
-		B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_left.png; sourceTree = "<group>"; };
-		B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_right.png; sourceTree = "<group>"; };
 		B2F184B61E938A4A001EEB36 /* GoogleMapsBase.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsBase.framework; sourceTree = "<group>"; };
 		B2F184C81E938A66001EEB36 /* GoogleMaps.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMaps.framework; sourceTree = "<group>"; };
 		B2F184C91E938A66001EEB36 /* GoogleMapsCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = GoogleMapsCore.framework; sourceTree = "<group>"; };
@@ -2019,6 +2014,9 @@
 		B2F184D41E938E82001EEB36 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		B2F184D61E938E9B001EEB36 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		B2F192851EC551BC00DFC9D8 /* Prelo 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 11.xcdatamodel"; sourceTree = "<group>"; };
+		B2FCF6921ED5431A00A6D9E7 /* ic_prelo_balance@2x_128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_prelo_balance@2x_128.png"; sourceTree = "<group>"; };
+		B2FCF6C51ED5696B00A6D9E7 /* ic_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_left.png; sourceTree = "<group>"; };
+		B2FCF6C61ED5696B00A6D9E7 /* ic_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_right.png; sourceTree = "<group>"; };
 		B2FFCB841EA52669004F01D0 /* SocketAckEmitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckEmitter.swift; sourceTree = "<group>"; };
 		B2FFCB851EA52669004F01D0 /* SocketAckManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAckManager.swift; sourceTree = "<group>"; };
 		B2FFCB861EA52669004F01D0 /* SocketAnyEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketAnyEvent.swift; sourceTree = "<group>"; };
@@ -2058,8 +2056,8 @@
 		FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		FD4E8BF21C31258100501F7A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_take_photo.png; sourceTree = "<group>"; };
-		FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ShopReviewViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FDB1A0011BFD84A8001F2600 /* ShopReview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview.xib; sourceTree = "<group>"; };
+		FDB19FFF1BFD8454001F2600 /* ShopReviewViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ShopReviewViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		FDB1A0011BFD84A8001F2600 /* ShopReview2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview2.xib; sourceTree = "<group>"; };
 		FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewCell.xib; sourceTree = "<group>"; };
 		FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wm_logo@2x.png"; sourceTree = "<group>"; };
 		FDF39A2F1C3CF43B002A5DF6 /* banner_sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_sold.png; sourceTree = "<group>"; };
@@ -2669,7 +2667,7 @@
 				B23356EF1E1F587C00207F14 /* ScannerViewController.swift */,
 				21C7ADCA1B73AB8B003C3945 /* SearchViewController.swift */,
 				B2C3A3C71E2B8E450082A15D /* ShopAchievementViewController.swift */,
-				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController.swift */,
+				FDB19FFF1BFD8454001F2600 /* ShopReviewViewController2.swift */,
 				217A18221BB41C26008D1AD8 /* StatusBarContainerViewController.swift */,
 				B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */,
 				217A18241BB4286E008D1AD8 /* TarikTunaiController.swift */,
@@ -3324,8 +3322,8 @@
 				58EADB961CFBE47800410330 /* ShippingCell.xib */,
 				B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */,
 				B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */,
-				FDB1A0011BFD84A8001F2600 /* ShopReview.xib */,
-				B2B4DCC31E2D24B900EBBD33 /* ShopReviewAverage.xib */,
+				FDB1A0011BFD84A8001F2600 /* ShopReview2.xib */,
+				B2B4DCC31E2D24B900EBBD33 /* ShopReview2Average.xib */,
 				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
 				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
@@ -4176,7 +4174,7 @@
 				B2D119871E28C9790064045B /* AchievementCelliOS9xx.xib in Resources */,
 				B23356F21E1F588F00207F14 /* Scanner.xib in Resources */,
 				21D386A51B6B93CD00D0FA90 /* Default-568h@2x.png in Resources */,
-				585887551DBEDC19006EC6D5 /* ShopReview.xib in Resources */,
+				585887551DBEDC19006EC6D5 /* ShopReview2.xib in Resources */,
 				5858873A1DBEDA4D006EC6D5 /* FilterChecklistCell.xib in Resources */,
 				210702E01BE7A8F100DD9E52 /* cu_call@2x.png in Resources */,
 				58B5A2E01F1D9AFB00A80E81 /* ReviewAsSeller.xib in Resources */,
@@ -4336,7 +4334,7 @@
 				585887351DBEDA22006EC6D5 /* ConfirmShippingCell.xib in Resources */,
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				585887341DBEDA08006EC6D5 /* ConfirmShipping.xib in Resources */,
-				B2B4DCC41E2D24B900EBBD33 /* ShopReviewAverage.xib in Resources */,
+				B2B4DCC41E2D24B900EBBD33 /* ShopReview2Average.xib in Resources */,
 				5858874C1DBEDB9B006EC6D5 /* NotifAnggiTransaction.xib in Resources */,
 				B2D965EA1E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib in Resources */,
 				B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */,
@@ -4928,7 +4926,7 @@
 				5847E18F1DBDFB7600C1B2BA /* PathEndpoints.swift in Sources */,
 				B23243391E265F8400367BDE /* Banner.swift in Sources */,
 				21B467EF1CCE5EDB00E145ED /* NSDictionary+BFKit.swift in Sources */,
-				5858879D1DBF3429006EC6D5 /* ShopReviewViewController.swift in Sources */,
+				5858879D1DBF3429006EC6D5 /* ShopReviewViewController2.swift in Sources */,
 				21B467E61CCE5EDB00E145ED /* BFSystemSound.swift in Sources */,
 				21679A351B901C5300F18F90 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				58A99A2D1C6D864E00E3E7D7 /* BNCLinkCache.m in Sources */,

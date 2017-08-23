@@ -1,5 +1,5 @@
 //
-//  ShopReviewViewController.swift
+//  ShopReviewViewController2.swift
 //  Prelo
 //
 //  Created by Fransiska Hadiwidjana on 11/19/15.
@@ -14,7 +14,7 @@ enum ReviewMode {
     case inject
 }
 
-class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
+class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet weak var vwRvwasSeller: UIView!
@@ -266,6 +266,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(tableView == self.tableView){
+            
             if (currentMode == .inject) {
                 if (self.userReviews.count > 0) {
                     if (section == 1) {
@@ -280,19 +281,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 return self.userReviews.count
             }
         } else {
-            if (currentMode == .inject) {
-                if (self.buyerReviews.count > 0) {
-                    if (section == 1) {
-                        return self.buyerReviews.count
-                    } else {
-                        return 1
-                    }
-                } else {
-                    return 1
-                }
-            } else {
-                return self.buyerReviews.count
-            }
+            return self.buyerReviews.count
         }
     }
     
@@ -306,10 +295,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
             customView.adapt2(self.averageBuyer)
             vwRvwAverageBuyer.addSubview(customView)
         }
-        print("ini count review")
-        print(self.userReviews.count)
-        print(tableView == self.tableView)
-        print(tableView == self.tableViewRvwasBuyer)
+        
         if(tableView == self.tableView){
             if (currentMode == .inject) {
                 if (self.userReviews.count > 0) {
@@ -350,10 +336,8 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                 return cell
             }
         } else {
-            print("masuk tapi ke sini")
             if (currentMode == .inject) {
                 if (self.buyerReviews.count > 0) {
-                    print("masuk nya ke sini")
                     let cell : ShopReviewCell = self.tableViewRvwasBuyer.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
                     
                     cell.selectionStyle = .none
@@ -365,7 +349,6 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     
                     return cell
                 } else { // Belum ada review untuk user ini
-                    print("masuk ke sini ga?")
                     let cell = tableViewRvwasBuyer.dequeueReusableCell(withIdentifier: "cell")
                     
                     cell?.selectionStyle = .none
@@ -577,7 +560,7 @@ class ShopReviewCell : UITableViewCell {
         imgBuyer.afSetImage(withURL: userReview.buyerPictURL!, withFilter: .circle)
         
         lblBuyerName.text = userReview.buyerUsername
-        lblComment.text = "coba komen panjang banget sampe lebih dari satu baris lho, kok bisa lebih ya, ga pas, aaaaa, aneh lah wah"//userReview.comment
+        lblComment.text = userReview.comment // "coba komen panjang banget sampe lebih dari satu baris lho, kok bisa lebih ya, ga pas, aaaaa, aneh lah wah"//
         
         let star = Float(userReview.star)
         self.floatRatingView.rating = star
