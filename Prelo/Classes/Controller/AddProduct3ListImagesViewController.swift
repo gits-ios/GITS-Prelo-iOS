@@ -111,18 +111,10 @@ class AddProduct3ListImagesViewController: BaseViewController {
                         let uniqueId = uniqueCode.description
                         let imageName = "prelo-image-" + self.localId + "-" + uniqueId
                         
-                        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.temporer-image",
-                                                            qos: .background,
-                                                            attributes: .concurrent,
-                                                            target: nil)
-                        backgroundQueue.async {
-                            //print("Work on background queue")
-                            
-                            // save image to temporary
-                            let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
-                            if (pathToSavedImage == nil) {
-                                print("Failed to save image")
-                            }
+                        // save image to temporary
+                        let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
+                        if (pathToSavedImage == nil) {
+                            print("Failed to save image")
                         }
                         
                         self.previewImages.append(PreviewImage(image: img, url: imageName, label: "", orientation: img?.imageOrientation.rawValue))
@@ -575,7 +567,15 @@ class AddProduct3ListImagesCell: UITableViewCell {
                 self.imgPreview.image = UIImage(named: "placeholder-standar-white")
             }
         } else {
-            self.imgPreview.image = previewImage.image ?? UIImage(named: "placeholder-standar-white")
+            var img: UIImage?
+            if previewImage.image != nil {
+                if (previewImage.image?.size.height)! > (previewImage.image?.size.width)! {
+                    img = previewImage.image?.resizeWithWidth(82 * UIScreen.main.scale)
+                } else {
+                    img = previewImage.image?.resizeWithHeight(82 * UIScreen.main.scale)
+                }
+            }
+            self.imgPreview.image = img ?? UIImage(named: "placeholder-standar-white")
         }
         
         self.lblLabel.text = previewImage.label
