@@ -685,6 +685,8 @@
 		B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */; };
 		B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */; };
 		B258A30B1EBAD95F005CC92C /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B258A30A1EBAD95F005CC92C /* CartManager.swift */; };
+		B26792FA1F4DB50200601F84 /* ic_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B26792F81F4DB50200601F84 /* ic_default@2x.png */; };
+		B26792FB1F4DB50200601F84 /* ic_default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B26792F91F4DB50200601F84 /* ic_default@3x.png */; };
 		B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B26DB3F01E2D3C6F00224675 /* ic_achievement.png */; };
 		B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */; };
 		B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = B271A6801EDED6D900C6A973 /* placeholder-transparent.png */; };
@@ -1901,6 +1903,8 @@
 		B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementViewController.swift; sourceTree = "<group>"; };
 		B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
 		B258A30A1EBAD95F005CC92C /* CartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
+		B26792F81F4DB50200601F84 /* ic_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_default@2x.png"; sourceTree = "<group>"; };
+		B26792F91F4DB50200601F84 /* ic_default@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_default@3x.png"; sourceTree = "<group>"; };
 		B26DB3F01E2D3C6F00224675 /* ic_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_achievement.png; sourceTree = "<group>"; };
 		B26E10861F44765E008755A4 /* Prelo 12.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 12.xcdatamodel"; sourceTree = "<group>"; };
 		B271A6691EDEC40400C6A973 /* placeholder-standar-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-standar-white.png"; sourceTree = "<group>"; };
@@ -3733,6 +3737,8 @@
 		B2686C561EEAF26500FF3A27 /* App Icon */ = {
 			isa = PBXGroup;
 			children = (
+				B26792F81F4DB50200601F84 /* ic_default@2x.png */,
+				B26792F91F4DB50200601F84 /* ic_default@3x.png */,
 				B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */,
 				B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */,
 				B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */,
@@ -4377,6 +4383,7 @@
 				58A4F9771CB5146B00E717AF /* ic_trx_reservation_done.png in Resources */,
 				B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
+				B26792FA1F4DB50200601F84 /* ic_default@2x.png in Resources */,
 				B2F0EFE91EEECAEB00A678F8 /* ic_christmas@3x.png in Resources */,
 				B22C0E311E090FA900C3D661 /* ic_love_96px.png in Resources */,
 				21F4FCE91B61F28C00223028 /* PreloAwesome.ttf in Resources */,
@@ -4435,6 +4442,7 @@
 				B2D965C51E9D2A6100B2C29C /* Checkout2Pay.xib in Resources */,
 				440AF6671BE1090800074CBC /* ic_round_instagram.png in Resources */,
 				585887481DBEDB6D006EC6D5 /* MyPurchaseTransaction.xib in Resources */,
+				B26792FB1F4DB50200601F84 /* ic_default@3x.png in Resources */,
 				589A6FB21D8C08F600654CDD /* ic_belanjaan_saya.png in Resources */,
 				589A6FB81D8C08F600654CDD /* ic_delete.png in Resources */,
 				585887381DBEDA3E006EC6D5 /* Filter.xib in Resources */,
