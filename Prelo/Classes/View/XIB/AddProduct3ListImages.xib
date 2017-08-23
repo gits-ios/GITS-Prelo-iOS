@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="dxA-Hw-Deq" customClass="AddProduct3ListImagesViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="tck-us-w0x"/>
+                <viewControllerLayoutGuide type="bottom" id="bKj-hC-VjR"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="hus-1q-A3H">
+                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ica-P8-Tly" userLabel="View Labels">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" id="JzK-5a-cDh"/>
+                        </constraints>
+                    </view>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zZ7-vx-0mP">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="547"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </tableView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tbn-UQ-0Ut">
+                        <rect key="frame" x="0.0" y="547" width="375" height="56"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cR9-Rf-ZeA">
+                                <rect key="frame" x="8" y="8" width="359" height="40"/>
+                                <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="Tambah Gambar">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="btnAddImagesPressed:" destination="dxA-Hw-Deq" eventType="touchUpInside" id="mfz-Mv-fRx"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="cR9-Rf-ZeA" secondAttribute="trailing" constant="8" id="2wx-WK-Adr"/>
+                            <constraint firstItem="cR9-Rf-ZeA" firstAttribute="leading" secondItem="tbn-UQ-0Ut" secondAttribute="leading" constant="8" id="8ae-q8-VtW"/>
+                            <constraint firstAttribute="bottom" secondItem="cR9-Rf-ZeA" secondAttribute="bottom" constant="8" id="Glv-Wz-fVP"/>
+                            <constraint firstItem="cR9-Rf-ZeA" firstAttribute="top" secondItem="tbn-UQ-0Ut" secondAttribute="top" constant="8" id="bfO-qZ-sXs"/>
+                            <constraint firstAttribute="height" constant="56" id="zEV-vo-5pz"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="ica-P8-Tly" secondAttribute="trailing" id="16E-ph-kVp"/>
+                    <constraint firstItem="tbn-UQ-0Ut" firstAttribute="leading" secondItem="hus-1q-A3H" secondAttribute="leading" id="7jA-3U-mc7"/>
+                    <constraint firstItem="zZ7-vx-0mP" firstAttribute="leading" secondItem="hus-1q-A3H" secondAttribute="leading" id="FIu-T4-DYS"/>
+                    <constraint firstItem="bKj-hC-VjR" firstAttribute="top" secondItem="tbn-UQ-0Ut" secondAttribute="bottom" id="IC4-3B-LaX"/>
+                    <constraint firstItem="zZ7-vx-0mP" firstAttribute="top" secondItem="ica-P8-Tly" secondAttribute="bottom" id="JSA-Xv-7cQ"/>
+                    <constraint firstItem="ica-P8-Tly" firstAttribute="leading" secondItem="hus-1q-A3H" secondAttribute="leading" id="LPN-P4-39i"/>
+                    <constraint firstAttribute="trailing" secondItem="zZ7-vx-0mP" secondAttribute="trailing" id="S0a-49-Byy"/>
+                    <constraint firstItem="ica-P8-Tly" firstAttribute="top" secondItem="tck-us-w0x" secondAttribute="bottom" id="YPC-2P-X1d"/>
+                    <constraint firstItem="tbn-UQ-0Ut" firstAttribute="top" secondItem="zZ7-vx-0mP" secondAttribute="bottom" id="eQQ-4v-hv7"/>
+                    <constraint firstAttribute="trailing" secondItem="tbn-UQ-0Ut" secondAttribute="trailing" id="kEZ-4i-OHy"/>
+                </constraints>
+            </view>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <connections>
+                <outlet property="btnAddImages" destination="cR9-Rf-ZeA" id="bkt-5J-xT4"/>
+                <outlet property="consHeightVwLabels" destination="JzK-5a-cDh" id="h4e-GI-GJT"/>
+                <outlet property="tableView" destination="zZ7-vx-0mP" id="0wH-Bm-kcy"/>
+                <outlet property="vwLabels" destination="ica-P8-Tly" id="J9e-Pk-15S"/>
+            </connections>
+            <point key="canvasLocation" x="-41.5" y="-160.5"/>
+        </viewController>
+    </objects>
+</document>
