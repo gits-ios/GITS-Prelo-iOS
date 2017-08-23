@@ -171,7 +171,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         let inset = UIEdgeInsetsMake(0, 0, bottom, 0)
         tableView.contentInset = inset
         
-        if (userReviews.count <= 0) {
+        if (userReviews.count <= 0 && userFeedbacks.count <= 0) {
             
             tableView.separatorStyle = .none
         }

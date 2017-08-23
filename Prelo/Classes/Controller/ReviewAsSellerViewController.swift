@@ -40,6 +40,11 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     
     func setup() {
         self.getReviewSellers()
+        
+        if (reviewSellers.count <= 0) {
+            
+            tableView.separatorStyle = .none
+        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
