@@ -24,6 +24,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     var easterEggAlert : UIAlertController?
     
+    // for dismiss modal choose icon app
+    var iconPickerResponder: SCLAlertViewResponder?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -54,6 +57,15 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
             
             // developer toggle
             self.setDevButton()
+        }
+        
+        // Pengecekan versi, jika versi yg diinstall melebihi versi server, munculkan opsi ganti icon
+        if let installedVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let serverVersion = CDVersion.getOne()?.appVersion {
+                if (serverVersion.compare(installedVersion, options: .numeric, range: nil, locale: nil) == .orderedAscending) {
+                    self.setIconButton()
+                }
+            }
         }
         
         // Remove 1px line at the bottom of navbar
@@ -619,5 +631,98 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     func sigCartToggle(sender: UISwitch) {
         AppTools.switchToSingleCart(sender.isOn)
+    }
+    
+    // MARK: - Icon Toggle for APPLE review only
+    func setIconButton() {
+        let btnSetting = self.createButtonWithIcon(UIImage(named: "ic_dev")!)
+        
+        btnSetting.addTarget(self, action: #selector(AboutViewController.reviewMode), for: UIControlEvents.touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = btnSetting.toBarButton()
+    }
+    
+    func reviewMode() {
+        if #available(iOS 10.3, *) {
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            
+            let tap1 = UITapGestureRecognizer(target: self, action: #selector(self.changeIcon(sender:)))
+            let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.changeIcon(sender:)))
+            let tap3 = UITapGestureRecognizer(target: self, action: #selector(self.changeIcon(sender:)))
+            
+            let width = Constant.appearance.kWindowWidth - 24
+            
+            let subview = UIView()
+            subview.frame = CGRect(x: 0, y: 0, width: width, height: 60 + 8 + 60 + 8 + 60)
+            
+            let icon1 = UIImageView()
+            icon1.frame = CGRect(x: (width - 60) / 2, y: 0, width: 60, height: 60)
+            icon1.tag = 1
+            icon1.image = UIImage(named: "ic_default")
+            icon1.addGestureRecognizer(tap1)
+            icon1.setCornerRadius(8)
+            icon1.isUserInteractionEnabled = true
+            
+            let icon2 = UIImageView()
+            icon2.frame = CGRect(x: (width - 60) / 2, y: 60 + 8, width: 60, height: 60)
+            icon2.tag = 2
+            icon2.image = UIImage(named: "ic_christmas")
+            icon2.addGestureRecognizer(tap2)
+            icon2.isUserInteractionEnabled = true
+            
+            let icon3 = UIImageView()
+            icon3.frame = CGRect(x: (width - 60) / 2, y: 60 + 8 + 60 + 8, width: 60, height: 60)
+            icon3.tag = 3
+            icon3.image = UIImage(named: "ic_ramadhan")
+            icon3.addGestureRecognizer(tap3)
+            icon3.isUserInteractionEnabled = true
+            
+            subview.addSubview(icon1)
+            subview.addSubview(icon2)
+            subview.addSubview(icon3)
+            
+            alertView.customSubview = subview
+            
+            alertView.addButton("Oke") {}
+            
+            iconPickerResponder = alertView.showCustom("Ganti Icon", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        } else {
+            Constant.showDialog("Ganti Icon", message: "Fitur ini tidak tersedia pada iOS sebelum versi 10.3.x")
+        }
+        
+        
+    }
+    
+    func changeIcon(sender: UITapGestureRecognizer) {
+        var iconType = "ic_default" // "ic_default", "ic_christmas", "ic_ramadhan"
+        
+        let tg = sender.view?.tag
+        
+        if tg == 2 {
+            iconType = "ic_christmas"
+        } else if tg == 3 {
+            iconType = "ic_ramadhan"
+        }
+        
+        iconPickerResponder?.close()
+        
+        if #available(iOS 10.3, *) {
+            if iconType == "ic_default" && UIApplication.shared.alternateIconName != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    UIApplication.shared.setAlternateIconName(nil) { error in
+                        
+                    }
+                })
+            } else if UIApplication.shared.alternateIconName != iconType && iconType != "ic_default" {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    UIApplication.shared.setAlternateIconName(iconType) { error in
+                        
+                    }
+                })
+            } else {
+                Constant.showDialog("Ganti Icon", message: "Icon yang kamu pilih adalah icon aktif saat ini")
+            }
+        }
     }
 }
