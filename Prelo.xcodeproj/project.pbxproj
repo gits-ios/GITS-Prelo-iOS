@@ -625,6 +625,7 @@
 		B20E25681EB0719200B0E3DD /* PreloV2Endpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B20E25671EB0719200B0E3DD /* PreloV2Endpoints.swift */; };
 		B213E41A1E698A6500C76D04 /* tour_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B213E4191E698A6500C76D04 /* tour_4.jpg */; };
 		B21416551ECAAB49008A19AE /* ic_dev.png in Resources */ = {isa = PBXBuildFile; fileRef = B21416541ECAAB49008A19AE /* ic_dev.png */; };
+		B218E87B1F4DE0E6005585F3 /* PushPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B218E87A1F4DE0E6005585F3 /* PushPopup.xib */; };
 		B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */; };
 		B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */; };
 		B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21DF5291E5179E5007A60C5 /* UserProfile2.xib */; };
@@ -1848,6 +1849,7 @@
 		B20E25671EB0719200B0E3DD /* PreloV2Endpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloV2Endpoints.swift; sourceTree = "<group>"; };
 		B213E4191E698A6500C76D04 /* tour_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_4.jpg; sourceTree = "<group>"; };
 		B21416541ECAAB49008A19AE /* ic_dev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_dev.png; sourceTree = "<group>"; };
+		B218E87A1F4DE0E6005585F3 /* PushPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPopup.xib; sourceTree = "<group>"; };
 		B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloAnalyticEndpoints.swift; sourceTree = "<group>"; };
 		B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticManager.swift; sourceTree = "<group>"; };
 		B21DF5291E5179E5007A60C5 /* UserProfile2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfile2.xib; sourceTree = "<group>"; };
@@ -3927,6 +3929,7 @@
 				B2EE39AF1E76548100113E03 /* PaidPushPopup.xib */,
 				B2AAB3741E8A6D2000E16BAB /* TransactionReportPopup.xib */,
 				B2EE82641EC96D4F00529482 /* AddToCartPopup.xib */,
+				B218E87A1F4DE0E6005585F3 /* PushPopup.xib */,
 			);
 			name = Popup;
 			sourceTree = "<group>";
@@ -4667,6 +4670,7 @@
 				21EEB4701B87095C00CAD5C9 /* btn_checkbox_checked.png in Resources */,
 				44B8EDC71BEB47620063DEA8 /* TwitterKitResources.bundle in Resources */,
 				B2207FB91ED67C2F00BCE613 /* Info.plist in Resources */,
+				B218E87B1F4DE0E6005585F3 /* PushPopup.xib in Resources */,
 				B2D481DC1E02A7E2006006CC /* LocationFilters.xib in Resources */,
 				B2D965D31E9DFD6F00B2C29C /* Checkout2AddressCompleteCell.xib in Resources */,
 				581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */,

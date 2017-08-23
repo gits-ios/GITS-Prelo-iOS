@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 struct ProductHelperItem {
     var productProfit = 90
@@ -61,6 +62,28 @@ class ProductDetailViewController2: BaseViewController {
     
     var productItem = ProductHelperItem()
     
+    var product : Product?
+    var detail : ProductDetail?
+    
+    var alreadyInCart : Bool = false
+    
+    // up barang coin - diamond
+    var isCoinUse = false
+    
+    var isNeedReload = false
+    
+    weak var delegate: MyProductDelegate?
+    
+    // PopUp
+    // standard push popup
+    var pushPopUp: PushPopup? // up
+    
+    // new popup paid push
+    var paidPushPopup: PaidPushPopup? // chose up method
+    
+    // add to cart popup
+    var add2cartPopup: AddToCartPopup? // add 2 cart // ab test
+    
     // MARK: - Init
     
     // MARK: - Button Action
@@ -82,6 +105,205 @@ class ProductDetailViewController2: BaseViewController {
     }
     
     @IBAction func btnConfirmPressed(_ sender: Any) {
+    }
+    
+    // MARK: - Other functions
+    
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
+    }
+}
+
+// MARK: - Popup Controller
+extension ProductDetailViewController2 {
+    // MARK: - pop up push
+    func launchPushPopUp(withText: String, paidAmount: Int64, coinAmount: Int) {
+        self.setupPushPopUp()
+        self.pushPopUp?.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.pushPopUp?.setupPopUp(withText, paidAmount: paidAmount, coinAmount: coinAmount)
+            self.pushPopUp?.displayPopUp()
+        })
+    }
+    
+    func setupPushPopUp() {
+        // setup popup
+        if (self.pushPopUp == nil) {
+            self.pushPopUp = Bundle.main.loadNibNamed("PushPopup", owner: nil, options: nil)?.first as? PushPopup
+            self.pushPopUp?.frame = UIScreen.main.bounds
+            self.pushPopUp?.tag = 100
+            self.pushPopUp?.isHidden = true
+            self.pushPopUp?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.pushPopUp!)
+            
+            self.pushPopUp?.initPopUp()
+            
+            self.pushPopUp?.disposePopUp = {
+                self.pushPopUp?.isHidden = true
+                self.pushPopUp = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+        }
+        
+    }
+    
+    // MARK: - pop up paid push
+    func launchNewPopUp(withText: String, paidAmount: Int64, preloBalance: Int64, poinAmount: Int, poin: Int) {
+        self.setupPopUp(withText: withText, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: poinAmount, poin: poin)
+        self.paidPushPopup?.isHidden = false
+        
+        let isAdsAvailable = IronSource.hasRewardedVideo()
+        //print(isAdsAvailable)
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.paidPushPopup?.setupPopUp(isAdsAvailable)
+            self.paidPushPopup?.displayPopUp()
+        })
+    }
+    
+    func setupPopUp(withText: String, paidAmount: Int64, preloBalance: Int64, poinAmount: Int, poin: Int) {
+        // setup popup
+        if (self.paidPushPopup == nil) {
+            self.paidPushPopup = Bundle.main.loadNibNamed("PaidPushPopup", owner: nil, options: nil)?.first as? PaidPushPopup
+            self.paidPushPopup?.frame = UIScreen.main.bounds
+            self.paidPushPopup?.tag = 100
+            self.paidPushPopup?.isHidden = true
+            self.paidPushPopup?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.paidPushPopup!)
+            
+            self.paidPushPopup?.initPopUp(withText: withText, paidAmount: paidAmount, preloBalance: preloBalance, poinAmount: poinAmount, poin: poin)
+            
+            self.paidPushPopup?.disposePopUp = {
+                self.paidPushPopup?.isHidden = true
+                self.paidPushPopup = nil
+                //print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    //print("No!")
+                }
+            }
+            
+            self.paidPushPopup?.balanceUsed = {
+                self.isCoinUse = false
+                //self.showLoading()
+                if let productId = self.detail?.productID {
+                    let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                            let json = JSON(resp.result.value!)
+                            let isSuccess = json["_data"]["result"].boolValue
+                            let message = json["_data"]["message"].stringValue
+                            let paidAmount = json["_data"]["paid_amount"].int64Value
+                            //let preloBalance = json["_data"]["my_prelo_balance"].int64Value
+                            let coinAmount = json["_data"]["diamond_amount"].intValue
+                            //let coin = json["_data"]["my_total_diamonds"].intValue
+                            
+                            if (isSuccess) {
+                                // Prelo Analytic - Up Product - Balance
+                                //self.sendUpProductAnalytic(productId, type: "Balance")
+                                
+                                self.launchPushPopUp(withText: message + " (" + paidAmount.asPrice + " telah otomatis ditarik dari Prelo Balance)", paidAmount: paidAmount, coinAmount: coinAmount)
+                                
+                                self.delegate?.setFromDraftOrNew(true)
+                            } else {
+                                self.launchPushPopUp(withText: message, paidAmount: paidAmount, coinAmount: coinAmount)
+                            }
+                        }
+                        self.hideLoading()
+                    }
+                }
+            }
+            
+            self.paidPushPopup?.poinUsed = {
+                self.isCoinUse = true
+                //self.showLoading()
+                if let productId = self.detail?.productID {
+                    let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                            let json = JSON(resp.result.value!)
+                            let isSuccess = json["_data"]["result"].boolValue
+                            let message = json["_data"]["message"].stringValue
+                            let paidAmount = json["_data"]["paid_amount"].int64Value
+                            //let preloBalance = json["_data"]["my_prelo_balance"].int64Value
+                            let coinAmount = json["_data"]["diamond_amount"].intValue
+                            //let coin = json["_data"]["my_total_diamonds"].intValue
+                            
+                            if (isSuccess) {
+                                // Prelo Analytic - Up Product - Point
+                                //self.sendUpProductAnalytic(productId, type: "Point")
+                                
+                                self.launchPushPopUp(withText: message + " (" + coinAmount.string + " Poin kamu telah otomatis ditarik)", paidAmount: paidAmount, coinAmount: coinAmount)
+                                
+                                self.delegate?.setFromDraftOrNew(true)
+                            } else {
+                                self.launchPushPopUp(withText: message, paidAmount: paidAmount, coinAmount: coinAmount)
+                            }
+                        }
+                        self.hideLoading()
+                    }
+                }
+            }
+            
+            self.paidPushPopup?.watchVideoAds = {
+                // open ads
+                //IronSource.showRewardedVideo(with: self, placement: "Up_Product")
+                
+                //  goto delegate
+            }
+        }
+        
+    }
+    
+    // MARK: - pop up add to cart
+    
+    func launchAdd2cartPopUp() {
+        self.setupAdd2cartPopUp()
+        self.add2cartPopup?.isHidden = false
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.add2cartPopup?.setupPopUp(self.detail!)
+            self.add2cartPopup?.displayPopUp()
+        })
+    }
+    
+    func setupAdd2cartPopUp() {
+        // setup popup
+        if (self.add2cartPopup == nil) {
+            self.add2cartPopup = Bundle.main.loadNibNamed("AddToCartPopup", owner: nil, options: nil)?.first as? AddToCartPopup
+            self.add2cartPopup?.frame = UIScreen.main.bounds
+            self.add2cartPopup?.tag = 100
+            self.add2cartPopup?.isHidden = true
+            self.add2cartPopup?.backgroundColor = UIColor.clear
+            self.view.addSubview(self.add2cartPopup!)
+            
+            self.add2cartPopup?.initPopUp()
+            
+            self.add2cartPopup?.disposePopUp = {
+                self.add2cartPopup?.isHidden = true
+                self.add2cartPopup = nil
+                print("Start remove sibview")
+                if let viewWithTag = self.view.viewWithTag(100) {
+                    viewWithTag.removeFromSuperview()
+                } else {
+                    print("No!")
+                }
+            }
+            
+            self.add2cartPopup?.gotoCart = {
+                //self.addProduct2cart()
+            }
+        }
+        
     }
 }
 
@@ -709,3 +931,102 @@ class ProductDetail2AddCommentCell: UITableViewCell {
         self.addComment()
     }
 }
+
+// MARK: - PushPopup
+// PaidPushPopup -> ProductDetail VC
+class PushPopup: UIView {
+    @IBOutlet weak var vwBackgroundOverlay: UIView!
+    @IBOutlet weak var vwOverlayPopUp: UIView!
+    @IBOutlet weak var vwPopUp: UIView!
+    @IBOutlet weak var consCenteryPopUp: NSLayoutConstraint!
+    @IBOutlet weak var lbDescription: UILabel!
+    
+    var disposePopUp : ()->() = {}
+    var upLainnya : ()->() = {}
+    
+    func setupPopUp(_ text: String, paidAmount: Int64, coinAmount: Int) {
+        self.lbDescription.text = text
+        self.lbDescription.boldSubstring(paidAmount.asPrice)
+        self.lbDescription.boldSubstring(coinAmount.string + " Poin")
+    }
+    
+    func initPopUp() {
+        // Transparent panel
+        self.vwBackgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
+        
+        self.vwBackgroundOverlay.isHidden = false
+        self.vwOverlayPopUp.isHidden = false
+        
+        let screenSize = UIScreen.main.bounds
+        let screenHeight = screenSize.height - 64 // navbar
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    func displayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = screenHeight
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = -32
+    }
+    
+    func unDisplayPopUp() {
+        let screenSize = self.bounds
+        let screenHeight = screenSize.height
+        
+        // force to bottom first
+        self.consCenteryPopUp.constant = 0
+        
+        // 1
+        let placeSelectionBar = { () -> () in
+            // parent
+            var curView = self.vwPopUp.frame
+            curView.origin.y = screenHeight + (screenHeight - self.vwPopUp.frame.height) / 2 - 32
+            self.vwPopUp.frame = curView
+        }
+        
+        // 2
+        UIView.animate(withDuration: 0.3, animations: {
+            placeSelectionBar()
+        })
+        
+        self.consCenteryPopUp.constant = screenHeight
+    }
+    
+    @IBAction func btnUpLainnyaPressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.upLainnya()
+            self.disposePopUp()
+        })
+    }
+    
+    @IBAction func btnOkePressed(_ sender: Any) {
+        self.unDisplayPopUp()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
+            self.vwOverlayPopUp.isHidden = true
+            self.vwBackgroundOverlay.isHidden = true
+            self.disposePopUp()
+        })
+    }
+}
+
