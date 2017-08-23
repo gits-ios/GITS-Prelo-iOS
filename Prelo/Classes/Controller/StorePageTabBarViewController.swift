@@ -101,7 +101,6 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         listItemVC?.delegate = self
         
         shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
-        shopReviewVC?.root = self
         shopReviewVC?.currentMode = .inject
         shopReviewVC?.delegate = self
         
@@ -549,16 +548,12 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         self.loadingPanel.backgroundColor = UIColor.white
         
         // setup review
-        self.shopReviewVC?.userReviews = []
-        self.shopReviewVC?.buyerReviews = []
         self.shopReviewVC?.sellerName = self.shopName.text!
         self.shopReviewVC?.averageRate = json["average_star"].float ?? 0.0
-        self.shopReviewVC?.averageBuyer = json["buyer_average_star"].float ?? 0.0
-        self.shopReviewVC?.countReview = countReview
-        self.shopReviewVC?.countAsSellerReview = json["seller_num_reviewer"].int ?? 3
-        self.shopReviewVC?.countAsBuyerReview = json["buyer_num_reviewer"].int ?? 3
-        self.shopReviewVC?.setUserReviews(json["reviews"]["as_seller"])
-        self.shopReviewVC?.setBuyerReviews(json["reviews"]["as_buyer"])
+        self.shopReviewVC?.averageFeedback = json["buyer_average_star"].float ?? 0.0
+        self.shopReviewVC?.countReview = json["seller_num_reviewer"].int ?? 3
+        self.shopReviewVC?.countFeedback = json["buyer_num_reviewer"].int ?? 3
+        self.shopReviewVC?.setUserReviews(json["reviews"]["as_seller"], feedbackData: json["reviews"]["as_buyer"])
         
         self.shopBadgeVC?.userAchievements = []
         self.shopBadgeVC?.sellerName = self.shopName.text!

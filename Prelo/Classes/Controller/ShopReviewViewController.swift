@@ -22,7 +22,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     @IBOutlet weak var loading: UIActivityIndicatorView!
     
     var userReviews : Array<UserReview> = []
-    var buyerReviews : Array<UserReview> = []
+    var userFeedbacks : Array<UserReview> = []
     var sellerName : String = ""
     var sellerId : String = ""
     
@@ -31,12 +31,9 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     weak var delegate : NewShopHeaderDelegate?
     var isTransparent = false
     var averageRate : Float = 0.0
-    var averageBuyer : Float = 0.0
+    var averageFeedback : Float = 0.0
     var countReview : Int = 0
-    var countAsBuyerReview : Int = 0
-    var countAsSellerReview: Int = 0
-    
-    var root: UIViewController?
+    var countFeedback : Int = 0
     
     // MARK: - Init
     
@@ -83,7 +80,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         // Get reviews
         
         if (currentMode == .default) {
-//            self.userReviews = []
+            self.userReviews = []
             self.getUserReviews()
         }
         
@@ -128,26 +125,21 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
         }
     }
     
-    func setUserReviews(_ reviewData: JSON) {
-        let data = reviewData
+    func setUserReviews(_ reviewData: JSON, feedbackData: JSON) {
+        self.userReviews = []
+        self.userFeedbacks = []
+        
+        var data = reviewData
         for (_, item) in data {
-            let r = UserReview.instance(item)
-            if (r != nil) {
-                self.userReviews.append(r!)
+            if let r = UserReview.instance(item) {
+                self.userReviews.append(r)
             }
         }
         
-        self.loadingPanel.isHidden = true
-        self.loading.stopAnimating()
-        self.setupTable()
-    }
-    
-    func setBuyerReviews(_ reviewData: JSON) {
-        let data = reviewData
+        data = feedbackData
         for (_, item) in data {
-            let r = UserReview.instance(item)
-            if (r != nil) {
-                self.buyerReviews.append(r!)
+            if let r = UserReview.instance(item) {
+                self.userFeedbacks.append(r)
             }
         }
         
@@ -188,11 +180,11 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     // MARK: - UITableView Functions
     func numberOfSections(in tableView: UITableView) -> Int {
         if (currentMode == .inject) {
-            if (self.userReviews.count > 0) {
-                if (countReview > 5) {
-                    return 3
+            if (countReview + countFeedback > 0) {
+                if (countReview > 3 || countFeedback > 3) {
+                    return 5
                 } else {
-                    return 2
+                    return 4
                 }
             } else {
                 return 1
@@ -204,9 +196,15 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (currentMode == .inject) {
-            if (self.userReviews.count > 0) {
-                if (section == 1) {
+            if (countReview + countFeedback > 0) {
+                if (section == 0) {
+                    return self.userReviews.count > 0 ? 1 : 0
+                } else if (section == 1) {
                     return self.userReviews.count
+                } else if (section == 2) {
+                    return self.userFeedbacks.count > 0 ? 1 : 0
+                } else if (section == 3) {
+                    return self.userFeedbacks.count
                 } else {
                     return 1
                 }
@@ -220,28 +218,50 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (currentMode == .inject) {
-            if (self.userReviews.count > 0) {
+            if (countReview + countFeedback > 0) {
+                // review
                 if ((indexPath as NSIndexPath).section == 0) {
                     let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
+                    cell.adapt(self.averageRate, countReview: nil, type: "penjual")
+                    return cell
                     
-                    cell.selectionStyle = .none
-                    cell.alpha = 1.0
-                    cell.backgroundColor = UIColor.white
+                } else if ((indexPath as NSIndexPath).section == 1) {
+                    let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
                     
-                    cell.adapt(self.averageRate)
+                    let u = userReviews[(indexPath as NSIndexPath).row]
+                    cell.adapt(u)
                     
                     return cell
+                    
+                // feedback (review as buyer)
                 } else if ((indexPath as NSIndexPath).section == 2) {
+                    let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
+                    cell.adapt(self.averageFeedback, countReview: nil, type: "pembeli")
+                    return cell
+                    
+                } else if ((indexPath as NSIndexPath).section == 3) {
+                    let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+                    
+                    let u = userFeedbacks[(indexPath as NSIndexPath).row]
+                    cell.adapt(u)
+                    
+                    return cell
+                    
+                // lihat semua
+                } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "ButtonCell") as! ButtonCell
                     
+                    cell.contentView.viewWithTag(999)?.removeFromSuperview()
+                    
+                    // style
                     cell.selectionStyle = .none
                     cell.alpha = 1.0
                     cell.backgroundColor = UIColor.white
                     cell.clipsToBounds = true
                     cell.separatorInset = UIEdgeInsetsMake(0, UIScreen.main.bounds.size.width, 0, 0);
                     
+                    // btn
                     let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
-                    
                     lblButton.text = "LIHAT SEMUA REVIEW (\(self.countReview))"
                     lblButton.textColor = Theme.GrayLight
                     lblButton.backgroundColor = UIColor.clear
@@ -249,27 +269,15 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     lblButton.font = UIFont.systemFont(ofSize: 15)
                     lblButton.createBordersWithColor(Theme.GrayLight, radius: 4, width: 1)
                     
+                    // container
                     let vwBorder = UIView(frame: CGRect(x: 0, y: 0, width: tableView.width, height: 62))
-                    
                     vwBorder.backgroundColor = UIColor.white
-                    
                     vwBorder.addSubview(lblButton)
+                    vwBorder.tag = 999
                     
                     cell.contentView.addSubview(vwBorder)
-                    
                     return cell
                     
-                } else {
-                    let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-                    
-                    cell.selectionStyle = .none
-                    cell.alpha = 1.0
-                    cell.backgroundColor = UIColor.white
-                    
-                    let u = userReviews[(indexPath as NSIndexPath).row]
-                    cell.adapt(u)
-                    
-                    return cell
                 }
             } else { // Belum ada review untuk user ini
                 let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
@@ -300,30 +308,41 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if (currentMode == .inject && (indexPath as NSIndexPath).section == 2) {
+        if (currentMode == .inject && (indexPath as NSIndexPath).section == 4) {
+            /*
             let shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as! ShopReviewViewController
             shopReviewVC.sellerId = self.sellerId
             shopReviewVC.sellerName = self.sellerName
             self.navigationController?.pushViewController(shopReviewVC, animated: true)
+            */
+            
+            let ReviewTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameReviewTabBar, owner: nil, options: nil)?.first as! ReviewTabBarViewController
+            ReviewTabBarVC.averageBuyer = self.averageFeedback
+            ReviewTabBarVC.averageSeller = self.averageRate
+            ReviewTabBarVC.sellerId = sellerId
+            self.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
         }
         ////print("Row \(indexPath.row) selected")
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
         if (currentMode == .inject) {
-            if (self.userReviews.count > 0) {
-                if ((indexPath as NSIndexPath).section == 0) {
-                    return 140
-                } else if ((indexPath as NSIndexPath).section == 2) {
+            if (countReview + countFeedback > 0) {
+                if ((indexPath as NSIndexPath).section == 0 || (indexPath as NSIndexPath).section == 2) {
+                    return 104
+                } else if ((indexPath as NSIndexPath).section == 1) {
+                    let u = userReviews[(indexPath as NSIndexPath).item]
+                    let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+                    return 65 + commentHeight
+                } else if ((indexPath as NSIndexPath).section == 3) {
+                    let u = userFeedbacks[(indexPath as NSIndexPath).item]
+                    let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+                    return 65 + commentHeight
+                } else {
                     if (self.sellerId == User.Id) {
                         return 134
                     }
                     return 62
-                    
-                } else {
-                    let u = userReviews[(indexPath as NSIndexPath).item]
-                    let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-                    return 65 + commentHeight
                 }
             } else {
                 return 90
@@ -417,6 +436,10 @@ class ShopReviewCell : UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        
         // Love floatable
         self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
@@ -467,15 +490,20 @@ class ShopReviewAverageCell : UITableViewCell {
     @IBOutlet var vwLove: UIView!
     @IBOutlet weak var circularView: UIView!
     @IBOutlet weak var averageStar: UILabel!
+    @IBOutlet weak var lbReview: UILabel!
     
     var floatRatingView: FloatRatingView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.init(hexString: "#F0F0F0")
+        
         circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
-        circularView.backgroundColor = UIColor.init(hex: "D1D1D1")
-        averageStar.textColor = UIColor.white
+        circularView.backgroundColor = UIColor.white //UIColor.init(hex: "D1D1D1")
+        //averageStar.textColor = UIColor.white
         
         // Love floatable
         self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 122.5, height: 21)) // 175 -> 122.5  30 -> 21
@@ -494,8 +522,21 @@ class ShopReviewAverageCell : UITableViewCell {
         self.vwLove.addSubview(self.floatRatingView )
     }
     
-    func adapt(_ star : Float) {
-        averageStar.text = star.clean
+    func adapt(_ star : Float, countReview : Int?, type : String?) {
+        self.averageStar.text = star.clean
         self.floatRatingView.rating = star
+        
+        var text = ""
+        if let c = countReview {
+            text += "\(c) "
+        }
+        
+        text += "review"
+        
+        if let t = type {
+            text += " sebagai \(t)"
+        }
+        
+        self.lbReview.text = text
     }
 }

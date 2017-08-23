@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShopReviewCell" rowHeight="82" id="BGN-jL-jQ4" customClass="ShopReviewCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="82"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ShopReviewCell" rowHeight="112" id="BGN-jL-jQ4" customClass="ShopReviewCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="112"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BGN-jL-jQ4" id="hir-eh-cmF">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="81.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="111.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="IiW-y5-dnB" userLabel="imgUser">
@@ -28,12 +28,12 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FKj-bp-sz7" userLabel="View Love">
                         <rect key="frame" x="72" y="29" width="240" height="21"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="HST-It-OCP"/>
+                        </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet amet jabang bayi lorem ipsum dolor sit amet amet jabang bayi" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gW-ON-CEt">
-                        <rect key="frame" x="72" y="52" width="240" height="22"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="22" id="2n3-OR-eIf"/>
-                        </constraints>
+                        <rect key="frame" x="72" y="52" width="240" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -49,7 +49,6 @@
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="3gW-ON-CEt" secondAttribute="bottom" constant="7.5" id="4BG-7m-H8m"/>
                     <constraint firstItem="FKj-bp-sz7" firstAttribute="top" secondItem="Xhl-Wf-a89" secondAttribute="bottom" constant="3" id="5oQ-hb-jdH"/>
                     <constraint firstItem="Xhl-Wf-a89" firstAttribute="leading" secondItem="IiW-y5-dnB" secondAttribute="trailing" constant="8" id="EAx-Yd-JFA"/>
                     <constraint firstItem="IiW-y5-dnB" firstAttribute="leading" secondItem="hir-eh-cmF" secondAttribute="leading" constant="8" id="EP3-bb-cJl"/>
@@ -64,13 +63,12 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="consHeightLblComment" destination="2n3-OR-eIf" id="U9e-vW-Ft8"/>
                 <outlet property="imgBuyer" destination="IiW-y5-dnB" id="ydQ-rC-Hus"/>
                 <outlet property="lblBuyerName" destination="Xhl-Wf-a89" id="6dx-2Y-DKw"/>
                 <outlet property="lblComment" destination="3gW-ON-CEt" id="Ngg-KT-V0K"/>
                 <outlet property="vwLove" destination="FKj-bp-sz7" id="CHY-kc-ndG"/>
             </connections>
-            <point key="canvasLocation" x="196" y="355"/>
+            <point key="canvasLocation" x="196" y="370"/>
         </tableViewCell>
     </objects>
     <resources>

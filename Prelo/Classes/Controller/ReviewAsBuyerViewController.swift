@@ -11,122 +11,98 @@ import Alamofire
 
 class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
-    @IBOutlet weak var lblEmpty: UILabel!
-    @IBOutlet weak var btnRefresh: UIButton!
     @IBOutlet weak var tableView : UITableView!
     @IBOutlet weak var loadingPanel: UIView!
     
-    @IBOutlet var vwLove: UIView!
-    @IBOutlet weak var circularView: UIView!
-    @IBOutlet weak var averageStar: UILabel!
-    @IBOutlet weak var countReview: UILabel!
-    
     var averageBuyer : Float = 0.0
-    
+    var sellerId = ""
     var floatRatingView: FloatRatingView!
-    
-    func adapt(_ star : Float) {
-        circularView.createBordersWithColor(UIColor.clear, radius: circularView.width/2, width: 0)
-        
-        circularView.backgroundColor = UIColor.init(hex: "FFFFFF")
-        
-        averageStar.text = star.clean
-        
-        averageStar.textColor = UIColor.darkGray
-        
-        // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 122.5, height: 21)) // 175 -> 122.5 -> 73.75  30 -> 21 -> 12.6
-        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
-        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
-        // Optional params
-        //                self.floatRatingView.delegate = self
-        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
-        self.floatRatingView.maxRating = 5
-        self.floatRatingView.minRating = 0
-        self.floatRatingView.rating = star
-        self.floatRatingView.editable = false
-        self.floatRatingView.halfRatings = true
-        self.floatRatingView.floatRatings = true
-        self.floatRatingView.tintColor = Theme.ThemeRed
-        
-        self.vwLove.addSubview(self.floatRatingView )
-    }
     
     var reviewBuyers : Array<UserReview> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.adapt(averageBuyer)
-        
-        print("masuk sini loh lalala")
-        // Do any additional setup after loading the view.
-        self.lblEmpty.isHidden = false
-        self.tableView.isHidden = false
-        self.btnRefresh.isHidden = false
-        
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        
-        self.getReviewBuyers()
         
         // Register custom cell
         let shopReviewCellNib = UINib(nibName: "ShopReviewCell", bundle: nil)
         tableView.register(shopReviewCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
+        let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverageCell", bundle: nil)
+        tableView.register(myLovelistAverageCellNib, forCellReuseIdentifier: "ShopReviewAverageCell")
+        
+        // Belum ada review untuk user ini
+        tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
     }
     
-    var first = true
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-    }
-    
-    
-    func refresh(_ sender: AnyObject) {
-        // Reset data
-        self.reviewBuyers = []
-        
-        self.tableView.isHidden = true
-        self.lblEmpty.isHidden = true
-        self.btnRefresh.isHidden = true
-        
+    func setup() {
         self.getReviewBuyers()
     }
     
-    @IBAction func refreshPressed(_ sender: AnyObject) {
-        self.refresh(sender)
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1 // local , onstore
+        if reviewBuyers.count > 0 {
+            return 2
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return reviewBuyers.count
+        if reviewBuyers.count > 0 {
+            if section == 0 {
+                return 1
+            }
+            return reviewBuyers.count
+        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-        cell.adapt(reviewBuyers[(indexPath as NSIndexPath).row])
-        return cell
+        if reviewBuyers.count > 0 {
+            if indexPath.section == 0 {
+                let cell : ShopReviewAverageCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewAverageCell") as! ShopReviewAverageCell
+                cell.adapt(self.averageBuyer, countReview: self.reviewBuyers.count, type: nil)
+                return cell
+                
+            } else {
+                let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
+                cell.adapt(reviewBuyers[(indexPath as NSIndexPath).row])
+                return cell
+                
+            }
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+            
+            cell?.selectionStyle = .none
+            cell?.alpha = 1.0
+            cell?.backgroundColor = UIColor.white
+            
+            cell?.textLabel!.text = "Belum ada review untuk user ini"
+            cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
+            cell?.textLabel!.textAlignment = .center
+            cell?.textLabel!.textColor = Theme.GrayDark
+            
+            return cell!
+        }
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let u = reviewBuyers[(indexPath as NSIndexPath).item]
-        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-        return 65 + commentHeight
+        if reviewBuyers.count > 0 {
+            if indexPath.section == 0 {
+                return 104
+                
+            } else {
+                let u = reviewBuyers[(indexPath as NSIndexPath).item]
+                let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
+                return 65 + commentHeight
+                
+            }
+        } else {
+            return 90
+        }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -134,8 +110,9 @@ class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func getReviewBuyers(){
+        self.reviewBuyers = []
         self.loadingPanel.isHidden = false
-        let _ = request(APIUser.getBuyerReview(id: User.Id!)).responseJSON {resp in
+        let _ = request(APIUser.getBuyerReview(id: self.sellerId)).responseJSON {resp in
             
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Sebagai Pembeli")) {
                 if let result: AnyObject = resp.result.value as AnyObject?
@@ -148,19 +125,10 @@ class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UI
                         {
                             self.reviewBuyers.append(UserReview.instance(JSON(json))!)
                             self.tableView.tableFooterView = UIView()
-                            self.lblEmpty.isHidden = true
-                            self.tableView.isHidden = false
-                            self.btnRefresh.isHidden = true
-                            self.tableView.reloadData()
-                            self.loadingPanel.isHidden = true
                         }
-                        self.countReview.text = String(self.reviewBuyers.count) + " review"
-                    } else {
-                        self.lblEmpty.isHidden = false
-                        self.tableView.isHidden = true
-                        self.btnRefresh.isHidden = false
-                        self.loadingPanel.isHidden = true
                     }
+                    self.loadingPanel.isHidden = true
+                    self.tableView.reloadData()
                 }
             }
         }

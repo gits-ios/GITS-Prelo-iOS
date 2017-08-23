@@ -379,7 +379,6 @@
 		585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */ = {isa = PBXBuildFile; fileRef = 440AF6591BE0DF1600074CBC /* ReferralPage.xib */; };
 		585887531DBEDC03006EC6D5 /* SetupPasswordPopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5895E8671C48CCF500752ACA /* SetupPasswordPopUp.xib */; };
 		585887541DBEDC0E006EC6D5 /* ShippingCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58EADB961CFBE47800410330 /* ShippingCell.xib */; };
-		585887561DBEDC1F006EC6D5 /* ShopReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */; };
 		585887571DBEDC28006EC6D5 /* TransactionListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104AD01BAA8F1200947E7F /* TransactionListCell.xib */; };
 		585887581DBEDC35006EC6D5 /* UserProfile.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21156EBB1B8F5B5D001D7842 /* UserProfile.xib */; };
 		585887591DBEE99D006EC6D5 /* ProductDetailCover.xib in Resources */ = {isa = PBXBuildFile; fileRef = 211312551B6760F600A4DA3B /* ProductDetailCover.xib */; };
@@ -656,6 +655,8 @@
 		B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */; };
 		B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */; };
 		B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */; };
+		B2569B401F4D5B9400FFD2E4 /* ShopReviewAverageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2569B3F1F4D5B9400FFD2E4 /* ShopReviewAverageCell.xib */; };
+		B2569B521F4D5F6900FFD2E4 /* ShopReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2569B511F4D5F6900FFD2E4 /* ShopReviewCell.xib */; };
 		B256D0D61F0F3C8800454EE9 /* ic_share2_white.png in Resources */ = {isa = PBXBuildFile; fileRef = B256D0D51F0F3C8800454EE9 /* ic_share2_white.png */; };
 		B258A30B1EBAD95F005CC92C /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B258A30A1EBAD95F005CC92C /* CartManager.swift */; };
 		B26DB3F11E2D3C6F00224675 /* ic_achievement.png in Resources */ = {isa = PBXBuildFile; fileRef = B26DB3F01E2D3C6F00224675 /* ic_achievement.png */; };
@@ -1855,6 +1856,8 @@
 		B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellProgressCell.xib; sourceTree = "<group>"; };
 		B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementViewController.swift; sourceTree = "<group>"; };
 		B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
+		B2569B3F1F4D5B9400FFD2E4 /* ShopReviewAverageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewAverageCell.xib; sourceTree = "<group>"; };
+		B2569B511F4D5F6900FFD2E4 /* ShopReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewCell.xib; sourceTree = "<group>"; };
 		B256D0D51F0F3C8800454EE9 /* ic_share2_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_share2_white.png; sourceTree = "<group>"; };
 		B258A30A1EBAD95F005CC92C /* CartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
 		B26DB3F01E2D3C6F00224675 /* ic_achievement.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_achievement.png; sourceTree = "<group>"; };
@@ -2056,7 +2059,6 @@
 		FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libGoogleAnalyticsServices.a; sourceTree = "<group>"; };
 		FD4E8BF21C31258100501F7A /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		FDAD1BE41BF0A5DB00505A35 /* ic_take_photo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_take_photo.png; sourceTree = "<group>"; };
-		FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReviewCell.xib; sourceTree = "<group>"; };
 		FDF0AC941C0C4A6200FC7D61 /* wm_logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wm_logo@2x.png"; sourceTree = "<group>"; };
 		FDF39A2F1C3CF43B002A5DF6 /* banner_sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_sold.png; sourceTree = "<group>"; };
 		FDF7281C1BF1CA9A00C0D843 /* Regex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
@@ -3321,7 +3323,8 @@
 				B2C3A3C31E2B8E2D0082A15D /* ShopAchievement.xib */,
 				B2C3A3C51E2B8E370082A15D /* ShopAchievementCell.xib */,
 				B280A1651F4D52E2006433A8 /* ShopReview.xib */,
-				FDB1A0031BFD8BD0001F2600 /* ShopReviewCell.xib */,
+				B2569B511F4D5F6900FFD2E4 /* ShopReviewCell.xib */,
+				B2569B3F1F4D5B9400FFD2E4 /* ShopReviewAverageCell.xib */,
 				B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */,
 				B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */,
 				B27948221E35C700002CEED4 /* TarikTunai2.xib */,
@@ -4207,6 +4210,7 @@
 				58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */,
 				5830A42F1CE3443000FB1577 /* AddProductPlaceholder.plist in Resources */,
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
+				B2569B401F4D5B9400FFD2E4 /* ShopReviewAverageCell.xib in Resources */,
 				B2D965EC1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib in Resources */,
 				B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */,
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
@@ -4447,7 +4451,6 @@
 				212007BC1B6A087F00D9C84B /* ic_logo_white@2x.png in Resources */,
 				21E7A7671B9FF2BC00FC9B38 /* LKActivity@2x.png in Resources */,
 				B2BF267F1E82898400BD9EEB /* ic_edit_white.png in Resources */,
-				585887561DBEDC1F006EC6D5 /* ShopReviewCell.xib in Resources */,
 				B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
 				B2E176101F0C992900E9A45A /* bg_book.png in Resources */,
@@ -4509,6 +4512,7 @@
 				210959B41B8DD088000F2939 /* ic_tag@2x.png in Resources */,
 				B2D965D91E9E098E00B2C29C /* Checkout2TotalBuyingCell.xib in Resources */,
 				2113125C1B67847100A4DA3B /* raisa.jpg in Resources */,
+				B2569B521F4D5F6900FFD2E4 /* ShopReviewCell.xib in Resources */,
 				2116BAFA1BAC1DC9009B27C8 /* Default-Portrait-2048h.png in Resources */,
 				B2D119941E290BF80064045B /* banner_comment.png in Resources */,
 				58DBE8181D8F9B1100355608 /* ic_round.png in Resources */,

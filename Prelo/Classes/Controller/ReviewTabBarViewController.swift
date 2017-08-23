@@ -13,22 +13,20 @@ class ReviewTabBarViewController: BaseViewController, CarbonTabSwipeDelegate {
     var averageBuyer : Float = 0.0
     var averageSeller : Float = 0.0
 
+    var sellerId = ""
     
     var tabSwipe : CarbonTabSwipeNavigation?
     var reviewAsSellerVC : ReviewAsSellerViewController?
     var reviewAsBuyerVC : ReviewAsBuyerViewController?
     
-    
-    var isNeedReload = true
+    var isFirst = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         reviewAsSellerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsSeller, owner: nil, options: nil)?.first as? ReviewAsSellerViewController
-        reviewAsSellerVC?.averageSeller = averageSeller
         
         reviewAsBuyerVC = Bundle.main.loadNibNamed(Tags.XibNameReviewAsBuyer, owner: nil, options: nil)?.first as? ReviewAsBuyerViewController
-        reviewAsBuyerVC?.averageBuyer = averageBuyer
         
         tabSwipe = CarbonTabSwipeNavigation().create(withRootViewController: self, tabNames: ["SEBAGAI PENJUAL" as AnyObject, "SEBAGAI PEMBELI" as AnyObject] as [AnyObject], tintColor: UIColor.white, delegate: self)
         tabSwipe?.addShadow()
@@ -38,7 +36,7 @@ class ReviewTabBarViewController: BaseViewController, CarbonTabSwipeDelegate {
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
         
         // Set title
-        self.title = "REVIEW"
+        self.title = "Review"
         
         // swipe gesture for carbon (pop view)
         let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
@@ -49,14 +47,17 @@ class ReviewTabBarViewController: BaseViewController, CarbonTabSwipeDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        if isNeedReload {
+        if isFirst {
             reviewAsSellerVC?.averageSeller = averageSeller
             reviewAsBuyerVC?.averageBuyer = averageBuyer
             
-            reviewAsSellerVC?.adapt(averageSeller)
-            reviewAsBuyerVC?.adapt(averageBuyer)
+            reviewAsSellerVC?.sellerId = self.sellerId
+            reviewAsBuyerVC?.sellerId = self.sellerId
             
-            isNeedReload = false
+            reviewAsSellerVC?.setup()
+            reviewAsBuyerVC?.setup()
+            
+            isFirst = false
         }
     }
     
