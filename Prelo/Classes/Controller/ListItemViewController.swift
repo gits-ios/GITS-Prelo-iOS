@@ -2126,9 +2126,6 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
         case .products:
             if (currentMode == .newShop && User.Id == self.shopId) {
                 if(indexPath.row == 0){
-                    print("ini isi shop data")
-                    print(User.Id)
-                    print(self.shopId)
                     let cell : UploadSuggestionCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cellUpload", for: indexPath) as! UploadSuggestionCell
                     if(self.shopData != nil){
                         cell.adapt(images: self.shopData["upload_suggestions"])
