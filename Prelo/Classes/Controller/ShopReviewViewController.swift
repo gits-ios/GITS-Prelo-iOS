@@ -262,7 +262,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     
                     // btn
                     let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
-                    lblButton.text = "LIHAT SEMUA REVIEW (\(self.countReview))"
+                    lblButton.text = "LIHAT SEMUA REVIEW (\(self.countReview + self.countFeedback))"
                     lblButton.textColor = Theme.GrayLight
                     lblButton.backgroundColor = UIColor.clear
                     lblButton.textAlignment = .center
