@@ -111,18 +111,10 @@ class AddProduct3ListImagesViewController: BaseViewController {
                         let uniqueId = uniqueCode.description
                         let imageName = "prelo-image-" + self.localId + "-" + uniqueId
                         
-                        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.temporer-image",
-                                                            qos: .background,
-                                                            attributes: .concurrent,
-                                                            target: nil)
-                        backgroundQueue.async {
-                            //print("Work on background queue")
-                            
-                            // save image to temporary
-                            let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
-                            if (pathToSavedImage == nil) {
-                                print("Failed to save image")
-                            }
+                        // save image to temporary
+                        let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
+                        if (pathToSavedImage == nil) {
+                            print("Failed to save image")
                         }
                         
                         self.previewImages.append(PreviewImage(image: img, url: imageName, label: "", orientation: img?.imageOrientation.rawValue))
@@ -234,7 +226,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
         
         self.index.remove(at: index)
         
-        if index == 0 {
+        if index == 0 && self.index.count > 0 {
             self.previewImages[self.index[0]].label = "Gambar Utama"
         }
     }
@@ -320,17 +312,19 @@ class AddProduct3ListImagesViewController: BaseViewController {
         self.tableView.reloadData()
     }
     
-    func imagesPreviewSplit(_ urls: inout Array<String>, labels: inout Array<String>) {
+    func imagesPreviewSplit(_ urls: inout Array<String>, labels: inout Array<String>, orientation: inout Array<Int>) {
         if self.previewImages.count == 0 {
             return
         }
         
         urls = []
         labels = []
+        orientation = []
         
         for i in 0..<self.index.count {
             urls.append(self.previewImages[self.index[i]].url)
             labels.append(self.previewImages[self.index[i]].label)
+            orientation.append(self.previewImages[self.index[i]].orientation ?? 0)
         }
     }
     
@@ -433,11 +427,12 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
             /*
             c.labels = [ self.previewImages[index].label ]
             c.images = [ self.previewImages[index].url ]
+            c.imagesOrientation = [ self.previewImages[index].orientation ?? 0 ]
             c.index = 0
             */
             
             // all image will present
-            self.imagesPreviewSplit(&c.images, labels: &c.labels)
+            self.imagesPreviewSplit(&c.images, labels: &c.labels, orientation: &c.imagesOrientation)
             c.index = indexPath.row
             
             self.parent?.present(c, animated: true, completion: nil)
@@ -572,7 +567,15 @@ class AddProduct3ListImagesCell: UITableViewCell {
                 self.imgPreview.image = UIImage(named: "placeholder-standar-white")
             }
         } else {
-            self.imgPreview.image = previewImage.image ?? UIImage(named: "placeholder-standar-white")
+            var img: UIImage?
+            if previewImage.image != nil {
+                if (previewImage.image?.size.height)! > (previewImage.image?.size.width)! {
+                    img = previewImage.image?.resizeWithWidth(82 * UIScreen.main.scale)
+                } else {
+                    img = previewImage.image?.resizeWithHeight(82 * UIScreen.main.scale)
+                }
+            }
+            self.imgPreview.image = img ?? UIImage(named: "placeholder-standar-white")
         }
         
         self.lblLabel.text = previewImage.label
