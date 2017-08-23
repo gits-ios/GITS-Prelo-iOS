@@ -591,12 +591,15 @@ class AddProductViewController3: BaseViewController {
                 self.product.imagesIndex.append(i)
                 // load images
                 
-                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)?.resizeWithMaxWidthOrHeight(82 * UIScreen.main.scale)
+                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)
                 if image == nil {
                     print ("Failed to load image")
                 }
+                let orientation = UIImageOrientation.init(rawValue: imgs[i]["orientation"].stringValue.int)
                 
-                self.product.imagesDetail.append(PreviewImage.init(image: image, url: imgs[i]["url"].stringValue, label: imgs[i]["label"].stringValue, orientation: imgs[i]["orientation"].stringValue.int))
+                let img = UIImage(cgImage: (image?.cgImage)!, scale: 1, orientation: orientation!)
+                
+                self.product.imagesDetail.append(PreviewImage.init(image: img, url: imgs[i]["url"].stringValue, label: imgs[i]["label"].stringValue, orientation: imgs[i]["orientation"].stringValue.int))
             }
         }
         
@@ -1144,39 +1147,6 @@ class AddProductViewController3: BaseViewController {
     
     func setupImagesForUpload(_ param: inout [String:String]) -> Array<UIImage> {
         var imagesParam: Array<UIImage> = []
-        /*
-        var images: Array<[String:String]> = []
-        
-        if self.product.imagesDetail.count > 0 {
-            var j = 1
-            for i in 0..<self.product.imagesDetail.count {
-                var url = self.product.imagesDetail[self.product.imagesIndex[i]].url
-                let lbl = self.product.imagesDetail[self.product.imagesIndex[i]].label
-                if let _ = self.product.imagesDetail[self.product.imagesIndex[i]].image {
-                    
-                    let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: url)?.resizeWithMaxWidthOrHeight(1600)
-                    if image == nil {
-                        print ("Failed to load image")
-                        
-                        continue
-                    }
-                    imagesParam.append(image!)
-                    url = "image\(j)"
-                    
-                    j += 1
-                }
-                
-                let image: [String:String] = [
-                    "url"   : url,
-                    "label" : lbl
-                ]
-                
-                images.append(image)
-            }
-        }
-        
-        param["images"] = AppToolsObjC.jsonString(from: images)
-        */
         
         var display_picts: Array<String> = []
         var image_label: Array<String> = []
@@ -1186,6 +1156,7 @@ class AddProductViewController3: BaseViewController {
             for i in 0..<self.product.imagesDetail.count {
                 var url = self.product.imagesDetail[self.product.imagesIndex[i]].url
                 let lbl = self.product.imagesDetail[self.product.imagesIndex[i]].label
+                let ort = self.product.imagesDetail[self.product.imagesIndex[i]].orientation
                 if let _ = self.product.imagesDetail[self.product.imagesIndex[i]].image {
                     
                     let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: url)?.resizeWithMaxWidthOrHeight(1600)
@@ -1194,7 +1165,11 @@ class AddProductViewController3: BaseViewController {
                         
                         continue
                     }
-                    imagesParam.append(image!)
+                    let orientation = UIImageOrientation.init(rawValue: ort ?? 0)
+                    
+                    let img = UIImage(cgImage: (image?.cgImage)!, scale: 1, orientation: orientation!)
+                    
+                    imagesParam.append(img)
                     url = "image\(j)"
                     
                     j += 1
@@ -1338,6 +1313,14 @@ class AddProductViewController3: BaseViewController {
             alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         } else {
             alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
+                
+                if !self.product.isDraftMode {
+                    for i in self.product.imagesDetail {
+                        if i.url != "" && i.image != nil {
+                            _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: i.url)
+                        }
+                    }
+                }
                 
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
@@ -2408,7 +2391,15 @@ class AddProduct3ImagesPreviewCellCollectionCell: UICollectionViewCell {
                 self.imagesPreview.image = UIImage(named: "placeholder-standar-white")
             }
         } else {
-            self.imagesPreview.image = (image ?? UIImage(named: "placeholder-standar-white"))
+            var img: UIImage?
+            if image != nil {
+                if (image?.size.height)! > (image?.size.width)! {
+                    img = image?.resizeWithWidth(82 * UIScreen.main.scale)
+                } else {
+                    img = image?.resizeWithHeight(82 * UIScreen.main.scale)
+                }
+            }
+            self.imagesPreview.image = (img ?? UIImage(named: "placeholder-standar-white"))
         }
         
         self.label.text = label

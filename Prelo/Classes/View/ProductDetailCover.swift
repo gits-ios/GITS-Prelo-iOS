@@ -239,6 +239,7 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
     var label : UILabel?
     
     var images : Array<String> = []
+    var imagesOrientation : Array<Int> = [] // for local path only
     var index = 0
     
     var labels : [String] = []
@@ -275,7 +276,16 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
             if images[i].contains("https://") || images[i].contains("http://") {
                 iv.afSetImage(withURL: URL(string: images[i])!, withFilter: .fit)
             } else { // local image
-                iv.image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: images[i])
+                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: images[i])
+                if image == nil {
+                    print ("Failed to load image")
+                }
+
+                let orientation = UIImageOrientation.init(rawValue: imagesOrientation[i])
+                
+                let img = UIImage(cgImage: (image?.cgImage)!, scale: 1, orientation: orientation!)
+                
+                iv.image = img
             }
             
             iv.tag = 1
