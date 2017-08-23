@@ -10,30 +10,30 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>christmas</key>
+			<key>ic_christmas</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>ic_christmas</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<true/>
 			</dict>
-			<key>ramadhan</key>
+			<key>ic_ramadhan</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>ic_ramadhan</string>
 				</array>
 				<key>UIPrerenderedIcon</key>
-				<false/>
+				<true/>
 			</dict>
 		</dict>
 		<key>CFBundlePrimaryIcon</key>
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>raisa</string>
+				<string>ic_default</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<false/>
@@ -81,7 +81,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>8</string>
+	<string>17</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
