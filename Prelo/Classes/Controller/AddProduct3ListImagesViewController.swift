@@ -320,17 +320,19 @@ class AddProduct3ListImagesViewController: BaseViewController {
         self.tableView.reloadData()
     }
     
-    func imagesPreviewSplit(_ urls: inout Array<String>, labels: inout Array<String>) {
+    func imagesPreviewSplit(_ urls: inout Array<String>, labels: inout Array<String>, orientation: inout Array<Int>) {
         if self.previewImages.count == 0 {
             return
         }
         
         urls = []
         labels = []
+        orientation = []
         
         for i in 0..<self.index.count {
             urls.append(self.previewImages[self.index[i]].url)
             labels.append(self.previewImages[self.index[i]].label)
+            orientation.append(self.previewImages[self.index[i]].orientation ?? 0)
         }
     }
     
@@ -433,11 +435,12 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
             /*
             c.labels = [ self.previewImages[index].label ]
             c.images = [ self.previewImages[index].url ]
+            c.imagesOrientation = [ self.previewImages[index].orientation ?? 0 ]
             c.index = 0
             */
             
             // all image will present
-            self.imagesPreviewSplit(&c.images, labels: &c.labels)
+            self.imagesPreviewSplit(&c.images, labels: &c.labels, orientation: &c.imagesOrientation)
             c.index = indexPath.row
             
             self.parent?.present(c, animated: true, completion: nil)

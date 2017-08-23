@@ -591,12 +591,15 @@ class AddProductViewController3: BaseViewController {
                 self.product.imagesIndex.append(i)
                 // load images
                 
-                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)?.resizeWithMaxWidthOrHeight(82 * UIScreen.main.scale)
+                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue) //?.resizeWithMaxWidthOrHeight(82 * UIScreen.main.scale)
                 if image == nil {
                     print ("Failed to load image")
                 }
+                let orientation = UIImageOrientation.init(rawValue: imgs[i]["orientation"].stringValue.int)
                 
-                self.product.imagesDetail.append(PreviewImage.init(image: image, url: imgs[i]["url"].stringValue, label: imgs[i]["label"].stringValue, orientation: imgs[i]["orientation"].stringValue.int))
+                let img = UIImage(cgImage: (image?.cgImage)!, scale: 1, orientation: orientation!)
+                
+                self.product.imagesDetail.append(PreviewImage.init(image: img, url: imgs[i]["url"].stringValue, label: imgs[i]["label"].stringValue, orientation: imgs[i]["orientation"].stringValue.int))
             }
         }
         
