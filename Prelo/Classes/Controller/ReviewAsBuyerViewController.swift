@@ -52,7 +52,7 @@ class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UI
         self.vwLove.addSubview(self.floatRatingView )
     }
     
-    var reviewBuyers : Array<BuyerReview> = []
+    var reviewBuyers : Array<UserReview> = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -118,8 +118,7 @@ class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UI
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-        cell.adapt2(reviewBuyers[(indexPath as NSIndexPath).row])
-        cell.setCons(activeCons: false)
+        cell.adapt(reviewBuyers[(indexPath as NSIndexPath).row])
         return cell
         
     }
@@ -147,7 +146,7 @@ class ReviewAsBuyerViewController: BaseViewController, UITableViewDataSource, UI
                     {
                         for json in data
                         {
-                            self.reviewBuyers.append(BuyerReview.instance(JSON(json))!)
+                            self.reviewBuyers.append(UserReview.instance(JSON(json))!)
                             self.tableView.tableFooterView = UIView()
                             self.lblEmpty.isHidden = true
                             self.tableView.isHidden = false

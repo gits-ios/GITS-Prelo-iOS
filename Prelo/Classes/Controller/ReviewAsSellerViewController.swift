@@ -136,7 +136,6 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
         cell.adapt(reviewSellers[(indexPath as NSIndexPath).row])
-        cell.setCons(activeCons: false)
         return cell
         
     }
