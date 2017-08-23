@@ -40,11 +40,6 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
     
     func setup() {
         self.getReviewSellers()
-        
-        if (reviewSellers.count <= 0) {
-            
-            tableView.separatorStyle = .none
-        }
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -128,12 +123,18 @@ class ReviewAsSellerViewController: BaseViewController, UITableViewDataSource, U
                         for json in data
                         {
                             self.reviewSellers.append(UserReview.instance(JSON(json))!)
-                            self.tableView.tableFooterView = UIView()
                         }
+                    }
+                    if d?.count == 0 {
+                        self.tableView.separatorStyle = .none
                     }
                     self.loadingPanel.isHidden = true
                     self.tableView.reloadData()
+                } else {
+                    self.tableView.separatorStyle = .none
                 }
+            } else {
+                self.tableView.separatorStyle = .none
             }
         }
     }
