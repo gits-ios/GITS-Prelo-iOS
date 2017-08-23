@@ -1136,7 +1136,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func editPressed(_ sender: AnyObject) {
         self.showLoading()
-        
+        /*
         isNeedReload = true
         
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
@@ -1157,6 +1157,24 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
                 self.hideLoading()
                 self.navigationController?.pushViewController(a, animated: true)
+            }
+        }
+        */
+        
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        addProduct3VC.editDoneBlock = {
+            self.isNeedReload = true
+        }
+        addProduct3VC.topBannerText = (detail?.rejectionText)
+        addProduct3VC.delegate = self.delegate
+        addProduct3VC.screenBeforeAddProduct = PageName.ProductDetailMine
+        
+        // API Migrasi
+        let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
+                addProduct3VC.editProduct = ProductDetail.instance(JSON(resp.result.value!))
+                self.hideLoading()
+                self.navigationController?.pushViewController(addProduct3VC, animated: true)
             }
         }
     }

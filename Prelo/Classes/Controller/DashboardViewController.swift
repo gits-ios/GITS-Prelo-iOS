@@ -520,6 +520,17 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
         // calendar
         let calendar = Bundle.main.loadNibNamed(Tags.XibNameCalendarPicker, owner: nil, options: nil)?.first as! CalendarPickerViewController
         self.navigationController?.pushViewController(calendar, animated: true)
+        
+        // add product v3
+//        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+//        if AppTools.isRent {
+//            addProduct3VC.product.addProductType = .rent
+//        }
+//        self.navigationController?.pushViewController(addProduct3VC, animated: true)
+        
+        // multipleimagepicker -- OKE
+//        let imagePicker = Bundle.main.loadNibNamed(Tags.XibNameMultipleImagePicker, owner: nil, options: nil)?.first as! AddProduct3ListImagesViewController
+//        self.navigationController?.pushViewController(imagePicker, animated: true)
     }
     
     func launchFAQ() {

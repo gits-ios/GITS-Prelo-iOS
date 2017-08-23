@@ -336,12 +336,31 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 if localProductPrimaryImages.count <= idx {
                     var image : UIImage?
+                    
+                    /*
                     if let data = NSData(contentsOfFile: p.imagePath1){
                         if let imageUrl = UIImage(data: data as Data) {
                             let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as! Int)!).resizeWithWidth(120)
                             image = img
                         }
                     } else { // placeholder image
+                        image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
+                    }
+                    */
+                    
+                    // v2
+                    let jsonstring = "{\"_data\":" + p.imagesPathAndLabel + "}"
+                    //print(jsonstring)
+                    
+                    let json = jsonstring.convertToDictionary() ?? [:]
+                    
+                    // Images Preview Cell
+                    if let imgs = JSON(json)["_data"].array, imgs.count > 0 {
+                        
+                        image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[0]["url"].stringValue)
+                    }
+                    
+                    if image == nil {
                         image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
                     }
                     
@@ -464,11 +483,19 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         tableView.deselectRow(at: indexPath, animated: true)
         if (indexPath as NSIndexPath).section == 0 {
             self.delegate?.setFromDraftOrNew(true)
+            
+            /*
             let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
             add.screenBeforeAddProduct = PageName.MyProducts
             add.draftMode = true
             add.draftProduct = localProducts[(indexPath as NSIndexPath).row]
             self.navigationController?.pushViewController(add, animated: true)
+            */
+            
+            let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+            addProduct3VC.screenBeforeAddProduct = PageName.ProductDetailMine
+            addProduct3VC.draftProduct = localProducts[(indexPath as NSIndexPath).row]
+            self.navigationController?.pushViewController(addProduct3VC, animated: true)
         } else {
             selectedProduct = products[(indexPath as NSIndexPath).row]
             if (selectedProduct!.isLokal)

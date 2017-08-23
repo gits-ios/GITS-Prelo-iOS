@@ -264,33 +264,20 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
         b.setTitleColor(Theme.PrimaryColor, for: UIControlState())
         self.view.addSubview(b)
         
-        /*
-        var compressQuality: Array<CGFloat> = [ 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0 ]
-        var x : CGFloat = 0
-        for i in 0...9 {
-            let s = UIScrollView(frame : (scrollView?.bounds)!)
-            let iv = UIImageView(frame : s.bounds)
-            iv.image = UIImage(named:"raisa.jpg")?.compress(compressQuality[i])
-            iv.tag = 1
-            s.addSubview(iv)
-            s.x = x
-            scrollView?.addSubview(s)
-            
-            s.minimumZoomScale = 1
-            s.maximumZoomScale = 3
-            s.delegate = self
-            
-            x += s.width
-        }
-        */
-        
         var x : CGFloat = 0
         for i in 0...images.count - 1
         {
             let s = UIScrollView(frame : (scrollView?.bounds)!)
             let iv = UIImageView(frame : s.bounds)
             iv.contentMode = UIViewContentMode.scaleAspectFit
-            iv.afSetImage(withURL: URL(string: images[i])!, withFilter: .fit)
+            
+            // online image
+            if images[i].contains("https://") || images[i].contains("http://") {
+                iv.afSetImage(withURL: URL(string: images[i])!, withFilter: .fit)
+            } else { // local image
+                iv.image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: images[i])
+            }
+            
             iv.tag = 1
             s.addSubview(iv)
             s.x = x

@@ -99,6 +99,17 @@ class AppTools: NSObject {
     static func switchToSingleCart(_ isOn: Bool) {
         _isSingleCart = isOn
     }
+    
+    fileprivate static var _isRent = true
+    static var isRent : Bool {
+        get {
+            return _isRent
+        }
+    }
+    
+    static func switchToRent(_ isOn: Bool) {
+        _isRent = isOn
+    }
 }
 
 enum AppFont {
@@ -233,6 +244,18 @@ extension String {
     func indexDistance(of character: Character) -> Int? {
         guard let index = characters.index(of: character) else { return nil }
         return distance(from: startIndex, to: index)
+    }
+    
+    // json helper
+    func convertToDictionary() -> [String: Any]? {
+        if let data = self.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
     }
 }
 
@@ -895,6 +918,8 @@ class Tags : NSObject {
     static let XibNameListBank = "ListBank"
     static let XibNameTarikTunai3 = "TarikTunai3"
     static let XibNameCalendarPicker = "CalendarPicker"
+    static let XibNameAddProduct3 = "AddProduct3"
+    static let XibNameMultipleImagePicker = "AddProduct3ListImages"
 }
 
 class OrderStatus : NSObject {

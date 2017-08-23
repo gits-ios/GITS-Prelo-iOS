@@ -53,6 +53,14 @@ class CDDraftProduct: NSManagedObject {
     
     @NSManaged var isUploading : Bool
     
+    // v2 -> support rent
+    @NSManaged var imagesPathAndLabel : String
+    @NSManaged var priceRent : String
+    @NSManaged var priceDeposit : String
+    @NSManaged var segment : String
+    @NSManaged var addProductType : NSNumber
+    @NSManaged var rentPeriodType : NSNumber
+    
     static func getAll() -> [CDDraftProduct] {
         let fetchReq : NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "CDDraftProduct")
         fetchReq.sortDescriptors = [NSSortDescriptor(key: "localId", ascending: false)]
@@ -71,10 +79,13 @@ class CDDraftProduct: NSManagedObject {
         fetchRequest.includesPropertyValues = false
         
         do {
-            let r = try m.fetch(fetchRequest) as? [NSManagedObject]
+            let r = try m.fetch(fetchRequest) as? [CDDraftProduct]
             if let results = r
             {
                 for result in results {
+                    
+                    self.removeImages(result)
+                    
                     m.delete(result)
                 }
                 
@@ -252,6 +263,123 @@ class CDDraftProduct: NSManagedObject {
         }
     }
     
+    static func saveDraftV2(_ product: SelectedProductItem) {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let draft : CDDraftProduct? = self.getOne(product.localId)
+        if (draft != nil) {
+            // Update
+            draft?.name = product.name
+            draft?.descriptionText = product.description
+            draft?.weight = product.weight
+            draft?.freeOngkir = NSNumber(value: product.isFreeOngkir.int)
+            draft?.priceOriginal = product.hargaBeli
+            draft?.price = product.hargaJual
+            draft?.commission = product.commision
+            draft?.category = product.category
+            draft?.categoryId = product.categoryId
+            draft?.isCategWomenOrMenSelected = product.isWomenMenCategory
+            draft?.condition = product.condition
+            draft?.conditionId = product.conditionId
+            draft?.brand = product.merk
+            draft?.brandId = product.merkId
+            draft?.size = product.size
+            draft?.defectDescription = product.cacat
+            draft?.sellReason = product.alasanJual
+            draft?.specialStory = product.specialStory
+            draft?.luxuryData_styleName = product.styleName
+            draft?.luxuryData_serialNumber = product.serialNumber
+            draft?.luxuryData_purchaseLocation = product.lokasiBeli
+            draft?.luxuryData_purchaseYear = product.tahunBeli
+            draft?.isLuxury = product.isLuxuryMerk
+            
+            draft?.imagesPathAndLabel = self.setupImages(product)
+            draft?.priceRent = product.hargaSewa
+            draft?.priceDeposit = product.deposit
+            draft?.segment = product.segment
+            draft?.addProductType = NSNumber(value: product.addProductType.rawValue)
+            draft?.rentPeriodType = NSNumber(value: product.modeSewa.rawValue)
+        } else {
+            // Make new
+            let newVer = NSEntityDescription.insertNewObject(forEntityName: "CDDraftProduct", into: m) as! CDDraftProduct
+            newVer.localId = product.localId
+            newVer.name = product.name
+            newVer.descriptionText = product.description
+            newVer.weight = product.weight
+            newVer.freeOngkir = NSNumber(value: product.isFreeOngkir.int)
+            newVer.priceOriginal = product.hargaBeli
+            newVer.price = product.hargaJual
+            newVer.commission = product.commision
+            newVer.category = product.category
+            newVer.categoryId = product.categoryId
+            newVer.isCategWomenOrMenSelected = product.isWomenMenCategory
+            newVer.condition = product.condition
+            newVer.conditionId = product.conditionId
+            newVer.brand = product.merk
+            newVer.brandId = product.merkId
+            newVer.size = product.size
+            newVer.defectDescription = product.cacat
+            newVer.sellReason = product.alasanJual
+            newVer.specialStory = product.specialStory
+            newVer.luxuryData_styleName = product.styleName
+            newVer.luxuryData_serialNumber = product.serialNumber
+            newVer.luxuryData_purchaseLocation = product.lokasiBeli
+            newVer.luxuryData_purchaseYear = product.tahunBeli
+            newVer.isLuxury = product.isLuxuryMerk
+            
+            newVer.imagesPathAndLabel = self.setupImages(product)
+            newVer.priceRent = product.hargaSewa
+            newVer.priceDeposit = product.deposit
+            newVer.segment = product.segment
+            newVer.addProductType = NSNumber(value: product.addProductType.rawValue)
+            newVer.rentPeriodType = NSNumber(value: product.modeSewa.rawValue)
+            
+            newVer.isUploading = false
+        }
+        
+        if (m.saveSave() == false) {
+            //print("saveDraft failed")
+        } else {
+            //print("saveDraft success")
+        }
+    }
+    
+    fileprivate static func setupImages(_ product: SelectedProductItem) -> String {
+        var images: Array<[String:String]> = []
+        
+        if product.imagesDetail.count > 0 {
+            for i in 0..<product.imagesDetail.count {
+                let url = product.imagesDetail[product.imagesIndex[i]].url
+                let lbl = product.imagesDetail[product.imagesIndex[i]].label
+                let ort = product.imagesDetail[product.imagesIndex[i]].orientation ?? 0
+                
+                let image: [String:String] = [
+                    "url"         : url,
+                    "label"       : lbl,
+                    "orientation" : ort.string
+                ]
+                
+                images.append(image)
+            }
+        }
+        
+        return AppToolsObjC.jsonString(from: images)
+    }
+    
+    fileprivate static func removeImages(_ draft: CDDraftProduct) {
+        let jsonstring = "{\"_data\":" + draft.imagesPathAndLabel + "}"
+        //print(jsonstring)
+        
+        let json = jsonstring.convertToDictionary() ?? [:]
+        
+        // Images Preview Cell
+        if let imgs = JSON(json)["_data"].array, imgs.count > 0 {
+            
+            for i in imgs {
+                _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: i["url"].stringValue)
+            }
+        }
+    }
+    
     static func setUploading(_ localId: String, isUploading: Bool) {
         let m = UIApplication.appDelegate.managedObjectContext
         let draft : CDDraftProduct? = self.getOne(localId)
@@ -270,6 +398,9 @@ class CDDraftProduct: NSManagedObject {
         let m = UIApplication.appDelegate.managedObjectContext
         let result : CDDraftProduct? = self.getOne(localId)
         if (result != nil) {
+            
+            self.removeImages(result!)
+            
             m.delete(result!)
         }
         if (m.saveSave() != false) {
