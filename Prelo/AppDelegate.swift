@@ -1949,6 +1949,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 let json = JSON(resp.result.value!)
                 var data = json["_data"]
                 
+                // Save version to core data
+                CDVersion.saveVersions(data)
+                
                 // Check if app need to be updated
                 if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
@@ -2060,39 +2063,54 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     UserDefaults.standard.synchronize()
                 }
                 
-                // change icon from server iOS 10.3.*
-                if #available(iOS 10.3, *) {
-                    guard UIApplication.shared.supportsAlternateIcons,
-                        let iconType = data["icon_launcher"].string else { return }
-                    
-                    // Check apps icon need update?
-                    //let iconType = "ramadhan" // "default", "christmas", "ramadhan",
-                    
-                    // https://stackoverflow.com/questions/42195325/setting-alternate-app-icon-returns-error-3072-the-operation-was-cancelled-in
-                    if iconType == "default" && UIApplication.shared.alternateIconName != nil {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                            UIApplication.shared.setAlternateIconName(nil) { error in
-                                /*if let error = error {
-                                    print("ERROR")
-                                    print(error.localizedDescription)
-                                } else {
-                                    print("Success!")
-                                }*/
+                // Pengecekan versi, jika versi yg diinstall melebihi versi server, munculkan opsi ganti icon
+                if let installedVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                    if let serverVersion = CDVersion.getOne()?.appVersion {
+                        if (serverVersion.compare(installedVersion, options: .numeric, range: nil, locale: nil) == .orderedAscending) {
+                            
+                            // donothing
+                        } else {
+                        
+                            // change icon from server iOS 10.3.*
+                            if #available(iOS 10.3, *) {
+                                guard UIApplication.shared.supportsAlternateIcons,
+                                    let it = data["icon_launcher"].string else { return }
+                                
+                                // Check apps icon need update?
+                                //let it = "ramadhan" // "default", "christmas", "ramadhan",
+                                
+                                let iconType = "ic_" + it
+                                
+                                // https://stackoverflow.com/questions/42195325/setting-alternate-app-icon-returns-error-3072-the-operation-was-cancelled-in
+                                if iconType == "ic_default" && UIApplication.shared.alternateIconName != nil {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        UIApplication.shared.setAlternateIconName(nil) { error in
+                                            /*if let error = error {
+                                             print("ERROR")
+                                             print(error.localizedDescription)
+                                             } else {
+                                             print("Success!")
+                                             }*/
+                                        }
+                                    })
+                                } else if UIApplication.shared.alternateIconName != iconType && iconType != "ic_default" {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        UIApplication.shared.setAlternateIconName(iconType) { error in
+                                            /*if let error = error {
+                                             print("ERROR")
+                                             print(String(describing: error))
+                                             } else {
+                                             print("Success!")
+                                             }*/
+                                        }
+                                    })
+                                }
                             }
-                        })
-                    } else if UIApplication.shared.alternateIconName != iconType && iconType != "default" {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
-                            UIApplication.shared.setAlternateIconName(iconType) { error in
-                                /*if let error = error {
-                                    print("ERROR")
-                                    print(String(describing: error))
-                                } else {
-                                    print("Success!")
-                                }*/
-                            }
-                        })
+                            
+                        }
                     }
                 }
+                
             }
         }
     }
