@@ -1314,6 +1314,14 @@ class AddProductViewController3: BaseViewController {
         } else {
             alertView.addBorderButton("Keluar", backgroundColor: UIColor.white, textColor: Theme.PrimaryColor, borderColor: Theme.PrimaryColor, borderRadius: 4.0, borderWidth: 2.0, showDurationStatus: false) {
                 
+                if !self.product.isDraftMode {
+                    for i in self.product.imagesDetail {
+                        if i.url != "" && i.image != nil {
+                            _ = TemporaryImageManager.sharedInstance.deleteImage(imageName: i.url)
+                        }
+                    }
+                }
+                
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
