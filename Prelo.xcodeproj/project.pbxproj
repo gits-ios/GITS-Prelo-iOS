@@ -731,7 +731,7 @@
 		B2B948D31F4ABE8D00A69321 /* ProductDetail2SellerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948D21F4ABE8D00A69321 /* ProductDetail2SellerCell.xib */; };
 		B2B948E51F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948E41F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib */; };
 		B2B948E71F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948E61F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib */; };
-		B2B948E91F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948E81F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib */; };
+		B2B948E91F4B207000A69321 /* ProductDetail2DescriptionRentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948E81F4B207000A69321 /* ProductDetail2DescriptionRentCell.xib */; };
 		B2B948EB1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */; };
 		B2B948ED1F4B252A00A69321 /* ProductDetail2CommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */; };
 		B2B948EF1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */; };
@@ -1962,7 +1962,7 @@
 		B2B948D21F4ABE8D00A69321 /* ProductDetail2SellerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2SellerCell.xib; sourceTree = "<group>"; };
 		B2B948E41F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2DescriptionCell.xib; sourceTree = "<group>"; };
 		B2B948E61F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2DescriptionSellCell.xib; sourceTree = "<group>"; };
-		B2B948E81F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2DecriptionRentCell.xib; sourceTree = "<group>"; };
+		B2B948E81F4B207000A69321 /* ProductDetail2DescriptionRentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2DescriptionRentCell.xib; sourceTree = "<group>"; };
 		B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2TitleSectionCell.xib; sourceTree = "<group>"; };
 		B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2CommentCell.xib; sourceTree = "<group>"; };
 		B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2AddCommentCell.xib; sourceTree = "<group>"; };
@@ -3635,7 +3635,7 @@
 				B2B948D21F4ABE8D00A69321 /* ProductDetail2SellerCell.xib */,
 				B2B948E41F4B1F8B00A69321 /* ProductDetail2DescriptionCell.xib */,
 				B2B948E61F4B205600A69321 /* ProductDetail2DescriptionSellCell.xib */,
-				B2B948E81F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib */,
+				B2B948E81F4B207000A69321 /* ProductDetail2DescriptionRentCell.xib */,
 				B2B948EA1F4B22E800A69321 /* ProductDetail2TitleSectionCell.xib */,
 				B2B948EC1F4B252A00A69321 /* ProductDetail2CommentCell.xib */,
 				B2B948EE1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib */,
@@ -4388,7 +4388,7 @@
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
 				B2D965EC1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib in Resources */,
 				B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */,
-				B2B948E91F4B207000A69321 /* ProductDetail2DecriptionRentCell.xib in Resources */,
+				B2B948E91F4B207000A69321 /* ProductDetail2DescriptionRentCell.xib in Resources */,
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
 				580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */,
 				21EEB4771B87095C00CAD5C9 /* ic_phone.png in Resources */,

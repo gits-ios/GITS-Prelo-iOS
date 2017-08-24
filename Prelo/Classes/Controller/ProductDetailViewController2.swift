@@ -221,16 +221,24 @@ class ProductDetailViewController2: BaseViewController {
     }
     
     func setupView() {
+        let sellerId = productDetail.json["_data"]["seller"]["_id"].stringValue
+        let listingType = productDetail.json["_data"]["listing_type"].intValue
+        
         self.listSections = []
         self.listSections.append(.cover)
         self.listSections.append(.titleProduct)
         self.listSections.append(.seller)
         self.listSections.append(.description)
-        self.listSections.append(.descSell)
+        
+        if listingType == 0 || listingType == 2 {
+            self.listSections.append(.descSell)
+        }
+        if listingType == 1 || listingType == 2 {
+            self.listSections.append(.descRent)
+        }
+        
         self.listSections.append(.comment)
         
-        let sellerId = productDetail.json["_data"]["seller"]["_id"].stringValue
-        let listingType = productDetail.json["_data"]["listing_type"].intValue
         
         if User.Id == sellerId {
             self.vwSeller.isHidden = false
@@ -1111,7 +1119,7 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     func adapt(_ productDetail: ProductDetail) {
         let product = productDetail.json["_data"]
         
-        self.lbSpecialStory.text = "\"" + productDetail.specialStory + "\""
+        self.lbSpecialStory.text = productDetail.specialStory != "" ? "\"" + productDetail.specialStory + "\"" : ""
         
         // category
         if let arr = product["category_breadcrumbs"].array, arr.count > 0 {
@@ -1245,7 +1253,7 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     static func heightFor(_ productDetail: ProductDetail) -> CGFloat {
         let product = productDetail.json["_data"]
         
-        let specialStory = "\"" + productDetail.specialStory + "\""
+        let specialStory = productDetail.specialStory != "" ? "\"" + productDetail.specialStory + "\"" : ""
         let description = product["description"].stringValue
         let isSize = product["size"].stringValue != "" ? true : false
         let isCacat = product["defect_description"].stringValue != "" ? true : false

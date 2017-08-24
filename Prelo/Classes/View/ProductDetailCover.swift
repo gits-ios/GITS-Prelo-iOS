@@ -279,6 +279,12 @@ class CoverZoomController : BaseViewController, UIScrollViewDelegate
                 let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: images[i])
                 if image == nil {
                     print ("Failed to load image")
+                    
+                    //Constant.showDialog("Perbesar Gambar", message: "Mohon tunggu sebentar, dan ulangi lagi")
+                    
+                    iv.image = UIImage(named: (AppTools.isIPad ? "placeholder-transparent-ipad-gray" : "placeholder-transparent-gray"))
+                    
+                    continue
                 }
 
                 let orientation = UIImageOrientation.init(rawValue: imagesOrientation[i])
