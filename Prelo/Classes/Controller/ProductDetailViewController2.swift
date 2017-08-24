@@ -106,7 +106,7 @@ class ProductDetailViewController2: BaseViewController {
     
     // view
     var listSections: Array<ProductDetail2SectionType> = []
-    var isFirst = true
+    var thisScreen = ""
     
     // MARK: - Init
     
@@ -164,11 +164,60 @@ class ProductDetailViewController2: BaseViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if isFirst {
-            self.getDetail()
-            
-            isFirst = false
+        if self.productDetail != nil {
+            if AppTools.isNewCart { // v2
+                let sellerId = self.productDetail.json["_data"]["seller"]["_id"].stringValue
+                if CartManager.sharedInstance.contain(sellerId, productId: self.productDetail.productID) {
+                    alreadyInCart = true
+                } else {
+                    alreadyInCart = false
+                }
+            } else { // v1
+                if (CartProduct.isExist(productDetail.productID, email : User.EmailOrEmptyString)) {
+                    alreadyInCart = true
+                } else {
+                    alreadyInCart = false
+                }
+            }
         }
+        
+        if (self.navigationController != nil) {
+            if ((self.navigationController?.isNavigationBarHidden)! == true)
+            {
+                self.navigationController?.setNavigationBarHidden(false, animated: true)
+            }
+        }
+        
+        if (UIApplication.shared.isStatusBarHidden) {
+            UIApplication.shared.isStatusBarHidden = false
+        }
+        
+        if (productDetail != nil && productDetail.isMyProduct == true) {
+            self.thisScreen = PageName.ProductDetailMine
+        } else {
+            self.thisScreen = PageName.ProductDetail
+        }
+        
+        // Google Analytics
+        GAI.trackPageVisit(self.thisScreen)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.setNeedsStatusBarAppearanceUpdate()
+        
+        if (productDetail == nil || isNeedReload) {
+            getDetail()
+            
+            isNeedReload = false
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return UIStatusBarStyle.lightContent
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return UIApplication.shared.isStatusBarHidden
     }
     
     func setupView() {
@@ -179,6 +228,25 @@ class ProductDetailViewController2: BaseViewController {
         self.listSections.append(.description)
         self.listSections.append(.descSell)
         self.listSections.append(.comment)
+        
+        let sellerId = productDetail.json["_data"]["seller"]["_id"].stringValue
+        let listingType = productDetail.json["_data"]["listing_type"].intValue
+        
+        if User.Id == sellerId {
+            self.vwSeller.isHidden = false
+        } else {
+            if listingType == 0 {
+                self.vwBuyer_Buy.isHidden = false
+            } else if listingType == 1 {
+                self.vwBuyer_Rent.isHidden = false
+            } else if listingType == 2 {
+                self.vwBuyer_BuyRent.isHidden = false
+            } else if productDetail.status == 1 {
+                self.vwBuyer_PaymentConfirmation.isHidden = false
+            } else if productDetail.isCheckout { // karena affiliate juga butuh payment confirm
+                self.vwBuyer_Affiliate.isHidden = false
+            }
+        }
         
         self.tableView.reloadData()
     }
@@ -238,6 +306,25 @@ class ProductDetailViewController2: BaseViewController {
     @IBAction func btnSoldPressed(_ sender: Any) {
     }
     @IBAction func btnEditPressed(_ sender: Any) {
+        self.showLoading()
+        
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        addProduct3VC.editDoneBlock = {
+            self.isNeedReload = true
+        }
+        addProduct3VC.topBannerText = productDetail.rejectionText
+        addProduct3VC.delegate = self.delegate
+        addProduct3VC.screenBeforeAddProduct = PageName.ProductDetailMine
+        
+        // API Migrasi
+        let _ = request(APIProduct.detail(productId: productDetail.productID, forEdit: 1)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
+                addProduct3VC.editProduct = ProductDetail.instance(JSON(resp.result.value!))
+                
+                self.hideLoading()
+                self.navigationController?.pushViewController(addProduct3VC, animated: true)
+            }
+        }
     }
     
     @IBAction func btnChatPressed(_ sender: Any) {
@@ -313,6 +400,17 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         case .cover:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2CoverCell") as! ProductDetail2CoverCell
             cell.adapt(self.productDetail!)
+            
+            cell.zoomImage = { index in
+                let c = CoverZoomController()
+                
+                c.labels = self.productDetail.imageLabels
+                c.images = self.productDetail.displayPicturers
+                c.index = index
+                
+                self.parent?.present(c, animated: true, completion: nil)
+            }
+            
             return cell
         case .titleProduct:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleCell") as! ProductDetail2TitleCell
@@ -325,6 +423,28 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         case .description:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionCell") as! ProductDetail2DescriptionCell
             cell.adapt(self.productDetail!)
+
+            
+            cell.openCategory = { name, id in
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let l = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                l.currentMode = .filter
+                l.fltrSortBy = "recent"
+                l.fltrCategId = id
+                l.previousScreen = self.thisScreen
+                self.navigationController?.pushViewController(l, animated: true)
+            }
+            
+            cell.openMerk = { name, id in
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let l = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                l.currentMode = .filter
+                l.fltrSortBy = "recent"
+                l.fltrBrands = [name : id]
+                l.previousScreen = self.thisScreen
+                self.navigationController?.pushViewController(l, animated: true)
+            }
+            
             return cell
         case .descSell:
             if row == 0 {
@@ -554,8 +674,10 @@ class ProductDetail2CoverCell: UITableViewCell {
     @IBOutlet weak var vwContainerCarousel: UIView!
     
     var carousel: iCarousel = iCarousel()
+    var pageIndicator: UIPageControl = UIPageControl()
     
     var images: Array<String> = []
+    var currentPage = 0
     
     var zoomImage: (_ index: Int)->() = {_ in }
     
@@ -565,8 +687,16 @@ class ProductDetail2CoverCell: UITableViewCell {
         self.carousel.type = .timeMachine
         self.carousel.decelerationRate = 0.3
         
+        self.pageIndicator.frame = CGRect(x: 0, y: 200, width: self.vwContainerCarousel.bounds.width, height: 16)
+        self.vwContainerCarousel.addSubview(pageIndicator)
+        
         self.carousel.delegate = self
         self.carousel.dataSource = self
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ productDetail: ProductDetail) {
@@ -575,6 +705,9 @@ class ProductDetail2CoverCell: UITableViewCell {
         self.carousel.width = AppTools.screenWidth
         
         //print(self.carousel.frame)
+        
+        self.pageIndicator.numberOfPages = self.images.count
+        self.pageIndicator.currentPage = self.currentPage
         
         self.carousel.reloadData()
     }
@@ -594,14 +727,14 @@ extension ProductDetail2CoverCell: iCarouselDataSource, iCarouselDelegate {
         var itemView: UIImageView
         if (view == nil)
         {
-            itemView = UIImageView(frame:CGRect(x:0, y:0, width:320, height:216))
+            itemView = UIImageView(frame:CGRect(x: 0, y: 0, width: AppTools.screenWidth, height: 216))
             itemView.contentMode = .scaleAspectFit
         }
         else
         {
             itemView = view as! UIImageView;
         }
-        itemView.afSetImage(withURL: URL(string: self.images[index])!)
+        itemView.afSetImage(withURL: URL(string: self.images[index])!, withFilter: .fillWithoutPlaceHolder)
         return itemView
     }
     
@@ -610,6 +743,18 @@ extension ProductDetail2CoverCell: iCarouselDataSource, iCarouselDelegate {
             return value * 1.1
         }
         return value
+    }
+    
+    func carouselDidScroll(_ carousel: iCarousel) {
+        if self.currentPage != carousel.currentItemIndex {
+            self.currentPage = carousel.currentItemIndex
+            self.pageIndicator.currentPage = self.currentPage
+        }
+    }
+    
+    func carouselDidEndScrollingAnimation(_ carousel: iCarousel) {
+        self.currentPage = carousel.currentItemIndex
+        self.pageIndicator.currentPage = self.currentPage
     }
     
     func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
@@ -644,7 +789,7 @@ class ProductDetail2TitleCell: UITableViewCell {
     @IBOutlet weak var consTopVwShareBuyer: NSLayoutConstraint! // 68 -> 38
     @IBOutlet weak var vwLove: BorderedView! // subview
     @IBOutlet weak var lbCountLove: UILabel!
-    @IBOutlet weak var vwComment: BorderedView! // subview
+    @IBOutlet weak var vwComment: BorderedView! // subview , hide for affiliate
     @IBOutlet weak var imgComment: TintedImageView! // tinted
     @IBOutlet weak var lbCountComment: UILabel!
     @IBOutlet weak var imgShareBuyer: TintedImageView! // tint
@@ -662,6 +807,11 @@ class ProductDetail2TitleCell: UITableViewCell {
         
         self.imgComment.tint = true
         self.imgComment.tintColor = self.vwComment.borderColor
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ productDetail: ProductDetail, productItem: ProductHelperItem) {
@@ -779,7 +929,12 @@ class ProductDetail2TitleCell: UITableViewCell {
                 }
             }
             
-            self.lbCountComment.text = productDetail.discussionCountText
+            if productDetail.isCheckout {
+                self.vwComment.isHidden = true
+            } else {
+                self.vwComment.isHidden = false
+                self.lbCountComment.text = productDetail.discussionCountText
+            }
         }
     }
     
@@ -871,6 +1026,11 @@ class ProductDetail2SellerCell: UITableViewCell {
         self.floatRatingView.tintColor = Theme.ThemeRed
         
         self.vwContainerLove.addSubview(self.floatRatingView)
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ productDetail: ProductDetail) {
@@ -931,10 +1091,21 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbTimeStamp: UILabel!
     
+    var openMerk: (_ name: String, _ id: String)->() = {_, _ in }
+    var openCategory: (_ name: String, _ id: String)->() = {_, _ in }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         
         self.lbAlasanJual.numberOfLines = 0
+        
+        self.lbCategory.tapDelegate = self
+        self.lbMerk.tapDelegate = self
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ productDetail: ProductDetail) {
@@ -1098,9 +1269,30 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     }
 }
 
+extension ProductDetail2DescriptionCell: ZSWTappableLabelTapDelegate {
+    func tappableLabel(_ tappableLabel: ZSWTappableLabel!, tappedAt idx: Int, withAttributes attributes: [AnyHashable: Any]!) {
+        
+        if let name = attributes["brand"] as? String, let id = attributes["brand_id"] as? String { // Brand clicked
+            self.openMerk(name, id)
+            
+        } else if let name = attributes["category_name"] as? String, let id = attributes["category_id"] as? String {
+            self.openCategory(name, id)
+        }
+    }
+}
+
 // MARK: - Description (Product) Sell Cell
 class ProductDetail2DescriptionSellCell: UITableViewCell {
     @IBOutlet weak var lbSellerRegion: UILabel!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
     
     func adapt(_ productDetail: ProductDetail) {
         let product = productDetail.json["_data"]
@@ -1127,6 +1319,15 @@ class ProductDetail2DescriptionSellCell: UITableViewCell {
 class ProductDetail2DescriptionRentCell: UITableViewCell {
     @IBOutlet weak var lbDeposit: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
     func adapt(_ productDetail: ProductDetail) {
         let product = productDetail.json["_data"]
         
@@ -1148,6 +1349,15 @@ class ProductDetail2DescriptionRentCell: UITableViewCell {
 class ProductDetail2TitleSectionCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet weak var lbAccordion: UILabel! // default hide, hide if commentar, open: , close: 
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
     
     func adapt(_ title: String, isOpen: Bool, isShow: Bool) {
         self.lbTitle.text = title
@@ -1193,6 +1403,11 @@ class ProductDetail2CommentCell: UITableViewCell {
         
         imgAvatar.layer.borderColor = Theme.GrayLight.cgColor
         imgAvatar.layer.borderWidth = 2
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
     }
     
     func adapt(_ productDiscussion: ProductDiscussion, isBottom: Bool) {
@@ -1236,6 +1451,15 @@ class ProductDetail2CommentCell: UITableViewCell {
 // MARK: - Add Comment Cell (btn)
 class ProductDetail2AddCommentCell: UITableViewCell {
     var addComment: ()->() = {}
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
     
     // 75
     static func heightFor() -> CGFloat {
