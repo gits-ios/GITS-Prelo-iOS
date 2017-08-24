@@ -560,9 +560,10 @@ class ProductDetail2CoverCell: UITableViewCell {
     var zoomImage: (_ index: Int)->() = {_ in }
     
     override func awakeFromNib() {
+        self.vwContainerCarousel.backgroundColor = Theme.GrayGranite
         self.vwContainerCarousel.addSubview(carousel)
-        self.carousel.frame = self.vwContainerCarousel.bounds
         self.carousel.type = .timeMachine
+        self.carousel.decelerationRate = 0.3
         
         self.carousel.delegate = self
         self.carousel.dataSource = self
@@ -570,6 +571,10 @@ class ProductDetail2CoverCell: UITableViewCell {
     
     func adapt(_ productDetail: ProductDetail) {
         self.images = productDetail.displayPicturers
+        self.carousel.frame = self.vwContainerCarousel.bounds
+        self.carousel.width = AppTools.screenWidth
+        
+        //print(self.carousel.frame)
         
         self.carousel.reloadData()
     }
@@ -589,7 +594,7 @@ extension ProductDetail2CoverCell: iCarouselDataSource, iCarouselDelegate {
         var itemView: UIImageView
         if (view == nil)
         {
-            itemView = UIImageView(frame:CGRect(x:0, y:0, width:240, height:200))
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width:320, height:216))
             itemView.contentMode = .scaleAspectFit
         }
         else
