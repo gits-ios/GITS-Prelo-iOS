@@ -384,6 +384,8 @@ class ProductDetailViewController2: BaseViewController {
         c.sendComment = {
             self.isNeedReload = true
         }
+        
+        self.hideLoading()
         self.navigationController?.pushViewController(c, animated: true)
     }
 }
