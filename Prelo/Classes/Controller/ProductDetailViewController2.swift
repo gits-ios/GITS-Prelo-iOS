@@ -375,10 +375,15 @@ class ProductDetailViewController2: BaseViewController {
     }
     
     func gotoProductComment() {
+        self.showLoading()
+        
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let c = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductComments) as! ProductCommentsController
         c.pDetail = self.productDetail
         c.previousScreen = thisScreen
+        c.sendComment = {
+            self.isNeedReload = true
+        }
         self.navigationController?.pushViewController(c, animated: true)
     }
 }
@@ -413,7 +418,6 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         default:
             return self.listSections[section].numberOfCell
         }
-        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -556,8 +560,6 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
                         LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
                     } else
                     {
-                        self.isNeedReload = true
-                        
                         self.gotoProductComment()
                     }
                 }
@@ -804,8 +806,6 @@ extension ProductDetailViewController2: UserRelatedDelegate {
     func userLoggedIn() {
         if (loginComment)
         {
-            isNeedReload = true
-            
             self.gotoProductComment()
         }
     }
@@ -1004,7 +1004,7 @@ class ProductDetail2TitleCell: UITableViewCell {
             self.vwShareSeller.isHidden = false
             self.vwShareBuyer.isHidden = true
             
-            let txt = "Share utk keuntungan lebih, keuntungan sekarang: \(productItem.productProfit)%"
+            let txt = "Share untuk keuntungan lebih, keuntungan sekarang: \(productItem.productProfit)%"
             let attTxt = NSMutableAttributedString(string: txt)
             attTxt.addAttributes([NSForegroundColorAttributeName: Theme.PrimaryColor], range: (txt as NSString).range(of: "\(productItem.productProfit)%"))
             self.lbShareDetail.attributedText = attTxt
@@ -1110,7 +1110,7 @@ class ProductDetail2TitleCell: UITableViewCell {
             h += 34
         }
         
-        return 12 + t.height + h // count subtitle height
+        return t.height + h // count subtitle height
     }
     
     @IBAction func btnInstagramPressed(_ sender: Any) {
