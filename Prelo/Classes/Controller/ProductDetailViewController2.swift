@@ -727,6 +727,8 @@ class ProductDetail2CoverCell: UITableViewCell {
 }
 
 extension ProductDetail2CoverCell: iCarouselDataSource, iCarouselDelegate {
+    // http://www.theappguruz.com/blog/how-to-use-icarousel-view-controller-in-ios
+    
     func numberOfItems(in carousel: iCarousel) -> Int {
         return images.count
     }
