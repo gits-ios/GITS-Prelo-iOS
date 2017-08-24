@@ -17,16 +17,16 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="181" id="01G-UV-g1c" customClass="ProductDetail2TitleCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="326" height="190"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="212" id="01G-UV-g1c" customClass="ProductDetail2TitleCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="326" height="221"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="01G-UV-g1c" id="Tsz-ji-HPN">
-                <rect key="frame" x="0.0" y="0.0" width="326" height="189.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="326" height="220.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Title Barang Title Barang Title Barang Title Barang Title Barang Title Barang Title Barang Title Barang" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aur-uV-7uA">
-                        <rect key="frame" x="12" y="12" width="249" height="50.5"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <rect key="frame" x="12" y="12" width="249" height="76.5"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                         <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -47,7 +47,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X1y-Xn-Hw0" userLabel="Vw Sell">
-                        <rect key="frame" x="12" y="70.5" width="302" height="22"/>
+                        <rect key="frame" x="12" y="96.5" width="302" height="22"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FmF-dV-ehC">
                                 <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
@@ -76,7 +76,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o2G-Dj-uBN" userLabel="Vw Rent">
-                        <rect key="frame" x="12" y="100.5" width="302" height="22"/>
+                        <rect key="frame" x="12" y="126.5" width="302" height="22"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0yS-J8-oRZ">
                                 <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
@@ -105,7 +105,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kHv-PA-ff6" userLabel="Vw Share Seller">
-                        <rect key="frame" x="12" y="130.5" width="302" height="50"/>
+                        <rect key="frame" x="12" y="156.5" width="302" height="50"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Share untuk keuntungan lebih (keuntungan sekarang 94%)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="3rO-yW-4sV">
                                 <rect key="frame" x="0.0" y="0.0" width="302" height="12"/>
@@ -326,7 +326,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lat-5B-2BJ" userLabel="Vw Share Buyer">
-                        <rect key="frame" x="12" y="130.5" width="302" height="34"/>
+                        <rect key="frame" x="12" y="156.5" width="302" height="34"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uSy-dw-JQ6" userLabel="Love" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="90" height="34"/>
@@ -560,7 +560,7 @@
                 <outlet property="vwShareBuyer" destination="lat-5B-2BJ" id="90u-GJ-jge"/>
                 <outlet property="vwShareSeller" destination="kHv-PA-ff6" id="QzM-dR-Rt0"/>
             </connections>
-            <point key="canvasLocation" x="-55" y="17"/>
+            <point key="canvasLocation" x="-55" y="32.5"/>
         </tableViewCell>
     </objects>
     <resources>

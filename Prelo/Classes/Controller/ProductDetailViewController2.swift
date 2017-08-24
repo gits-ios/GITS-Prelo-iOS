@@ -107,6 +107,7 @@ class ProductDetailViewController2: BaseViewController {
     // view
     var listSections: Array<ProductDetail2SectionType> = []
     var thisScreen = ""
+    var loginComment = false
     
     // MARK: - Init
     
@@ -237,8 +238,10 @@ class ProductDetailViewController2: BaseViewController {
             self.listSections.append(.descRent)
         }
         
-        self.listSections.append(.comment)
-        
+        // non-affiliate
+        if !self.productDetail.isCheckout {
+            self.listSections.append(.comment)
+        }
         
         if User.Id == sellerId {
             self.vwSeller.isHidden = false
@@ -348,6 +351,19 @@ class ProductDetailViewController2: BaseViewController {
     @IBAction func btnConfirmPressed(_ sender: Any) {
     }
     
+    // MARK: - Section Helper
+    func findSectionFromType(_ type: ProductDetail2SectionType) -> Int {
+        if self.listSections.count > 0 {
+            for i in 0..<self.listSections.count {
+                if self.listSections[i] == type {
+                    return i
+                }
+            }
+        }
+        
+        return -1
+    }
+    
     // MARK: - Other functions
     
     func showLoading() {
@@ -356,6 +372,14 @@ class ProductDetailViewController2: BaseViewController {
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+    
+    func gotoProductComment() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let c = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductComments) as! ProductCommentsController
+        c.pDetail = self.productDetail
+        c.previousScreen = thisScreen
+        self.navigationController?.pushViewController(c, animated: true)
     }
 }
 
@@ -366,31 +390,63 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.listSections[section].numberOfCell
+        let listingType = productDetail.json["_data"]["listing_type"].intValue
+        switch(listSections[section]) {
+        case .descSell:
+            if listingType == 0 && self.listSections[section] == .descSell {
+                return 1
+            } else if listingType == 2 && !self.isOpen { // close
+                return 1
+            } else {
+                return self.listSections[section].numberOfCell
+            }
+        case .descRent:
+            if listingType == 1 && self.listSections[section] == .descRent {
+                return 1
+            } else if listingType == 2 && self.isOpen { // close
+                return 1
+            } else {
+                return self.listSections[section].numberOfCell
+            }
+        case .comment:
+            return self.listSections[section].numberOfCell + (self.productDetail.discussions?.count)!
+        default:
+            return self.listSections[section].numberOfCell
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let section = indexPath.section
         let row = indexPath.row
+        let listingType = productDetail.json["_data"]["listing_type"].intValue
         switch(listSections[section]) {
         case .cover:
             return ProductDetail2CoverCell.heightFor()
         case .titleProduct:
-            return ProductDetail2TitleCell.heightFor(self.productDetail!)
+            return ProductDetail2TitleCell.heightFor(self.productDetail)
         case .seller:
             return ProductDetail2SellerCell.heightFor()
         case .description:
-            return ProductDetail2DescriptionCell.heightFor(self.productDetail!)
+            return ProductDetail2DescriptionCell.heightFor(self.productDetail)
         case .descSell:
-            if row == 0 {
-                return ProductDetail2TitleSectionCell.heightFor()
+            if listingType == 0 {
+                return ProductDetail2DescriptionSellCell.heightFor(self.productDetail)
+            } else {
+                if row == 0 {
+                    return ProductDetail2TitleSectionCell.heightFor()
+                }
+                return ProductDetail2DescriptionSellCell.heightFor(self.productDetail)
             }
-            return ProductDetail2DescriptionSellCell.heightFor()
         case .descRent:
-            if row == 0 {
-                return ProductDetail2TitleSectionCell.heightFor()
+            if listingType == 1 {
+                return ProductDetail2DescriptionRentCell.heightFor()
+            } else {
+                if row == 0 {
+                    return ProductDetail2TitleSectionCell.heightFor()
+                }
+                return ProductDetail2DescriptionRentCell.heightFor()
             }
-            return ProductDetail2DescriptionRentCell.heightFor()
         case .comment:
             if row == 0 {
                 return ProductDetail2TitleSectionCell.heightFor()
@@ -404,10 +460,11 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let section = indexPath.section
         let row = indexPath.row
+        let listingType = productDetail.json["_data"]["listing_type"].intValue
         switch(listSections[section]) {
         case .cover:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2CoverCell") as! ProductDetail2CoverCell
-            cell.adapt(self.productDetail!)
+            cell.adapt(self.productDetail)
             
             cell.zoomImage = { index in
                 let c = CoverZoomController()
@@ -422,15 +479,15 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
             return cell
         case .titleProduct:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleCell") as! ProductDetail2TitleCell
-            cell.adapt(self.productDetail!, productItem: self.productItem)
+            cell.adapt(self.productDetail, productItem: self.productItem)
             return cell
         case .seller:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2SellerCell") as! ProductDetail2SellerCell
-            cell.adapt(self.productDetail!)
+            cell.adapt(self.productDetail)
             return cell
         case .description:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionCell") as! ProductDetail2DescriptionCell
-            cell.adapt(self.productDetail!)
+            cell.adapt(self.productDetail)
 
             
             cell.openCategory = { name, id in
@@ -455,23 +512,35 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
             
             return cell
         case .descSell:
-            if row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
-                cell.adapt("JUAL", isOpen: self.isOpen, isShow: true)
+            if listingType == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionSellCell") as! ProductDetail2DescriptionSellCell
+                cell.adapt(self.productDetail)
+                return cell
+            } else {
+                if row == 0 {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
+                    cell.adapt("JUAL", isOpen: self.isOpen, isShow: true)
+                    return cell
+                }
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionSellCell") as! ProductDetail2DescriptionSellCell
+                cell.adapt(self.productDetail)
                 return cell
             }
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionSellCell") as! ProductDetail2DescriptionSellCell
-            cell.adapt(self.productDetail!)
-            return cell
         case .descRent:
-            if row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
-                cell.adapt("SEWA", isOpen: !self.isOpen, isShow: true)
+            if listingType == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionRentCell") as! ProductDetail2DescriptionRentCell
+                cell.adapt(self.productDetail)
+                return cell
+            } else {
+                if row == 0 {
+                    let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
+                    cell.adapt("SEWA", isOpen: !self.isOpen, isShow: true)
+                    return cell
+                }
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionRentCell") as! ProductDetail2DescriptionRentCell
+                cell.adapt(self.productDetail)
                 return cell
             }
-            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionRentCell") as! ProductDetail2DescriptionRentCell
-            cell.adapt(self.productDetail!)
-            return cell
         case .comment:
             if row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
@@ -479,11 +548,61 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
                 return cell
             } else if row == (self.productDetail?.discussions?.count)! + 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2AddCommentCell") as! ProductDetail2AddCommentCell
+                
+                cell.addComment = {
+                    if (User.IsLoggedIn == false)
+                    {
+                        self.loginComment = true
+                        LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+                    } else
+                    {
+                        self.isNeedReload = true
+                        
+                        self.gotoProductComment()
+                    }
+                }
+                
                 return cell
             }
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2CommentCell") as! ProductDetail2CommentCell
             cell.adapt((self.productDetail?.discussions?.objectAtCircleIndex(row  - 1))!, isBottom: row == (self.productDetail?.discussions?.count)!)
             return cell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let section = indexPath.section
+        let row = indexPath.row
+        let listingType = productDetail.json["_data"]["listing_type"].intValue
+        switch(listSections[section]) {
+        case .seller:
+            if (!AppTools.isNewShop) {
+                let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                let d = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+                d.currentMode = .shop
+                if let name = self.productDetail.json["_data"]["seller"]["username"].string {
+                    d.shopName = name
+                }
+                if let name = self.productDetail.json["_data"]["seller"]["_id"].string {
+                    d.shopId = name
+                }
+                d.previousScreen = thisScreen
+                self.navigationController?.pushViewController(d, animated: true)
+                
+            } else {
+                let storePageTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameStorePage, owner: nil, options: nil)?.first as! StorePageTabBarViewController
+                storePageTabBarVC.shopId = self.productDetail.json["_data"]["seller"]["_id"].string
+                storePageTabBarVC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(storePageTabBarVC, animated: true)
+            }
+        case .descSell,
+             .descRent:
+            if row == 0 && listingType == 2 {
+                self.isOpen = !self.isOpen
+                
+                self.tableView.reloadSections(IndexSet.init(arrayLiteral: self.findSectionFromType(.descSell), self.findSectionFromType(.descRent)), with: .fade)
+            }
+        default: return
         }
     }
 }
@@ -641,7 +760,7 @@ extension ProductDetailViewController2 {
         self.add2cartPopup?.isHidden = false
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-            self.add2cartPopup?.setupPopUp(self.productDetail!)
+            self.add2cartPopup?.setupPopUp(self.productDetail)
             self.add2cartPopup?.displayPopUp()
         })
     }
@@ -673,6 +792,25 @@ extension ProductDetailViewController2 {
                 //self.addProduct2cart()
             }
         }
+        
+    }
+}
+
+extension ProductDetailViewController2: UserRelatedDelegate {
+    func userCancelLogin() {
+        
+    }
+    
+    func userLoggedIn() {
+        if (loginComment)
+        {
+            isNeedReload = true
+            
+            self.gotoProductComment()
+        }
+    }
+    
+    func userLoggedOut() {
         
     }
 }
@@ -957,7 +1095,7 @@ class ProductDetail2TitleCell: UITableViewCell {
         let sellerId = product["seller"]["_id"].stringValue
         
         // 12 + 8 + 20 + 4 + 21 + 12, fs 14pt
-        let t = title.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 8 + 20 + 4 + 21 + 12))
+        let t = title.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 16), width: AppTools.screenWidth - (12 + 8 + 20 + 4 + 21 + 12))
         
         var h: CGFloat = 38 // type 0/1
         if listingType == 2 {
@@ -1260,13 +1398,31 @@ class ProductDetail2DescriptionCell: UITableViewCell {
         let isSize = product["size"].stringValue != "" ? true : false
         let isCacat = product["defect_description"].stringValue != "" ? true : false
         
+        var categoryString = ""
+        if let arr = product["category_breadcrumbs"].array, arr.count > 0 {
+            for i in 1..<arr.count {
+                let d = arr[i]
+                let name = d["name"].stringValue
+                categoryString += name
+                if (i != arr.count-1) {
+                    categoryString += "  "
+                }
+            }
+        }
+        
+        let sellReason = productDetail.sellReason
+        
         // 12 + 12, ft 14
         //let text = "\"" + specialStory
-        let t = specialStory.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
+        let t = specialStory.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
         
-        let d = description.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
+        let d = description.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
         
-        var h: CGFloat = 21 * 5 + 8 * 3
+        let c = categoryString.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 109)
+        
+        let r = sellReason.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 109)
+        
+        var h: CGFloat = 4 * 2 + 21 * 3 + 8 * 3
         if isSize {
             h += 21
         }
@@ -1275,7 +1431,7 @@ class ProductDetail2DescriptionCell: UITableViewCell {
             h += 21
         }
         
-        return 12 + t.height + d.height + h + 21 + 12
+        return 12 + t.height + d.height + c.height + r.height + h + 21 + 12
     }
 }
 
@@ -1307,7 +1463,10 @@ class ProductDetail2DescriptionSellCell: UITableViewCell {
     func adapt(_ productDetail: ProductDetail) {
         let product = productDetail.json["_data"]
         
-        var region = product["seller_region"]["name"].stringValue
+        var region = product["location"]["subdistrict_name"].stringValue
+        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
+            region += ", " + reg
+        }
         if region == "" {
             region = "Unknown"
         }
@@ -1316,12 +1475,23 @@ class ProductDetail2DescriptionSellCell: UITableViewCell {
     }
     
     // count description
-    static func heightFor() -> CGFloat {
+    static func heightFor(_ productDetail: ProductDetail) -> CGFloat {
         // 12 + 8 + 32 + 2 + 8 + 12, ft 12
         let text = "Waktu Jaminan Prelo. Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang \"Diterima\" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan."
-        let t = text.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
+        let t = text.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
         
-        return 79 + t.height + 8 + 12
+        let product = productDetail.json["_data"]
+        var region = product["location"]["subdistrict_name"].stringValue
+        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
+            region += ", " + reg
+        }
+        if region == "" {
+            region = "Unknown"
+        }
+        
+        let r = region.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 109)
+        
+        return 79 - 17 + r.height + t.height + 8 + 12
     }
 }
 
@@ -1348,7 +1518,7 @@ class ProductDetail2DescriptionRentCell: UITableViewCell {
     static func heightFor() -> CGFloat {
         // 12 + 8 + 32 + 2 + 8 + 12, ft 12
         let text = "Deposi dibayarkan saat menyewa dan akan dikembalikan setelah barang kembali dalam kondisi baik."
-        let t = text.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
+        let t = text.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
         
         return 79 + t.height + 8 + 12
     }
