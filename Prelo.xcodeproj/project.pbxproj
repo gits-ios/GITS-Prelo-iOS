@@ -626,6 +626,7 @@
 		B213E41A1E698A6500C76D04 /* tour_4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B213E4191E698A6500C76D04 /* tour_4.jpg */; };
 		B21416551ECAAB49008A19AE /* ic_dev.png in Resources */ = {isa = PBXBuildFile; fileRef = B21416541ECAAB49008A19AE /* ic_dev.png */; };
 		B218E87B1F4DE0E6005585F3 /* PushPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = B218E87A1F4DE0E6005585F3 /* PushPopup.xib */; };
+		B218E8901F4E80B4005585F3 /* iCarousel.m in Sources */ = {isa = PBXBuildFile; fileRef = B218E88E1F4E80B4005585F3 /* iCarousel.m */; };
 		B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */; };
 		B21B3F191E5ADFE600FE5DB4 /* AnalyticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */; };
 		B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B21DF5291E5179E5007A60C5 /* UserProfile2.xib */; };
@@ -1850,6 +1851,8 @@
 		B213E4191E698A6500C76D04 /* tour_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_4.jpg; sourceTree = "<group>"; };
 		B21416541ECAAB49008A19AE /* ic_dev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_dev.png; sourceTree = "<group>"; };
 		B218E87A1F4DE0E6005585F3 /* PushPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PushPopup.xib; sourceTree = "<group>"; };
+		B218E88D1F4E80B4005585F3 /* iCarousel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iCarousel.h; sourceTree = "<group>"; };
+		B218E88E1F4E80B4005585F3 /* iCarousel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iCarousel.m; sourceTree = "<group>"; };
 		B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloAnalyticEndpoints.swift; sourceTree = "<group>"; };
 		B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticManager.swift; sourceTree = "<group>"; };
 		B21DF5291E5179E5007A60C5 /* UserProfile2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfile2.xib; sourceTree = "<group>"; };
@@ -2395,6 +2398,7 @@
 				FD3C6D3C1C1963190002C7B4 /* GoogleAnalytics_3.13 */,
 				2124FFC91BBD2AC000194B8F /* GoogleConversionTrackingSDK-iOS-3.2.0 */,
 				211BC9951B96D53300FDB1DC /* GrowingTextView */,
+				B218E88C1F4E80B4005585F3 /* iCarousel */,
 				21E7A75A1B9FF2BC00FC9B38 /* LineKit */,
 				2141BB8A1B54BE4C00787F5D /* MaterialKit */,
 				21E7A7541B9FDE4F00FC9B38 /* MGInstagram */,
@@ -3640,6 +3644,15 @@
 			path = XIB;
 			sourceTree = "<group>";
 		};
+		B218E88C1F4E80B4005585F3 /* iCarousel */ = {
+			isa = PBXGroup;
+			children = (
+				B218E88D1F4E80B4005585F3 /* iCarousel.h */,
+				B218E88E1F4E80B4005585F3 /* iCarousel.m */,
+			);
+			path = iCarousel;
+			sourceTree = "<group>";
+		};
 		B21C2DFE1F078663002B1B07 /* Add Product Version 3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -4867,6 +4880,7 @@
 				585887811DBF1802006EC6D5 /* OrderConfirmViewController.swift in Sources */,
 				21679A2A1B901C5300F18F90 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				B2FFCBAD1EA52669004F01D0 /* SocketIOClientStatus.swift in Sources */,
+				B218E8901F4E80B4005585F3 /* iCarousel.m in Sources */,
 				5858876B1DBEF161006EC6D5 /* UserProfileViewController.swift in Sources */,
 				5847E19A1DBE0F5500C1B2BA /* PhoneVerificationViewController.swift in Sources */,
 				5832342D1DB89D3E0059B3A2 /* BaseViewController.swift in Sources */,

@@ -919,6 +919,7 @@ class Tags : NSObject {
     static let XibNameTarikTunai3 = "TarikTunai3"
     static let XibNameAddProduct3 = "AddProduct3"
     static let XibNameMultipleImagePicker = "AddProduct3ListImages"
+    static let XibNameProductDetail2 = "ProductDetail2"
 }
 
 class OrderStatus : NSObject {

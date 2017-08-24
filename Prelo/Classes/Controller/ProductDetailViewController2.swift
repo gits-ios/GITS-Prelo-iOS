@@ -20,6 +20,30 @@ struct ProductHelperItem {
     var loveCount = 0
 }
 
+// MARK: - Enum
+enum ProductDetail2SectionType {
+    // type    <---->    number of cell
+    case cover            // 1
+    case titleProduct     // 1
+    case seller           // 1
+    case description      // 1
+    case descSell         // 2 // 0
+    case descRent         // 2 // 0
+    case comment          // 1 + <count-of comment> + 1
+    
+    var numberOfCell: Int {
+        switch(self) {
+        case .cover,
+             .titleProduct,
+             .seller,
+             .description     : return 1
+        case .descSell,
+             .descRent,
+             .comment         : return 2
+        }
+    }
+}
+
 // MARK: - Class
 class ProductDetailViewController2: BaseViewController {
     // MARK: - Properties
@@ -61,30 +85,152 @@ class ProductDetailViewController2: BaseViewController {
     @IBOutlet weak var btnConfirmVwBuyer_PaymentConfirmation: UIButton!
     
     var productItem = ProductHelperItem()
-    
     var product : Product?
-    var detail : ProductDetail?
+    var productDetail : ProductDetail!
+    var isOpen = true
     
     var alreadyInCart : Bool = false
-    
     // up barang coin - diamond
     var isCoinUse = false
     
     var isNeedReload = false
-    
     weak var delegate: MyProductDelegate?
     
     // PopUp
     // standard push popup
     var pushPopUp: PushPopup? // up
-    
     // new popup paid push
     var paidPushPopup: PaidPushPopup? // chose up method
-    
     // add to cart popup
     var add2cartPopup: AddToCartPopup? // add 2 cart // ab test
     
+    // view
+    var listSections: Array<ProductDetail2SectionType> = []
+    var isFirst = true
+    
     // MARK: - Init
+    
+    func setupTableView() {
+        // Setup table
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        
+        //TOP, LEFT, BOTTOM, RIGHT
+        let inset = UIEdgeInsetsMake(0, 0, 0, 0)
+        tableView.contentInset = inset
+        
+        tableView.separatorStyle = .none
+        
+        tableView.backgroundColor = UIColor.white
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        self.showLoading()
+        
+        let ProductDetail2CoverCell = UINib(nibName: "ProductDetail2CoverCell", bundle: nil)
+        tableView.register(ProductDetail2CoverCell, forCellReuseIdentifier: "ProductDetail2CoverCell")
+        
+        let ProductDetail2TitleCell = UINib(nibName: "ProductDetail2TitleCell", bundle: nil)
+        tableView.register(ProductDetail2TitleCell, forCellReuseIdentifier: "ProductDetail2TitleCell")
+        
+        let ProductDetail2SellerCell = UINib(nibName: "ProductDetail2SellerCell", bundle: nil)
+        tableView.register(ProductDetail2SellerCell, forCellReuseIdentifier: "ProductDetail2SellerCell")
+        
+        let ProductDetail2DescriptionCell = UINib(nibName: "ProductDetail2DescriptionCell", bundle: nil)
+        tableView.register(ProductDetail2DescriptionCell, forCellReuseIdentifier: "ProductDetail2DescriptionCell")
+        
+        let ProductDetail2DescriptionSellCell = UINib(nibName: "ProductDetail2DescriptionSellCell", bundle: nil)
+        tableView.register(ProductDetail2DescriptionSellCell, forCellReuseIdentifier: "ProductDetail2DescriptionSellCell")
+        
+        let ProductDetail2DescriptionRentCell = UINib(nibName: "ProductDetail2DescriptionRentCell", bundle: nil)
+        tableView.register(ProductDetail2DescriptionRentCell, forCellReuseIdentifier: "ProductDetail2DescriptionRentCell")
+        
+        let ProductDetail2TitleSectionCell = UINib(nibName: "ProductDetail2TitleSectionCell", bundle: nil)
+        tableView.register(ProductDetail2TitleSectionCell, forCellReuseIdentifier: "ProductDetail2TitleSectionCell")
+        
+        let ProductDetail2CommentCell = UINib(nibName: "ProductDetail2CommentCell", bundle: nil)
+        tableView.register(ProductDetail2CommentCell, forCellReuseIdentifier: "ProductDetail2CommentCell")
+        
+        let ProductDetail2AddCommentCell = UINib(nibName: "ProductDetail2AddCommentCell", bundle: nil)
+        tableView.register(ProductDetail2AddCommentCell, forCellReuseIdentifier: "ProductDetail2AddCommentCell")
+        
+        self.setupTableView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if isFirst {
+            self.getDetail()
+            
+            isFirst = false
+        }
+    }
+    
+    func setupView() {
+        self.listSections = []
+        self.listSections.append(.cover)
+        self.listSections.append(.titleProduct)
+        self.listSections.append(.seller)
+        self.listSections.append(.description)
+        self.listSections.append(.descSell)
+        self.listSections.append(.comment)
+        
+        self.tableView.reloadData()
+    }
+    
+    func getDetail() {
+        self.showLoading()
+        // API Migrasi
+        let _ = request(APIProduct.detail(productId: (product?.json)!["_id"].string!, forEdit: 0))
+            .responseJSON {resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
+                    self.productDetail = ProductDetail.instance(JSON(resp.result.value!))
+                    
+                    if self.productDetail.isCheckout2Pages {
+                        AppTools.switchToSingleCart(false)
+                    } else {
+                        AppTools.switchToSingleCart(true)
+                    }
+                    
+                    self.title = self.productDetail.name
+                    
+                    //self.activated = (self.detail?.isActive)!
+                    //print((self.detail?.json ?? ""))
+                    
+                    self.setupView()
+                    
+                    let userid = CDUser.getOne()?.id
+                    let sellerid = self.productDetail.theirId
+                    
+                    if User.IsLoggedIn && sellerid != userid && !((self.product?.isCheckout)!) {
+                       // self.setOptionButton()
+                    } else {
+                        /*
+                        // ads
+                        IronSource.setRewardedVideoDelegate(self)
+                        
+                        let userID = UIDevice.current.identifierForVendor!.uuidString
+                        IronSource.setUserId(userID)
+                        
+                        // init with prelo official appkey
+                        IronSource.initWithAppKey("60b14515", adUnits:[IS_REWARDED_VIDEO])
+                        
+                        // check ads mediation integration
+                        ISIntegrationHelper.validateIntegration()
+                        */
+                    }
+                    
+                    // Prelo Analytic - Visit Product Detail
+                    //self.sendVisitProductDetailAnalytic()
+                }
+                self.hideLoading()
+        }
+    }
     
     // MARK: - Button Action
     @IBAction func btnUpPressed(_ sender: Any) {
@@ -115,6 +261,102 @@ class ProductDetailViewController2: BaseViewController {
     
     func hideLoading() {
         self.loadingPanel.isHidden = true
+    }
+}
+
+// MARK: - TableVIew Delegate
+extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return self.listSections.count
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.listSections[section].numberOfCell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let section = indexPath.section
+        let row = indexPath.row
+        switch(listSections[section]) {
+        case .cover:
+            return ProductDetail2CoverCell.heightFor()
+        case .titleProduct:
+            return ProductDetail2TitleCell.heightFor(self.productDetail!)
+        case .seller:
+            return ProductDetail2SellerCell.heightFor()
+        case .description:
+            return ProductDetail2DescriptionCell.heightFor(self.productDetail!)
+        case .descSell:
+            if row == 0 {
+                return ProductDetail2TitleSectionCell.heightFor()
+            }
+            return ProductDetail2DescriptionSellCell.heightFor()
+        case .descRent:
+            if row == 0 {
+                return ProductDetail2TitleSectionCell.heightFor()
+            }
+            return ProductDetail2DescriptionRentCell.heightFor()
+        case .comment:
+            if row == 0 {
+                return ProductDetail2TitleSectionCell.heightFor()
+            } else if row == (self.productDetail?.discussions?.count)! + 1 {
+                return ProductDetail2AddCommentCell.heightFor()
+            }
+            return ProductDetail2CommentCell.heightFor((self.productDetail?.discussions?.objectAtCircleIndex(row - 1))!)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = indexPath.section
+        let row = indexPath.row
+        switch(listSections[section]) {
+        case .cover:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2CoverCell") as! ProductDetail2CoverCell
+            cell.adapt(self.productDetail!)
+            return cell
+        case .titleProduct:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleCell") as! ProductDetail2TitleCell
+            cell.adapt(self.productDetail!, productItem: self.productItem)
+            return cell
+        case .seller:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2SellerCell") as! ProductDetail2SellerCell
+            cell.adapt(self.productDetail!)
+            return cell
+        case .description:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionCell") as! ProductDetail2DescriptionCell
+            cell.adapt(self.productDetail!)
+            return cell
+        case .descSell:
+            if row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
+                cell.adapt("JUAL", isOpen: self.isOpen, isShow: true)
+                return cell
+            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionSellCell") as! ProductDetail2DescriptionSellCell
+            cell.adapt(self.productDetail!)
+            return cell
+        case .descRent:
+            if row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
+                cell.adapt("SEWA", isOpen: !self.isOpen, isShow: true)
+                return cell
+            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionRentCell") as! ProductDetail2DescriptionRentCell
+            cell.adapt(self.productDetail!)
+            return cell
+        case .comment:
+            if row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
+                cell.adapt("KOMENTAR", isOpen: true, isShow: false)
+                return cell
+            } else if row == (self.productDetail?.discussions?.count)! + 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2AddCommentCell") as! ProductDetail2AddCommentCell
+                return cell
+            }
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2CommentCell") as! ProductDetail2CommentCell
+            cell.adapt((self.productDetail?.discussions?.objectAtCircleIndex(row  - 1))!, isBottom: row == (self.productDetail?.discussions?.count)!)
+            return cell
+        }
     }
 }
 
@@ -197,7 +439,7 @@ extension ProductDetailViewController2 {
             self.paidPushPopup?.balanceUsed = {
                 self.isCoinUse = false
                 //self.showLoading()
-                if let productId = self.detail?.productID {
+                if let productId = self.productDetail?.productID {
                     let _ = request(APIProduct.paidPush(productId: productId)).responseJSON { resp in
                         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
                             let json = JSON(resp.result.value!)
@@ -227,7 +469,7 @@ extension ProductDetailViewController2 {
             self.paidPushPopup?.poinUsed = {
                 self.isCoinUse = true
                 //self.showLoading()
-                if let productId = self.detail?.productID {
+                if let productId = self.productDetail?.productID {
                     let _ = request(APIProduct.paidPushWithCoin(productId: productId)).responseJSON { resp in
                         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
                             let json = JSON(resp.result.value!)
@@ -271,7 +513,7 @@ extension ProductDetailViewController2 {
         self.add2cartPopup?.isHidden = false
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
-            self.add2cartPopup?.setupPopUp(self.detail!)
+            self.add2cartPopup?.setupPopUp(self.productDetail!)
             self.add2cartPopup?.displayPopUp()
         })
     }
@@ -311,10 +553,62 @@ extension ProductDetailViewController2 {
 class ProductDetail2CoverCell: UITableViewCell {
     @IBOutlet weak var vwContainerCarousel: UIView!
     
+    var carousel: iCarousel = iCarousel()
+    
+    var images: Array<String> = []
+    
+    var zoomImage: (_ index: Int)->() = {_ in }
+    
+    override func awakeFromNib() {
+        self.vwContainerCarousel.addSubview(carousel)
+        self.carousel.frame = self.vwContainerCarousel.bounds
+        self.carousel.type = .timeMachine
+        
+        self.carousel.delegate = self
+        self.carousel.dataSource = self
+    }
+    
+    func adapt(_ productDetail: ProductDetail) {
+        self.images = productDetail.displayPicturers
+        
+        self.carousel.reloadData()
+    }
     
     // 216
     static func heightFor() -> CGFloat {
         return 216
+    }
+}
+
+extension ProductDetail2CoverCell: iCarouselDataSource, iCarouselDelegate {
+    func numberOfItems(in carousel: iCarousel) -> Int {
+        return images.count
+    }
+    
+    func carousel(_ carousel: iCarousel, viewForItemAt index: Int, reusing view: UIView?) -> UIView {
+        var itemView: UIImageView
+        if (view == nil)
+        {
+            itemView = UIImageView(frame:CGRect(x:0, y:0, width:240, height:200))
+            itemView.contentMode = .scaleAspectFit
+        }
+        else
+        {
+            itemView = view as! UIImageView;
+        }
+        itemView.afSetImage(withURL: URL(string: self.images[index])!)
+        return itemView
+    }
+    
+    func carousel(_ carousel: iCarousel, valueFor option: iCarouselOption, withDefault value: CGFloat) -> CGFloat {
+        if (option == .spacing) {
+            return value * 1.1
+        }
+        return value
+    }
+    
+    func carousel(_ carousel: iCarousel, didSelectItemAt index: Int) {
+        self.zoomImage(index)
     }
 }
 
@@ -365,7 +659,7 @@ class ProductDetail2TitleCell: UITableViewCell {
         self.imgComment.tintColor = self.vwComment.borderColor
     }
     
-    func adapt(_ productDetail: ProductDetail, isSeller: Bool, productItem: ProductHelperItem) {
+    func adapt(_ productDetail: ProductDetail, productItem: ProductHelperItem) {
         let product = productDetail.json["_data"]
         
         //TODO: mapping ke sewa-rombakAddProduct
@@ -401,7 +695,9 @@ class ProductDetail2TitleCell: UITableViewCell {
             self.consTopVwShareBuyer.constant = 68
         }
         
-        if isSeller {
+        let sellerId = product["seller"]["_id"].stringValue
+        
+        if sellerId == User.Id {
             self.vwShareSeller.isHidden = false
             self.vwShareBuyer.isHidden = true
             
@@ -483,7 +779,13 @@ class ProductDetail2TitleCell: UITableViewCell {
     }
     
     // count text -> title, sell/rent, seller/buyer
-    static func heightFor(_ title: String, listingType: Int, isSeller: Bool) -> CGFloat {
+    static func heightFor(_ productDetail: ProductDetail) -> CGFloat {
+        let product = productDetail.json["_data"]
+        
+        let title = productDetail.name
+        let listingType = product["listing_type"].intValue
+        let sellerId = product["seller"]["_id"].stringValue
+        
         // 12 + 8 + 20 + 4 + 21 + 12, fs 14pt
         let t = title.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 8 + 20 + 4 + 21 + 12))
         
@@ -493,7 +795,8 @@ class ProductDetail2TitleCell: UITableViewCell {
         }
         
         h += 8
-        if isSeller {
+        
+        if sellerId == User.Id {
             h += 50
         } else {
             h += 34
@@ -763,7 +1066,14 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     
     
     // count special story, description, + standard
-    static func heightFor(_ specialStory: String, description: String, isSize: Bool, isCacat: Bool) -> CGFloat {
+    static func heightFor(_ productDetail: ProductDetail) -> CGFloat {
+        let product = productDetail.json["_data"]
+        
+        let specialStory = "\"" + productDetail.specialStory + "\""
+        let description = product["description"].stringValue
+        let isSize = product["size"].stringValue != "" ? true : false
+        let isCacat = product["defect_description"].stringValue != "" ? true : false
+        
         // 12 + 12, ft 14
         //let text = "\"" + specialStory
         let t = specialStory.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 14), width: AppTools.screenWidth - (12 + 12))
