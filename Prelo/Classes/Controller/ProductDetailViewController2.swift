@@ -979,8 +979,8 @@ class ProductDetail2TitleCell: UITableViewCell {
             self.vwSell.isHidden = true
         }
         
-        if product["rent_price"].int64Value > 0 {
-            self.lbPriceRent.text = product["rent_price"].int64Value.asPrice + "/" + product["rent_period_type"].intValue.string
+        if let rent = product["rent"]["price"].int64, let periodType = product["rent"]["period_type"].int, rent > 0 {
+            self.lbPriceRent.text = rent.asPrice + "/" + (AddProduct3RentPeriodType(rawValue: periodType)?.title)!
             self.vwRent.isHidden = false
             
             if !self.vwSell.isHidden {
@@ -1511,7 +1511,7 @@ class ProductDetail2DescriptionRentCell: UITableViewCell {
     func adapt(_ productDetail: ProductDetail) {
         let product = productDetail.json["_data"]
         
-        self.lbDeposit.text = product["seller_region"]["rent_price_deposit"].int64Value.asPrice
+        self.lbDeposit.text = product["rent"]["price_deposit"].int64Value.asPrice
     }
     
     // count description

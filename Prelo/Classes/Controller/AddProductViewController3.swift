@@ -553,8 +553,8 @@ class AddProductViewController3: BaseViewController {
         // Price Cell
         self.product.hargaBeli = product.json["_data"]["price_original"].int64Value.string
         self.product.hargaJual = product.json["_data"]["price"].int64Value.string
-        let hargaSewa = product.json["_data"]["rent_price"].int64Value.string
-        let deposit = product.json["_data"]["rent_price_deposit"].int64Value.string
+        let hargaSewa = product.json["_data"]["rent"]["price"].int64Value.string
+        let deposit = product.json["_data"]["rent"]["price_deposit"].int64Value.string
         
         self.product.hargaSewa = hargaSewa != "0" ? hargaSewa : ""
         self.product.deposit = deposit != "0" ? deposit : ""
@@ -572,7 +572,7 @@ class AddProductViewController3: BaseViewController {
             self.product.isRent = true
         }
         
-        self.product.modeSewa = AddProduct3RentPeriodType(rawValue: product.json["_data"]["rent_period_type"].stringValue.int)!
+        self.product.modeSewa = AddProduct3RentPeriodType(rawValue: product.json["_data"]["rent"]["period_type"].stringValue.int)!
         
         self.setupTopBanner()
     }
