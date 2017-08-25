@@ -2063,6 +2063,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     UserDefaults.standard.synchronize()
                 }
                 
+                // disabled -> if enabled check info.plist.bkp-selectableIcons.plist
+                // apple reject this
+                /*
                 // Pengecekan versi, jika versi yg diinstall melebihi versi server, munculkan opsi ganti icon
                 if let installedVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
                     if let serverVersion = CDVersion.getOne()?.appVersion {
@@ -2110,7 +2113,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                         }
                     }
                 }
-                
+                */
             }
         }
     }
