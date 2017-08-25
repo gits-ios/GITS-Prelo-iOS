@@ -930,6 +930,7 @@ class Tags : NSObject {
     static let XibNameReviewAsSeller = "ReviewAsSeller"
     static let XibNameReviewAsBuyer = "ReviewAsBuyer"
     static let XibNameReviewTabBar = "ReviewTabBar"
+    static let XibNameShopReview2 = "ShopReview2"
 }
 
 class OrderStatus : NSObject {

@@ -473,6 +473,8 @@ class ShopReviewCell : UITableViewCell {
         if self.floatRatingView != nil {
             self.floatRatingView.rating = 0
         }
+        
+        self.lblComment.numberOfLines = 0
     }
     
     func adapt(_ userReview : UserReview) {
@@ -493,6 +495,10 @@ class ShopReviewAverageCell : UITableViewCell {
     @IBOutlet weak var lbReview: UILabel!
     
     var floatRatingView: FloatRatingView!
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()

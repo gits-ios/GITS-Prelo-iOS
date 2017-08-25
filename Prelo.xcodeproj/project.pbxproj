@@ -674,6 +674,9 @@
 		B27EE2071E4DBD230018E8A0 /* PushNotif.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = B2B34BCC1E37042C001B653F /* PushNotif.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		B280A1541F4D526F006433A8 /* ShopReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B280A1531F4D526F006433A8 /* ShopReviewViewController.swift */; };
 		B280A1661F4D52E2006433A8 /* ShopReview.xib in Resources */ = {isa = PBXBuildFile; fileRef = B280A1651F4D52E2006433A8 /* ShopReview.xib */; };
+		B28349311F4FE6F300C916A8 /* ShopReviewViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = B28349301F4FE6F300C916A8 /* ShopReviewViewController2.swift */; };
+		B28349361F4FE75000C916A8 /* ShopReview2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28349341F4FE75000C916A8 /* ShopReview2.xib */; };
+		B28349371F4FE75000C916A8 /* ShopReview2Average.xib in Resources */ = {isa = PBXBuildFile; fileRef = B28349351F4FE75000C916A8 /* ShopReview2Average.xib */; };
 		B285789E1E56B8F7008995F4 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B285789D1E56B8F7008995F4 /* ImageIO.framework */; };
 		B28578C31E570C0B008995F4 /* DropDown.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; };
 		B28578C41E570C0B008995F4 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B24FCEFD1E536E8000B517A9 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1877,6 +1880,9 @@
 		B27948241E35D971002CEED4 /* TarikTunaiViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiViewController2.swift; sourceTree = "<group>"; };
 		B280A1531F4D526F006433A8 /* ShopReviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopReviewViewController.swift; sourceTree = "<group>"; };
 		B280A1651F4D52E2006433A8 /* ShopReview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview.xib; sourceTree = "<group>"; };
+		B28349301F4FE6F300C916A8 /* ShopReviewViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShopReviewViewController2.swift; sourceTree = "<group>"; };
+		B28349341F4FE75000C916A8 /* ShopReview2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview2.xib; sourceTree = "<group>"; };
+		B28349351F4FE75000C916A8 /* ShopReview2Average.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShopReview2Average.xib; sourceTree = "<group>"; };
 		B285789D1E56B8F7008995F4 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B28C62EC1F148AA9009FCFE5 /* AddProductShare2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductShare2.xib; sourceTree = "<group>"; };
 		B28C62FE1F149D62009FCFE5 /* AddProductShare2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProductShare2Cell.xib; sourceTree = "<group>"; };
@@ -2701,6 +2707,7 @@
 				58B5A2DD1F1CAAFB00A80E81 /* ReviewTabBarViewController.swift */,
 				58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */,
 				58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */,
+				B28349301F4FE6F300C916A8 /* ShopReviewViewController2.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3359,6 +3366,8 @@
 				58B5A2CB1F1CA87F00A80E81 /* ReviewTabBar.xib */,
 				58B5A2DF1F1D9AFA00A80E81 /* ReviewAsSeller.xib */,
 				58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */,
+				B28349341F4FE75000C916A8 /* ShopReview2.xib */,
+				B28349351F4FE75000C916A8 /* ShopReview2Average.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -4245,12 +4254,14 @@
 				B2D119931E290BF80064045B /* banner_exclamation.png in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
 				589A6FB31D8C08F600654CDD /* ic_berat.png in Resources */,
+				B28349371F4FE75000C916A8 /* ShopReview2Average.xib in Resources */,
 				B2DF584B1E4844B9005B6CF1 /* AddressBookNewCell.xib in Resources */,
 				5858874B1DBEDB8E006EC6D5 /* NotifAnggiTabBar.xib in Resources */,
 				5827E95E1E03F844007F0833 /* ic_trx_refund1.png in Resources */,
 				B2314BE71E4B042300731B88 /* AddressAddEdit.xib in Resources */,
 				5827E95F1E03F844007F0833 /* ic_trx_refund2.png in Resources */,
 				589A6FB51D8C08F600654CDD /* ic_cacat.png in Resources */,
+				B28349361F4FE75000C916A8 /* ShopReview2.xib in Resources */,
 				58A4F9771CB5146B00E717AF /* ic_trx_reservation_done.png in Resources */,
 				B21DF52A1E5179E5007A60C5 /* UserProfile2.xib in Resources */,
 				21EEB4751B87095C00CAD5C9 /* ic_heart.png in Resources */,
@@ -4909,6 +4920,7 @@
 				585887601DBEEAE2006EC6D5 /* ProdukUploader.swift in Sources */,
 				5847E1601DBDA21800C1B2BA /* CDNotification.swift in Sources */,
 				21679A371B901C5300F18F90 /* MPObjectIdentityProvider.m in Sources */,
+				B28349311F4FE6F300C916A8 /* ShopReviewViewController2.swift in Sources */,
 				581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */,
 				21E7A7691B9FF2BC00FC9B38 /* LKLineActivity.m in Sources */,
 				B2ECB31E1EBC64FB00DB87E2 /* ShareProfileViewController.swift in Sources */,

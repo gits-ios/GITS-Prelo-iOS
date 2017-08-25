@@ -9,7 +9,7 @@
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
-        <view contentMode="scaleToFill" id="3mw-cZ-DPY" customClass="ShopReviewAverage" customModule="Prelo" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="3mw-cZ-DPY" customClass="ShopReview2Average" customModule="Prelo" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="90" height="250"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>

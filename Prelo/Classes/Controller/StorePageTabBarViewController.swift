@@ -29,7 +29,8 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
     
     // MARK: - Properties
     var listItemVC : ListItemViewController?
-    var shopReviewVC : ShopReviewViewController?
+    //var shopReviewVC : ShopReviewViewController?
+    var shopReviewVC : ShopReviewViewController2?
     var shopBadgeVC : ShopAchievementViewController?
     
     var avatarUrls : [String] = []
@@ -100,8 +101,13 @@ class StorePageTabBarViewController: BaseViewController, NewShopHeaderDelegate, 
         listItemVC?.currentMode = .newShop
         listItemVC?.delegate = self
         
+        /*
         shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview, owner: nil, options: nil)?.first as? ShopReviewViewController
         shopReviewVC?.currentMode = .inject
+        shopReviewVC?.delegate = self
+        */
+        
+        shopReviewVC = Bundle.main.loadNibNamed(Tags.XibNameShopReview2, owner: nil, options: nil)?.first as? ShopReviewViewController2
         shopReviewVC?.delegate = self
         
         shopBadgeVC = Bundle.main.loadNibNamed(Tags.XibNameShopAchievement, owner: nil, options: nil)?.first as? ShopAchievementViewController

@@ -10,7 +10,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <viewController id="1tP-tb-2f4" customClass="ShopReviewViewController" customModule="Prelo" customModuleProvider="target">
+        <viewController id="1tP-tb-2f4" customClass="ShopReviewViewController2" customModule="Prelo" customModuleProvider="target">
             <layoutGuides>
                 <viewControllerLayoutGuide type="top" id="fqm-MC-RLu"/>
                 <viewControllerLayoutGuide type="bottom" id="zur-sZ-AUI"/>
@@ -36,7 +36,6 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="W0g-dg-FwV">
                                                 <rect key="frame" x="0.0" y="0.0" width="90" height="246"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="90" id="4d5-R5-Wgo"/>
                                                     <constraint firstAttribute="width" constant="90" id="oux-Jj-nOW"/>
@@ -47,7 +46,6 @@
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </tableView>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="W0g-dg-FwV" secondAttribute="bottom" id="3C0-0V-S5z"/>
                                             <constraint firstItem="W0g-dg-FwV" firstAttribute="top" secondItem="BKf-eg-8Ac" secondAttribute="top" id="5LO-NJ-bc7"/>
@@ -64,7 +62,6 @@
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wWl-de-Gnm">
                                                 <rect key="frame" x="0.0" y="0.0" width="90" height="246"/>
-                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="90" id="OzN-OT-HLv"/>
                                                 </constraints>
@@ -74,7 +71,6 @@
                                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </tableView>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="Z1a-W4-va9" secondAttribute="bottom" id="Pzv-5i-ESs"/>
                                             <constraint firstItem="Z1a-W4-va9" firstAttribute="leading" secondItem="wWl-de-Gnm" secondAttribute="trailing" id="RbX-bX-0wz"/>

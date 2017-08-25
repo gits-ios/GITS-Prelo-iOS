@@ -2,17 +2,11 @@
 //  ShopReviewViewController2.swift
 //  Prelo
 //
-//  Created by Fransiska Hadiwidjana on 11/19/15.
-//  Copyright (c) 2015 PT Kleo Appara Indonesia. All rights reserved.
+//  Created by Djuned on 8/25/17.
+//  Copyright © 2017 PT Kleo Appara Indonesia. All rights reserved.
 //
 
 import Foundation
-import Alamofire
-
-enum ReviewMode {
-    case `default`
-    case inject
-}
 
 class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITableViewDelegate, UIScrollViewDelegate {
     
@@ -29,29 +23,25 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
     @IBOutlet weak var btnMoreReview: UIButton!
     
     var userReviews : Array<UserReview> = []
-    var buyerReviews : Array<BuyerReview> = []
+    var userFeedbacks : Array<UserReview> = []
     var sellerName : String = ""
     var sellerId : String = ""
-    
-    var currentMode : ReviewMode! = .default
     
     weak var delegate : NewShopHeaderDelegate?
     var isTransparent = false
     var averageRate : Float = 0.0
-    var averageBuyer : Float = 0.0
+    var averageFeedback : Float = 0.0
     var countReview : Int = 0
-    var countAsBuyerReview : Int = 0
-    var countAsSellerReview: Int = 0
+    var countFeedback: Int = 0
     
-    var root: UIViewController?
+    var isFirst = true
     
     @IBAction func btnMoreReviewPressed(_ sender: Any) {
         let ReviewTabBarVC = Bundle.main.loadNibNamed(Tags.XibNameReviewTabBar, owner: nil, options: nil)?.first as! ReviewTabBarViewController
-        ReviewTabBarVC.averageBuyer = self.averageBuyer
+        ReviewTabBarVC.averageBuyer = self.averageFeedback
         ReviewTabBarVC.averageSeller = self.averageRate
-        ReviewTabBarVC.isNeedReload = true
-        self.root?.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
-//        self.previousController?.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
+        ReviewTabBarVC.sellerId = sellerId
+        self.navigationController?.pushViewController(ReviewTabBarVC, animated: true)
     }
     
     // MARK: - Init
@@ -68,25 +58,10 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
         tableView.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
         tableViewRvwasBuyer.register(myLovelistCellNib, forCellReuseIdentifier: "ShopReviewCell")
         
-        //let myLovelistAverageCellNib = UINib(nibName: "ShopReviewAverage", bundle: nil)
-       
-        
-        // for button baca lebih lanjut
-        tableView.register(ButtonCell.self, forCellReuseIdentifier: "ButtonCell")
         
         // Belum ada review untuk user ini
         tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
         tableViewRvwasBuyer.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
-        
-        
-        if let customView = Bundle.main.loadNibNamed("ShopReviewAverage", owner: self, options: nil)?.first as? ShopReviewAverage {
-            customView.adapt(self.averageRate)
-            vwRvwAverageSeller.addSubview(customView)
-        }
-        if let customView = Bundle.main.loadNibNamed("ShopReviewAverage", owner: self, options: nil)?.first as? ShopReviewAverage {
-            customView.adapt2(self.averageBuyer)
-            vwRvwAverageBuyer.addSubview(customView)
-        }
         
         self.scrollView.delegate = self
     }
@@ -95,37 +70,10 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
         super.viewWillAppear(animated)
         
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
-        
-        if (currentMode == .default) {
-            loadingPanel.isHidden = false
-            loading.startAnimating()
-            
-            tableView.isHidden = true
-            tableViewRvwasBuyer.isHidden = true
-            lblEmpty.isHidden = true
-        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
-        // Set title
-        self.title = "Review " + self.sellerName
-        
-        // Get reviews
-        print("reviewnya")
-        print(currentMode == .default)
-        if (currentMode == .default) {
-//            self.userReviews = []
-            self.getUserReviews()
-        }
-        
-        // Mixpanel
-//        let p = [
-//            "Seller" : self.sellerName,
-//            "Seller ID" : self.sellerId
-//        ]
-//        Mixpanel.trackPageVisit(PageName.ShopReviews, otherParam: p)
         
         // Google Analytics
         GAI.trackPageVisit(PageName.ShopReviews)
@@ -136,74 +84,43 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
         // Dispose of any resources that can be recreated.
     }
     
-    func getUserReviews() {
-        // API Migrasi
-        print("aaa")
-        let _ = request(APIUser.getReviewSellerBuyer(userId: self.sellerId, limit: 3)).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Review Pengguna")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                // Store data into variable
-                print("ini data json")
-                print(data)
-//                for (_, item) in data {
-//                    let r = UserReview.instance(item)
-//                    if (r != nil) {
-//                        self.userReviews.append(r!)
-//                    }
-//                }
-            }
-            self.loadingPanel.isHidden = true
-            self.loading.stopAnimating()
-            if (self.userReviews.count <= 0) {
-                self.lblEmpty.isHidden = false
-            } else {
-                self.tableView.isHidden = false
-                self.setupTable()
-            }
-        }
-    }
-    
-    func setUserReviews(_ reviewData: JSON) {
-        let data = reviewData
-        // Store data into variable
+    func setUserReviews(_ reviewData: JSON, feedbackData: JSON) {
+        self.userReviews = []
+        self.userFeedbacks = []
+        
+        var data = reviewData
         for (_, item) in data {
-            let r = UserReview.instance(item)
-            if (r != nil) {
-                self.userReviews.append(r!)
+            if let r = UserReview.instance(item) {
+                self.userReviews.append(r)
             }
         }
         
-        self.loadingPanel.isHidden = true
-        self.loading.stopAnimating()
-//        if (self.userReviews.count <= 0) {
-//            self.lblEmpty.isHidden = false
-//            self.tableView.isHidden = true
-//        } else {
-//            self.tableView.isHidden = false
-            self.setupTable()
-//        }
-    }
-    
-    func setBuyerReviews(_ reviewData: JSON) {
-        let data = reviewData
-        // Store data into variable
+        data = feedbackData
         for (_, item) in data {
-            let r = BuyerReview.instance(item)
-            if (r != nil) {
-                self.buyerReviews.append(r!)
+            if let r = UserReview.instance(item) {
+                self.userFeedbacks.append(r)
             }
         }
         
-        self.loadingPanel.isHidden = true
-        self.loading.stopAnimating()
-        //        if (self.userReviews.count <= 0) {
-        //            self.lblEmpty.isHidden = false
-        //            self.tableView.isHidden = true
-        //        } else {
-        //            self.tableView.isHidden = false
+        self.setupAverageView()
         self.setupTable()
-        //        }
+        self.loadingPanel.isHidden = true
+        self.loading.stopAnimating()
+    }
+    
+    func setupAverageView() {
+        if let customView = Bundle.main.loadNibNamed("ShopReview2Average", owner: self, options: nil)?.first as? ShopReview2Average {
+            customView.adapt(self.averageRate, isAsSeller: true)
+            vwRvwAverageSeller.addSubview(customView)
+            
+            customView.frame = vwRvwAverageSeller.bounds
+        }
+        if let customView = Bundle.main.loadNibNamed("ShopReview2Average", owner: self, options: nil)?.first as? ShopReview2Average {
+            customView.adapt(self.averageFeedback, isAsSeller: false)
+            vwRvwAverageBuyer.addSubview(customView)
+            
+            customView.frame = vwRvwAverageBuyer.bounds
+        }
     }
     
     func setupTable() {
@@ -224,7 +141,7 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
         let screenSize = UIScreen.main.bounds
         let screenHeight = screenSize.height - (64 + 45) // (170 + 45)
         
-//        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
+        //        let tableHeight = CGFloat((self.userReviews.count + (self.userReviews.count > 5 ? 2 : 1)) * 65) // min height
         let tableHeight = self.tableView.contentSize.height
         
         
@@ -242,8 +159,8 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
             tableView.separatorStyle = .none
         }
         
-        if(countAsBuyerReview > 3 || countAsSellerReview > 3){
-            btnMoreReview.setTitle("LIHAT SEMUA REVIEW (" + String(countReview) + ")lalla", for: .normal)
+        if(countReview > 3 || countFeedback > 3){
+            btnMoreReview.setTitle("LIHAT SEMUA REVIEW (" + String(countReview + countFeedback) + ")", for: .normal)
             btnMoreReview.isHidden = false
             
         } else {
@@ -253,220 +170,120 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
     
     // MARK: - UITableView Functions
     func numberOfSections(in tableView: UITableView) -> Int {
-        if (currentMode == .inject) {
-            if (self.userReviews.count > 0) {
-                return 2
-            } else {
-                return 1
-            }
-        } else {
-            return 1
-        }
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if(tableView == self.tableView){
-            
-            if (currentMode == .inject) {
-                if (self.userReviews.count > 0) {
-                    if (section == 1) {
-                        return self.userReviews.count
-                    } else {
-                        return 1
-                    }
-                } else {
-                    return 1
-                }
-            } else {
-                return self.userReviews.count
-            }
+            return self.userReviews.count > 0 ? self.userReviews.count : 1
         } else {
-            return self.buyerReviews.count
+            return self.userFeedbacks.count > 0 ? self.userFeedbacks.count : 1
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let customView = Bundle.main.loadNibNamed("ShopReviewAverage", owner: self, options: nil)?.first as? ShopReviewAverage {
-            customView.adapt(self.averageRate)
-            vwRvwAverageSeller.addSubview(customView)
-        }
-        if let customView = Bundle.main.loadNibNamed("ShopReviewAverage", owner: self, options: nil)?.first as? ShopReviewAverage {
-            customView.adapt2(self.averageBuyer)
-            vwRvwAverageBuyer.addSubview(customView)
-        }
-        
         if(tableView == self.tableView){
-            if (currentMode == .inject) {
-                if (self.userReviews.count > 0) {
-                    let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-                    
-                    cell.selectionStyle = .none
-                    cell.alpha = 1.0
-                    cell.backgroundColor = UIColor.white
-                    
-                    let u = userReviews[(indexPath as NSIndexPath).row]
-                    cell.adapt(u)
-                    
-                    return cell
-                } else { // Belum ada review untuk user ini
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-                    
-                    cell?.selectionStyle = .none
-                    cell?.alpha = 1.0
-                    cell?.backgroundColor = UIColor.white
-                    
-                    cell?.textLabel!.text = "Belum ada review untuk user ini"
-                    cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
-                    cell?.textLabel!.textAlignment = .center
-                    cell?.textLabel!.textColor = Theme.GrayDark
-                    
-                    return cell!
-                }
-            } else {
+            
+            if (self.userReviews.count > 0) {
                 let cell : ShopReviewCell = self.tableView.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
                 
                 cell.selectionStyle = .none
                 cell.alpha = 1.0
                 cell.backgroundColor = UIColor.white
                 
+                cell.lblComment.numberOfLines = 1
+                
                 let u = userReviews[(indexPath as NSIndexPath).row]
                 cell.adapt(u)
                 
                 return cell
+            } else { // Belum ada review untuk user ini
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
+                
+                cell?.selectionStyle = .none
+                cell?.alpha = 1.0
+                cell?.backgroundColor = UIColor.white
+                
+                cell?.textLabel!.text = "Belum ada review untuk user ini"
+                cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
+                cell?.textLabel!.textAlignment = .center
+                cell?.textLabel!.textColor = Theme.GrayDark
+                
+                return cell!
             }
-        } else {
-            if (currentMode == .inject) {
-                if (self.buyerReviews.count > 0) {
-                    let cell : ShopReviewCell = self.tableViewRvwasBuyer.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
-                    
-                    cell.selectionStyle = .none
-                    cell.alpha = 1.0
-                    cell.backgroundColor = UIColor.white
-                    
-                    let u = buyerReviews[(indexPath as NSIndexPath).row]
-                    cell.adapt2(u)
-                    
-                    return cell
-                } else { // Belum ada review untuk user ini
-                    let cell = tableViewRvwasBuyer.dequeueReusableCell(withIdentifier: "cell")
-                    
-                    cell?.selectionStyle = .none
-                    cell?.alpha = 1.0
-                    cell?.backgroundColor = UIColor.white
-                    
-                    cell?.textLabel!.text = "Belum ada review untuk user ini"
-                    cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
-                    cell?.textLabel!.textAlignment = .center
-                    cell?.textLabel!.textColor = Theme.GrayDark
-                    
-                    return cell!
-                }
-            } else {
+        }
+        else {
+            
+            if (self.userFeedbacks.count > 0) {
                 let cell : ShopReviewCell = self.tableViewRvwasBuyer.dequeueReusableCell(withIdentifier: "ShopReviewCell") as! ShopReviewCell
                 
                 cell.selectionStyle = .none
                 cell.alpha = 1.0
                 cell.backgroundColor = UIColor.white
                 
-                let u = buyerReviews[(indexPath as NSIndexPath).row]
-                cell.adapt2(u)
+                cell.lblComment.numberOfLines = 1
+                
+                let u = userFeedbacks[(indexPath as NSIndexPath).row]
+                cell.adapt(u)
                 
                 return cell
+            } else { // Belum ada review untuk user ini
+                let cell = tableViewRvwasBuyer.dequeueReusableCell(withIdentifier: "cell")
+                
+                cell?.selectionStyle = .none
+                cell?.alpha = 1.0
+                cell?.backgroundColor = UIColor.white
+                
+                cell?.textLabel!.text = "Belum ada review untuk user ini"
+                cell?.textLabel!.font = UIFont.systemFont(ofSize: 12)
+                cell?.textLabel!.textAlignment = .center
+                cell?.textLabel!.textColor = Theme.GrayDark
+                
+                return cell!
             }
         }
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath:  IndexPath) -> CGFloat {
-        if(tableView == self.tableView){
-            if (currentMode == .inject) {
-                if (self.userReviews.count > 0) {
-                    if ((indexPath as NSIndexPath).section == 0) {
-                        return 0
-                    } else if ((indexPath as NSIndexPath).section == 2) {
-                        if (self.sellerId == User.Id) {
-                            return 134
-                        }
-                        return 62
-                        
-                    } else {
-                        let u = userReviews[(indexPath as NSIndexPath).item]
-                        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-                        return 65 + commentHeight
-                    }
-                } else {
-                    return 90
-                }
-            } else {
-                let u = userReviews[(indexPath as NSIndexPath).item]
-                let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-                return 65 + commentHeight
-            }
-        } else {
-            if (currentMode == .inject) {
-                if (self.buyerReviews.count > 0) {
-                    if ((indexPath as NSIndexPath).section == 0) {
-                        return 0
-                    } else if ((indexPath as NSIndexPath).section == 2) {
-                        if (self.sellerId == User.Id) {
-                            return 134
-                        }
-                        return 62
-                        
-                    } else {
-                        let u = buyerReviews[(indexPath as NSIndexPath).item]
-                        let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-                        return 65 + commentHeight
-                    }
-                } else {
-                    return 90
-                }
-            } else {
-                let u = buyerReviews[(indexPath as NSIndexPath).item]
-                let commentHeight = u.comment.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: 240).height
-                return 65 + commentHeight
-            }
-        }
+        return 65 + 17
     }
     
     // MARK: - UIScrollView Functions
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if (currentMode == .inject) {
-            scrollViewHeaderShop(scrollView)
-        }
+        scrollViewHeaderShop(scrollView)
     }
     
     func scrollViewHeaderShop(_ scrollView: UIScrollView) {
-//        let pointY = CGFloat(1)
-//        let screenSize = UIScreen.main.bounds
-//        let screenHeight = screenSize.height - 170
-//        let height = scrollView.contentSize.height
-//        if (scrollView.contentOffset.y < pointY && height >= screenHeight) {
-//            self.delegate?.increaseHeader()
-//            self.transparentNavigationBar(true)
-//        } else if (scrollView.contentOffset.y >= pointY && height >= screenHeight) {
-//            self.delegate?.dereaseHeader()
-//            self.transparentNavigationBar(false)
-//        }
+        //        let pointY = CGFloat(1)
+        //        let screenSize = UIScreen.main.bounds
+        //        let screenHeight = screenSize.height - 170
+        //        let height = scrollView.contentSize.height
+        //        if (scrollView.contentOffset.y < pointY && height >= screenHeight) {
+        //            self.delegate?.increaseHeader()
+        //            self.transparentNavigationBar(true)
+        //        } else if (scrollView.contentOffset.y >= pointY && height >= screenHeight) {
+        //            self.delegate?.dereaseHeader()
+        //            self.transparentNavigationBar(false)
+        //        }
         
         let pointY = CGFloat(1)
         if (scrollView.contentOffset.y < pointY) {
-//            self.delegate?.increaseHeader()
+            //            self.delegate?.increaseHeader()
             self.transparentNavigationBar(true)
         } else if (scrollView.contentOffset.y >= pointY) {
-//            self.delegate?.dereaseHeader()
+            //            self.delegate?.dereaseHeader()
             self.transparentNavigationBar(false)
         }
     }
     
     // MARK: - navbar styler
     func transparentNavigationBar(_ isActive: Bool) {
-        if (currentMode == .inject) {
             if isActive && !(self.delegate?.getTransparentcy())! {
                 self.delegate?.increaseHeader()
                 
@@ -498,86 +315,11 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
                 }
                 self.delegate?.setTransparentcy(false)
             }
-        }
     }
-
+    
 }
 
-class ShopReviewCell : UITableViewCell {
-    
-    @IBOutlet var imgBuyer: UIImageView!
-    @IBOutlet var lblBuyerName: UILabel!
-    @IBOutlet var lblComment: UILabel!
-    
-    @IBOutlet var vwLove: UIView!
-    var floatRatingView: FloatRatingView!
-    
-    @IBOutlet weak var consHeightLblComment: NSLayoutConstraint!
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        imgBuyer.afCancelRequest()
-        
-        if self.floatRatingView != nil {
-            self.floatRatingView.rating = 0
-        }
-    }
-    
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))
-        self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
-        self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
-        
-        // Optional params
-        self.floatRatingView.contentMode = UIViewContentMode.scaleAspectFit
-        self.floatRatingView.maxRating = 5
-        self.floatRatingView.minRating = 0
-        self.floatRatingView.editable = false
-        self.floatRatingView.halfRatings = true
-        self.floatRatingView.floatRatings = true
-        self.floatRatingView.tintColor = Theme.ThemeRed
-        
-        self.vwLove.addSubview(self.floatRatingView )
-        
-        // setup avatar
-        imgBuyer.layoutIfNeeded()
-        imgBuyer.layer.masksToBounds = true
-        imgBuyer.layer.cornerRadius = (imgBuyer.frame.size.width) / 2
-        
-        imgBuyer.layer.borderColor = Theme.GrayLight.cgColor
-        imgBuyer.layer.borderWidth = 2
-    }
-    
-    func setCons(activeCons : Bool){
-        //consHeightLblComment.isActive = activeCons
-    }
-    
-    func adapt(_ userReview : UserReview) {
-        imgBuyer.afSetImage(withURL: userReview.buyerPictURL!, withFilter: .circle)
-        
-        lblBuyerName.text = userReview.buyerUsername
-        lblComment.text = userReview.comment // "coba komen panjang banget sampe lebih dari satu baris lho, kok bisa lebih ya, ga pas, aaaaa, aneh lah wah"//
-        
-        let star = Float(userReview.star)
-        self.floatRatingView.rating = star
-    }
-    
-    func adapt2(_ buyerReview : BuyerReview) {
-        imgBuyer.afSetImage(withURL: buyerReview.buyerPictURL!, withFilter: .circle)
-        
-        lblBuyerName.text = buyerReview.buyerUsername
-        lblComment.text = buyerReview.comment
-        
-        let star = Float(buyerReview.star)
-        self.floatRatingView.rating = star
-    }
-}
-
-class ShopReviewAverage : UIView {
+class ShopReview2Average : UIView {
     @IBOutlet weak var reviewAs: UILabel!
     @IBOutlet var vwLove: UIView!
     @IBOutlet weak var circularView: UIView!
@@ -609,18 +351,13 @@ class ShopReviewAverage : UIView {
         circularView.backgroundColor = UIColor.init(hex: "FFFFFF")
         
         averageStar.textColor = UIColor.darkGray
+        
+        self.backgroundColor = UIColor.init(hexString: "#F0F0F0")
     }
     
-    func adapt(_ star : Float) {
-        self.reviewAs.text = "Review sebagai penjual"
+    func adapt(_ star : Float, isAsSeller: Bool) {
         
-        averageStar.text = star.clean
-        
-        self.floatRatingView.rating = star
-    }
-    
-    func adapt2(_ star : Float) {
-        self.reviewAs.text = "Review sebagai pembeli"
+        self.reviewAs.text = "Review sebagai " + (isAsSeller ? "penjual" : "pembeli")
         
         averageStar.text = star.clean
         
