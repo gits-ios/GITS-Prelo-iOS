@@ -59,6 +59,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
             self.setDevButton()
         }
         
+        // disabled -> if enabled check info.plist.bkp-selectableIcons.plist
+        // apple reject this
+        /*
         // Pengecekan versi, jika versi yg diinstall melebihi versi server, munculkan opsi ganti icon
         if let installedVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
             if let serverVersion = CDVersion.getOne()?.appVersion {
@@ -67,6 +70,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                 }
             }
         }
+        */
         
         // Remove 1px line at the bottom of navbar
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -633,6 +637,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         AppTools.switchToSingleCart(sender.isOn)
     }
     
+    // disabled -> if enabled check info.plist.bkp-selectableIcons.plist
+    // apple reject this
+    /*
     // MARK: - Icon Toggle for APPLE review only
     func setIconButton() {
         let btnSetting = self.createButtonWithIcon(UIImage(named: "ic_dev")!)
@@ -725,4 +732,5 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
             }
         }
     }
+    */
 }
