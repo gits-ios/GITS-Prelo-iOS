@@ -112,6 +112,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Apps Flyer
+        let afPdata: [String : Any] = [
+            AFEventParamContentId: product?.id
+        ]
+        AppsFlyerTracker.shared().trackEvent("af_content_view", withValues: afPdata)
+        
         self.title = product?.name
         
         // Hide add comment view first
