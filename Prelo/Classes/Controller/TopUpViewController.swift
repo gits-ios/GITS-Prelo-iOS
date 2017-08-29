@@ -55,6 +55,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.tableView.tableFooterView = UIView()
+        self.tableView.separatorStyle = .none
         
         // title
         self.title = "Top-Up"
@@ -178,7 +179,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     // MARK: - UITableView Delegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         //return 15
-        return 10
+        return 11
     }
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let idx = indexPath as IndexPath
@@ -249,15 +250,18 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             return 80
         }
         if idx.row == 6 {
-            return 44
+            return 2
         }
         if idx.row == 7 {
             return 40
         }
         if idx.row == 8 {
-            return 40
+            return 25
         }
         if idx.row == 9 {
+            return 25
+        }
+        if idx.row == 10 {
             return 100
         }
         return 35
@@ -355,6 +359,14 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
 //            return cell
 //        }
         if idx.row == 6 {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2BlackWhiteCell") as! Checkout2BlackWhiteCell
+            
+            cell.selectionStyle = .none
+            cell.clipsToBounds = true
+            
+            return cell
+        }
+        if idx.row == 7 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentMethodCell") as! Checkout2PaymentMethodCell
             
             cell.selectionStyle = .none
@@ -365,7 +377,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             return cell
         }
         
-        if idx.row == 7 {
+        if idx.row == 8 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryCell") as! Checkout2PaymentSummaryCell
             
             cell.selectionStyle = .none
@@ -376,7 +388,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             cell.adapt("Total Belanja", amount: Int64(tempTextField))
             return cell
         }
-        if idx.row == 8 {
+        if idx.row == 9 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryCell") as! Checkout2PaymentSummaryCell
             
             cell.selectionStyle = .none
@@ -404,7 +416,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             
             return cell
         }
-        if idx.row == 9 {
+        if idx.row == 10 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2PaymentSummaryTotalCell") as! Checkout2PaymentSummaryTotalCell
             
             cell.selectionStyle = .none
@@ -496,7 +508,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
                 print(json)
                 print(data)
                 print(data["_id"])
-                self.tempTopUpId = data["_id"].string!
+                self.tempTopUpId = data["ticket_number"].string!
                 // Prepare to navigate to next page
                 if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
                     self.navigateToOrderConfirmVC(false)
@@ -556,7 +568,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         let sec = tempIndexPath.section
         var reloadIdxs: [IndexPath] = [tempIndexPath]
         reloadIdxs.append(IndexPath.init(row: 7, section: sec))
-        reloadIdxs.append(IndexPath.init(row: 9, section: sec))
+        reloadIdxs.append(IndexPath.init(row: 10, section: sec))
         self.tableView.reloadRows(at: reloadIdxs, with: .fade)
         
         

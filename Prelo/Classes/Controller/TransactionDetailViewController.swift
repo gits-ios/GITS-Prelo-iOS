@@ -124,6 +124,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var dataReject : Array<String> = []
     var dataRejectNote: Array<String> = []
     
+    @IBOutlet weak var consLblNotifTop: NSLayoutConstraint!
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -394,6 +395,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     isFroze[6] = false
                     hideableCell[9] = false // force open
                     isFroze[9] = true
+                    
                 } else {
                     hideableCell[3] = true
                     isFroze[3] = false
@@ -410,6 +412,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     isFroze[6] = false
                     hideableCell[9] = false // force open
                     isFroze[9] = false
+                    hideableCell[10] = false // force open
+                    isFroze[10] = false
                 } else {
                     hideableCell[3] = true
                     isFroze[3] = false
@@ -417,6 +421,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     isFroze[6] = false
                     hideableCell[9] = false // force open
                     isFroze[9] = false
+                    hideableCell[10] = false // force open
+                    isFroze[10] = false
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 hideableCell[3] = true
@@ -510,7 +516,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (userIsSeller()) {
                     return 12
                 } else {
-                    return 11
+                    return 12
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 return 8
@@ -1554,7 +1560,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     } else if (idx == 7) {
                         return self.createSeparatorCell()
                     } else if (idx == 8) {
-                        return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                        return self.createTitleCell(TitleReview, detailCellIndexes: [9,10])
                     } else if (idx == 9) {
                         return self.createReviewCell()
                     } else if (idx == 10) {
@@ -1567,31 +1573,62 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         return self.createContactPreloCell()
                     }
                 } else {
-                    if (idx == 0) {
-                        return self.createTableProductsCell()
-                    } else if (idx == 1) {
-                        return self.createSeparatorCell()
-                    } else if (idx == 2) {
-                        return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
-                    } else if (idx == 3) {
-                        if (trxProductDetail != nil) {
-                            return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                    if(trxProductDetail?.buyerReviewerName == ""){
+                        if (idx == 0) {
+                            return self.createTableProductsCell()
+                        } else if (idx == 1) {
+                            return self.createSeparatorCell()
+                        } else if (idx == 2) {
+                            return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                        } else if (idx == 3) {
+                            if (trxProductDetail != nil) {
+                                return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                            }
+                        } else if (idx == 4) {
+                            return self.createSeparatorCell()
+                        } else if (idx == 5) {
+                            return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                        } else if (idx == 6) {
+                            return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
+                        } else if (idx == 7) {
+                            return self.createSeparatorCell()
+                        } else if (idx == 8) {
+                            return self.createTitleCell(TitleReview, detailCellIndexes: [9])
+                        } else if (idx == 9) {
+                            return self.createReviewCell()
+                        } else if (idx == 10) {
+                            return self.createContactPreloCell()
                         }
-                    } else if (idx == 4) {
-                        return self.createSeparatorCell()
-                    } else if (idx == 5) {
-                        return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
-                    } else if (idx == 6) {
-                        return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
-                    } else if (idx == 7) {
-                        return self.createSeparatorCell()
-                    } else if (idx == 8) {
-                        return self.createTitleCell(TitleReview, detailCellIndexes: [9])
-                    } else if (idx == 9) {
-                        return self.createReviewCell()
-                    } else if (idx == 10) {
-                        return self.createContactPreloCell()
+                    } else {
+                        if (idx == 0) {
+                            return self.createTableProductsCell()
+                        } else if (idx == 1) {
+                            return self.createSeparatorCell()
+                        } else if (idx == 2) {
+                            return self.createTitleCell(TitlePembayaran, detailCellIndexes: [3])
+                        } else if (idx == 3) {
+                            if (trxProductDetail != nil) {
+                                return self.createTableTitleContentsCell(self.getTitleContentPembayaranBuyerPaidType(trxProductDetail!))
+                            }
+                        } else if (idx == 4) {
+                            return self.createSeparatorCell()
+                        } else if (idx == 5) {
+                            return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                        } else if (idx == 6) {
+                            return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanBuyer)
+                        } else if (idx == 7) {
+                            return self.createSeparatorCell()
+                        } else if (idx == 8) {
+                            return self.createTitleCell(TitleReview, detailCellIndexes: [9,10])
+                        } else if (idx == 9) {
+                            return self.createReviewCell()
+                        } else if (idx == 10) {
+                            return self.createBuyerReviewCell()
+                        } else if (idx == 11) {
+                            return self.createContactPreloCell()
+                        }
                     }
+                    
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (idx == 0) {
@@ -2131,6 +2168,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             self.vwShadow.isHidden = false
             self.vwReviewSeller.isHidden = false
             self.lblTitleRvwSeller.text = "REVIEW PEMBELI"
+            self.consHeightRvwPopUp.constant = 315
+            self.consLblNotifTop.constant = -15
             self.btnRvwKirim.setTitle("OK", for: .normal)
             
             if (self.trxProductDetail != nil) {
