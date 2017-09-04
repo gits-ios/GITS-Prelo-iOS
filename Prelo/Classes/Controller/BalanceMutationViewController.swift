@@ -72,12 +72,18 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     @IBOutlet weak var mutasiButton: UIButton!
     @IBOutlet weak var topUpButton: UIButton!
+    
+    @IBOutlet weak var mutasiLbl: UILabel!
+    @IBOutlet weak var topUpLbl: UILabel!
+    
     @IBAction func mutasiButtonPressed(_ sender: Any) {
         isTopUp = false
         lblMutasi.text = "Mutasi"
         lblPreloBalance.text = "Prelo Balance"
         vwMutasiSelected.isHidden = false
         vwTopUpSelected.isHidden = true
+        mutasiLbl.textColor = UIColor.darkGray
+        topUpLbl.textColor = UIColor.lightGray
         refreshTable()
     }
     @IBAction func topUpButtonPressed(_ sender: Any) {
@@ -86,6 +92,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
         lblPreloBalance.text = "Status"
         vwMutasiSelected.isHidden = true
         vwTopUpSelected.isHidden = false
+        mutasiLbl.textColor = UIColor.lightGray
+        topUpLbl.textColor = UIColor.darkGray
         refreshTable()
     }
     
@@ -485,6 +493,10 @@ class BalanceMutationCell : UITableViewCell {
     @IBOutlet weak var consHeightLblDescription: NSLayoutConstraint!
     @IBOutlet weak var consHeightLblReasonAdmin: NSLayoutConstraint!
     @IBOutlet weak var consHeightLblWJP: NSLayoutConstraint!
+    @IBOutlet weak var consLeadingLblMutation: NSLayoutConstraint!
+    @IBOutlet weak var consLeadingLblDescription: NSLayoutConstraint!
+    @IBOutlet weak var consLeadingLblReasonAdmin: NSLayoutConstraint!
+    @IBOutlet weak var consLeadingLblTime: NSLayoutConstraint!
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor(hexString: "#FFFFFF")
@@ -530,6 +542,11 @@ class BalanceMutationCell : UITableViewCell {
     
     func adapt(_ mutation : BalanceMutationItem) {
         lblPlusMinus.isHidden = false
+        consLeadingLblMutation.constant = 0
+        consLeadingLblDescription.constant = 24
+        consLeadingLblReasonAdmin.constant = 24
+        consLeadingLblTime.constant = 24
+        
         if (mutation.entryType == 0) { // Kredit
             lblPlusMinus.text = ""
             lblPlusMinus.textColor = Theme.ThemeOrange
@@ -595,6 +612,10 @@ class BalanceMutationCell : UITableViewCell {
         lblPlusMinus.isHidden = true
         lblDescription.isHidden = true
         imgWJP.isHidden = true
+        consLeadingLblMutation.constant = -8
+        consLeadingLblDescription.constant = 18
+        consLeadingLblReasonAdmin.constant = 18
+        consLeadingLblTime.constant = 18
         idTopUp = mutation.id
         lblMutation.text = mutation.amount.asPrice
         let attrStrId = NSMutableAttributedString(string: mutation.ticket_number)

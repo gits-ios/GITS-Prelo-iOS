@@ -18,8 +18,8 @@
                 <rect key="frame" x="0.0" y="0.0" width="359" height="88.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo Balance" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fG1-Jd-evl">
-                        <rect key="frame" x="8" y="8" width="83" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo Balance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fG1-Jd-evl">
+                        <rect key="frame" x="8" y="8" width="343" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
@@ -29,7 +29,7 @@
                         <constraints>
                             <constraint firstAttribute="height" constant="47" id="iWL-zJ-DCo"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="42"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
                         <color key="textColor" red="0.12156862745098039" green="0.53333333333333333" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -39,6 +39,7 @@
                     <constraint firstAttribute="trailing" secondItem="t45-9d-4Nt" secondAttribute="trailing" constant="8" id="9M6-u7-liv"/>
                     <constraint firstItem="fG1-Jd-evl" firstAttribute="leading" secondItem="M3f-ym-L1P" secondAttribute="leadingMargin" id="ONK-li-jWq"/>
                     <constraint firstItem="t45-9d-4Nt" firstAttribute="top" secondItem="fG1-Jd-evl" secondAttribute="bottom" constant="5" id="SXR-g5-rAi"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fG1-Jd-evl" secondAttribute="trailing" id="g5L-l2-Bke"/>
                     <constraint firstItem="fG1-Jd-evl" firstAttribute="top" secondItem="M3f-ym-L1P" secondAttribute="topMargin" id="rLQ-Ec-VQj"/>
                 </constraints>
             </tableViewCellContentView>

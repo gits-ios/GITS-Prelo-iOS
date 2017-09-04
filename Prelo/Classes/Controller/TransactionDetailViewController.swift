@@ -260,7 +260,6 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         self.isRefundable = r
                     }
                     
-                    print("ini reject reason enum")
                     if let arr = data["rejectReasonEnum"].array {
                         self.dataReject = ["Alasan Penolakan"]
                         self.dataRejectNote = [""]
@@ -6331,6 +6330,8 @@ class TransactionDetailReviewCell : UITableViewCell {
     var floatRatingView: FloatRatingView!
     
     @IBOutlet weak var consImageLeading: NSLayoutConstraint!
+    @IBOutlet weak var consImageHeight: NSLayoutConstraint!
+    @IBOutlet weak var consImageWidth: NSLayoutConstraint!
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -6395,7 +6396,9 @@ class TransactionDetailReviewCell : UITableViewCell {
     }
     
     func adapt2(_ trxProductDetail : TransactionProductDetail) {
-        consImageLeading.constant = 20
+        consImageLeading.constant = 30
+        consImageHeight.constant = 50
+        consImageWidth.constant = 50
         // Image
         
         self.imgReviewer?.layoutIfNeeded()

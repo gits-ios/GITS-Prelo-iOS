@@ -89,7 +89,7 @@
                                         </constraints>
                                         <state key="normal">
                                             <attributedString key="attributedTitle">
-                                                <fragment content="LIHAT SEMUA REVIEW (6)">
+                                                <fragment content="LIHAT SEMUA REVIEW">
                                                     <attributes>
                                                         <color key="NSColor" red="0.57182385600002117" green="0.57104422705119517" blue="0.58466240284974091" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <font key="NSFont" size="15" name=".AppleSystemUIFontEmphasized"/>

@@ -1607,6 +1607,10 @@ enum APITransactionAnggi : URLRequestConvertible {
                 "arr_tp_id" : arrTpId,
                 "platform_sent_from" : "ios"
             ]
+        case .getSellerTransaction(let id) :
+            p = [
+                "all_couriers" : 1
+            ]
         default : break
         }
         return p

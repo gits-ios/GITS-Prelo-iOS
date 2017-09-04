@@ -235,13 +235,13 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             return 90
         }
         if idx.row == 1 {
-            return 2
+            return 1
         }
         if idx.row == 2 {
             return 66
         }
         if idx.row == 3 {
-            return 2
+            return 1
         }
         if idx.row == 4 {
             return 44

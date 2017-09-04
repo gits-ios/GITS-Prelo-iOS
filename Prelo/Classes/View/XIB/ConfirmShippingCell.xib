@@ -228,7 +228,7 @@
                                 <rect key="frame" x="37" y="111" width="275" height="70"/>
                                 <attributedString key="attributedText">
                                     <fragment>
-                                        <string key="content">Catatan : Barang akan tetap aktif. Kamu dapat melakukan penundaan pembayaran hingga 3 hari menggunakan aplikasi. Untuk penundaan pengiriman lebih lama, harap hubungi </string>
+                                        <string key="content">Catatan : Barang akan tetap aktif. Kamu dapat melakukan penundaan pengiriman hingga 3 hari menggunakan aplikasi. Untuk penundaan pengiriman lebih lama, harap hubungi </string>
                                         <attributes>
                                             <color key="NSColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                             <font key="NSFont" size="12" name=".SFNSText-Bold"/>
