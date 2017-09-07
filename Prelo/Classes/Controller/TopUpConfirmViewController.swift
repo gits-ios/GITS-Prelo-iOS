@@ -61,6 +61,7 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     
     // Data from previous page
     var orderID : String = ""
+    var ticketNumber : String = ""
     var transactionId : String = ""
     var images : [URL] = []
     var total : Int64 = 0
@@ -204,7 +205,7 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         }
         
         // Order ID and Total price
-        captionOrderID.text = orderID
+        captionOrderID.text = ticketNumber
         captionOrderTotal.text = (total + kodeTransfer).asPrice
         
         // new UI
@@ -559,7 +560,9 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         timePaidFormatter.dateFormat = "EEEE, dd MMMM yyyy"
         let timePaidString = timePaidFormatter.string(from: timePaid)
         
+        print("")
         print(self.orderID)
+        print(self.ticketNumber)
         print("{\"target_bank\": \"\(self.targetBank!)\"}")
         print(timePaidString)
         // API

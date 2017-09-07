@@ -323,7 +323,8 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                 if(b.progress == 0){
                     let o = Bundle.main.loadNibNamed(Tags.XibNameTopUpConfirm, owner: nil, options: nil)?.first as! TopUpConfirmViewController
                     
-                    o.orderID = b.ticket_number
+                    o.orderID = b.id
+                    o.ticketNumber = b.ticket_number
                     o.total = Int64(b.amount + b.banktransfer_digit)
                     //o.date = b.create_time
                     

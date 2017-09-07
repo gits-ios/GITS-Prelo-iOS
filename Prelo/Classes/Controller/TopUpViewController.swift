@@ -40,6 +40,7 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     var tempTotalAmount = 0
     var random = arc4random_uniform(201) + 300
     var tempTopUpId = ""
+    var tempTicketNumber = ""
     
     @IBOutlet weak var loadingPanel: UIView!
     
@@ -471,7 +472,11 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         print("ada masuk navigasi ini")
         let o = Bundle.main.loadNibNamed(Tags.XibNameTopUpConfirm, owner: nil, options: nil)?.first as! TopUpConfirmViewController
         
+        print("yang di kirim")
+        print(self.tempTopUpId)
+        print(self.tempTicketNumber)
         o.orderID = self.tempTopUpId
+        o.ticketNumber = self.tempTicketNumber
         o.total = Int64(self.tempTotalAmount) + Int64(self.random)
         
         o.isBackTwice = true
@@ -504,11 +509,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Up Request")){
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
-                print("masuk kesini")
-                print(json)
-                print(data)
-                print(data["_id"])
-                self.tempTopUpId = data["ticket_number"].string!
+                self.tempTicketNumber = data["ticket_number"].string!
+                self.tempTopUpId = data["_id"].string!
                 // Prepare to navigate to next page
                 if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
                     self.navigateToOrderConfirmVC(false)
