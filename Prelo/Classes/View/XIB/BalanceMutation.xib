@@ -301,19 +301,65 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xq5-6H-hVl" userLabel="Footer">
                         <rect key="frame" x="0.0" y="492" width="600" height="44"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZtQ-NP-QSf">
-                                <rect key="frame" x="8" y="8" width="584" height="40"/>
-                                <color key="backgroundColor" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uys-Tg-KyT">
+                                <rect key="frame" x="8" y="8" width="584" height="28"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rkl-f2-aIp">
+                                        <rect key="frame" x="1" y="1" width="582" height="26"/>
+                                        <color key="backgroundColor" red="0.078431372550000003" green="0.59607843140000005" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </view>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ALB-Zr-o7B">
+                                        <rect key="frame" x="237" y="3" width="110" height="22"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_cart_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="Mlx-1U-bPV">
+                                                <rect key="frame" x="4" y="4" width="14" height="14"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="14" id="0Qs-16-sXH"/>
+                                                    <constraint firstAttribute="width" constant="14" id="Sx7-n2-D7w"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TARIK UANG" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="piJ-ai-dbT">
+                                                <rect key="frame" x="23" y="4" width="82.5" height="14"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="Mlx-1U-bPV" firstAttribute="leading" secondItem="ALB-Zr-o7B" secondAttribute="leading" constant="4" id="HOS-s0-LzL"/>
+                                            <constraint firstAttribute="bottom" secondItem="piJ-ai-dbT" secondAttribute="bottom" constant="4" id="IvJ-az-BMc"/>
+                                            <constraint firstItem="Mlx-1U-bPV" firstAttribute="top" secondItem="ALB-Zr-o7B" secondAttribute="top" constant="4" id="Lau-Pp-eGR"/>
+                                            <constraint firstAttribute="bottom" secondItem="Mlx-1U-bPV" secondAttribute="bottom" constant="4" id="N1C-4I-7im"/>
+                                            <constraint firstItem="piJ-ai-dbT" firstAttribute="leading" secondItem="Mlx-1U-bPV" secondAttribute="trailing" constant="5" id="WaP-BC-fJN"/>
+                                            <constraint firstItem="piJ-ai-dbT" firstAttribute="top" secondItem="ALB-Zr-o7B" secondAttribute="top" constant="4" id="hjR-mS-Rl8"/>
+                                            <constraint firstAttribute="width" constant="110" id="nwZ-hO-9f8"/>
+                                        </constraints>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZtQ-NP-QSf">
+                                        <rect key="frame" x="0.0" y="0.0" width="584" height="28"/>
+                                        <state key="normal">
+                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tarikUangPressed:" destination="QFa-tb-gsZ" eventType="touchUpInside" id="vxH-Pr-V0K"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="40" id="Nkl-kC-3Qe"/>
+                                    <constraint firstItem="ALB-Zr-o7B" firstAttribute="top" secondItem="uys-Tg-KyT" secondAttribute="top" constant="3" id="1iT-Fl-Vz1"/>
+                                    <constraint firstItem="ALB-Zr-o7B" firstAttribute="centerX" secondItem="uys-Tg-KyT" secondAttribute="centerX" id="7ti-K1-X1W"/>
+                                    <constraint firstAttribute="bottom" secondItem="ALB-Zr-o7B" secondAttribute="bottom" constant="3" id="AvZ-Y8-GPh"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZtQ-NP-QSf" secondAttribute="trailing" id="BdT-Ic-T2M"/>
+                                    <constraint firstAttribute="trailing" secondItem="Rkl-f2-aIp" secondAttribute="trailing" constant="1" id="Bfk-cG-O90"/>
+                                    <constraint firstItem="Rkl-f2-aIp" firstAttribute="top" secondItem="uys-Tg-KyT" secondAttribute="top" constant="1" id="Bp0-ik-Ml1"/>
+                                    <constraint firstAttribute="bottom" secondItem="ZtQ-NP-QSf" secondAttribute="bottom" id="CaK-ap-Ex9"/>
+                                    <constraint firstItem="ZtQ-NP-QSf" firstAttribute="top" secondItem="uys-Tg-KyT" secondAttribute="top" id="IsB-Fi-YcS"/>
+                                    <constraint firstAttribute="bottom" secondItem="Rkl-f2-aIp" secondAttribute="bottom" constant="1" id="QQX-nn-Bic"/>
+                                    <constraint firstItem="ZtQ-NP-QSf" firstAttribute="leading" secondItem="uys-Tg-KyT" secondAttribute="leading" id="qv1-IN-QwD"/>
+                                    <constraint firstItem="Rkl-f2-aIp" firstAttribute="leading" secondItem="uys-Tg-KyT" secondAttribute="leading" constant="1" id="xin-IC-3Io"/>
                                 </constraints>
-                                <state key="normal" title="TARIK UANG">
-                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="tarikUangPressed:" destination="QFa-tb-gsZ" eventType="touchUpInside" id="vxH-Pr-V0K"/>
-                                </connections>
-                            </button>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FNj-ai-tfB">
                                 <rect key="frame" x="447" y="8" width="145" height="28"/>
                                 <subviews>
@@ -401,12 +447,13 @@
                         <color key="backgroundColor" red="0.078431372549019607" green="0.59607843137254901" blue="0.54509803921568623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="FNj-ai-tfB" secondAttribute="bottom" constant="8" id="2zU-hX-25M"/>
-                            <constraint firstAttribute="trailing" secondItem="ZtQ-NP-QSf" secondAttribute="trailing" constant="8" id="FS0-9a-Igo"/>
+                            <constraint firstItem="uys-Tg-KyT" firstAttribute="top" secondItem="xq5-6H-hVl" secondAttribute="top" constant="8" id="7zw-5e-ruk"/>
+                            <constraint firstAttribute="trailing" secondItem="uys-Tg-KyT" secondAttribute="trailing" constant="8" id="ApM-7Q-R4Q"/>
                             <constraint firstAttribute="bottom" secondItem="1Qc-wj-fxh" secondAttribute="bottom" constant="8" id="RIt-we-jhq"/>
                             <constraint firstItem="FNj-ai-tfB" firstAttribute="top" secondItem="xq5-6H-hVl" secondAttribute="top" constant="8" id="Rsc-NC-d1x"/>
+                            <constraint firstAttribute="bottom" secondItem="uys-Tg-KyT" secondAttribute="bottom" constant="8" id="SZp-83-zon"/>
                             <constraint firstItem="1Qc-wj-fxh" firstAttribute="leading" secondItem="xq5-6H-hVl" secondAttribute="leading" constant="8" id="WZo-Ap-dSg"/>
-                            <constraint firstItem="ZtQ-NP-QSf" firstAttribute="leading" secondItem="xq5-6H-hVl" secondAttribute="leading" constant="8" id="fIk-Hx-5mM"/>
-                            <constraint firstItem="ZtQ-NP-QSf" firstAttribute="top" secondItem="xq5-6H-hVl" secondAttribute="top" constant="8" id="k2v-Pf-VVK"/>
+                            <constraint firstItem="uys-Tg-KyT" firstAttribute="leading" secondItem="xq5-6H-hVl" secondAttribute="leading" constant="8" id="Xsj-rA-ufn"/>
                             <constraint firstItem="1Qc-wj-fxh" firstAttribute="top" secondItem="xq5-6H-hVl" secondAttribute="top" constant="8" id="w9f-tR-7sM"/>
                             <constraint firstAttribute="trailing" secondItem="FNj-ai-tfB" secondAttribute="trailing" constant="8" id="wtn-DO-3DB"/>
                         </constraints>
@@ -454,6 +501,7 @@
             <connections>
                 <outlet property="bottomLoadingPanel" destination="HP0-vC-cFs" id="F0F-Wq-JZx"/>
                 <outlet property="btnRefresh" destination="kNv-hw-vz1" id="PXo-Qw-i8Y"/>
+                <outlet property="consTopVwTable" destination="6TB-GO-cAl" id="eYg-0q-in7"/>
                 <outlet property="lblBalanceAmount" destination="Ga7-K5-gUd" id="aXu-Hl-a8K"/>
                 <outlet property="lblEmpty" destination="nVF-7Y-bm2" id="TME-4V-vXa"/>
                 <outlet property="lblMutasi" destination="0Oy-5q-r8d" id="zd4-TL-JYx"/>
@@ -465,7 +513,11 @@
                 <outlet property="topUpButton" destination="b4w-OF-aTq" id="7nE-Xc-Zbg"/>
                 <outlet property="topUpLbl" destination="rkT-ux-jk1" id="tvu-ZY-oWa"/>
                 <outlet property="vwMutasiSelected" destination="6YT-CF-Ipf" id="ihP-6y-Lq6"/>
+                <outlet property="vwTabBar" destination="vbs-nU-LVA" id="DQu-wS-8sO"/>
+                <outlet property="vwTopUp" destination="FNj-ai-tfB" id="kO4-F9-ZdS"/>
                 <outlet property="vwTopUpSelected" destination="2oL-xD-886" id="8N5-JB-GVY"/>
+                <outlet property="vwWithdraw" destination="1Qc-wj-fxh" id="Iw2-kl-Sah"/>
+                <outlet property="vwWithdrawOnly" destination="uys-Tg-KyT" id="DW5-dX-BrY"/>
             </connections>
             <point key="canvasLocation" x="475" y="495"/>
         </viewController>

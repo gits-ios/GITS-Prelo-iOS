@@ -65,6 +65,9 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     var isTopUp = false
     
+    @IBOutlet weak var vwTabBar: UIView!
+    @IBOutlet weak var consTopVwTable: NSLayoutConstraint!
+    
     @IBOutlet weak var lblMutasi: UILabel!
     @IBOutlet weak var lblPreloBalance: UILabel!
     @IBOutlet weak var vwMutasiSelected: UIView!
@@ -75,6 +78,11 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     
     @IBOutlet weak var mutasiLbl: UILabel!
     @IBOutlet weak var topUpLbl: UILabel!
+    
+    @IBOutlet weak var vwWithdrawOnly: UIView!
+    @IBOutlet weak var vwTopUp: UIView!
+    @IBOutlet weak var vwWithdraw: UIView!
+    
     
     @IBAction func mutasiButtonPressed(_ sender: Any) {
         isTopUp = false
@@ -103,7 +111,19 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     override func viewDidLoad() {
         super.viewDidLoad()
         vwTopUpSelected.isHidden = true
-        
+        if AppTools.isTopUp {
+            vwTabBar.isHidden = false
+            consTopVwTable.constant = 0
+            vwWithdrawOnly.isHidden = true
+            vwTopUp.isHidden = false
+            vwWithdraw.isHidden = false
+        } else {
+            vwTabBar.isHidden = true
+            consTopVwTable.constant = -50
+            vwWithdrawOnly.isHidden = false
+            vwTopUp.isHidden = true
+            vwWithdraw.isHidden = true
+        }
         // Menghilangkan garis antar cell di baris kosong
         tblMutation.tableFooterView = UIView()
         
@@ -144,7 +164,10 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
 //        self.showLoading()
         
         getBalanceMutations()
-        getTopUp()
+        if AppTools.isTopUp {
+            getTopUp()
+        }
+        
     }
     
     func getBalanceMutations() {
@@ -326,7 +349,7 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
                     o.orderID = b.id
                     o.ticketNumber = b.ticket_number
                     o.total = Int64(b.amount + b.banktransfer_digit)
-                    //o.date = b.create_time
+                    o.dateCreate = b.create_time
                     
                     o.isBackTwice = false
                     o.targetBank = b.target_bank
@@ -413,9 +436,14 @@ class BalanceMutationViewController : BaseViewController, UITableViewDataSource,
     }
     
     @IBAction func topUpPressed(_ sender: Any) {
-        let t = Bundle.main.loadNibNamed(Tags.XibNameTopUp, owner: nil, options: nil)?.first as! TopUpViewController
-        t.preloBalance = self.lblBalanceAmount.text!
-        self.navigationController?.pushViewController(t, animated: true)
+        if AppTools.isVerification {
+            let t = Bundle.main.loadNibNamed(Tags.XibNameTopUpVerification, owner: nil, options: nil)?.first as! TopUpVerificationViewController
+            self.navigationController?.pushViewController(t, animated: true)
+        } else {
+            let t = Bundle.main.loadNibNamed(Tags.XibNameTopUp, owner: nil, options: nil)?.first as! TopUpViewController
+            t.preloBalance = self.lblBalanceAmount.text!
+            self.navigationController?.pushViewController(t, animated: true)
+        }
     }
     
     @IBAction func refreshPressed(_ sender: AnyObject) {

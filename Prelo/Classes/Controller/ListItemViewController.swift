@@ -2858,7 +2858,7 @@ class UploadSuggestionCell : UICollectionViewCell, UIScrollViewDelegate {
     
     func setUploadTimer() {
         // Scroll timer
-        Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(UploadSuggestionCell.autoScrollUploadSuggestion), userInfo: nil, repeats: true)
+        Timer.scheduledTimer(timeInterval: 2.5, target: self, selector: #selector(UploadSuggestionCell.autoScrollUploadSuggestion), userInfo: nil, repeats: true)
     }
     
     func autoScrollUploadSuggestion() {
@@ -3366,6 +3366,7 @@ class StoreInfo : UICollectionViewCell {
     @IBOutlet weak var captionTotal : UILabel!
     @IBOutlet weak var captionLastActive: UILabel!
     @IBOutlet weak var captionChatPercentage: UILabel!
+    @IBOutlet weak var captionTransactionsSuccess: UILabel!
     @IBOutlet weak var vwGroup: UIView!
     
     var completeDesc : String = ""
@@ -3385,7 +3386,7 @@ class StoreInfo : UICollectionViewCell {
     }
     
     static func heightFor(_ json: JSON, isExpand: Bool) -> CGFloat {
-        var height = 21 + 94
+        var height = 21 + 94 + 20
         var completeDesc = ""
         if let desc = json["profile"]["description"].string
         {
@@ -3485,6 +3486,13 @@ class StoreInfo : UICollectionViewCell {
         } else {
             self.captionDesc.text = "Belum ada deskripsi."
             self.captionDesc.textColor = UIColor.lightGray
+        }
+        
+        // Transaction Success
+        if let transactionSuccess = json["others"]["total_transactions_success"].int {
+            if let transactionTotal = json["others"]["total_transactions"].int {
+                self.captionTransactionsSuccess.text = String(transactionSuccess) + " dari " + String(transactionTotal)
+            }
         }
         
         

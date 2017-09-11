@@ -967,9 +967,11 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                         self.lblOpenClose.text = "Buka"
                         self.vwClose.isHidden = true
                         self.fieldTentangShopTop.constant = -40
+                        self.lblOpenClose.textColor = Theme.PrimaryColor
                     } else {
                         if(json["status"] == 1){
                             self.lblOpenClose.text = "Buka"
+                            self.lblOpenClose.textColor = Theme.PrimaryColor
                             if(json["custom_reason"] == nil){
                                 self.vwClose.isHidden = true
                                 self.fieldTentangShopTop.constant = -40

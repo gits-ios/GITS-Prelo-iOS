@@ -184,7 +184,7 @@ class ChangeShopStatusViewController : BaseViewController{
         //dropDown = DropDown()
         
         // The list of items to display. Can be changed dynamically
-        dropDown.dataSource = ["Alasan menutup toko","Sedang berada di luar kota", "Sakit", "Mendapatkan Pengalaman Buruk di Prelo", "Belum ada barang untuk dijual di Prelo", "Barang tidak pernah terjual di Prelo", "Lainnya"]
+        dropDown.dataSource = ["Alasan menutup shop","Sedang berada di luar kota", "Sakit", "Mendapatkan pengalaman buruk di Prelo", "Belum ada barang untuk dijual di Prelo", "Barang tidak pernah terjual di Prelo", "Lainnya"]
         lblAlasan.text = dropDown.dataSource[selectedIndex]
         
         // Action triggered on selection
@@ -285,8 +285,8 @@ class ChangeShopStatusViewController : BaseViewController{
             Constant.showDialog("Perhatian", message: "Pilih tanggal berakhirnya tutup toko")
             return false
         }
-        if(lblAlasan.text == "Alasan menutup toko"){
-            Constant.showDialog("Perhatian", message: "Pilih alasan menutup toko")
+        if(lblAlasan.text == "Alasan menutup shop"){
+            Constant.showDialog("Perhatian", message: "Pilih alasan menutup shop")
             return false
         }
         if(vwPengalamanBuruk.isHidden == false){
@@ -297,7 +297,7 @@ class ChangeShopStatusViewController : BaseViewController{
         }
         if(vwLainnya.isHidden == false){
             if(txtLainnya.text == ""){
-                Constant.showDialog("Perhatian", message: "Mohon sertakan alasan menutup toko")
+                Constant.showDialog("Perhatian", message: "Mohon sertakan alasan menutup shop")
                 return false
             }
         }
@@ -311,6 +311,12 @@ class ChangeShopStatusViewController : BaseViewController{
         formatter.dateFormat = "YYYY-MM-dd"
         date = formatter.string(from: datePicker.date)
         date2 = formatter.string(from: datePicker2.date)
+        var secondsFromGMT: Int { return TimeZone.current.secondsFromGMT() }
+        print(secondsFromGMT)
+        print("date awal")
+        print(date)
+        print("date akhir")
+        print(date2)
         var alasanCustom : String!
         if(selectedIndex==3){
             alasanCustom = txtPengalamanBuruk.text
@@ -334,7 +340,6 @@ class ChangeShopStatusViewController : BaseViewController{
     
     func openShop(){
         let _ = request(APIMe.openUsersShop).responseJSON{resp in
-            print("masuk sini kok")
             if(PreloEndpoints.validate(true, dataResp:resp, reqAlias:"Open Shop")){
                 _ = self.navigationController?.popViewController(animated: true)
             }

@@ -704,6 +704,9 @@
 		B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */; };
 		B2BE2E001E29F2AF006B6903 /* StorePageTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */; };
 		B2BE2E021E29FA42006B6903 /* StorePageShopHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */; };
+		B2BE47871F60F20A008252D3 /* Rekening_Utama_32px.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BE47861F60F20A008252D3 /* Rekening_Utama_32px.png */; };
+		B2BE47991F6655FF008252D3 /* TopUpVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = B2BE47981F6655FF008252D3 /* TopUpVerification.xib */; };
+		B2BE479B1F6658B0008252D3 /* TopUpVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2BE479A1F6658B0008252D3 /* TopUpVerificationViewController.swift */; };
 		B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC5F1E4C190D009982F9 /* ic_coin.png */; };
 		B2BEBC761E4C27EC009982F9 /* placeholder-circle.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC731E4C27EC009982F9 /* placeholder-circle.png */; };
 		B2BEBC771E4C27EC009982F9 /* placeholder-standar.png in Resources */ = {isa = PBXBuildFile; fileRef = B2BEBC741E4C27EC009982F9 /* placeholder-standar.png */; };
@@ -1911,6 +1914,9 @@
 		B2BE2DEF1E29EBBD006B6903 /* StorePageTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageTabBar.xib; sourceTree = "<group>"; };
 		B2BE2DFF1E29F2AF006B6903 /* StorePageTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorePageTabBarViewController.swift; sourceTree = "<group>"; };
 		B2BE2E011E29FA42006B6903 /* StorePageShopHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StorePageShopHeader.xib; sourceTree = "<group>"; };
+		B2BE47861F60F20A008252D3 /* Rekening_Utama_32px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Rekening_Utama_32px.png; sourceTree = "<group>"; };
+		B2BE47981F6655FF008252D3 /* TopUpVerification.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopUpVerification.xib; sourceTree = "<group>"; };
+		B2BE479A1F6658B0008252D3 /* TopUpVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopUpVerificationViewController.swift; sourceTree = "<group>"; };
 		B2BEBC5F1E4C190D009982F9 /* ic_coin.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_coin.png; sourceTree = "<group>"; };
 		B2BEBC731E4C27EC009982F9 /* placeholder-circle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-circle.png"; sourceTree = "<group>"; };
 		B2BEBC741E4C27EC009982F9 /* placeholder-standar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "placeholder-standar.png"; sourceTree = "<group>"; };
@@ -2708,6 +2714,7 @@
 				58B5A2E31F1D9BE800A80E81 /* ReviewAsSellerViewController.swift */,
 				58B5A2E51F1D9BFE00A80E81 /* ReviewAsBuyerViewController.swift */,
 				B28349301F4FE6F300C916A8 /* ShopReviewViewController2.swift */,
+				B2BE479A1F6658B0008252D3 /* TopUpVerificationViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2791,6 +2798,7 @@
 				B2D1198A1E290BE20064045B /* banner */,
 				B2EE39C91E76903C00113E03 /* paid push */,
 				B2BEBC7D1E4C30C9009982F9 /* placeholder */,
+				B2BE47861F60F20A008252D3 /* Rekening_Utama_32px.png */,
 				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
 				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
 				21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */,
@@ -3368,6 +3376,7 @@
 				58B5A2E11F1D9B1D00A80E81 /* ReviewAsBuyer.xib */,
 				B28349341F4FE75000C916A8 /* ShopReview2.xib */,
 				B28349351F4FE75000C916A8 /* ShopReview2Average.xib */,
+				B2BE47981F6655FF008252D3 /* TopUpVerification.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -4240,6 +4249,7 @@
 				B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */,
 				216799741B8F879A00F18F90 /* rsz_ic_bni@2x.png in Resources */,
 				589A6FC51D8C08F600654CDD /* ic_lovelist.png in Resources */,
+				B2BE47991F6655FF008252D3 /* TopUpVerification.xib in Resources */,
 				B2B2F3631E8D04FE0039167A /* ic_wjp_refund.png in Resources */,
 				210959B11B8DD088000F2939 /* ic_backarrow@2x.png in Resources */,
 				585887431DBEDAE9006EC6D5 /* MyProductTransaction.xib in Resources */,
@@ -4472,6 +4482,7 @@
 				B2BF267F1E82898400BD9EEB /* ic_edit_white.png in Resources */,
 				B2DBBB951E31C20000F74543 /* Default-New-Splash-Screen.jpg in Resources */,
 				210DF0EB1B730764004AE3D9 /* ic_dollar@2x.png in Resources */,
+				B2BE47871F60F20A008252D3 /* Rekening_Utama_32px.png in Resources */,
 				B2E176101F0C992900E9A45A /* bg_book.png in Resources */,
 				585887421DBEDAC3006EC6D5 /* MyProductProcessing.xib in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
@@ -4727,6 +4738,7 @@
 				B2FFCBA11EA52669004F01D0 /* SocketEngine.swift in Sources */,
 				5804CBD81EEE6CC100B7D032 /* RekeningAddViewController.swift in Sources */,
 				5847E1991DBE0D7500C1B2BA /* PreloNotificationListener.swift in Sources */,
+				B2BE479B1F6658B0008252D3 /* TopUpVerificationViewController.swift in Sources */,
 				2167998C1B8F8AB900F18F90 /* AFHTTPSessionManager.m in Sources */,
 				5858875F1DBEEA41006EC6D5 /* ProductDetailCover.swift in Sources */,
 				21B467FC1CCE5EDB00E145ED /* UIDevice+BFKit.swift in Sources */,

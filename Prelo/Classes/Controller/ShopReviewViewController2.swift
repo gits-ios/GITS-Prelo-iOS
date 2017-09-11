@@ -127,6 +127,7 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
         if (self.tableView.delegate == nil) {
             self.tableView.dataSource = self
             self.tableView.delegate = self
+            self.tableView.tableFooterView = UIView()
         }
         
         self.tableView.reloadData()
@@ -134,6 +135,7 @@ class ShopReviewViewController2: BaseViewController, UITableViewDataSource, UITa
         if (self.tableViewRvwasBuyer.delegate == nil) {
             self.tableViewRvwasBuyer.dataSource = self
             self.tableViewRvwasBuyer.delegate = self
+            self.tableViewRvwasBuyer.tableFooterView = UIView()
         }
         
         self.tableViewRvwasBuyer.reloadData()
@@ -331,7 +333,7 @@ class ShopReview2Average : UIView {
         super.awakeFromNib()
         
         // Love floatable
-        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 73.75, height: 12.6)) // 175 -> 122.5 -> 73.75  30 -> 21 -> 12.6
+        self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 87.5, height: 15)) // 175 -> 122.5 -> 73.75 -> 87.5  30 -> 21 -> 12.6 -> 15
         self.floatRatingView.emptyImage = UIImage(named: "ic_love_96px_trp.png")?.withRenderingMode(.alwaysTemplate)
         self.floatRatingView.fullImage = UIImage(named: "ic_love_96px.png")?.withRenderingMode(.alwaysTemplate)
         
@@ -359,7 +361,7 @@ class ShopReview2Average : UIView {
         
         self.reviewAs.text = "Review sebagai " + (isAsSeller ? "penjual" : "pembeli")
         
-        averageStar.text = star.clean
+        averageStar.text = String(round(10*star)/10)
         
         self.floatRatingView.rating = star
     }

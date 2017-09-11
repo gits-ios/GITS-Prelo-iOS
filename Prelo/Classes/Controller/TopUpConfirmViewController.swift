@@ -63,6 +63,7 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var orderID : String = ""
     var ticketNumber : String = ""
     var transactionId : String = ""
+    var dateCreate : String = ""
     var images : [URL] = []
     var total : Int64 = 0
     var kodeTransfer : Int64 = 0
@@ -76,7 +77,7 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet weak var consTraillingLblDropdownBank: NSLayoutConstraint! // 0 -> -22
     
     var date : String?
-    var remaining : Int = 24
+    var remaining : Int = 12
     
     // Prelo account data
     var rekenings : Array<BankAccount> = []
@@ -188,10 +189,25 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.vwUnpaidTrx.isHidden = false
             self.btnFreeTrx.isHidden = true
         } else {
-            let date = Date().dateByAddingDays(1) // tomorrow after expire or after now
+            var date = Date()
+            var time = ""
+            if(dateCreate == ""){
+                // from top up
+                date = Date().addingTimeInterval(12 * 60 * 60)
+            } else {
+                // from balance mutation
+                var dateCre = dateCreate.components(separatedBy: ".")
+                let inputFormatter = DateFormatter()
+                inputFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+                var dateCre2 = dateCre[0].components(separatedBy: "T")
+                var tempDate = dateCre2[0] + " " + dateCre2[1]
+                date = inputFormatter.date(from: tempDate)!.addingTimeInterval(12 * 60 * 60)
+            }
+            
             let f = DateFormatter()
             f.dateFormat = "dd/MM/yyyy HH:mm:ss"
-            let time = f.string(from: date)
+            time = f.string(from: date)
+            
             // Arrange views
             let text = "Lakukan pembayaran TEPAT hingga 3 digit terakhir dalam waktu " + remaining.string + " jam (" + (self.date != nil ? self.date! : time) + ") ke " + (targetBank != nil && targetBank != "" ? "" : "salah satu ") + "rekening di bawah. Perbedaan jumlah transfer akan memperlambat proses verifikasi."
             let mtext = NSMutableAttributedString(string: text)
@@ -560,11 +576,11 @@ class TopUpConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         timePaidFormatter.dateFormat = "EEEE, dd MMMM yyyy"
         let timePaidString = timePaidFormatter.string(from: timePaid)
         
-        print("")
-        print(self.orderID)
-        print(self.ticketNumber)
-        print("{\"target_bank\": \"\(self.targetBank!)\"}")
-        print(timePaidString)
+//        print("")
+//        print(self.orderID)
+//        print(self.ticketNumber)
+//        print("{\"target_bank\": \"\(self.targetBank!)\"}")
+//        print(timePaidString)
         // API
         let _ = request(APIWallet.topUpPaid(_id: self.orderID, payment_method_param: "{\"target_bank\": \"\(self.targetBank!)\"}", payment_time: timePaidString, target_bank: self.targetBank)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Top Up Confirm Payment")){

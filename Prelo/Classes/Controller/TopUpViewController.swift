@@ -171,8 +171,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
         p.methodDetail = .mandiriEcash
         self.paymentMethods.append(p)
             
-        print("payment method")
-        print(self.paymentMethods.count)
+//        print("payment method")
+//        print(self.paymentMethods.count)
         
     }
     
@@ -397,8 +397,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             
             //cell.adapt("Total Belanja", amount: self.totalAmount)
             
-            print("payment method nya")
-            print(self.paymentMethods[self.selectedPaymentIndex].methodDetail)
+//            print("payment method nya")
+//            print(self.paymentMethods[self.selectedPaymentIndex].methodDetail)
             if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .bankTransfer {
                 cell.adapt(self.paymentMethods[self.selectedPaymentIndex].methodDetail.chargeDescription, amount: Int64(random))
             } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .indomaret {
@@ -469,12 +469,12 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func navigateToOrderConfirmVC(_ isMidtrans: Bool) {
-        print("ada masuk navigasi ini")
+//        print("ada masuk navigasi ini")
         let o = Bundle.main.loadNibNamed(Tags.XibNameTopUpConfirm, owner: nil, options: nil)?.first as! TopUpConfirmViewController
         
-        print("yang di kirim")
-        print(self.tempTopUpId)
-        print(self.tempTicketNumber)
+//        print("yang di kirim")
+//        print(self.tempTopUpId)
+//        print(self.tempTicketNumber)
         o.orderID = self.tempTopUpId
         o.ticketNumber = self.tempTicketNumber
         o.total = Int64(self.tempTotalAmount) + Int64(self.random)
@@ -524,8 +524,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let idx = indexPath as IndexPath
-        print("index yang di klik")
-        print(idx)
+//        print("index yang di klik")
+//        print(idx)
         //if(idx.row >= 5 && idx.row <= 10){
         if(idx.row == 5){
             self.selectedPaymentIndex = idx.row - 5
@@ -564,8 +564,8 @@ class TopUpViewController: BaseViewController, UITableViewDataSource, UITableVie
             txt = "0"
         }
         tempTotalAmount = Int(txt)!
-        print("ini txt nya")
-        print(txt)
+//        print("ini txt nya")
+//        print(txt)
         
         let sec = tempIndexPath.section
         var reloadIdxs: [IndexPath] = [tempIndexPath]

@@ -99,6 +99,28 @@ class AppTools: NSObject {
     static func switchToSingleCart(_ isOn: Bool) {
         _isSingleCart = isOn
     }
+    
+    fileprivate static var _isTopUp = true
+    static var isTopUp : Bool {
+        get {
+            return _isTopUp
+        }
+    }
+
+    static func switchToTopUp(_ isOn: Bool){
+        _isTopUp = isOn
+    }
+    
+    fileprivate static var _isVerification = true
+    static var isVerification : Bool {
+        get {
+            return _isVerification
+        }
+    }
+    
+    static func switchToVerification(_ isOn: Bool){
+        _isVerification = isOn
+    }
 }
 
 enum AppFont {
@@ -931,6 +953,7 @@ class Tags : NSObject {
     static let XibNameReviewAsBuyer = "ReviewAsBuyer"
     static let XibNameReviewTabBar = "ReviewTabBar"
     static let XibNameShopReview2 = "ShopReview2"
+    static let XibNameTopUpVerification = "TopUpVerification"
 }
 
 class OrderStatus : NSObject {

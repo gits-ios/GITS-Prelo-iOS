@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -125,7 +125,7 @@
                                                             <constraint firstAttribute="width" constant="19" id="tPJ-gp-qag"/>
                                                         </constraints>
                                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
-                                                        <color key="textColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <color key="textColor" red="0.078431372549019607" green="0.59607843137254901" blue="0.54509803921568623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jtf-aT-63H" userLabel="line_1px">
@@ -257,33 +257,23 @@
                                                 </connections>
                                             </datePicker>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hCk-X6-wN4">
-                                                <rect key="frame" x="8" y="520" width="45" height="17"/>
+                                                <rect key="frame" x="8" y="520" width="45" height="21"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="17" id="WzH-mg-lSa"/>
+                                                    <constraint firstAttribute="height" constant="21" id="WzH-mg-lSa"/>
                                                     <constraint firstAttribute="width" constant="45" id="naU-fp-wRP"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(hanya dapat dilihat admin Prelo)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eE7-jk-BLM">
-                                                <rect key="frame" x="60" y="520" width="214" height="21"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="21" id="TJ4-ug-sRl"/>
-                                                    <constraint firstAttribute="width" constant="214" id="qCQ-Ng-Ocr"/>
-                                                </constraints>
-                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
-                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Ki-Em-TKn">
-                                                <rect key="frame" x="8" y="540" width="359" height="35"/>
+                                                <rect key="frame" x="8" y="542" width="359" height="35"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="piO-kU-qG1">
                                                         <rect key="frame" x="1" y="1" width="357" height="33"/>
                                                         <subviews>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan menutup toko" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6lQ-VM-O9r">
-                                                                <rect key="frame" x="8" y="6" width="137" height="21"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alasan menutup shop" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6lQ-VM-O9r">
+                                                                <rect key="frame" x="8" y="6" width="140" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="height" constant="21" id="Uj9-Ez-GJA"/>
                                                                 </constraints>
@@ -291,14 +281,14 @@
                                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="&gt;" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YC6-5E-Epa">
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YC6-5E-Epa">
                                                                 <rect key="frame" x="337" y="6" width="12" height="21"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" constant="12" id="dq8-D7-hPU"/>
                                                                     <constraint firstAttribute="height" constant="21" id="eEz-ms-Lm2"/>
                                                                 </constraints>
-                                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                                <nil key="textColor"/>
+                                                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="12"/>
+                                                                <color key="textColor" red="0.078431372549019607" green="0.59607843137254901" blue="0.54509803921568623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o7n-gd-Y6D">
@@ -323,7 +313,7 @@
                                                         </constraints>
                                                     </view>
                                                 </subviews>
-                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                                 <constraints>
                                                     <constraint firstItem="piO-kU-qG1" firstAttribute="top" secondItem="5Ki-Em-TKn" secondAttribute="top" constant="1" id="I11-lu-176"/>
                                                     <constraint firstItem="piO-kU-qG1" firstAttribute="leading" secondItem="5Ki-Em-TKn" secondAttribute="leading" constant="1" id="T5Y-F6-LnO"/>
@@ -333,19 +323,16 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8ge-Ja-vuR">
-                                                <rect key="frame" x="8" y="585" width="359" height="88"/>
+                                                <rect key="frame" x="8" y="587" width="359" height="88"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mohon kesediaan untuk menceritakan pengalaman kamu untuk perbaikan layanan Prelo." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tty-Cg-vIC">
-                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="36"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="height" constant="36" id="vIZ-QW-W1A"/>
-                                                        </constraints>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mohon kesediaan untuk menceritakan pengalaman kamu untuk perbaikan layanan Prelo." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tty-Cg-vIC">
+                                                        <rect key="frame" x="0.0" y="0.0" width="359" height="33.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4zG-ZY-bQq" userLabel="Field Mulai">
-                                                        <rect key="frame" x="0.0" y="44" width="359" height="40"/>
+                                                        <rect key="frame" x="0.0" y="41.5" width="359" height="40"/>
                                                         <subviews>
                                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NXu-Es-p8v" userLabel="line_1px">
                                                                 <rect key="frame" x="0.0" y="39" width="359" height="1"/>
@@ -354,7 +341,7 @@
                                                                     <constraint firstAttribute="height" constant="1" id="m82-wQ-Z2o"/>
                                                                 </constraints>
                                                             </view>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tulis pengalaman kamu disini" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y6D-kw-M5r">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tulis pengalaman kamu di sini" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Y6D-kw-M5r">
                                                                 <rect key="frame" x="0.0" y="5" width="359" height="30"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -385,7 +372,7 @@
                                                 </constraints>
                                             </view>
                                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zD6-VE-wuD">
-                                                <rect key="frame" x="8" y="585" width="359" height="48"/>
+                                                <rect key="frame" x="8" y="587" width="359" height="48"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="oSe-CT-NnM" userLabel="Field Mulai">
                                                         <rect key="frame" x="0.0" y="8" width="359" height="40"/>
@@ -397,7 +384,7 @@
                                                                     <constraint firstAttribute="height" constant="1" id="2Pd-2V-BBa"/>
                                                                 </constraints>
                                                             </view>
-                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tulis alasan kamu disini" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LGc-wg-A5I">
+                                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Tulis pengalaman kamu di sini" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LGc-wg-A5I">
                                                                 <rect key="frame" x="0.0" y="5" width="359" height="30"/>
                                                                 <nil key="textColor"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -425,11 +412,21 @@
                                                 </constraints>
                                             </view>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo akan mengirimkan notifikasi dan e-mail 1x24 jam sebelum tanggal dibuka kembali." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LLK-7s-5xP">
-                                                <rect key="frame" x="8" y="670" width="359" height="63"/>
+                                                <rect key="frame" x="8" y="672" width="359" height="63"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="63" id="9jw-Bm-60P"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(hanya dapat dilihat admin Prelo)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eE7-jk-BLM">
+                                                <rect key="frame" x="55" y="520" width="214" height="21"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="21" id="TJ4-ug-sRl"/>
+                                                    <constraint firstAttribute="width" constant="214" id="qCQ-Ng-Ocr"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
                                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
@@ -444,12 +441,12 @@
                                             <constraint firstItem="hCk-X6-wN4" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="BVs-lO-To7"/>
                                             <constraint firstItem="DlF-YP-dcS" firstAttribute="top" secondItem="MuO-k3-JQ4" secondAttribute="bottom" constant="8" id="BwU-Cc-vBh"/>
                                             <constraint firstItem="dOY-h8-x1g" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="CdY-8B-sTM"/>
-                                            <constraint firstItem="5Ki-Em-TKn" firstAttribute="top" secondItem="eE7-jk-BLM" secondAttribute="bottom" constant="-1" id="MlT-No-3ng"/>
+                                            <constraint firstItem="5Ki-Em-TKn" firstAttribute="top" secondItem="eE7-jk-BLM" secondAttribute="bottom" constant="1" id="MlT-No-3ng"/>
                                             <constraint firstAttribute="trailing" secondItem="8ge-Ja-vuR" secondAttribute="trailing" constant="8" id="MwK-uZ-6DT"/>
                                             <constraint firstAttribute="height" constant="733" id="Ne6-9x-Q6e"/>
                                             <constraint firstItem="DlF-YP-dcS" firstAttribute="leading" secondItem="p1G-7A-yfM" secondAttribute="leading" constant="8" id="Q4e-3i-GDf"/>
                                             <constraint firstItem="dOY-h8-x1g" firstAttribute="top" secondItem="MuO-k3-JQ4" secondAttribute="bottom" constant="165" id="QcR-eL-sla"/>
-                                            <constraint firstItem="eE7-jk-BLM" firstAttribute="leading" secondItem="hCk-X6-wN4" secondAttribute="trailing" constant="7" id="R4F-YZ-bUa"/>
+                                            <constraint firstItem="eE7-jk-BLM" firstAttribute="leading" secondItem="hCk-X6-wN4" secondAttribute="trailing" constant="2" id="R4F-YZ-bUa"/>
                                             <constraint firstAttribute="trailing" secondItem="DlF-YP-dcS" secondAttribute="trailing" constant="8" id="UYr-V0-YQO"/>
                                             <constraint firstItem="YeS-rN-u15" firstAttribute="top" secondItem="dOY-h8-x1g" secondAttribute="bottom" constant="8" id="UxT-XW-U1u"/>
                                             <constraint firstAttribute="trailing" secondItem="WGf-Uf-hAy" secondAttribute="trailing" constant="8" id="ZrP-UY-PZp"/>
@@ -472,10 +469,11 @@
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T7k-jO-zdM">
                                         <rect key="frame" x="8" y="741" width="359" height="42"/>
-                                        <color key="backgroundColor" red="0.30620646480000002" green="0.65677493809999998" blue="0.61924308539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.0" green="0.65490196078431373" blue="0.61568627450980395" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="42" id="5Rd-Hb-Ys6"/>
                                         </constraints>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                                         <state key="normal" title="ATUR TUTUP SHOP">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -484,8 +482,11 @@
                                         </connections>
                                     </button>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bJh-kv-Q9o">
-                                        <rect key="frame" x="8" y="791" width="359" height="30"/>
-                                        <state key="normal" title="Batalkan jadwal penutupan"/>
+                                        <rect key="frame" x="8" y="783" width="359" height="28"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                        <state key="normal" title="Batalkan jadwal penutupan">
+                                            <color key="titleColor" red="0.078431372549019607" green="0.59607843137254901" blue="0.54509803921568623" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
                                         <connections>
                                             <action selector="btnBatalJadwalPressed:" destination="2JG-ca-wXK" eventType="touchUpInside" id="kcC-Q7-m8S"/>
                                         </connections>
@@ -495,7 +496,7 @@
                                 <constraints>
                                     <constraint firstItem="p1G-7A-yfM" firstAttribute="top" secondItem="ulF-TZ-Us4" secondAttribute="top" id="2jj-yH-QpS"/>
                                     <constraint firstItem="w2c-57-cQg" firstAttribute="top" secondItem="ulF-TZ-Us4" secondAttribute="top" id="4iu-uA-tIe"/>
-                                    <constraint firstItem="bJh-kv-Q9o" firstAttribute="top" secondItem="T7k-jO-zdM" secondAttribute="bottom" constant="8" id="Ckz-hf-rEI"/>
+                                    <constraint firstItem="bJh-kv-Q9o" firstAttribute="top" secondItem="T7k-jO-zdM" secondAttribute="bottom" id="Ckz-hf-rEI"/>
                                     <constraint firstItem="T7k-jO-zdM" firstAttribute="top" secondItem="w2c-57-cQg" secondAttribute="bottom" constant="566" id="D5F-KL-MBg"/>
                                     <constraint firstAttribute="trailing" secondItem="w2c-57-cQg" secondAttribute="trailing" id="Llk-Sj-toV"/>
                                     <constraint firstItem="bJh-kv-Q9o" firstAttribute="leading" secondItem="ulF-TZ-Us4" secondAttribute="leading" constant="8" id="Mq7-hQ-AiB"/>

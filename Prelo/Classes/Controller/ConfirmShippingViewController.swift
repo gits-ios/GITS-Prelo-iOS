@@ -89,6 +89,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         
     }
     
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -125,6 +129,14 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
             }
         }, completion: nil)
+        
+        // done button
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.dismissKeyboard))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        self.txtFldNoResi.inputAccessoryView = ViewForDoneButtonOnKeyboard
         
         // Hide loading
         self.hideLoading()
@@ -182,6 +194,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (trxProductDetails.count >= (indexPath as NSIndexPath).row + 1) {
             let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
+            
             cell.selectionStyle = .none
             
             cell.dataReject = self.dataReject
@@ -402,6 +415,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     }
                 }
                 confirmData += "]}"
+                print("ini confirm data")
                 print(confirmData)
                 
                 let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"

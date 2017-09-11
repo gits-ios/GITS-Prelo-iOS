@@ -19,27 +19,27 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="IiW-y5-dnB" userLabel="imgUser">
-                        <rect key="frame" x="8" y="8" width="56" height="56"/>
+                        <rect key="frame" x="8" y="8" width="50" height="50"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="56" id="5Qf-Zk-wkr"/>
-                            <constraint firstAttribute="height" constant="56" id="k4H-N7-gqY"/>
+                            <constraint firstAttribute="width" constant="50" id="5Qf-Zk-wkr"/>
+                            <constraint firstAttribute="height" constant="50" id="k4H-N7-gqY"/>
                         </constraints>
                     </imageView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FKj-bp-sz7" userLabel="View Love">
-                        <rect key="frame" x="72" y="29" width="240" height="21"/>
+                        <rect key="frame" x="66" y="29" width="246" height="21"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="HST-It-OCP"/>
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet amet jabang bayi lorem ipsum dolor sit amet amet jabang bayi" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gW-ON-CEt">
-                        <rect key="frame" x="72" y="52" width="240" height="43"/>
+                        <rect key="frame" x="66" y="52" width="246" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User fullname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xhl-Wf-a89">
-                        <rect key="frame" x="72" y="8" width="240" height="18"/>
+                        <rect key="frame" x="66" y="8" width="246" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="f00-De-XIX"/>
                         </constraints>

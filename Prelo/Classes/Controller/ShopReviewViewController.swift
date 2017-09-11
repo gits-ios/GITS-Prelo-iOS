@@ -262,7 +262,7 @@ class ShopReviewViewController: BaseViewController, UITableViewDataSource, UITab
                     
                     // btn
                     let lblButton = UILabel(frame: CGRect(x: 16, y: 16, width: tableView.width - 32, height: 30))
-                    lblButton.text = "LIHAT SEMUAaaa REVIEW (\(self.countReview + self.countFeedback))"
+                    lblButton.text = "LIHAT SEMUA REVIEW (\(self.countReview + self.countFeedback))"
                     lblButton.textColor = Theme.GrayLight
                     lblButton.backgroundColor = UIColor.clear
                     lblButton.textAlignment = .center
@@ -529,7 +529,7 @@ class ShopReviewAverageCell : UITableViewCell {
     }
     
     func adapt(_ star : Float, countReview : Int?, type : String?) {
-        self.averageStar.text = star.clean
+        self.averageStar.text = String(round(10*star)/10)
         self.floatRatingView.rating = star
         
         var text = ""
