@@ -20,13 +20,12 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     @IBOutlet weak var lblEmpty : UILabel!
     @IBOutlet weak var btnRefresh: UIButton!
     @IBOutlet weak var loading : UIActivityIndicatorView!
+    @IBOutlet weak var vwBottomLoading: UIView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
-    @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
     @IBOutlet weak var searchBar: UISearchBar!
     var refreshControl : UIRefreshControl!
     
     // Data container
-    let ConsBottomTableViewWhileUpdating : CGFloat = 36
     let ItemPerLoad : Int = 10
     var currentPage : Int = 0
     var isAllItemLoaded : Bool = false
@@ -51,16 +50,13 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         self.hideContent()
         self.hideBottomLoading()
         
-        // Set constraint
-        consBottomTableView.constant = 0
+        self.vwBottomLoading.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
         self.refreshControl.tintColor = Theme.PrimaryColor
         self.refreshControl.addTarget(self, action: #selector(NotifAnggiTransactionViewController.refreshPage), for: UIControlEvents.valueChanged)
         self.tableView.addSubview(refreshControl)
-        
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
         
         // Search bar setup
         searchBar.delegate = self
@@ -98,10 +94,11 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
         }
         let _ = request(APINotification.getNotifsSell(page: currentPage + 1, name : searchText)).responseJSON { resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
+                var dataCount = 0
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Jualan Saya - Transaksi")) {
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
-                    let dataCount = data.count
+                    dataCount = data.count
                     
                     // Store data into variable
                     for (_, item) in data {
@@ -124,13 +121,21 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
                 
                 // Hide bottomLoading (for next request)
                 self.hideBottomLoading()
-                self.consBottomTableView.constant = 0
                 
                 // Hide refreshControl (for refreshing)
                 self.refreshControl.endRefreshing()
                 
-                // Show content
-                self.showContent()
+                if self.currentPage == 1 {
+                    // Show content
+                    self.showContent()
+                } else if dataCount > 0 {
+                    let lastRow = self.tableView.numberOfRows(inSection: 0) - 1
+                    var idxs : Array<IndexPath> = []
+                    for i in 1...dataCount {
+                        idxs.append(IndexPath(row: lastRow+i, section: 0))
+                    }
+                    self.tableView.insertRows(at: idxs, with: .fade)
+                }
             }
             
             self.isRefreshing = false
@@ -182,7 +187,6 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && self.bottomLoading.isHidden) {
                 // Show bottomLoading
-                self.consBottomTableView.constant = ConsBottomTableViewWhileUpdating
                 self.showBottomLoading()
                 
                 // Get balance mutations
@@ -246,11 +250,13 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
     }
     
     func showBottomLoading() {
+        self.vwBottomLoading.isHidden = false
         self.bottomLoading.isHidden = false
         self.bottomLoading.startAnimating()
     }
     
     func hideBottomLoading() {
+        self.vwBottomLoading.isHidden = true
         self.bottomLoading.isHidden = true
         self.bottomLoading.stopAnimating()
     }

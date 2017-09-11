@@ -24,6 +24,9 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     var easterEggAlert : UIAlertController?
     
+    // for dismiss modal choose icon app
+    var iconPickerResponder: SCLAlertViewResponder?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,7 +54,23 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                 let attrString = NSAttributedString(string: "switch to production", attributes: attr)
                 self.btnUrlPrelo.setAttributedTitle(attrString, for: UIControlState())
             }
+            
+            // developer toggle
+            self.setDevButton()
         }
+        
+        // disabled -> if enabled check info.plist.bkp-selectableIcons.plist
+        // apple reject this
+        /*
+        // Pengecekan versi, jika versi yg diinstall melebihi versi server, munculkan opsi ganti icon
+        if let installedVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            if let serverVersion = CDVersion.getOne()?.appVersion {
+                if (serverVersion.compare(installedVersion, options: .numeric, range: nil, locale: nil) == .orderedAscending) {
+                    self.setIconButton()
+                }
+            }
+        }
+        */
         
         // Remove 1px line at the bottom of navbar
         self.navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
@@ -115,19 +134,32 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     
     @IBAction func clearCache() {
         toClearCache(isButton: true)
+        
+        Constant.showDialog("Clear Cache", message: "Clear Cache telah berhasil")
+        self.enableBtnClearCache()
     }
     
     func toClearCache(isButton : Bool) {
         // Get cart products
-        let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
         let delegate = UIApplication.shared.delegate as! AppDelegate
         let notifListener = delegate.preloNotifListener
-        notifListener?.increaseCartCount(-cartProducts.count)
+        
+        if AppTools.isNewCart { // v2
+            let cartSize = CartManager.sharedInstance.getSize()
+            notifListener?.increaseCartCount(-cartSize)
+        } else { // v1
+            let cartProducts = CartProduct.getAll(User.EmailOrEmptyString)
+            notifListener?.increaseCartCount(-cartProducts.count)
+        }
         
         disableBtnClearCache()
         //UIImageView.sharedImageCache().clearAll()
         
-        CartProduct.deleteAll()
+        CartProduct.deleteAll() // v1
+        CartManager.sharedInstance.deleteAll() // v2
+        
+        // disabled
+        /*
         let c = CartProduct.getAllAsDictionary(User.EmailOrEmptyString)
         let p = AppToolsObjC.jsonString(from: c)
         var pID = ""
@@ -149,6 +181,7 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
                 self.enableBtnClearCache()
             }
         }
+         */
         
         _ = CDDraftProduct.deleteAll()
         
@@ -181,14 +214,18 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         // Prelo Analytic - Logout
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
-            "Username" : CDUser.getOne()?.username
-        ]
+            "Username" : CDUser.getOne()?.username ?? ""
+        ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Logout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         
         // Clear local data
         User.Logout()
         
         _ = CDDraftProduct.deleteAll()
+        
+        //cart
+        CartProduct.deleteAll() // v1
+        CartManager.sharedInstance.deleteAll() // v2
         
         // Tell delegate class if any
         if let d = self.userRelatedDelegate
@@ -216,6 +253,11 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
         
         if (notifListener?.cartCount != 0) {
             notifListener?.setCartCount(0)
+        }
+        
+        if (GIDSignIn.sharedInstance().hasAuthInKeychain()) {
+            GIDSignIn.sharedInstance().signOut()
+            print("masukSignOut")
         }
         
         /*
@@ -501,4 +543,194 @@ class AboutViewController: BaseViewController/*, UIAlertViewDelegate*/ {
     func dismissEasterEgg() {
         easterEggAlert?.dismiss(animated: true, completion: nil)
     }
+    
+    // MARK: - Developer toggle
+    func setDevButton() {
+        let btnSetting = self.createButtonWithIcon(UIImage(named: "ic_dev")!)
+        
+        btnSetting.addTarget(self, action: #selector(AboutViewController.developerMode), for: UIControlEvents.touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = btnSetting.toBarButton()
+    }
+    
+    func developerMode() {
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        
+        let lblNewShop = UILabel()
+        
+        lblNewShop.text = "Shop Baru?"
+        lblNewShop.font = Constant.appearance.kTextFont
+        lblNewShop.textColor = alertView.labelTitle.textColor
+        lblNewShop.numberOfLines = 1
+        lblNewShop.textAlignment = .left
+        
+        let width = Constant.appearance.kWindowWidth - 24
+        
+        let tglNewShop = UISwitch()
+        
+        tglNewShop.isOn = AppTools.isNewShop
+        tglNewShop.addTarget(self, action: #selector(self.newShopToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglNewShop.frame = CGRect(x: width - tglNewShop.width, y: 0, width: tglNewShop.width, height: tglNewShop.height)
+        
+        lblNewShop.frame = CGRect(x: 0, y: 0, width: width - tglNewShop.width - 8, height: tglNewShop.height)
+        
+        let lblNewCart = UILabel()
+        
+        lblNewCart.text = "Cart V2?"
+        lblNewCart.font = Constant.appearance.kTextFont
+        lblNewCart.textColor = alertView.labelTitle.textColor
+        lblNewCart.numberOfLines = 1
+        lblNewCart.textAlignment = .left
+        
+        let tglNewCart = UISwitch()
+        
+        tglNewCart.isOn = AppTools.isNewCart
+        tglNewCart.addTarget(self, action: #selector(self.newCartToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglNewCart.frame = CGRect(x: width - tglNewCart.width, y: tglNewShop.height + 8, width: tglNewCart.width, height: tglNewCart.height)
+        
+        lblNewCart.frame = CGRect(x: 0, y: tglNewShop.height + 8, width: width - tglNewCart.width - 8, height: tglNewCart.height)
+        
+        let lblSigCart = UILabel()
+        
+        lblSigCart.text = "Cart 1 page?"
+        lblSigCart.font = Constant.appearance.kTextFont
+        lblSigCart.textColor = alertView.labelTitle.textColor
+        lblSigCart.numberOfLines = 1
+        lblSigCart.textAlignment = .left
+        
+        let tglSigCart = UISwitch()
+        
+        tglSigCart.isOn = AppTools.isSingleCart
+        tglSigCart.addTarget(self, action: #selector(self.sigCartToggle(sender:)), for: UIControlEvents.valueChanged)
+        
+        tglSigCart.frame = CGRect(x: width - tglSigCart.width, y: tglNewShop.height + 8 + tglNewCart.height + 8, width: tglSigCart.width, height: tglNewCart.height)
+        
+        lblSigCart.frame = CGRect(x: 0, y: tglNewShop.height + 8 + tglNewCart.height + 8, width: width - tglSigCart.width - 8, height: tglSigCart.height)
+        
+        // Creat the subview
+        let subview = UIView(frame: CGRect(x: 0, y: 0, width: width, height: tglNewShop.height + 8 + tglNewCart.height + 8 + tglSigCart.height))
+        subview.addSubview(lblNewShop)
+        subview.addSubview(tglNewShop)
+        subview.addSubview(lblNewCart)
+        subview.addSubview(tglNewCart)
+        subview.addSubview(lblSigCart)
+        subview.addSubview(tglSigCart)
+        
+        alertView.customSubview = subview
+        
+        alertView.addButton("Oke") {}
+        
+        alertView.showCustom("Developer Mode Tools", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+    }
+    
+    func newShopToggle(sender: UISwitch) {
+        AppTools.switchToNewShop(sender.isOn)
+    }
+    
+    func newCartToggle(sender: UISwitch) {
+        AppTools.switchToNewCart(sender.isOn)
+    }
+    
+    func sigCartToggle(sender: UISwitch) {
+        AppTools.switchToSingleCart(sender.isOn)
+    }
+    
+    // disabled -> if enabled check info.plist.bkp-selectableIcons.plist
+    // apple reject this
+    /*
+    // MARK: - Icon Toggle for APPLE review only
+    func setIconButton() {
+        let btnSetting = self.createButtonWithIcon(UIImage(named: "ic_dev")!)
+        
+        btnSetting.addTarget(self, action: #selector(AboutViewController.reviewMode), for: UIControlEvents.touchUpInside)
+        
+        self.navigationItem.rightBarButtonItem = btnSetting.toBarButton()
+    }
+    
+    func reviewMode() {
+        if #available(iOS 10.3, *) {
+            
+            let alertView = SCLAlertView(appearance: Constant.appearance)
+            
+            let tap1 = UITapGestureRecognizer(target: self, action: #selector(self.changeIcon(sender:)))
+            let tap2 = UITapGestureRecognizer(target: self, action: #selector(self.changeIcon(sender:)))
+            let tap3 = UITapGestureRecognizer(target: self, action: #selector(self.changeIcon(sender:)))
+            
+            let width = Constant.appearance.kWindowWidth - 24
+            
+            let subview = UIView()
+            subview.frame = CGRect(x: 0, y: 0, width: width, height: 60 + 8 + 60 + 8 + 60)
+            
+            let icon1 = UIImageView()
+            icon1.frame = CGRect(x: (width - 60) / 2, y: 0, width: 60, height: 60)
+            icon1.tag = 1
+            icon1.image = UIImage(named: "ic_default")
+            icon1.addGestureRecognizer(tap1)
+            icon1.setCornerRadius(8)
+            icon1.isUserInteractionEnabled = true
+            
+            let icon2 = UIImageView()
+            icon2.frame = CGRect(x: (width - 60) / 2, y: 60 + 8, width: 60, height: 60)
+            icon2.tag = 2
+            icon2.image = UIImage(named: "ic_christmas")
+            icon2.addGestureRecognizer(tap2)
+            icon2.isUserInteractionEnabled = true
+            
+            let icon3 = UIImageView()
+            icon3.frame = CGRect(x: (width - 60) / 2, y: 60 + 8 + 60 + 8, width: 60, height: 60)
+            icon3.tag = 3
+            icon3.image = UIImage(named: "ic_ramadhan")
+            icon3.addGestureRecognizer(tap3)
+            icon3.isUserInteractionEnabled = true
+            
+            subview.addSubview(icon1)
+            subview.addSubview(icon2)
+            subview.addSubview(icon3)
+            
+            alertView.customSubview = subview
+            
+            alertView.addButton("Oke") {}
+            
+            iconPickerResponder = alertView.showCustom("Ganti Icon", subTitle: "", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+        } else {
+            Constant.showDialog("Ganti Icon", message: "Fitur ini tidak tersedia pada iOS sebelum versi 10.3.x")
+        }
+        
+        
+    }
+    
+    func changeIcon(sender: UITapGestureRecognizer) {
+        var iconType = "ic_default" // "ic_default", "ic_christmas", "ic_ramadhan"
+        
+        let tg = sender.view?.tag
+        
+        if tg == 2 {
+            iconType = "ic_christmas"
+        } else if tg == 3 {
+            iconType = "ic_ramadhan"
+        }
+        
+        iconPickerResponder?.close()
+        
+        if #available(iOS 10.3, *) {
+            if iconType == "ic_default" && UIApplication.shared.alternateIconName != nil {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    UIApplication.shared.setAlternateIconName(nil) { error in
+                        
+                    }
+                })
+            } else if UIApplication.shared.alternateIconName != iconType && iconType != "ic_default" {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    UIApplication.shared.setAlternateIconName(iconType) { error in
+                        
+                    }
+                })
+            } else {
+                Constant.showDialog("Ganti Icon", message: "Icon yang kamu pilih adalah icon aktif saat ini")
+            }
+        }
+    }
+    */
 }

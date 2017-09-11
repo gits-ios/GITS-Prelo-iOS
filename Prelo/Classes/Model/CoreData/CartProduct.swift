@@ -126,6 +126,19 @@ class CartProduct: NSManagedObject {
         //print("deleteAll CartProduct success")
     }
     
+    static func delete(_ itemID: String) {
+        let m = UIApplication.appDelegate.managedObjectContext
+        let result : CartProduct? = self.getOne(itemID, email: User.EmailOrEmptyString )
+        if (result != nil) {
+            m.delete(result!)
+        }
+        if (m.saveSave() != false) {
+            print("delete CartProduct success")
+        } else {
+            print("delete CartProduct failed")
+        }
+    }
+    
     var toDictionary : [String : String]
     {
         return ["product_id":self.cpID, "email":self.email, "shipping_package_id":packageId]

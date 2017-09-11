@@ -16,9 +16,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     @IBOutlet weak var btnRefresh: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var tableView : UITableView!
+    @IBOutlet weak var vwBottomLoading: UIView!
     @IBOutlet weak var bottomLoading: UIActivityIndicatorView!
-    @IBOutlet weak var consBottomTableView: NSLayoutConstraint!
-    let ConsBottomTableViewWhileUpdating : CGFloat = 36
     
     var refreshControl : UIRefreshControl!
     
@@ -52,8 +51,6 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         
-        tableView.contentInset = UIEdgeInsetsMake(0, 0, 44, 0)
-        
         self.getLocalProducts()
         self.getProducts()
         
@@ -64,7 +61,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         // Hide bottom refresh first
         bottomLoading.stopAnimating()
         bottomLoading.isHidden = true
-        consBottomTableView.constant = 0
+        self.vwBottomLoading.isHidden = true
+        
+        self.vwBottomLoading.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
         // Refresh control
         self.refreshControl = UIRefreshControl()
@@ -205,6 +204,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         }
         let _ = request(APIProduct.myProduct(current: nextIdx, limit: (nextIdx + ItemPerLoad), name: searchText)).responseJSON {resp in
             if (searchText == self.searchBar.text) { // Jika response ini sesuai dengan request terakhir
+                var dataCount = 0
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Jualan Saya")) {
                     if let result: AnyObject = resp.result.value as AnyObject?
                     {
@@ -212,7 +212,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                         let d = j["_data"].arrayObject
                         if let data = d
                         {
-                            let dataCount = data.count
+                            dataCount = data.count
                             
                             for json in data
                             {
@@ -238,7 +238,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 // Hide bottomLoading (for next request)
                 self.bottomLoading.stopAnimating()
                 self.bottomLoading.isHidden = true
-                self.consBottomTableView.constant = 0
+                self.vwBottomLoading.isHidden = true
                 
                 // Hide refreshControl (for refreshing)
                 self.refreshControl.endRefreshing()
@@ -248,14 +248,24 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     self.isFirst = true
                 }
                 
-                if (self.products.count > 0 || self.localProducts.count > 0) {
-                    self.lblEmpty.isHidden = true
-                    self.tableView.isHidden = false
-                    self.tableView.reloadData()
-                } else {
-                    self.lblEmpty.isHidden = false
-                    self.btnRefresh.isHidden = false
-                    self.tableView.isHidden = true
+                if self.nextIdx <= self.ItemPerLoad {
+                    if (self.products.count > 0 || self.localProducts.count > 0) {
+                        self.lblEmpty.isHidden = true
+                        self.tableView.isHidden = false
+                        self.tableView.reloadData()
+                    } else {
+                        self.lblEmpty.isHidden = false
+                        self.btnRefresh.isHidden = false
+                        self.tableView.isHidden = true
+                    }
+                } else if dataCount > 0 {
+                    // section 0 -> local product (draft), 1 -> product
+                    let lastRow = self.tableView.numberOfRows(inSection: 1) - 1
+                    var idxs : Array<IndexPath> = []
+                    for i in 1...dataCount {
+                        idxs.append(IndexPath(row: lastRow+i, section: 1))
+                    }
+                    self.tableView.insertRows(at: idxs, with: .fade)
                 }
             }
             
@@ -328,11 +338,11 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     var image : UIImage?
                     if let data = NSData(contentsOfFile: p.imagePath1){
                         if let imageUrl = UIImage(data: data as Data) {
-                            let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as Int)!).resizeWithWidth(120)
+                            let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as! Int)!).resizeWithWidth(120)
                             image = img
                         }
                     } else { // placeholder image
-                        image = UIImage(named: "placeholder-standar")?.resizeWithWidth(120)
+                        image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
                     }
                     
                     localProductPrimaryImages.append(image!)
@@ -490,9 +500,9 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             // Load next items only if all items not loaded yet and if its not currently loading items
             if (!self.isAllItemLoaded && !self.bottomLoading.isAnimating) {
                 // Tampilkan loading di bawah
-                consBottomTableView.constant = ConsBottomTableViewWhileUpdating
                 bottomLoading.startAnimating()
                 bottomLoading.isHidden = false
+                self.vwBottomLoading.isHidden = false
                 
                 // Get user products
                 self.getProducts()

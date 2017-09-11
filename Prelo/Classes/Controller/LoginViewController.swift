@@ -11,10 +11,11 @@ import CoreData
 import TwitterKit
 import Crashlytics
 import Alamofire
+import GoogleSignIn
 
 // MARK: - Class
 
-class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate/*, UIAlertViewDelegate*/ {
+class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITextFieldDelegate, UIScrollViewDelegate, PathLoginDelegate, GIDSignInUIDelegate/*, UIAlertViewDelegate*/ {
     
     // MARK: - Properties
 
@@ -44,7 +45,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             } else {
                 l.screenBeforeLogin = PageName.DashboardLoggedOut
             }
-        } else if (parentType == "CartViewController") {
+        } else if (parentType == "CartViewController" || parentType == "Checkout2ShipViewController" || parentType == "Checkout2PayViewController" || parentType == "Checkout2ViewController") {
             l.screenBeforeLogin = PageName.Checkout
         } else if (parentType == "AddProductViewController" || parentType == "AddProductViewController2") {
             l.screenBeforeLogin = PageName.AddProduct
@@ -525,6 +526,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcRegister = sender as? RegisterViewController
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
+        let vcAddProductShare2 = sender as? AddProductShareViewController2
         let vcUserProfile = sender as? UserProfileViewController
         let vcUserProfile2 = sender as? UserProfileViewController2
         
@@ -547,6 +549,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         if (vcAddProductShare != nil) {
             vcAddProductShare!.hideLoading()
         }
+        if (vcAddProductShare2 != nil) {
+            vcAddProductShare2!.hideLoading()
+        }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
         }
@@ -559,6 +564,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
             Constant.showDialog("Login Facebook", message: reason!)
         }
     }
+    
     
     // Required param: "sender"
     static func LoginWithTwitter(_ param : [String : AnyObject], onFinish : @escaping (NSMutableDictionary) -> ()) {
@@ -779,6 +785,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let vcRegister = sender as? RegisterViewController
         let vcProductDetail = sender as? ProductDetailViewController
         let vcAddProductShare = sender as? AddProductShareViewController
+        let vcAddProductShare2 = sender as? AddProductShareViewController2
         let vcUserProfile = sender as? UserProfileViewController
         let vcUserProfile2 = sender as? UserProfileViewController2
         
@@ -800,6 +807,9 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         if (vcAddProductShare != nil) {
             vcAddProductShare!.hideLoading()
+        }
+        if (vcAddProductShare2 != nil) {
+            vcAddProductShare2!.hideLoading()
         }
         if (vcUserProfile != nil) {
             vcUserProfile!.hideLoading()
@@ -826,6 +836,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         // Setup placeholder
         txtEmail?.attributedPlaceholder = NSAttributedString(string: (txtEmail?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.white])
         txtPassword?.attributedPlaceholder = NSAttributedString(string: (txtPassword?.placeholder)!, attributes: [NSForegroundColorAttributeName: UIColor.white])
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -848,7 +859,227 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
                 self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 64, 0)
             }
         }, completion: nil)
+        
+        // buat dapet notif dari appdelegate kalau udah login google
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(LoginViewController.receiveToggleAuthUINotification(_:)),
+                                               name: NSNotification.Name(rawValue: "ToggleAuthUINotification"),
+                                               object: nil)
+
+        GIDSignIn.sharedInstance().uiDelegate = self
+        
+
     }
+    
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: NSNotification.Name(rawValue: "ToggleAuthUINotification"),
+                                                  object: nil)
+    }
+    
+    @objc func receiveToggleAuthUINotification(_ notification: NSNotification) {
+        if notification.name.rawValue == "ToggleAuthUINotification" {
+            self.toggleAuthUI()
+            if notification.userInfo != nil {
+                guard let userInfo = notification.userInfo as? [String:String] else { return }
+                
+            }
+        }
+    }
+
+    
+    // [START toggle_auth]
+    func toggleAuthUI() {
+        if GIDSignIn.sharedInstance().hasAuthInKeychain() {
+            let gId = ""
+            let gUsername = ""
+            let gToken = ""
+            var gFullname = ""
+            var gEmail = ""
+            
+            let resultDict = NSMutableDictionary()
+            resultDict.setValue(self, forKey: "sender")
+            resultDict.setValue(screenBeforeLogin, forKey: "screenBeforeLogin")
+            resultDict.setValue(gEmail, forKey: "gEmail")
+            resultDict.setValue(gFullname, forKey: "gFullname")
+            resultDict.setValue(gUsername, forKey: "gUsername")
+            resultDict.setValue(gId, forKey: "gId")
+            //resultDict.setValue(gGoogle_access_token, forKey: "gGoogle_access_token")
+            
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(LoginViewController.receiveToggleAuthUINotification(_:)),
+                                                   name: NSNotification.Name(rawValue: "ToggleAuthUINotification"),
+                                                   object: nil)
+            LoginViewController.AfterLoginGoogle(resultDict)
+        } else {
+            // print("gagal")
+            hideLoading()
+        }
+    }
+    // [END toggle_auth]
+    
+    
+    // Required param: "sender"
+    static func LoginWithGoogle(_ param : [String : AnyObject], onFinish : @escaping (NSMutableDictionary) -> ()){
+        
+        guard let sender = param["sender"] as? BaseViewController else {
+            return
+        }
+        var screenBeforeLogin : String = ""
+        if let scrBfrLogin = param["screenBeforeLogin"] as? String {
+            screenBeforeLogin = scrBfrLogin
+        }
+        
+        GIDSignIn.sharedInstance().signIn()
+        
+    }
+    
+    static func AfterLoginGoogle(_ resultDict : NSMutableDictionary) {
+        print("afterlogin")
+        
+        // toggleAuthUI()
+        if(GIDSignIn.sharedInstance().hasAuthInKeychain()){
+            print("udahLogin")
+            
+            guard let sender = resultDict.object(forKey: "sender") as? BaseViewController,
+                let screenBeforeLogin = resultDict.object(forKey: "screenBeforeLogin") as? String,
+                let gEmail = GIDSignIn.sharedInstance().currentUser.profile.email,
+                let gFullname = GIDSignIn.sharedInstance().currentUser.profile.givenName,
+                let gGoogle_id = GIDSignIn.sharedInstance().currentUser.userID,
+                let gUsername = GIDSignIn.sharedInstance().currentUser.profile.name,
+                let gGoogle_access_token = GIDSignIn.sharedInstance().currentUser.authentication.accessToken else{
+                    return
+            }
+            
+            
+            let _ = request(APIAuth.loginGoogle(email: gEmail, fullname: gFullname, google_id: gGoogle_id, google_username: gUsername, google_access_token: gGoogle_access_token)).responseJSON {resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login Google")) {
+                    let json = JSON(resp.result.value!)
+                    print(json)
+                    let data = json["_data"]
+                    if (data == nil || data == []) { // Data kembalian kosong
+                        if (json["_message"] != nil) {
+                            LoginViewController.LoginGoogleCancelled(sender, reason: json["_message"].string!)
+                        }
+                    } else { // Berhasil
+                        print("Google login data: \(data)")
+                        
+                        // Save in core data
+                        let m = UIApplication.appDelegate.managedObjectContext
+                        var user : CDUser? = CDUser.getOne()
+                        if (user == nil) {
+                            user = (NSEntityDescription.insertNewObject(forEntityName: "CDUser", into: m) as! CDUser)
+                        }
+                        user!.id = data["_id"].string!
+                        user!.username = data["username"].string!
+                        user!.email = data["email"].string!
+                        user!.fullname = data["fullname"].string!
+                        
+                        let p = NSEntityDescription.insertNewObject(forEntityName: "CDUserProfile", into: m) as! CDUserProfile
+                        let pr = data["profile"]
+                        p.pict = pr["pict"].string!
+                        
+                        user!.profiles = p
+                        UIApplication.appDelegate.saveContext()
+                        
+                        // Save in NSUserDefaults
+                        UserDefaults.standard.set(gGoogle_access_token, forKey: "googletoken")
+                        UserDefaults.standard.synchronize()
+                        
+                        /*
+                         // Mixpanel event for login/register with facebook
+                         var pMixpanel = [
+                         "Previous Screen" : screenBeforeLogin,
+                         "Twitter ID" : twId,
+                         "Twitter Username" : twUsername,
+                         "Twitter Access Token" : twToken,
+                         "Twitter Token Secret" : twSecret
+                         ]
+                         if let _ = sender as? LoginViewController {
+                         pMixpanel["Login Method"] = "Twitter"
+                         Mixpanel.trackEvent(MixpanelEvent.Login, properties: pMixpanel)
+                         } else if let _ = sender as? RegisterViewController {
+                         Mixpanel.trackEvent(MixpanelEvent.Register, properties: pMixpanel)
+                         }
+                         */
+                        
+                        // Prelo Analytic - Register
+                        var isNeedPayload = false
+                        if let _ = sender as? RegisterViewController {
+                            let pdata = [
+                                "Email" : user!.email,
+                                "Username" : (CDUser.getOne()?.username)!,
+                                "Register OS" : "iOS",
+                                "Register Method" : "Google"
+                            ]
+                            AnalyticManager.sharedInstance.sendWithUserId(eventType: PreloAnalyticEvent.Register, data: pdata, previousScreen: screenBeforeLogin, loginMethod: "Google", userId: user!.id)
+                            
+                            // AppsFlyer
+                            let afPdata: [String : Any] = [
+                                AFEventParamCustomerUserId: user!.id,
+                                AFEventParamRegistrationMethod: "Google"
+                            ]
+                            AppsFlyerTracker.shared().trackEvent("af_initiate_registration", withValues: afPdata)
+                            
+                            isNeedPayload = true
+                            
+                            // Prelo Analytic - Update User - Register
+                            AnalyticManager.sharedInstance.registerUser(method: "Google", metadata: data)
+                        }
+                        
+                        // Check if user have set his account
+                        LoginViewController.CheckProfileSetup(sender, token: data["token"].stringValue, isSocmedAccount: true, loginMethod: "Google", screenBeforeLogin: screenBeforeLogin, isNeedPayload: isNeedPayload)
+                    }
+                } else {
+                    LoginViewController.LoginGoogleCancelled(sender, reason: nil)
+                }
+            }
+        }
+    }
+    
+    static func LoginGoogleCancelled(_ sender : BaseViewController, reason : String?) {
+        print("masuksini")
+        let vcLogin = sender as? LoginViewController
+        let vcRegister = sender as? RegisterViewController
+        let vcProductDetail = sender as? ProductDetailViewController
+        let vcAddProductShare = sender as? AddProductShareViewController
+        let vcUserProfile = sender as? UserProfileViewController
+        let vcUserProfile2 = sender as? UserProfileViewController2
+        
+        if (vcLogin != nil || vcRegister != nil) { // Jika login dari halaman login atau register
+            print("logout")
+        } else {
+            print("logout2")
+        }
+        
+        // Hide loading
+        if (vcLogin != nil) {
+            vcLogin!.hideLoading()
+        }
+        if (vcRegister != nil) {
+            vcRegister!.hideLoading()
+        }
+        if (vcProductDetail != nil) {
+            vcProductDetail!.hideLoading()
+        }
+        if (vcAddProductShare != nil) {
+            vcAddProductShare!.hideLoading()
+        }
+        if (vcUserProfile != nil) {
+            vcUserProfile!.hideLoading()
+        }
+        if (vcUserProfile2 != nil) {
+            vcUserProfile2!.hideLoading()
+        }
+        
+        // Show alert if there's reason
+        if (reason != nil) {
+            Constant.showDialog("Login Twitter", message: reason!)
+        }
+
+    }
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -990,6 +1221,15 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
         LoginViewController.LoginWithTwitter(p as [String : AnyObject], onFinish: { resultDict in
             LoginViewController.AfterLoginTwitter(resultDict)
+        })
+    }
+    
+    // MARK: - Google
+    // TODO: - G Signin
+    @IBAction func loginGooglePressed(_ sender: Any) {
+        let p = ["sender" : self, "screenBeforeLogin" : self.screenBeforeLogin] as [String : Any]
+        LoginViewController.LoginWithGoogle(p as [String : AnyObject], onFinish: { resultDict in
+            LoginViewController.AfterLoginGoogle(resultDict)
         })
     }
     

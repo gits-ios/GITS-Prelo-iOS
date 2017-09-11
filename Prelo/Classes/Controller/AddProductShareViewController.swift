@@ -36,7 +36,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
     @IBOutlet var loadingPanel: UIView!
     
     var chargePercent : Double = 10
-    var basePrice = 925000
+    var basePrice : Int64 = 925000
     
     var productID = ""
     var me = CDUser.getOne()
@@ -301,7 +301,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
             captionChargePercent.text = "FREE!"
         }
         let charge = Double(basePrice) * chargePercent / 100
-        var string = "Charge Prelo : " + Int(charge).asPrice + " (" + chargePercent.roundString + "%)"
+        var string = "Charge Prelo : " + Int64(charge).asPrice + " (" + chargePercent.roundString + "%)"
         if (chargePercent == 0)
         {
             string = "Charge Prelo : FREE"
@@ -310,7 +310,7 @@ class AddProductShareViewController: BaseViewController, PathLoginDelegate, Inst
         attString.addAttributes([NSForegroundColorAttributeName:UIColor.red], range: AppToolsObjC.range(of: chargePercent.roundString+"%", inside: string))
         attString.addAttributes([NSForegroundColorAttributeName:Theme.PrimaryColorLight], range: AppToolsObjC.range(of: "FREE", inside: string))
         captionCharge.attributedText = attString
-        captionPrice.text = (basePrice - Int(charge)).asPrice
+        captionPrice.text = (basePrice - Int64(charge)).asPrice
     }
 
     override func didReceiveMemoryWarning() {
@@ -609,8 +609,8 @@ extension Double
 {
     var roundString : String
     {
-        if (self - Double(Int(self)) == 0) {
-            return String(Int(self))
+        if (self - Double(Int64(self)) == 0) {
+            return String(Int64(self))
         } else
         {
             return String(stringInterpolationSegment: self)

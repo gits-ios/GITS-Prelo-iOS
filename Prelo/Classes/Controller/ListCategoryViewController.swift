@@ -85,8 +85,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
                 self.previousController?.navigationController?.pushViewController(myPurchaseVC, animated: true)
             } else if (redirectFromHome == PageName.UnpaidTransaction) {
+                // deprecated
+                /*
                 let paymentConfirmationVC = Bundle.main.loadNibNamed(Tags.XibNamePaymentConfirmation, owner: nil, options: nil)?.first as! PaymentConfirmationViewController
                 self.previousController!.navigationController?.pushViewController(paymentConfirmationVC, animated: true)
+                */
             }
             UserDefaults.standard.removeObject(forKey: UserDefaultsKey.RedirectFromHome)
         }
@@ -178,6 +181,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                     
                     let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
                                                         qos: .background,
+                                                        //attributes: .concurrent, // -> raise error
                                                         target: nil)
                     backgroundQueue.async {
                         if let kumangTabBarVC = self.previousController as? KumangTabBarViewController {
@@ -277,27 +281,21 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             }
         }
         
+        /*
         if let firstChild = self.childViewControllers[0] as? ListItemViewController { // First child
             firstChild.setupContent()
-        }
-        /*
-        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo",
-                                            qos: .background,
-                                            target: nil)
-        backgroundQueue.async {
-            //print("Work on background queue: Init Category " + self.categoriesFix[1]["name"].stringValue)
-            
-            for i in 1...self.childViewControllers.count-1 {
-                if let allChild = self.childViewControllers[i] as? ListItemViewController {
-                    DispatchQueue.main.async(execute: {
-                        
-                        // continue to main async
-                        allChild.setupContent()
-                    })
-                }
-            }
+            firstChild.tabNumber = 0
+            HomeHelper.switchActiveTab(0)
         }
         */
+        
+        let idx = getHomeIndex()
+        if let home = self.childViewControllers[idx] as? ListItemViewController { // First rendered view
+            home.setupContent()
+            home.tabNumber = idx
+            HomeHelper.switchActiveTab(idx)
+        }
+        
         scroll_View.layoutIfNeeded()
         contentView?.layoutIfNeeded()
         addCategoryNames(count)
@@ -484,6 +482,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             button.addTarget(self, action: #selector(ListCategoryViewController.categoryButtonAction(_:)), for: UIControlEvents.touchUpInside)
             
+            //button.addTarget(self, action: #selector(ListCategoryViewController.longPressCategoryButtonAction(_:)), for: UIControlEvents.touchDownRepeat)
+            
             let width = button.width
             let v = button
             v.tag = i
@@ -581,6 +581,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
         }
         
         //setCurrentTab((categoryNames.count > 1) ? 0 : 0)
+        /*
         let name = categoriesFix[1]["name"].string
         if (name?.lowercased() == "all" || name?.lowercased() == "home") {
             setCurrentTab(1)
@@ -591,6 +592,11 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             self.fixer(0)
         }
+        */
+        
+        let idx = getHomeIndex()
+        self.setCurrentTab(idx)
+        self.fixer(idx)
     }
     
     func setCurrentTab(_ index : Int)
@@ -696,9 +702,43 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
     func categoryButtonAction(_ sender : UIView)
     {
         let index = sender.tag
-        setCurrentTab(index)
         
-        centerCategoryView(currentTabIndex)
+        if self.currentTabIndex == index {
+            if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                if child.isContentLoaded {
+                    if child.gridView.indexPathsForVisibleItems.contains(IndexPath(item: 0, section: 0)) {
+                        let _curTime = NSDate().timeIntervalSince1970
+                        child.curTime = _curTime //- child.interval
+                        //child.setupContent()
+                        child.refresh()
+                    } else {
+                        // child.isScrolling = true // (jika pakai animasi)
+                        UIView.animate(withDuration: 0.2, animations: {
+                            child.gridView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: false)
+                        })
+                    }
+                }
+            }
+        } else {
+            setCurrentTab(index)
+            centerCategoryView(currentTabIndex)
+        }
+    }
+    
+    func longPressCategoryButtonAction(_ sender : UIView)
+    {
+        let index = sender.tag
+        
+        if self.currentTabIndex == index {
+            if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
+                if child.isContentLoaded {
+                    let _curTime = NSDate().timeIntervalSince1970
+                    child.curTime = _curTime //- child.interval
+                    //child.setupContent()
+                    child.refresh()
+                }
+            }
+        }
     }
     
     func centerCategoryView(_ index : Int)
@@ -854,6 +894,8 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
                 //DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: {
                     if let child = self.childViewControllers[self.currentTabIndex] as? ListItemViewController {
                         child.setupContent()
+                        child.tabNumber = self.currentTabIndex
+                        HomeHelper.switchActiveTab(self.currentTabIndex)
                     }
                 })
             })
@@ -927,6 +969,21 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             }
         }
         return nil
+    }
+    
+    // helper
+    func getHomeIndex() -> Int {
+        var idx = 0
+        if self.categoriesFix.count > 0 {
+            for i in 0..<self.categoriesFix.count {
+                if self.categoriesFix[i]["name"].stringValue.lowercased() == "all"
+                || self.categoriesFix[i]["name"].stringValue.lowercased() == "home" {
+                    idx = i
+                    break
+                }
+            }
+        }
+        return idx
     }
 }
 

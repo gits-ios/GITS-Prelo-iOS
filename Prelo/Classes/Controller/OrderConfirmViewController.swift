@@ -48,10 +48,16 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     @IBOutlet weak var btnKirimPayment: UIButton!
     @IBOutlet weak var datePicker: UIDatePicker!
     
+    // inside vw unpaid -> for affiliate
+    @IBOutlet weak var lblBelowRekening: UILabel!
+    @IBOutlet weak var btnConfirm: UIButton! // change -> LIHAT BELANJAAN SAYA
+    
+    
     // Flags
     var isFromCheckout = true
     var isFreeTransaction = false
     var isBackTwice = false
+    var isBackThreeTimes = false
     var isNavCtrlsChecked = false
     var isShowBankBRI = false
     var isBackToRoot = true
@@ -61,8 +67,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var orderID : String = ""
     var transactionId : String = ""
     var images : [URL] = []
-    var total : Int = 0
-    var kodeTransfer = 0
+    var total : Int64 = 0
+    var kodeTransfer : Int64 = 0
     
     // new UI
     var targetBank : String!
@@ -76,7 +82,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     var remaining : Int = 24
     
     // Prelo account data
-    var rekenings = [
+    var rekenings : Array<BankAccount> = []
+    var rek = [
         [
             "name":"KLEO APPARA INDONESIA PT",
             "no":"777-16-13-113 ",
@@ -114,10 +121,32 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         ]
     ]
     
+    // affilitae
+    var isAffiliate = false
+    var expireAffiliate = ""
+    var affiliatename = ""
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if !isAffiliate {
+            // belum siap
+            /*let ba = UserDefaults.standard.array(forKey: UserDefaultsKey.BankAccounts)
+            
+            if ba != nil && (ba?.count)! > 0 {
+                for r in ba! {
+                    let json = JSON(r)
+                    rekenings.append(BankAccount.instance(json)!)
+                }
+            } else {*/
+                for r in rek {
+                    let json = JSON(r)
+                    rekenings.append(BankAccount.instance(json)!)
+                }
+            //}
+        }
         
         // Title
         self.titleText = self.title
@@ -150,6 +179,14 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             captionDesc.text = ""
             self.vwUnpaidTrx.isHidden = true
             self.btnFreeTrx.isHidden = false
+        } else if (isAffiliate) {
+            // Arrange views
+            captionTitle.text = "Selamat! Transaksi kamu berhasil."
+            captionDesc.text = "Untuk transaksi menggunakan transfer bank, transfer ke:"
+            self.vwUnpaidTrx.isHidden = false
+            self.btnFreeTrx.isHidden = true
+            lblBelowRekening.text = "Harap transfer dan konfirmasi dalam waktu \(remaining) jam (\(expireAffiliate)) agar transaksi kamu tidak dibatalkan. Cek e-mail dari \(affiliatename) untuk detil pembayaran."
+            btnConfirm.setTitle("LIHAT BELANJAAN SAYA", for: .normal)
         } else if (isFreeTransaction) {
             // Arrange views
             captionTitle.text = "Selamat! Transaksi kamu berhasil."
@@ -203,8 +240,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.vw1Bank.isHidden = false
             
             for i in 0...rekenings.count - 1 {
-                if (rekenings[i]["bank_name"] == targetBank) {
-                    self.imgSelectedBank.image = UIImage(named: rekenings[i]["icon"]!)
+                if (rekenings[i].bank_name.lowercased() == targetBank.lowercased()) {
+                    self.imgSelectedBank.image = UIImage(named: rekenings[i].icon)
                     self.setupViewRekening(rekenings[i])
                     self.lblBankTujuan.text = targetBank
                     break
@@ -302,7 +339,17 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
             self.navigationController?.setViewControllers(x!, animated: false)
             isNavCtrlsChecked = true
         }
-         */
+        
+        if (!isNavCtrlsChecked && isBackThreeTimes) {
+            var x = self.navigationController?.viewControllers
+            x?.remove(at: (x?.count)! - 3)
+            if (x == nil) {
+                x = []
+            }
+            self.navigationController?.setViewControllers(x!, animated: false)
+            isNavCtrlsChecked = true
+        }
+        */
         
         // Keyboard handling
         self.an_subscribeKeyboard(animations: { r, t, o in
@@ -366,14 +413,14 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         setupViewRekening(rekenings[b.tag])
         
         // Set label in pop up
-        self.lblBankTujuan.text = rekenings[b.tag]["bank_name"]
+        self.lblBankTujuan.text = rekenings[b.tag].bank_name
     }
     
-    func setupViewRekening(_ data : [String : String]) {
-        captionBankInfoBankAtasNama?.text = data["name"]
-        captionBankInfoBankCabang?.text = data["cabang"]
-        captionBankInfoBankName?.text = "Bank \(data["bank_name"]!)" // "Transfer melalui Bank " + data["bank_name"]!
-        captionBankInfoBankNumber?.text = data["no"]
+    func setupViewRekening(_ data : BankAccount) {
+        captionBankInfoBankAtasNama?.text = data.name
+        captionBankInfoBankCabang?.text = data.cabang
+        captionBankInfoBankName?.text = "Bank \(data.bank_name)" // "Transfer melalui Bank " + data["bank_name"]!
+        captionBankInfoBankNumber?.text = data.no
         
         let content = self.captionBankInfoBankNumber?.text!
         let attrStr = NSMutableAttributedString(string: content!)
@@ -386,8 +433,34 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
-        if let count = self.navigationController?.viewControllers.count, isBackTwice {
-            _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+        if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
+            //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+            
+            let navController = self.navigationController!
+            var controllers = navController.viewControllers
+            controllers.removeLast()
+            controllers.removeLast()
+            
+            navController.setViewControllers(controllers, animated: false)
+            
+            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            
+            navController.pushViewController(myPurchaseVC, animated: true)
+        }
+        if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
+           // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
+            
+            let navController = self.navigationController!
+            var controllers = navController.viewControllers
+            controllers.removeLast()
+            controllers.removeLast()
+            controllers.removeLast()
+            
+            navController.setViewControllers(controllers, animated: false)
+            
+            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            
+            navController.pushViewController(myPurchaseVC, animated: true)
         }
         if (isBackToRoot) {
             _ = self.navigationController?.popToRootViewController(animated: true)
@@ -421,16 +494,47 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
     }
     
     @IBAction func lihatBelanjaanSayaPressed(_ sender: AnyObject) {
+        /*
         UserDefaults.setObjectAndSync(PageName.MyOrders as AnyObject?, forKey: UserDefaultsKey.RedirectFromHome)
         
         // gesture override
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         
         _ = self.navigationController?.popToRootViewController(animated: true)
+         */
+        
+        let navController = self.navigationController!
+        /*var controllers = navController.viewControllers
+        
+        let c = controllers.count
+        if c > 1 {
+            for _ in 1...c-1 {
+                controllers.removeLast()
+            }
+        }*/
+        
+        let controllers = [ navController.viewControllers[0] ]
+        
+        navController.setViewControllers(controllers, animated: false)
+        
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        
+        navController.pushViewController(myPurchaseVC, animated: true)
     }
     
     @IBAction func showPaymentPopUp(_ sender: AnyObject) {
-        self.vwPaymentPopUp.isHidden = false
+        if isAffiliate {
+            let navController = self.navigationController!
+            let controllers = [ navController.viewControllers[0] ]
+            
+            navController.setViewControllers(controllers, animated: false)
+            
+            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+            
+            navController.pushViewController(myPurchaseVC, animated: true)
+        } else {
+            self.vwPaymentPopUp.isHidden = false
+        }
     }
     
     // MARK: - Swipe Navigation Override
@@ -443,8 +547,34 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
                 // gesture override
                 self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                 
-                if let count = self.navigationController?.viewControllers.count, isBackTwice {
-                    _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+                if let count = self.navigationController?.viewControllers.count, count >= 3 && isBackTwice {
+                    //_ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+                    
+                    let navController = self.navigationController!
+                    var controllers = navController.viewControllers
+                    controllers.removeLast()
+                    controllers.removeLast()
+                    
+                    navController.setViewControllers(controllers, animated: false)
+                    
+                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                    
+                    navController.pushViewController(myPurchaseVC, animated: true)
+                }
+                if let count = self.navigationController?.viewControllers.count, count >= 4 && isBackThreeTimes {
+                   // _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
+                    
+                    let navController = self.navigationController!
+                    var controllers = navController.viewControllers
+                    controllers.removeLast()
+                    controllers.removeLast()
+                    controllers.removeLast()
+                    
+                    navController.setViewControllers(controllers, animated: false)
+                    
+                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                    
+                    navController.pushViewController(myPurchaseVC, animated: true)
                 }
                 if (isBackToRoot) {
                     _ = self.navigationController?.popToRootViewController(animated: true)
@@ -478,8 +608,8 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         bankAlert.popoverPresentationController?.sourceView = sender as? UIView
         bankAlert.popoverPresentationController?.sourceRect = sender.bounds
         for i in 0...bankCount - 1 {
-            bankAlert.addAction(UIAlertAction(title: rekenings[i]["bank_name"], style: .default, handler: { act in
-                self.lblBankTujuan.text = self.rekenings[i]["bank_name"]
+            bankAlert.addAction(UIAlertAction(title: rekenings[i].bank_name, style: .default, handler: { act in
+                self.lblBankTujuan.text = self.rekenings[i].bank_name
                 bankAlert.dismiss(animated: true, completion: nil)
             }))
         }
@@ -514,7 +644,7 @@ class OrderConfirmViewController: BaseViewController, UIScrollViewDelegate, UITe
         let timePaidString = timePaidFormatter.string(from: timePaid)
         
         // API Migrasi
-        let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
+        let _ = request(APITransaction.confirmPayment(bankFrom: "", bankTo: self.lblBankTujuan.text!, name: "", nominal: Int64(fldNominalTrf.text!)!, orderId: self.transactionId, timePaid: timePaidString)).responseJSON { resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Bayar")) {
                 /*
                 // Mixpanel

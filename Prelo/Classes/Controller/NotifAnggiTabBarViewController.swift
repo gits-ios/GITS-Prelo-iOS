@@ -28,6 +28,7 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
     let ConversationBadgeRightOffset = 13
     
     var isBackTwice : Bool = false
+    var isBackThreeTimes : Bool = false
     var isNavCtrlsChecked : Bool = false
     
     // MARK: - Init
@@ -133,6 +134,10 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
         
         if let count = self.navigationController?.viewControllers.count, isBackTwice {
             _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+        }
+        
+        if let count = self.navigationController?.viewControllers.count, isBackThreeTimes {
+            _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
         }
         
         _ = self.navigationController?.popViewController(animated: true)
@@ -258,14 +263,20 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
             let activeTab = self.tabSwipe?.currentTabIndex
             if (activeTab == 0) { // Transaction
                 self.notifAnggiTransactionVC?.isToDelete = true
-                self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
-                self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
-                self.notifAnggiTransactionVC?.tableView.reloadData()
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.notifAnggiTransactionVC?.consHeightCheckBoxAll.constant = 56
+                    self.notifAnggiTransactionVC?.consHeightButtonView.constant = 56
+                })
+                //self.notifAnggiTransactionVC?.tableView.reloadData()
+                self.notifAnggiTransactionVC?.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
             } else { // Conversation
                 self.notifAnggiConversationVC?.isToDelete = true
-                self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
-                self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
-                self.notifAnggiConversationVC?.tableView.reloadData()
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.notifAnggiConversationVC?.consHeightCheckBoxAll.constant = 56
+                    self.notifAnggiConversationVC?.consHeightButtonView.constant = 56
+                })
+                //self.notifAnggiConversationVC?.tableView.reloadData()
+                self.notifAnggiConversationVC?.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
             }
             a.dismiss(animated: true, completion: nil)
         }))
@@ -314,6 +325,10 @@ class NotifAnggiTabBarViewController: BaseViewController, CarbonTabSwipeDelegate
                 
                 if let count = self.navigationController?.viewControllers.count, isBackTwice {
                     _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-3])!, animated: true)
+                }
+                
+                if let count = self.navigationController?.viewControllers.count, isBackThreeTimes {
+                    _ = self.navigationController?.popToViewController((self.navigationController?.viewControllers[count-4])!, animated: true)
                 }
                 
                 _ = self.navigationController?.popViewController(animated: true)

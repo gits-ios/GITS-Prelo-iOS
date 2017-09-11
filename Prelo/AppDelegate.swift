@@ -16,11 +16,14 @@ import FBSDKCoreKit
 import Alamofire
 import AVFoundation
 import AlamofireImage
+import GoogleMaps
+import GooglePlaces
+import GoogleSignIn
 
 //import AdobeCreativeSDKCore
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
@@ -45,14 +48,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let RedirAchievement = "achievement"
     let RedirReferral = "referral"
     let RedirPreloMessage = "prelo_message"
+    let RedirPreloPermalink = "permalink"
     
     var redirAlert : SCLAlertView?
     var alertViewResponder : SCLAlertViewResponder?
     var RedirWaitAmount : Int = 10000000
     
     var produkUploader : ProdukUploader!
-    
-    var isFromBackground = false // for defined wait time for redir alert to show
     
     var isTakingScreenshot = false // for use when take screenshot (dialog show)
     
@@ -118,6 +120,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             // Send uuid to server
             let _ = request(APIMe.setUserUUID)
         }
+        
+        // Initialize sign-in
+        GIDSignIn.sharedInstance().clientID = "931489218608-ajfn165ljv1ljggctcfn0eeu41dugo7b.apps.googleusercontent.com"
+        
+        GIDSignIn.sharedInstance().delegate = self
         
         // Mixpanel
 //        Mixpanel.trackPageVisit(PageName.SplashScreen)
@@ -202,8 +209,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let _ = remoteNotif.object(forKey: "is_prelo_message") as? Bool {
                         tipe = self.RedirPreloMessage
                     }
-//                    Constant.showDialog(tipe, message: targetId! )
-                    DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(3), execute: {
+                    //Constant.showDialog(tipe, message: targetId)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
                         self.deeplinkRedirect(tipe, targetId: targetId)
                     })
                     
@@ -225,7 +232,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             if let tipe = launchURL.host {
                 var targetId : String?
                 targetId = launchURL.path.substringFromIndex(1)
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                
+                let param : [URLQueryItem] = []
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    // prelo:// http:// https://
+                    if (launchURL.absoluteString.contains("prelo://") || launchURL.absoluteString.contains("http://") || launchURL.absoluteString.contains("https://")) {
+                        self.handleUniversalLink(launchURL.absoluteURL, path: launchURL.path, param: param)
+                    } else {
+                        // fb ?
+                        self.deeplinkRedirect(tipe, targetId: targetId)
+                    }
+                })
             }
 
             // FIXME: Swift 3
@@ -255,7 +272,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 if let tId = params["target_id"].string {
                     targetId = tId
                 }
-                self.deeplinkRedirect(tipe, targetId: targetId)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                    self.deeplinkRedirect(tipe, targetId: targetId)
+                })
             }
         })
         
@@ -267,7 +286,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     if let items = components.queryItems {
                         param = items
                     }
-                    self.handleUniversalLink(url, path: components.path, param: param)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                        self.handleUniversalLink(url, path: components.path, param: param)
+                    })
                 }
             }
         }
@@ -282,6 +303,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // Set status bar color
         self.setStatusBarBackgroundColor(color: UIColor.clear)
+        
+        // G-Maps
+        //prelo
+        GMSServices.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        GMSPlacesClient.provideAPIKey("AIzaSyCY-ZGzGzs6KioZ1Xsv8aLbaOqhERQQMTk")
+        //prelo ios
+        //GMSServices.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
+        //GMSPlacesClient.provideAPIKey("AIzaSyAKxEIa5dMhzSt5OfMIfuvMNuqWLkB5xDo")
         
         // Override point for customization after application launch
         return FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
@@ -326,8 +355,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     annotation: annotation)
             }
             return true
+            
+        // deeplinking GOOGLE SignIn
+        } else {
+            return GIDSignIn.sharedInstance().handle(url,
+                                                     sourceApplication: sourceApplication,
+                                                     annotation: annotation)
         }
-        return true
     }
     
     func application(_ application: UIApplication, willContinueUserActivityWithType userActivityType: String) -> Bool {
@@ -627,8 +661,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Uninstall.io (disabled)
         //NotifyManager.sharedManager().startNotifyServicesWithAppID(UninstallIOAppToken, key: UninstallIOAppSecret)
         
-        self.isFromBackground = true
-        
         self.versionForceUpdateCheck()
         
         // Prelo Analytic - Open App
@@ -673,8 +705,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.versionForceUpdateCheck()
         
-        self.isFromBackground = false
-        
         // Prelo Analytic - Open App
         AnalyticManager.sharedInstance.openApp()
         
@@ -717,7 +747,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         if (url.absoluteString.lowercased().contains("prelo://")) { // prelo://
             let urlString = url.absoluteString.lowercased().replace("prelo:/", template: "")
-            let parameter = path.replace("/", template: "")
+            var parameter = path
+            
+            if parameter != "" && parameter.characterAtIndex(0) == "/" {
+                parameter.remove(at: parameter.startIndex)
+            }
             
             // #1 User
             if (urlString.contains("/user")) {
@@ -744,6 +778,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
             // #2 Category
             } else if (urlString.contains("/category")) {
+                if parameter != "" {
+                    if parameter.contains("/") {
+                        let separators = NSCharacterSet(charactersIn: "/")
+                        // Split based on characters.
+                        let params = parameter.components(separatedBy: separators as CharacterSet)
+                        
+                        if params.count >= 2 && params[1] != "" {
+                            self.redirectSubCategorySegment(params[0], segment: params[1])
+                        } else {
+                            self.redirectCategory(params[0])
+                        }
+                    } else {
+                        self.redirectCategory(parameter) // user id
+                    }
+                } else {
+                    self.showFailedRedirAlert()
+                }
+                
+                /*
                 let _ = request(APIReference.getCategoryByPermalink(permalink: path.replace("/", template: ""))).responseJSON { resp in
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Get Category ID")) {
                         let json = JSON(resp.result.value!)
@@ -757,6 +810,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                         self.showFailedRedirAlert()
                     }
                 }
+                 */
                 
             // #3 Chat
             } else if (urlString.contains("/chat")) {
@@ -949,67 +1003,92 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func deeplinkRedirect(_ tipe : String, targetId : String?) {
+        var isOke = true // for decrease notif badge
         //Constant.showDialog("tipe", message: "\(tipe)")
         let tipeLowercase = tipe.lowercased()
         if (tipeLowercase == self.RedirProduct) {
             if (targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectProduct(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirComment) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectComment(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirUser) {
             if (targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectShopPage(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirInbox) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectInbox(targetId)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirNotif) {
             if (User.IsLoggedIn) {
                 self.showRedirAlert()
                 self.redirectNotification()
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirConfirm) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectConfirmPayment(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxBuyer) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(targetId!, trxProductId: nil, isSeller: false)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxSeller) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(targetId!, trxProductId: nil, isSeller: true)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxPBuyer) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(nil, trxProductId: targetId!, isSeller: false)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirTrxPSeller) {
             if (User.IsLoggedIn && targetId != nil && targetId! != "") {
                 self.showRedirAlert()
                 self.redirectTransaction(nil, trxProductId: targetId!, isSeller: true)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirCategory) {
             if (targetId != nil && targetId != "") {
                 self.showRedirAlert()
                 self.redirectCategory(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirLove) {
             if (targetId != nil && targetId != "") {
                 self.showRedirAlert()
                 self.redirectLove(targetId!)
+            } else {
+                isOke = false
             }
         } else if (tipeLowercase == self.RedirAchievement) {
             self.showRedirAlert()
@@ -1020,13 +1099,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else if (tipeLowercase == self.RedirPreloMessage) {
             self.showRedirAlert()
             self.redirectPreloMessage()
+        } else if (tipeLowercase == self.RedirPreloPermalink) {
+            if targetId != nil && (targetId?.contains("://"))!, let launchURL = URL(string: targetId!) {
+                let param : [URLQueryItem] = []
+                self.handleUniversalLink(launchURL.absoluteURL, path: launchURL.path, param: param)
+            } else {
+                isOke = false
+            }
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
-            // decrease notif badge
-            let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
-            self.preloNotifListener.setNewNotifCount(unreadNotifCount)
-        })
+        if isOke {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                // decrease notif badge
+                let unreadNotifCount = self.preloNotifListener.newNotifCount - 1
+                self.preloNotifListener.setNewNotifCount(unreadNotifCount)
+            })
+        }
     }
     
     func showAlert() {
@@ -1038,13 +1126,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        redirAlert = UIAlertController(title: "Redirecting...", message: "Harap tunggu beberapa saat", preferredStyle: .alert)
 //        UIApplication.shared.keyWindow?.rootViewController?.present(redirAlert!, animated: true, completion: nil)
         
-        let delayTime = (self.isFromBackground ? 0 : 0.5) * Double(NSEC_PER_SEC)
-        let time = DispatchTime.now() + Double(Int64(delayTime)) / Double(NSEC_PER_SEC)
-        DispatchQueue.main.asyncAfter(deadline: time, execute: {
-            self.isFromBackground = false // remove delay
-            self.redirAlert = SCLAlertView(appearance: Constant.appearance)
-            self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        })
+        self.redirAlert = SCLAlertView(appearance: Constant.appearance)
+        self.alertViewResponder = self.redirAlert!.showCustom("Redirecting...", subTitle: "Harap tunggu beberapa saat", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     
     func hideRedirAlertWithDelay(_ delay: Double, completion: (() -> Void)?) {
@@ -1330,7 +1413,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                             let orderConfirmVC : OrderConfirmViewController = (mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as? OrderConfirmViewController)!
                             orderConfirmVC.transactionId = transactionId
                             orderConfirmVC.orderID = data["order_id"].stringValue
-                            orderConfirmVC.total = data["total_price"].intValue
+                            orderConfirmVC.total = data["total_price"].int64Value
                             orderConfirmVC.images = imgs
                             orderConfirmVC.isFromCheckout = false
                             
@@ -1418,6 +1501,38 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         listItemVC.currentMode = .filter
         listItemVC.fltrCategId = categoryId
         listItemVC.fltrSortBy = "recent"
+        
+        var rootViewController : UINavigationController?
+        if let rVC = self.window?.rootViewController {
+            if (rVC.childViewControllers.count > 0) {
+                if let chld = rVC.childViewControllers[0] as? UINavigationController {
+                    rootViewController = chld
+                }
+            }
+        }
+        if (rootViewController == nil) {
+            // Set root view controller
+            rootViewController = UINavigationController()
+            rootViewController?.navigationBar.barTintColor = Theme.PrimaryColor
+            rootViewController?.navigationBar.tintColor = UIColor.white
+            rootViewController?.navigationBar.titleTextAttributes = [NSForegroundColorAttributeName : UIColor.white]
+            self.window?.rootViewController = rootViewController
+            let noBtn = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            listItemVC.navigationItem.leftBarButtonItem = noBtn
+        }
+        
+        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+            rootViewController!.pushViewController(listItemVC, animated: true)
+        })
+    }
+    
+    func redirectSubCategorySegment(_ categoryId : String, segment : String) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let listItemVC = mainStoryboard.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+        listItemVC.currentMode = .filter
+        listItemVC.fltrCategId = categoryId
+        listItemVC.fltrSortBy = "recent"
+        listItemVC.fltrSegment = segment
         
         var rootViewController : UINavigationController?
         if let rVC = self.window?.rootViewController {
@@ -1658,9 +1773,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             self.window?.rootViewController = rootViewController
         }
         
-        self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
-            rootViewController!.pushViewController(cartVC, animated: true)
-        })
+        if !AppTools.isNewCart {
+            self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                rootViewController!.pushViewController(cartVC, animated: true)
+            })
+            
+        } else { // v2
+            if AppTools.isSingleCart {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                    rootViewController!.pushViewController(checkout2ShipVC, animated: true)
+                })
+            } else {
+                self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
+                    let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                    rootViewController!.pushViewController(checkout2VC, animated: true)
+                })
+            }
+        }
     }
     
     // MARK: - Core Data stack
@@ -1819,6 +1949,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 let json = JSON(resp.result.value!)
                 var data = json["_data"]
                 
+                // Save version to core data
+                CDVersion.saveVersions(data)
+                
                 // Check if app need to be updated
                 if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                     if let newVer = CDVersion.getOne()?.appVersion {
@@ -1846,9 +1979,66 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     }
                 }
                 
+                // Check apps commisions
+                if let tw = data["commission_share"]["socmed"]["twitter"].int64 {
+                    UserDefaults.standard.set(tw, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComTwitter)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let fb = data["commission_share"]["socmed"]["facebook"].int64 {
+                    UserDefaults.standard.set(fb, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(4, forKey: UserDefaultsKey.ComFacebook)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let ig = data["commission_share"]["socmed"]["instagram"].int64 {
+                    UserDefaults.standard.set(ig, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(3, forKey: UserDefaultsKey.ComInstagram)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                if let mx = data["commission_share"]["max_commission"].int64 {
+                    UserDefaults.standard.set(mx, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
+                } else {
+                    UserDefaults.standard.set(0, forKey: UserDefaultsKey.MaxCommisions)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                // Check cart type for init
+                if let j = data["ab_test"].array {
+                    if j.contains("checkout_2_pages") {
+                        AppTools.switchToSingleCart(false)
+                    } else  {
+                        AppTools.switchToSingleCart(true)
+                    }
+                }
+                
                 // Check apps frequency
                 if let frequency = data["ads_config"]["frequency"].int {
                     UserDefaults.standard.set(frequency + 1, forKey: UserDefaultsKey.AdsFrequency)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                // Check apps offset
+                if let offset = data["ads_config"]["offset"].int {
+                    UserDefaults.standard.set(offset, forKey: UserDefaultsKey.AdsOffset)
                     
                     UserDefaults.standard.synchronize()
                 }
@@ -1859,10 +2049,125 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     
                     UserDefaults.standard.synchronize()
                 }
+                
+                // init prelo bank account
+                if let ba = data["prelo_bank_accounts"].array {
+                    var bankAccounts: Array<[String: Any]> = []
+                    for b in ba {
+                        if let c = b.dictionaryObject {
+                            bankAccounts.append(c)
+                        }
+                    }
+                    UserDefaults.standard.set(bankAccounts, forKey: UserDefaultsKey.BankAccounts)
+                    
+                    UserDefaults.standard.synchronize()
+                }
+                
+                // disabled -> if enabled check info.plist.bkp-selectableIcons.plist
+                // apple reject this
+                /*
+                // Pengecekan versi, jika versi yg diinstall melebihi versi server, munculkan opsi ganti icon
+                if let installedVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+                    if let serverVersion = CDVersion.getOne()?.appVersion {
+                        if (serverVersion.compare(installedVersion, options: .numeric, range: nil, locale: nil) == .orderedAscending) {
+                            
+                            // donothing
+                        } else {
+                        
+                            // change icon from server iOS 10.3.*
+                            if #available(iOS 10.3, *) {
+                                guard UIApplication.shared.supportsAlternateIcons,
+                                    let it = data["icon_launcher"].string else { return }
+                                
+                                // Check apps icon need update?
+                                //let it = "ramadhan" // "default", "christmas", "ramadhan",
+                                
+                                let iconType = "ic_" + it
+                                
+                                // https://stackoverflow.com/questions/42195325/setting-alternate-app-icon-returns-error-3072-the-operation-was-cancelled-in
+                                if iconType == "ic_default" && UIApplication.shared.alternateIconName != nil {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        UIApplication.shared.setAlternateIconName(nil) { error in
+                                            /*if let error = error {
+                                             print("ERROR")
+                                             print(error.localizedDescription)
+                                             } else {
+                                             print("Success!")
+                                             }*/
+                                        }
+                                    })
+                                } else if UIApplication.shared.alternateIconName != iconType && iconType != "ic_default" {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        UIApplication.shared.setAlternateIconName(iconType) { error in
+                                            /*if let error = error {
+                                             print("ERROR")
+                                             print(String(describing: error))
+                                             } else {
+                                             print("Success!")
+                                             }*/
+                                        }
+                                    })
+                                }
+                            }
+                            
+                        }
+                    }
+                }
+                */
             }
         }
     }
     
+    /* //rise error for facebook
+    @available(iOS 9.0, *)
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any]) -> Bool {
+        return GIDSignIn.sharedInstance().handle(url,
+                                                 sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String,
+                                                 annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+    }
+ */
+    
+    // [START signin_handler]
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
+              withError error: Error!) {
+        if let error = error {
+            print("\(error.localizedDescription)")
+            // [START_EXCLUDE silent]
+            NotificationCenter.default.post(
+                name: Notification.Name(rawValue: "ToggleAuthUINotification"), object: nil, userInfo: nil)
+            // [END_EXCLUDE]
+        } else {
+            // Perform any operations on signed in user here.
+            let userId = user.userID                  // For client-side use only!
+            let idToken = user.authentication.idToken // Safe to send to the server
+            let fullName = user.profile.name
+            let givenName = user.profile.givenName
+            let familyName = user.profile.familyName
+            let email = user.profile.email
+            
+            // [START_EXCLUDE]
+            NotificationCenter.default.post(
+                name: Notification.Name(rawValue: "ToggleAuthUINotification"),
+                object: nil,
+                userInfo: ["statusText": "Signed in user:\n\(fullName)"])
+            // [END_EXCLUDE]
+            
+        }
+    }
+    // [END signin_handler]
+    // [START disconnect_handler]
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
+              withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // [START_EXCLUDE]
+        NotificationCenter.default.post(
+            name: Notification.Name(rawValue: "ToggleAuthUINotification"),
+            object: nil,
+            userInfo: ["statusText": "User has disconnected."])
+        // [END_EXCLUDE]
+    }
+    // [END disconnect_handler]
+
     // screenshot
     func takeScreenshot() {
         CustomPhotoAlbum.sharedInstance.fetchLastPhoto(resizeTo: nil , imageCallback: {
