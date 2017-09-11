@@ -225,6 +225,7 @@ class AddProductViewController3: BaseViewController {
     // data
     var product = SelectedProductItem()
     var chargeLabel: String? = AddProduct3Helper.defaultChargeLabel
+    var tempCategory = ""
     
     var sizes: Array<String> = []
     var sizesTitle: String = ""
@@ -892,10 +893,75 @@ class AddProductViewController3: BaseViewController {
         }
         
         self.labels.append(contentsOf: ["Cacat (Opsional)"])
+        print(self.product.isWomenMenCategory)
+        
+        if((self.tempCategory == "Sepatu & Sandal Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Sepatu & Sandal Pria" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Alas Kaki"])
+            self.labels.append(contentsOf: ["Sol"])
+            self.labels.append(contentsOf: ["Inner Tag"])
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        if((self.tempCategory == "Sepatu & Sandal Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Sepatu & Sandal Pria" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Alas Kaki"])
+            self.labels.append(contentsOf: ["Sol"])
+            self.labels.append(contentsOf: ["Inner Tag"])
+        }
+        
+        if((self.tempCategory == "Atasan Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Bawahan Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Terusan Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Atasan Pria" && self.product.segment == "luxury") || (self.tempCategory == "Bawahan Pria" && self.product.segment == "luxury") || (self.tempCategory == "Pakaian Bayi & Anak" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Laundry Tag"])
+        }
+        if((self.tempCategory == "Atasan Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Bawahan Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Terusan Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Atasan Pria" && self.product.segment == "everyday") || (self.tempCategory == "Bawahan Pria" && self.product.segment == "everyday") || (self.tempCategory == "Pakaian Bayi & Anak" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Laundry Tag"])
+        }
+        
+        if((self.tempCategory == "Tas & Dompet Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Tas & Dompet Pria" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        if((self.tempCategory == "Tas & Dompet Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Tas & Dompet Pria" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+        }
+        
+        if((self.tempCategory == "Aksesoris Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Aksesoris Pria" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        
+        if((self.tempCategory == "Riasan Mata" && self.product.segment == "luxury") || (self.tempCategory == "Riasan Bibir" && self.product.segment == "luxury") || (self.tempCategory == "Riasan Wajah" && self.product.segment == "luxury") || (self.tempCategory == "Perawatan Wajah" && self.product.segment == "everyday") || (self.tempCategory == "Perawatan Tubuh" && self.product.segment == "luxury") || (self.tempCategory == "Rambut" && self.product.segment == "luxury") || (self.tempCategory == "Kuku" && self.product.segment == "luxury") || (self.tempCategory == "Grooming" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Kemasan Bagian Belakang"])
+        }
+        if((self.tempCategory == "Riasan Mata" && self.product.segment == "everyday") || (self.tempCategory == "Riasan Bibir" && self.product.segment == "everyday") || (self.tempCategory == "Riasan Wajah" && self.product.segment == "everyday") || (self.tempCategory == "Perawatan Wajah" && self.product.segment == "everyday") || (self.tempCategory == "Perawatan Tubuh" && self.product.segment == "everyday") || (self.tempCategory == "Rambut" && self.product.segment == "everyday") || (self.tempCategory == "Kuku" && self.product.segment == "everyday") || (self.tempCategory == "Grooming" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Kemasan Bagian Belakang"])
+        }
+        
+        if((self.tempCategory == "Parfum") && self.product.segment == "luxury"){
+            self.labels.append(contentsOf: ["Botol Bagian Bawah"])
+        }
+        if((self.tempCategory == "Parfum") && self.product.segment == "everyday"){
+            self.labels.append(contentsOf: ["Botol Bagian Bawah"])
+        }
+        
+        if((self.tempCategory == "Sport" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        
+        if((self.tempCategory == "Sport" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+        }
         
         if let cat = CDCategory.getCategoryWithID(self.product.categoryId) {
-            
-            //print(cat.debugDescription)
             
             if self.product.segment == "budget" && cat.image_label_budget != nil {
                 self.labels.append(contentsOf: self.toArray(cat.image_label_budget!))
@@ -1610,7 +1676,6 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     
                     p.blockDone = { data in
                         let children = JSON(data["child"]!)
-                        
                         if let id = children["_id"].string
                         {
                             self.product.categoryId = id
@@ -1669,6 +1734,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         } else {
                             self.removeSection(.authVerification)
                         }
+                        
+                        self.tempCategory = data["category_level2_name"]! as! String
                         
                         self.getLabels(true)
                         
@@ -2455,6 +2522,22 @@ class AddProduct3DetailProductCell: UITableViewCell {
         self.alpha = 1.0
         self.backgroundColor = UIColor.white
         self.clipsToBounds = true
+        
+        self.txtDescription.returnKeyType = UIReturnKeyType.default
+        
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        self.txtDescription.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    
+    func doneBtnfromKeyboardClicked() {
+        self.parent.product.description = self.txtDescription.text!
+        self.txtDescription.resignFirstResponder()
+        self.parent.product.isStartInput = true
+        self.reloadThisRow()
     }
     
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
@@ -2532,16 +2615,16 @@ extension AddProduct3DetailProductCell: UITextViewDelegate {
         }
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        if text == "\n" {
-            textView.resignFirstResponder()
-            self.parent.product.isStartInput = true
-            return false
-        }
-        
-        return true
-    }
+    //    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    //
+    //        if text == "\n" {
+    //            textView.resignFirstResponder()
+    //            self.parent.product.isStartInput = true
+    //            return false
+    //        }
+    //
+    //        return true
+    //    }
 }
 
 // MARK: - Weight Cell (Sell)

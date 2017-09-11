@@ -270,6 +270,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         refresher!.tintColor = Theme.PrimaryColor
         refresher!.addTarget(self, action: #selector(ListItemViewController.refresh), for: UIControlEvents.valueChanged)
         self.gridView.addSubview(refresher!)
+
         
         switch currentMode {
         case .standalone: // Set title
@@ -2285,46 +2286,53 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             }
             
             self.selectedProduct = products?[idx]
-            if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
-                if (currentMode == .featured) {
-                    self.selectedProduct?.setToFeatured()
-                }
-                self.launchDetail()
-            } else if self.selectedProduct?.isAffiliate == false {
-                let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
-                l.currentMode = .filter
-                l.fltrAggregateId = (self.selectedProduct?.id)!
-                l.fltrSortBy = "recent"
-                l.fltrName = ""
-                
-                // Prelo Analytic - Visit Aggregate
-                let loginMethod = User.LoginMethod ?? ""
-                let pdata = [
-                    "Aggregate ID": (self.selectedProduct?.id)!,
-                    "Aggregate Name" : (self.selectedProduct?.name)!
-                    ] as [String : Any]
-                
-                // previous screen is current screen
-                var currentPage = PageName.Home
-                if currentMode == .filter {
-                    currentPage = PageName.SearchResult
-                } else if currentMode == .shop || currentMode == .newShop {
-                    if User.IsLoggedIn && User.Id! == self.shopId {
-                        currentPage = PageName.ShopMine
-                    } else {
-                        currentPage = PageName.Shop
-                    }
-                }
-                
-                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
-                
-                self.navigationController?.pushViewController(l, animated: true)
-            } else {
-                let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
-                
-                let url = NSURL(string: urlString!)!
-                UIApplication.shared.openURL(url as URL)
-            }
+            
+            let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+            productDetail2VC.product = selectedProduct!
+//            productDetail2VC.delegate = self.delegate
+            productDetail2VC.previousScreen = PageName.MyProducts
+            self.navigationController?.pushViewController(productDetail2VC, animated: true)
+            
+//            if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
+//                if (currentMode == .featured) {
+//                    self.selectedProduct?.setToFeatured()
+//                }
+//                self.launchDetail()
+//            } else if self.selectedProduct?.isAffiliate == false {
+//                let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
+//                l.currentMode = .filter
+//                l.fltrAggregateId = (self.selectedProduct?.id)!
+//                l.fltrSortBy = "recent"
+//                l.fltrName = ""
+//                
+//                // Prelo Analytic - Visit Aggregate
+//                let loginMethod = User.LoginMethod ?? ""
+//                let pdata = [
+//                    "Aggregate ID": (self.selectedProduct?.id)!,
+//                    "Aggregate Name" : (self.selectedProduct?.name)!
+//                    ] as [String : Any]
+//                
+//                // previous screen is current screen
+//                var currentPage = PageName.Home
+//                if currentMode == .filter {
+//                    currentPage = PageName.SearchResult
+//                } else if currentMode == .shop || currentMode == .newShop {
+//                    if User.IsLoggedIn && User.Id! == self.shopId {
+//                        currentPage = PageName.ShopMine
+//                    } else {
+//                        currentPage = PageName.Shop
+//                    }
+//                }
+//                
+//                AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.VisitAggregate, data: pdata, previousScreen: currentPage, loginMethod: loginMethod)
+//                
+//                self.navigationController?.pushViewController(l, animated: true)
+//            } else {
+//                let urlString = self.selectedProduct?.json["affiliate_data"]["affiliate_url"].stringValue
+//                
+//                let url = NSURL(string: urlString!)!
+//                UIApplication.shared.openURL(url as URL)
+//            }
         case .aboutShop:
             self.isExpand = !self.isExpand
             self.gridView.reloadSections(NSIndexSet(index: indexPath.section) as IndexSet)

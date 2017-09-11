@@ -313,8 +313,33 @@ class ProductDetailViewController2: BaseViewController {
     
     // MARK: - Button Action
     @IBAction func btnUpPressed(_ sender: Any) {
+        self.showLoading()
+        if let productId = productDetail?.productID {
+            let _ = request(APIProduct.push(productId: productId)).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
+                    
+                }
+                self.hideLoading()
+            }
+        }
     }
     @IBAction func btnSoldPressed(_ sender: Any) {
+        let alertView = SCLAlertView(appearance: Constant.appearance)
+        alertView.addButton("Ya") {
+            self.showLoading()
+            if let productId = self.productDetail?.productID {
+                let _ = request(APIProduct.markAsSold(productId: productId, soldTo: "")).responseJSON { resp in
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Mark As Sold")) {
+                        let json = JSON(resp.result.value!)
+                        let isSuccess = json["_data"].boolValue
+                        
+                    }
+                    self.hideLoading()
+                }
+            }
+        }
+        alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+        alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
     }
     @IBAction func btnEditPressed(_ sender: Any) {
         self.showLoading()
@@ -339,16 +364,105 @@ class ProductDetailViewController2: BaseViewController {
     }
     
     @IBAction func btnChatPressed(_ sender: Any) {
+        if let d = self.productDetail
+        {
+//            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+//            t.tawarItem = d
+//            t.loadInboxFirst = true
+//            t.prodId = d.productID
+//            t.previousScreen = thisScreen
+//            t.isSellerNotActive = d.IsShopClosed
+//            t.phoneNumber = d.SellerPhone
+//            self.navigationController?.pushViewController(t, animated: true)
+        }
     }
     @IBAction func btnRentPressed(_ sender: Any) {
     }
     @IBAction func btnBuyPressed(_ sender: Any) {
+        if !alreadyInCart {
+            if AppTools.isNewCart { // v2
+                let sellerId = self.productDetail?.json["_data"]["seller"]["_id"].stringValue
+                if CartManager.sharedInstance.insertProduct(sellerId!, productId: (self.productDetail?.productID)!) {
+                    // FB Analytics - Add to Cart
+                    if AppTools.IsPreloProduction {
+                        let fbPdata: [String : Any] = [
+                            FBSDKAppEventParameterNameContentType          : "product",
+                            FBSDKAppEventParameterNameContentID            : (self.productDetail?.productID)!,
+                            FBSDKAppEventParameterNameCurrency             : "IDR"
+                        ]
+                        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((self.productDetail?.priceInt)!), parameters: fbPdata)
+                    }
+                    setupView()
+                    self.alreadyInCart = true
+                }
+            } else { // v1
+                if (CartProduct.newOne((self.productDetail?.productID)!, email : User.EmailOrEmptyString, name : (self.productDetail?.name)!) == nil) {
+                    Constant.showDialog("Failed", message: "Gagal Menyimpan")
+                } else {
+                    // FB Analytics - Add to Cart
+                    if AppTools.IsPreloProduction {
+                        let fbPdata: [String : Any] = [
+                            FBSDKAppEventParameterNameContentType          : "product",
+                            FBSDKAppEventParameterNameContentID            : (self.productDetail?.productID)!,
+                            FBSDKAppEventParameterNameCurrency             : "IDR"
+                        ]
+                        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((self.productDetail?.priceInt)!), parameters: fbPdata)
+                    }
+                    setupView()
+                    self.alreadyInCart = true
+                }
+            }
+        }
+        // popup
+        if (self.productDetail?.isAddToCart)! {
+            self.launchAdd2cartPopUp()
+        } else {
+            self.addProduct2cart()
+        }
     }
-    
     @IBAction func btnBuyAffiliatePressed(_ sender: Any) {
     }
     
     @IBAction func btnConfirmPressed(_ sender: Any) {
+        isNeedReload = true
+        
+        let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+        myPurchaseVC.previousScreen = PageName.ProductDetail
+        self.navigationController?.pushViewController(myPurchaseVC, animated: true)
+    }
+    
+    func addProduct2cart() {
+        if AppTools.isNewCart {
+            if AppTools.isSingleCart {
+                
+                isNeedReload = true
+                
+                let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                checkout2VC.previousController = self
+                checkout2VC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(checkout2VC, animated: true)
+                return
+            } else {
+                
+                isNeedReload = true
+                
+                let checkout2ShipVC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2Ship, owner: nil, options: nil)?.first as! Checkout2ShipViewController
+                checkout2ShipVC.previousController = self
+                checkout2ShipVC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(checkout2ShipVC, animated: true)
+                return
+            }
+        } else {
+            
+            isNeedReload = true
+            
+            //self.performSegue(withIdentifier: "segCart", sender: nil)
+            let cart = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdCart) as! CartViewController
+            cart.previousController = self
+            cart.previousScreen = thisScreen
+            self.navigationController?.pushViewController(cart, animated: true)
+            return
+        }
     }
     
     // MARK: - Section Helper
@@ -486,6 +600,100 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         case .titleProduct:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleCell") as! ProductDetail2TitleCell
             cell.adapt(self.productDetail, productItem: self.productItem)
+            var loveStatus = self.productDetail.json["_data"]["love"].bool
+            var textToShare = ""
+            if let dtl = self.productDetail {
+                textToShare = "Temukan barang bekas berkualitas-ku, \(dtl.name) di Prelo hanya dengan harga \(dtl.price). Nikmati mudahnya jual-beli barang bekas berkualitas dengan aman dari ponselmu. Download aplikasinya sekarang juga di http://prelo.co.id #PreloID"
+            }
+            cell.shareInstagram = {
+                self.showLoading()
+                if (UIApplication.shared.canOpenURL(URL(string: "instagram://app")!)) {
+                    
+                } else {
+                    Constant.showDialog("No Instagram app", message: "Silakan install Instagram dari app store terlebih dahulu")
+                    self.hideLoading()
+                }
+            }
+            cell.shareTwitter = {
+                // share Twitter
+            }
+            cell.shareFacebook = {
+                // share Facebook
+            }
+            cell.shareNative = {
+                var item = PreloShareItem()
+                let s = self.productDetail.displayPicturers.first
+                item.url = URL(string: s!)
+                item.text = (self.productDetail.name)
+                item.permalink  = (self.productDetail.permalink)
+                item.price = (self.productDetail.price)
+                
+                PreloShareController.Share(item, inView: (self.navigationController?.view)!, detail : self.productDetail)
+            }
+            cell.addComment = {
+                if (User.IsLoggedIn == false)
+                {
+                    self.loginComment = true
+                    LoginViewController.Show(self, userRelatedDelegate: self, animated: true)
+                } else
+                {
+                    self.gotoProductComment()
+                }
+            }
+            cell.addLove = {
+                self.showLoading()
+                if(loveStatus == false){
+                    // API Migrasi
+                    // love product
+                    let _ = request(APIProduct.love(productID: self.productDetail.productID)).responseJSON {resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Love Product")) {
+                            cell.vwLove.borderColor = Theme.PrimaryColor
+                            
+                            for i in cell.vwLove.subviews {
+                                if i.isKind(of: UIButton.self) {
+                                    continue
+                                } else if i.isKind(of: TintedImageView.self) {
+                                    (i as! TintedImageView).tint = true
+                                    (i as! TintedImageView).tintColor = Theme.PrimaryColor
+                                } else if i.isKind(of: UILabel.self) {
+                                    (i as! UILabel).textColor = Theme.PrimaryColor
+                                } else if i.isKind(of: UIView.self) {
+                                    i.backgroundColor = Theme.PrimaryColor
+                                }
+                            }
+                            let json = JSON(resp.result.value!)
+                            cell.lbCountLove.text = String(json["_data"]["num_lovelist"].int!)
+                            loveStatus = json["_data"]["love"].bool!
+                            self.hideLoading()
+                        }
+                    }
+                } else {
+                    // API Migrasi
+                    // unlove product
+                    let _ = request(APIProduct.unlove(productID: self.productDetail.productID)).responseJSON {resp in
+                        if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Unlove Product")) {
+                            cell.vwLove.borderColor = Theme.GrayLight
+                            
+                            for i in cell.vwLove.subviews {
+                                if i.isKind(of: UIButton.self) {
+                                    continue
+                                } else if i.isKind(of: TintedImageView.self) {
+                                    (i as! TintedImageView).tint = true
+                                    (i as! TintedImageView).tintColor = Theme.GrayLight
+                                } else if i.isKind(of: UILabel.self) {
+                                    (i as! UILabel).textColor = Theme.GrayLight
+                                } else if i.isKind(of: UIView.self) {
+                                    i.backgroundColor = Theme.GrayLight
+                                }
+                            }
+                            let json = JSON(resp.result.value!)
+                            cell.lbCountLove.text = String(json["_data"]["num_lovelist"].int!)
+                            loveStatus = json["_data"]["love"].bool!
+                            self.hideLoading()
+                        }
+                    }
+                }
+            }
             return cell
         case .seller:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2SellerCell") as! ProductDetail2SellerCell
@@ -646,6 +854,10 @@ extension ProductDetailViewController2 {
                     print("No!")
                 }
             }
+            
+            self.add2cartPopup?.gotoCart = {
+                self.addProduct2cart()
+            }
         }
         
     }
@@ -793,7 +1005,7 @@ extension ProductDetailViewController2 {
             }
             
             self.add2cartPopup?.gotoCart = {
-                //self.addProduct2cart()
+                self.addProduct2cart()
             }
         }
         
@@ -1060,9 +1272,10 @@ class ProductDetail2TitleCell: UITableViewCell {
             self.vwShareSeller.isHidden = true
             self.vwShareBuyer.isHidden = false
             
-            self.lbCountLove.text = productItem.loveCount.string
+            self.lbCountLove.text = String(product["num_lovelist"].int!)
             
-            if productItem.isLoved {
+            //if productItem.isLoved {
+            if product["love"].bool! {
                 self.vwLove.borderColor = Theme.PrimaryColor
                 
                 for i in vwLove.subviews {
@@ -1099,9 +1312,9 @@ class ProductDetail2TitleCell: UITableViewCell {
         // 12 + 8 + 20 + 4 + 21 + 12, fs 14pt
         let t = title.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 16), width: AppTools.screenWidth - (12 + 8 + 20 + 4 + 21 + 12))
         
-        var h: CGFloat = 38 // type 0/1
+        var h: CGFloat = 45 // type 0/1
         if listingType == 2 {
-            h += 38
+            h += 31
         }
         
         h += 8
