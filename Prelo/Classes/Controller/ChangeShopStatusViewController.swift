@@ -372,21 +372,35 @@ class ChangeShopStatusViewController : BaseViewController{
                             if(json["custom_reason"] != nil){
                                 self.btnBatalJadwal.isHidden = false
                                 self.consVwShopHeight.constant = 470
+                                
                                 let start_date = json["start_date"].string
+                                
                                 var arrStart = start_date?.components(separatedBy: "T")
-                                var arrLabelStart = arrStart?[0].components(separatedBy: "-")
-                                var labelStart = (arrLabelStart?[2])!+"/"+(arrLabelStart?[1])!+"/"+(arrLabelStart?[0])!
+                                var arrLabelStartDate = arrStart?[0].components(separatedBy: "-")
+                                var arrLabelStartTime = arrStart?[1].components(separatedBy: ".")
+                                
+                                var labelStartDate = (arrLabelStartDate?[2])!+"/"+(arrLabelStartDate?[1])!+"/"+(arrLabelStartDate?[0])!
+                                
+                                let tempDateAndTime = labelStartDate + " " + (arrLabelStartTime?[0])!
+                                
+                                let inputFormatter = DateFormatter()
+                                inputFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+                                let date = inputFormatter.date(from: tempDateAndTime)!.addingTimeInterval(7 * 60 * 60)
+                                
+                                let tempDateAndTime2 = inputFormatter.string(from: date)
+                                
+                                var arrLabelStart = tempDateAndTime2.components(separatedBy: " ")
                                 
                                 let end_date = json["end_date"].string
                                 var arrEnd = end_date?.components(separatedBy: "T")
                                 var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
+                                let labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
                                 
-                                let inputFormatter = DateFormatter()
                                 inputFormatter.dateFormat = "dd/MM/yyyy"
-                                let showDateStart = inputFormatter.date(from: labelStart)
+                                let showDateStart = inputFormatter.date(from: arrLabelStart[0])
                                 self.datePicker.date = showDateStart!
-                                self.lblTanggalMulai.text = labelStart
+                                self.lblTanggalMulai.text = arrLabelStart[0]
+                                
                                 
                                 let showDateEnd = inputFormatter.date(from: labelEnd)
                                 self.datePicker2.date = showDateEnd!
@@ -430,9 +444,16 @@ class ChangeShopStatusViewController : BaseViewController{
                             var arrEnd = end_date?.components(separatedBy: "T")
                             var arrLabelEndDate = arrEnd?[0].components(separatedBy: "-")
                             var arrLabelEndTime = arrEnd?[1].components(separatedBy: ".")
+                            
                             var labelEndDate = (arrLabelEndDate?[2])!+"/"+(arrLabelEndDate?[1])!+"/"+(arrLabelEndDate?[0])!
                             
-                            self.lblDateAndTime.text = labelEndDate + " " + (arrLabelEndTime?[0])!
+                            var tempDateAndTime = labelEndDate + " " + (arrLabelEndTime?[0])!
+                            
+                            let inputFormatter = DateFormatter()
+                            inputFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+                            var date = inputFormatter.date(from: tempDateAndTime)!.addingTimeInterval(7 * 60 * 60)
+                            
+                            self.lblDateAndTime.text = inputFormatter.string(from: date)
                         }
                     }
                 }

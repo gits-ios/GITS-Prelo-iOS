@@ -979,14 +979,28 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                                 self.vwClose.isHidden = false
                                 self.fieldTentangShopTop.constant = 0
                                 let start_date = json["start_date"].string
+                                
                                 var arrStart = start_date?.components(separatedBy: "T")
-                                var arrLabelStart = arrStart?[0].components(separatedBy: "-")
-                                var labelStart = (arrLabelStart?[2])!+"/"+(arrLabelStart?[1])!+"/"+(arrLabelStart?[0])!
+                                var arrLabelStartDate = arrStart?[0].components(separatedBy: "-")
+                                var arrLabelStartTime = arrStart?[1].components(separatedBy: ".")
+                                
+                                var labelStartDate = (arrLabelStartDate?[2])!+"/"+(arrLabelStartDate?[1])!+"/"+(arrLabelStartDate?[0])!
+                                
+                                var tempDateAndTime = labelStartDate + " " + (arrLabelStartTime?[0])!
+                                
+                                let inputFormatter = DateFormatter()
+                                inputFormatter.dateFormat = "dd/MM/yyyy HH:mm:ss"
+                                var date = inputFormatter.date(from: tempDateAndTime)!.addingTimeInterval(7 * 60 * 60)
+                                
+                                var tempDateAndTime2 = inputFormatter.string(from: date)
+                                
+                                var arrLabelStart = tempDateAndTime2.components(separatedBy: " ")
+                                
                                 let end_date = json["end_date"].string
                                 var arrEnd = end_date?.components(separatedBy: "T")
                                 var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
                                 var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                                self.lblClose.text = "Shop tutup pada "+labelStart+" - "+labelEnd
+                                self.lblClose.text = "Shop tutup pada "+arrLabelStart[0]+" - "+labelEnd
                                 
 //                                var date2 : String = ""
 //                                let formatter = DateFormatter()
