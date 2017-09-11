@@ -72,6 +72,10 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
         viewJualButton.layer.shadowOffset = CGSize(width: 0, height: 5)
         viewJualButton.layer.shadowOpacity = 0.3
         viewJualButton.layer.zPosition = CGFloat.greatestFiniteMagnitude;
+        
+        // MARK: HACK Menu Add
+        self.circleMenu = CircleMenu()
+        circleMenu?.setupView(self, name: PageName.Lovelist, parent: self.viewJualButton, frame: self.viewJualButton.frame)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -355,9 +359,15 @@ class MyLovelistViewController: BaseViewController, UITableViewDataSource, UITab
     // MARK: - IBActions
     
     @IBAction func sellPressed(_ sender: AnyObject) {
+        /*
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.Lovelist
         self.navigationController?.pushViewController(add, animated: true)
+        */
+        
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        addProduct3VC.screenBeforeAddProduct = PageName.Lovelist
+        self.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
 }
 

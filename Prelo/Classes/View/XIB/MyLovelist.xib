@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -23,30 +26,33 @@
                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Barang yang kamu sukai akan tampil di sini" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="T81-Es-TiS">
-                        <frame key="frameInset" minX="16" minY="25" width="568" height="16"/>
+                        <rect key="frame" x="16" y="25" width="568" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.44682067632675171" green="0.44680723547935486" blue="0.44681483507156372" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="OZq-re-9lw">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tableView>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f3d-oj-Mrz">
+                        <rect key="frame" x="268" y="460" width="64" height="64"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="K45-MR-RGy">
-                                <frame key="frameInset" minX="8" minY="11" width="48" height="26"/>
+                                <rect key="frame" x="8" y="11" width="48" height="26"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="22"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="JUAL" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L6b-5V-ncU">
-                                <frame key="frameInset" minX="16" minY="39" width="33" height="16"/>
+                                <rect key="frame" x="16" y="39" width="33" height="16"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YFy-LC-gIu">
+                                <rect key="frame" x="0.0" y="0.0" width="64" height="64"/>
                                 <state key="normal">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -68,8 +74,10 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZ5-RN-Pc5" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="M6G-RS-Ib0" userLabel="loading">
+                                <rect key="frame" x="290" y="25" width="20" height="20"/>
                                 <color key="color" red="0.076683484017848969" green="0.59757840633392334" blue="0.5461774468421936" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
                         </subviews>
@@ -91,7 +99,7 @@
                     <constraint firstItem="nD0-oA-6sl" firstAttribute="top" secondItem="OZq-re-9lw" secondAttribute="bottom" id="TOc-2g-Ixv"/>
                     <constraint firstItem="T81-Es-TiS" firstAttribute="trailing" secondItem="ppx-zd-v4B" secondAttribute="trailingMargin" id="W2G-mu-s78"/>
                     <constraint firstAttribute="trailing" secondItem="OZq-re-9lw" secondAttribute="trailing" id="etp-r4-bYm"/>
-                    <constraint firstAttribute="centerX" secondItem="f3d-oj-Mrz" secondAttribute="centerX" constant="6" id="kUY-oE-UjW"/>
+                    <constraint firstAttribute="centerX" secondItem="f3d-oj-Mrz" secondAttribute="centerX" id="kUY-oE-UjW"/>
                     <constraint firstItem="OZq-re-9lw" firstAttribute="leading" secondItem="ppx-zd-v4B" secondAttribute="leading" id="mxp-7O-52J"/>
                     <constraint firstItem="cZ5-RN-Pc5" firstAttribute="leading" secondItem="ppx-zd-v4B" secondAttribute="leading" id="ydB-nw-Z8F"/>
                 </constraints>
