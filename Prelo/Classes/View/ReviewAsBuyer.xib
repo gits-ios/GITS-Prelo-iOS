@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <viewController id="edb-sa-Xy6" userLabel="Review As Buyer" customClass="ReviewAsBuyerViewController" customModule="Prelo" customModuleProvider="target">
+            <layoutGuides>
+                <viewControllerLayoutGuide type="top" id="g7T-4L-V0L"/>
+                <viewControllerLayoutGuide type="bottom" id="Pz9-VU-Wfs"/>
+            </layoutGuides>
+            <view key="view" contentMode="scaleToFill" id="shY-yj-blo">
+                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
+                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="KTR-RD-WDt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <connections>
+                            <outlet property="dataSource" destination="edb-sa-Xy6" id="lcb-9w-tMF"/>
+                            <outlet property="delegate" destination="edb-sa-Xy6" id="ht5-eH-GXM"/>
+                        </connections>
+                    </tableView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YIz-3E-HzF">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="86Q-EY-rVo">
+                                <rect key="frame" x="290" y="75" width="20" height="20"/>
+                                <color key="color" red="0.30620646480000002" green="0.65677493809999998" blue="0.61924308539999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="86Q-EY-rVo" firstAttribute="centerX" secondItem="YIz-3E-HzF" secondAttribute="centerX" id="Lsl-tq-1MO"/>
+                            <constraint firstItem="86Q-EY-rVo" firstAttribute="top" secondItem="YIz-3E-HzF" secondAttribute="top" constant="75" id="q3h-pc-NQW"/>
+                        </constraints>
+                    </view>
+                </subviews>
+                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                <constraints>
+                    <constraint firstItem="KTR-RD-WDt" firstAttribute="leading" secondItem="shY-yj-blo" secondAttribute="leading" id="06s-SW-li7"/>
+                    <constraint firstItem="KTR-RD-WDt" firstAttribute="top" secondItem="g7T-4L-V0L" secondAttribute="bottom" id="6iF-1a-Qcj"/>
+                    <constraint firstItem="YIz-3E-HzF" firstAttribute="leading" secondItem="shY-yj-blo" secondAttribute="leading" id="7wy-EU-Cbt"/>
+                    <constraint firstAttribute="trailing" secondItem="YIz-3E-HzF" secondAttribute="trailing" id="FSb-a0-z3C"/>
+                    <constraint firstItem="YIz-3E-HzF" firstAttribute="top" secondItem="shY-yj-blo" secondAttribute="topMargin" id="IlM-Ce-cQi"/>
+                    <constraint firstItem="Pz9-VU-Wfs" firstAttribute="top" secondItem="YIz-3E-HzF" secondAttribute="bottom" id="bSC-EH-AS5"/>
+                    <constraint firstAttribute="trailing" secondItem="KTR-RD-WDt" secondAttribute="trailing" id="hKZ-jM-Ol2"/>
+                    <constraint firstItem="Pz9-VU-Wfs" firstAttribute="top" secondItem="KTR-RD-WDt" secondAttribute="bottom" id="zs7-Fi-CcP"/>
+                </constraints>
+            </view>
+            <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
+            <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <size key="freeformSize" width="600" height="600"/>
+            <connections>
+                <outlet property="loadingPanel" destination="YIz-3E-HzF" id="IyF-tX-T8t"/>
+                <outlet property="tableView" destination="KTR-RD-WDt" id="GbI-J6-Pdm"/>
+            </connections>
+            <point key="canvasLocation" x="320" y="345"/>
+        </viewController>
+    </objects>
+</document>

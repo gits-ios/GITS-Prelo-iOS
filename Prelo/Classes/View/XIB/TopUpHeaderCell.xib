@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="90" id="hxG-Ok-fIE" customClass="TopUpHeaderCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="359" height="89"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hxG-Ok-fIE" id="M3f-ym-L1P">
+                <rect key="frame" x="0.0" y="0.0" width="359" height="88.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Prelo Balance" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fG1-Jd-evl">
+                        <rect key="frame" x="8" y="8" width="343" height="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.000.000.000" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t45-9d-4Nt">
+                        <rect key="frame" x="8" y="29" width="343" height="47"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="47" id="iWL-zJ-DCo"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="36"/>
+                        <color key="textColor" red="0.12156862745098039" green="0.53333333333333333" blue="0.47450980392156861" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="t45-9d-4Nt" firstAttribute="leading" secondItem="M3f-ym-L1P" secondAttribute="leading" constant="8" id="9Bn-zg-8fZ"/>
+                    <constraint firstAttribute="trailing" secondItem="t45-9d-4Nt" secondAttribute="trailing" constant="8" id="9M6-u7-liv"/>
+                    <constraint firstItem="fG1-Jd-evl" firstAttribute="leading" secondItem="M3f-ym-L1P" secondAttribute="leadingMargin" id="ONK-li-jWq"/>
+                    <constraint firstItem="t45-9d-4Nt" firstAttribute="top" secondItem="fG1-Jd-evl" secondAttribute="bottom" constant="5" id="SXR-g5-rAi"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="fG1-Jd-evl" secondAttribute="trailing" id="g5L-l2-Bke"/>
+                    <constraint firstItem="fG1-Jd-evl" firstAttribute="top" secondItem="M3f-ym-L1P" secondAttribute="topMargin" id="rLQ-Ec-VQj"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="preloBalanceAmount" destination="t45-9d-4Nt" id="vIy-uI-gHP"/>
+            </connections>
+            <point key="canvasLocation" x="84.5" y="-256.5"/>
+        </tableViewCell>
+    </objects>
+</document>
