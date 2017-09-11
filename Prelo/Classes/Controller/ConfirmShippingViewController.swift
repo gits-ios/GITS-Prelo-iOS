@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import DropDown
 
 // MARK: - Class
 
@@ -30,6 +31,9 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     @IBOutlet var loadingPanel: UIView!
     @IBOutlet var loading: UIActivityIndicatorView!
     
+    var dataReject : Array<String> = []
+    var dataRejectNote: Array<String> = []
+    
     // Predefined value
     // For confirm shipping
     var trxDetail : TransactionDetail!
@@ -40,6 +44,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     // Data container
     var trxProductDetails : [TransactionProductDetail]!
     var isCellSelected : [Bool]!
+    var selectedIndex : [Int] = []
     var selectedAvailabilities : [ConfirmShippingAvailability?]!
     var isFirstAppearance : Bool = true
     var isPictSelected : Bool = false
@@ -66,6 +71,26 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         
         // Delegate
         self.txtFldNoResi.delegate = self
+        
+        DropDown.startListeningToKeyboard()
+        
+        let appearance = DropDown.appearance()
+        
+        //appearance.cellHeight = 60
+        appearance.backgroundColor = UIColor(white: 1, alpha: 1)
+        appearance.selectionBackgroundColor = UIColor(red: 0.6494, green: 0.8155, blue: 1.0, alpha: 0.2)
+        appearance.separatorColor = UIColor(white: 0.7, alpha: 0.8)
+        appearance.cornerRadius = 0
+        appearance.shadowColor = UIColor(white: 0.6, alpha: 1)
+        appearance.shadowOpacity = 1
+        appearance.shadowRadius = 2
+        appearance.animationduration = 0.25
+        appearance.textColor = .darkGray
+        
+    }
+    
+    func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,8 +109,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     // For default, all transaction product is set as selected
                     // All selected availability is nil
                     isCellSelected = []
+                    selectedIndex = []
                     selectedAvailabilities = []
                     for _ in 0 ..< trxProductDetails.count {
+                        selectedIndex.append(0)
                         isCellSelected.append(true)
                         selectedAvailabilities.append(nil)
                     }
@@ -102,6 +129,14 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                 self.scrollView?.contentInset = UIEdgeInsetsMake(0, 0, 0, 0)
             }
         }, completion: nil)
+        
+        // done button
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.dismissKeyboard))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        self.txtFldNoResi.inputAccessoryView = ViewForDoneButtonOnKeyboard
         
         // Hide loading
         self.hideLoading()
@@ -137,7 +172,20 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
             if (isCellSelected[(indexPath as NSIndexPath).row] == true) {
                 return 102
             } else {
-                return 245
+                if (selectedIndex[(indexPath as NSIndexPath).row] == 0 || self.dataReject[selectedIndex[(indexPath as NSIndexPath).row]].contains("SOLD")) {
+                    return 180
+                } else {
+                    // + 30
+                    let text = self.dataRejectNote[selectedIndex[(indexPath as NSIndexPath).row]]
+                    let t = text.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - (37 - 8))
+                    
+                    var h: CGFloat = 0
+                    if self.dataReject[selectedIndex[(indexPath as NSIndexPath).row]].contains("lain") {
+                        h = 50
+                    }
+                    
+                    return 180 + h + t.height + 8
+                }
             }
         }
         return 0
@@ -146,10 +194,20 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if (trxProductDetails.count >= (indexPath as NSIndexPath).row + 1) {
             let cell : ConfirmShippingCell = self.tableView.dequeueReusableCell(withIdentifier: "ConfirmShippingCell") as! ConfirmShippingCell
+            
             cell.selectionStyle = .none
-            cell.adapt(trxProductDetails[(indexPath as NSIndexPath).row], isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row], selectedAvailability : self.selectedAvailabilities[(indexPath as NSIndexPath).row])
+            
+            cell.dataReject = self.dataReject
+            cell.dataRejectNote = self.dataRejectNote
+            
+            cell.adapt(trxProductDetails[ (indexPath as NSIndexPath).row],
+                       isCellSelected: self.isCellSelected[(indexPath as NSIndexPath).row],
+                       selectedAvailability: self.selectedAvailabilities[(indexPath as NSIndexPath).row],
+                       selectedIndex: self.selectedIndex[indexPath.row])
+            
             cell.refreshTable = {
                 self.isCellSelected[(indexPath as NSIndexPath).row] = !self.isCellSelected[(indexPath as NSIndexPath).row]
+                self.selectedIndex[(indexPath as NSIndexPath).row] = cell.selectedIndex
                 self.setupTable()
                 if (self.isAllCellUnselected()) {
                     self.consHeightVwKurirResiFields.constant = 0
@@ -158,9 +216,22 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     self.hideFldKurirLainnya() // This is actually showing vwKurirResiFields
                 }
             }
+            
+            cell.refreshTable2 = {
+                self.selectedIndex[(indexPath as NSIndexPath).row] = cell.selectedIndex
+                self.setupTable()
+                if (self.isAllCellUnselected()) {
+                    self.consHeightVwKurirResiFields.constant = 0
+                } else {
+                    self.setDefaultKurir()
+                    self.hideFldKurirLainnya() // This is actually showing vwKurirResiFields
+                }
+            }
+            
             cell.availabilitySelected = { selection in
                 self.selectedAvailabilities[(indexPath as NSIndexPath).row] = selection
             }
+            
             return cell
         }
         return UITableViewCell()
@@ -306,7 +377,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
         } else {
             if (validateFields()) {
                 self.showLoading()
-                
+        
                 var sentTp : [String] = []
                 let rejectedTp : NSMutableArray = []
                 for i in 0 ..< trxProductDetails.count {
@@ -316,9 +387,10 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     } else {
                         let rTp = [
                             "tp_id" : trxProductDetails[i].id,
-                            "reason" : cell.textView.text,
-                            "is_active" : (cell.selectedAvailability == .available) ? "1" : "0"
-                            ] as [String : Any]
+                            "reason" : cell.lblReason.text,
+                            "is_active" : (cell.selectedAvailability == .available) ? "1" : "0",
+                            "reason_number" : String(cell.selectedIndex-1)
+                            ] as! [String : String]
                         rejectedTp.insert(rTp, at: 0)
                     }
                 }
@@ -336,12 +408,15 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     let rTpId = r["tp_id"]!
                     let rReason = r["reason"]!
                     let rIsActive = r["is_active"]!
-                    confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\", \"is_active\": \"\(rIsActive)\"}"
+                    let rReasonNumber = r["reason_number"]!
+                    confirmData += "{\"tp_id\": \"\(rTpId)\", \"reason\": \"\(rReason)\", \"is_active\": \"\(rIsActive)\", \"reason_number\": \(rReasonNumber)}"
                     if (k < rejectedTp.count - 1) {
                         confirmData += ","
                     }
                 }
                 confirmData += "]}"
+                print("ini confirm data")
+                print(confirmData)
                 
                 let url = "\(AppTools.PreloBaseUrl)/api/new/transaction_products/confirm"
                 let param = [
@@ -374,6 +449,7 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     }
                     
                 }, failure: { op, err in
+                    //print("Ini error nya = \(err)")
                     Constant.showDialog("Konfirmasi Kirim/Tolak", message: "Gagal mengupload data")
                     self.hideLoading()
                 })
@@ -440,9 +516,15 @@ class ConfirmShippingViewController: BaseViewController, UITableViewDelegate, UI
                     Constant.showDialog("Warning", message: "Opsi ketersediaan barang harus diisi")
                     result = false
                 }
-                if (cell.textView.text == "" || cell.textView.text == cell.TxtvwPlaceholder) {
+                if (cell.lblReason.text == "Alasan Penolakan") {
                     Constant.showDialog("Warning", message: "Alasan tolak harus diisi")
                     result = false
+                }
+                if (cell.lblReason.text == "Ada kepentingan lain") {
+                    if(cell.textView.text == nil){
+                        Constant.showDialog("Warning", message: "Mohon sertakan alasan kamu menolak pesanan")
+                        result = false
+                    }
                 }
             } else {
                 isAllRejected = false
@@ -697,34 +779,43 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     
     @IBOutlet weak var lblCheckbox: UILabel!
     @IBOutlet weak var vwTolak: UIView!
-    @IBOutlet var lblRadioBtnHabis: UILabel!
-    @IBOutlet var lblRadioBtnMasih: UILabel!
     @IBOutlet weak var textView: UITextView!
     var txtvwGrowHandler : GrowingTextViewHandler!
     @IBOutlet weak var consHeightTxtvw: NSLayoutConstraint!
+    @IBOutlet weak var lblReason: UILabel!
+    @IBOutlet weak var notification: UILabel!
+    @IBOutlet weak var fieldCustomReason: UIView!
+    @IBOutlet weak var consNotifTop: NSLayoutConstraint!
+    
+    var dataReject: Array<String> = []
+    var dataRejectNote: Array<String> = []
+    
     let TxtvwPlaceholder = "Tulis alasan kamu menolak pesanan."
+    
+    let dropDown = DropDown()
+    var selectedIndex = 0
     
     var isCellSelected : Bool!
     var selectedAvailability : ConfirmShippingAvailability?
     
     var refreshTable : () -> () = {}
+    var refreshTable2 : () -> () = {}
     var availabilitySelected : (ConfirmShippingAvailability) -> () = { _ in }
     
     override func prepareForReuse() {
-        lblRadioBtnHabis.text = ""
-        lblRadioBtnMasih.text = ""
+        
     }
     
-    func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool, selectedAvailability : ConfirmShippingAvailability?) {
+    func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool, selectedAvailability : ConfirmShippingAvailability?, selectedIndex: Int) {
         super.adapt(trxProductDetail)
+        
+        if self.dropDown.dataSource.count == 0 {
+            setupDropdownReason()
+        }
         
         // Set checkbox
         self.isCellSelected = isCellSelected
         self.setupCheckbox()
-        
-        // Set radiobtn
-        self.selectedAvailability = selectedAvailability
-        self.setupRadioBtn()
         
         // Configure textview
         textView.delegate = self
@@ -733,49 +824,18 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
         textView.layoutIfNeeded()
         txtvwGrowHandler = GrowingTextViewHandler(textView: textView, withHeightConstraint: consHeightTxtvw)
         txtvwGrowHandler.updateMinimumNumber(ofLines: 1, andMaximumNumberOfLine: 2)
+        
+        self.selectedIndex = selectedIndex
     }
     
     @IBAction func cellTapped(_ sender: AnyObject) {
         isCellSelected = !isCellSelected
+        if (selectedIndex == 0) { // alasan penolakan
+            fieldCustomReason.isHidden = true
+            notification.isHidden = true
+        }
         self.setupCheckbox()
         self.refreshTable()
-    }
-    
-    @IBAction func radioBtnHabisPressed(_ sender: AnyObject) {
-        self.selectedAvailability = .soldOut
-        self.availabilitySelected(.soldOut)
-        self.setupRadioBtn()
-    }
-    
-    @IBAction func radioBtnMasihPressed(_ sender: AnyObject) {
-        self.selectedAvailability = .available
-        self.availabilitySelected(.available)
-        self.setupRadioBtn()
-    }
-    
-    func setupRadioBtn() {
-        if (selectedAvailability == .soldOut) {
-            self.lblRadioBtnHabis.text = ""
-            self.lblRadioBtnHabis.textColor = Theme.ThemeOrange
-            self.lblRadioBtnMasih.text = ""
-            self.lblRadioBtnMasih.textColor = UIColor.lightGray
-            if (self.textView.text.isEmpty || self.textView.text == TxtvwPlaceholder) {
-                self.textView.text = "Sold"
-            }
-        } else if (selectedAvailability == .available) {
-            self.lblRadioBtnHabis.text = ""
-            self.lblRadioBtnHabis.textColor = UIColor.lightGray
-            self.lblRadioBtnMasih.text = ""
-            self.lblRadioBtnMasih.textColor = Theme.ThemeOrange
-            if (self.textView.text == "Sold") {
-                self.textView.text = TxtvwPlaceholder
-            }
-        } else {
-            self.lblRadioBtnHabis.text = ""
-            self.lblRadioBtnHabis.textColor = UIColor.lightGray
-            self.lblRadioBtnMasih.text = ""
-            self.lblRadioBtnMasih.textColor = UIColor.lightGray
-        }
     }
     
     func setupCheckbox() {
@@ -807,6 +867,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         txtvwGrowHandler.resizeTextView(withAnimation: true)
+        consNotifTop.constant = 20
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
@@ -814,5 +875,78 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
             textView.text = TxtvwPlaceholder
             textView.textColor = UIColor.lightGray
         }
+    }
+    
+    @IBOutlet weak var dropDownReason: UIButton!
+    @IBAction func dropDownReasonPressed(_ sender: Any) {
+        dropDown.hide()
+        dropDown.show()
+    }
+    
+    func setupDropdownReason() {
+        //dropDown = DropDown()
+        dropDown.dataSource = self.dataReject
+        
+        // Action triggered on selection
+        dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
+            if index != self.selectedIndex {
+                self.selectedIndex = index
+                
+                if index < self.dropDown.dataSource.count {
+                    self.lblReason.text = self.dropDown.dataSource[index]
+                    if index > 0 {
+                        var notes = "Catatan: " + self.dataRejectNote[index]
+                        var bold = ""
+                        
+                        if notes.contains("<b>") {
+                            bold = notes.substring(from: notes.index(of: "<b>")!)
+                            bold = bold.substring(to: bold.index(of: "</b>")!)
+                            
+                            notes = notes.replace("<b>", template: "").replace("</b>", template: "")
+                            bold = bold.replace("<b>", template: "").replace("</b>", template: "")
+                        }
+                        
+                        self.notification.text = notes
+                        
+                        if bold != "" {
+                            self.notification.boldSubstring(bold)
+                        }
+                        
+                        if self.dropDown.dataSource[index].contains("SOLD") {
+                            self.notification.isHidden = true
+                            self.fieldCustomReason.isHidden = true
+                            self.selectedAvailability = .soldOut
+                            
+                        } else if self.dropDown.dataSource[index].contains("lain") {
+                            self.notification.isHidden = false
+                            self.fieldCustomReason.isHidden = false
+                            self.consNotifTop.constant = 20
+                            self.selectedAvailability = .available
+                            
+                        } else {
+                            self.notification.isHidden = false
+                            self.fieldCustomReason.isHidden = true
+                            self.consNotifTop.constant = -30
+                            self.selectedAvailability = .available
+                            
+                        }
+                    } else { // Alasan Penolakan
+                        self.notification.isHidden = true
+                        self.fieldCustomReason.isHidden = true
+                        
+                    }
+                    
+                    self.refreshTable2()
+                }
+            }
+        }
+        
+        dropDown.textFont = UIFont.systemFont(ofSize: 14)
+        
+        dropDown.cellHeight = 40
+        
+        dropDown.selectRow(at: self.selectedIndex)
+        
+        dropDown.direction = .bottom
     }
 }
