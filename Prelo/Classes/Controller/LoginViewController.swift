@@ -1162,6 +1162,8 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         }
         
         let _ = request(APIAuth.login(email: email!, password: pwd!)).responseJSON {resp in
+            print("respon")
+            print(resp)
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Login")) {
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]

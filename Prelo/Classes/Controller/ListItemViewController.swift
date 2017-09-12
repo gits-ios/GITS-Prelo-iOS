@@ -323,6 +323,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Prelo Analytic - Filter
             self.sendFilterAnalytic()
+            
+            // AppsFlyer - Filter
+            let afPdata: [String : Any] = [
+                AFEventParamCategory: self.lblFilterKategori.text ?? "All"
+            ]
+            AppsFlyerTracker.shared().trackEvent("af_list_view", withValues: afPdata)
+            
         }
         
         if currentMode == .shop || currentMode == .newShop {
