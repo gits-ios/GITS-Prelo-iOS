@@ -120,7 +120,8 @@ class AppTools: NSObject {
     
     static func switchToVerification(_ isOn: Bool){
         _isVerification = isOn
-      
+    }
+    
     fileprivate static var _isRent = true
     static var isRent : Bool {
         get {
