@@ -626,6 +626,7 @@
 		58F8C1541F289E2900B24BD7 /* TopUpMethodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */; };
 		58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
+		A992FA721F67E49F007EBF12 /* Sewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A992FA711F67E49F007EBF12 /* Sewa.storyboard */; };
 		B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */; };
 		B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
@@ -1877,6 +1878,7 @@
 		58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
+		A992FA711F67E49F007EBF12 /* Sewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sewa.storyboard; sourceTree = "<group>"; };
 		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
 		B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
@@ -2363,6 +2365,7 @@
 				21EEB4361B86F9EF00CAD5C9 /* Framework */,
 				2115E6D91B4A27E500509D2A /* LaunchScreen.xib */,
 				2115E6D41B4A27E500509D2A /* Main.storyboard */,
+				A992FA711F67E49F007EBF12 /* Sewa.storyboard */,
 				B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */,
 				21AE67B41B4A61C600D2CF63 /* Resource */,
 				2115E6CB1B4A27E500509D2A /* Supporting Files */,
@@ -2700,6 +2703,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A992FA831F67E683007EBF12 /* Sewa */,
 				21C6589F1B8F01E10037F85F /* AboutViewController.swift */,
 				B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */,
 				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
@@ -3697,6 +3701,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A992FA831F67E683007EBF12 /* Sewa */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Sewa;
+			sourceTree = "<group>";
+		};
 		B21C2DFE1F078663002B1B07 /* Add Product Version 3 */ = {
 			isa = PBXGroup;
 			children = (
@@ -4481,6 +4492,7 @@
 				B229F4DE1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib in Resources */,
 				B2DF584B1E4844B9005B6CF1 /* AddressBookNewCell.xib in Resources */,
 				5858874B1DBEDB8E006EC6D5 /* NotifAnggiTabBar.xib in Resources */,
+				A992FA721F67E49F007EBF12 /* Sewa.storyboard in Resources */,
 				5827E95E1E03F844007F0833 /* ic_trx_refund1.png in Resources */,
 				B2314BE71E4B042300731B88 /* AddressAddEdit.xib in Resources */,
 				5827E95F1E03F844007F0833 /* ic_trx_refund2.png in Resources */,
