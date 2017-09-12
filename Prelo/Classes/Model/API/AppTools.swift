@@ -27,7 +27,7 @@ enum imageFilterMode {
 class AppTools: NSObject {
     static let isDev = true // Set true for demo/testing purpose only
     
-    fileprivate static var devURL = "http://dev.prelo.id"
+    fileprivate static var devURL = "https://dev.prelo.id"
     fileprivate static var prodURL = "https://prelo.co.id"
     
     fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL

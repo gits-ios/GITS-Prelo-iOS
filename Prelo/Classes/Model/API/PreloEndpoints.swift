@@ -41,6 +41,7 @@ class PreloEndpoints: NSObject {
         
         if let response = resp {
             print("response code" + String(response.statusCode))
+            print(res)
             if (response.statusCode != 200) {
                 if (res != nil) {
                     if let msg = JSON(res!)["_message"].string {
