@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="61" id="k3g-QW-J79" customClass="AddProduct3ImageTitleCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="k3g-QW-J79" id="YUJ-AJ-6Wa">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-standar-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="NlO-84-XPd" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="12" y="12" width="20" height="20"/>
+                        <color key="tintColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="20" id="4d2-Vj-wzH"/>
+                            <constraint firstAttribute="width" constant="20" id="azX-Bu-iL4"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TITLE FIELD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8KN-Ib-CuG">
+                        <rect key="frame" x="40" y="11.5" width="93" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YE5-5g-ah8">
+                        <rect key="frame" x="141" y="12" width="20" height="20"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_faq.png" translatesAutoresizingMaskIntoConstraints="NO" id="8uq-hz-vv1">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                <color key="tintColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="V1q-HW-lkg"/>
+                                    <constraint firstAttribute="height" constant="20" id="t0E-pF-yTA"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R7b-Hm-KEg">
+                                <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="btnFAQPressed:" destination="k3g-QW-J79" eventType="touchUpInside" id="cRs-PM-ehR"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8uq-hz-vv1" firstAttribute="leading" secondItem="YE5-5g-ah8" secondAttribute="leading" id="Ijt-a1-zAS"/>
+                            <constraint firstAttribute="height" constant="20" id="NTm-Hk-jmJ"/>
+                            <constraint firstAttribute="trailing" secondItem="8uq-hz-vv1" secondAttribute="trailing" id="Onz-Wo-hbQ"/>
+                            <constraint firstAttribute="width" constant="20" id="hUk-VX-qJt"/>
+                            <constraint firstItem="8uq-hz-vv1" firstAttribute="top" secondItem="YE5-5g-ah8" secondAttribute="top" id="lH0-zZ-EdC"/>
+                            <constraint firstAttribute="bottom" secondItem="8uq-hz-vv1" secondAttribute="bottom" id="m5y-63-kiJ"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5G-wa-57z">
+                        <rect key="frame" x="12" y="36.5" width="351" height="14"/>
+                        <attributedString key="attributedText">
+                            <fragment content="Subtitle, eg: Hanya dapat dilihat oleh admin prelo">
+                                <attributes>
+                                    <color key="NSColor" red="0.52156999999999998" green="0.52156999999999998" blue="0.52156999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <font key="NSFont" size="12" name="HelveticaNeue"/>
+                                    <real key="NSKern" value="0.0"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" minimumLineHeight="14" defaultTabInterval="36" tighteningFactorForTruncation="0.0" allowsDefaultTighteningForTruncation="NO">
+                                        <tabStops/>
+                                    </paragraphStyle>
+                                    <color key="NSStrokeColor" red="0.52156999999999998" green="0.52156999999999998" blue="0.52156999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="NlO-84-XPd" firstAttribute="leading" secondItem="YUJ-AJ-6Wa" secondAttribute="leadingMargin" constant="4" id="AfD-IG-9w9"/>
+                    <constraint firstItem="NlO-84-XPd" firstAttribute="top" secondItem="YUJ-AJ-6Wa" secondAttribute="topMargin" constant="4" id="K2e-uZ-djS"/>
+                    <constraint firstItem="S5G-wa-57z" firstAttribute="top" secondItem="8KN-Ib-CuG" secondAttribute="bottom" constant="4" id="NEV-JW-Wbz"/>
+                    <constraint firstItem="8KN-Ib-CuG" firstAttribute="leading" secondItem="NlO-84-XPd" secondAttribute="trailing" constant="8" id="OwK-M8-GxE"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="S5G-wa-57z" secondAttribute="trailing" constant="4" id="PJ2-rx-X1m"/>
+                    <constraint firstItem="YE5-5g-ah8" firstAttribute="leading" secondItem="8KN-Ib-CuG" secondAttribute="trailing" constant="8" id="PkS-m1-V9L"/>
+                    <constraint firstItem="YE5-5g-ah8" firstAttribute="top" secondItem="YUJ-AJ-6Wa" secondAttribute="topMargin" constant="4" id="WMo-eh-nQA"/>
+                    <constraint firstItem="8KN-Ib-CuG" firstAttribute="centerY" secondItem="NlO-84-XPd" secondAttribute="centerY" id="plb-g1-n1G"/>
+                    <constraint firstItem="S5G-wa-57z" firstAttribute="leading" secondItem="YUJ-AJ-6Wa" secondAttribute="leadingMargin" constant="4" id="uBs-Up-ilt"/>
+                    <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="YE5-5g-ah8" secondAttribute="trailing" constant="4" id="uYO-kq-Jj7"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="SectionFAQ" destination="YE5-5g-ah8" id="RCS-JS-P0x"/>
+                <outlet property="SectionImage" destination="NlO-84-XPd" id="Htr-7N-qbC"/>
+                <outlet property="SectionSubtitle" destination="S5G-wa-57z" id="vnT-lL-NgF"/>
+                <outlet property="SectionTitle" destination="8KN-Ib-CuG" id="3xe-8s-iho"/>
+            </connections>
+            <point key="canvasLocation" x="-18.5" y="-13.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_faq.png" width="96" height="96"/>
+        <image name="placeholder-standar-white.png" width="320" height="320"/>
+    </resources>
+</document>

@@ -25,6 +25,8 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
     
     fileprivate static var globalStoryboard : UIStoryboard?
     
+    var circleMenu: CircleMenu? // null able
+    
     static func instatiateViewControllerFromStoryboardWithID(_ id : String) -> UIViewController {
         let c = (BaseViewController.globalStoryboard?.instantiateViewController(withIdentifier: id))!
         return c
@@ -343,6 +345,17 @@ class BaseViewController: UIViewController, PreloNotifListenerDelegate {
         guard let statusBar = UIApplication.shared.value(forKeyPath: "statusBarWindow.statusBar") as? UIView else { return }
         
         statusBar.backgroundColor = color
+    }
+    
+    // for circlemenu
+    func btnCenterPressed() {
+        self.circleMenu?.btnCenterPressed()
+    }
+    func btnSellPressed() {
+        self.circleMenu?.btnSellPressed()
+    }
+    func btnRentPressed() {
+        self.circleMenu?.btnRentPressed()
     }
 }
 

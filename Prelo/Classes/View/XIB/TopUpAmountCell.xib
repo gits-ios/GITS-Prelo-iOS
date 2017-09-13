@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="66" id="ecn-SS-wyB" customClass="TopUpAmountCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="395" height="66"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ecn-SS-wyB" id="74I-A1-UdV">
+                <rect key="frame" x="0.0" y="0.0" width="395" height="65.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y8I-sf-ZFd">
+                        <rect key="frame" x="8" y="8" width="379" height="34"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Jumlah Uang" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="2yX-xl-YNv">
+                                <rect key="frame" x="110" y="4" width="269" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Jumlah Top-Up" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CUY-D6-4kc">
+                                <rect key="frame" x="0.0" y="9" width="94" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="94" id="NTH-2p-NFu"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0g5-Cy-5Ux">
+                                <rect key="frame" x="0.0" y="30" width="379" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="hyR-yD-CSO"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="0g5-Cy-5Ux" secondAttribute="bottom" constant="3" id="2s8-1F-AKO"/>
+                            <constraint firstAttribute="height" constant="34" id="C0P-V8-lem"/>
+                            <constraint firstItem="0g5-Cy-5Ux" firstAttribute="leading" secondItem="y8I-sf-ZFd" secondAttribute="leading" id="ClN-Fn-K1B"/>
+                            <constraint firstAttribute="trailing" secondItem="0g5-Cy-5Ux" secondAttribute="trailing" id="Km5-Xy-Cls"/>
+                            <constraint firstItem="2yX-xl-YNv" firstAttribute="leading" secondItem="CUY-D6-4kc" secondAttribute="trailing" constant="16" id="LK3-Fz-dDR"/>
+                            <constraint firstItem="CUY-D6-4kc" firstAttribute="leading" secondItem="y8I-sf-ZFd" secondAttribute="leading" id="P37-vO-N0N"/>
+                            <constraint firstItem="0g5-Cy-5Ux" firstAttribute="top" secondItem="CUY-D6-4kc" secondAttribute="bottom" id="iID-72-Clv"/>
+                            <constraint firstItem="2yX-xl-YNv" firstAttribute="top" secondItem="y8I-sf-ZFd" secondAttribute="top" constant="4" id="qHZ-MU-aiV"/>
+                            <constraint firstAttribute="bottom" secondItem="2yX-xl-YNv" secondAttribute="bottom" id="sOm-HI-mHD"/>
+                            <constraint firstItem="CUY-D6-4kc" firstAttribute="top" secondItem="y8I-sf-ZFd" secondAttribute="top" constant="9" id="vW5-4R-8hW"/>
+                            <constraint firstAttribute="trailing" secondItem="2yX-xl-YNv" secondAttribute="trailing" id="wvN-6X-V1z"/>
+                        </constraints>
+                    </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Nominal penambahan saldo minimal Rp10.000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rrj-pf-DoG">
+                        <rect key="frame" x="8" y="37" width="379" height="21"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" type="italicSystem" pointSize="9"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="y8I-sf-ZFd" firstAttribute="top" secondItem="74I-A1-UdV" secondAttribute="topMargin" id="7EQ-Hc-vDv"/>
+                    <constraint firstItem="y8I-sf-ZFd" firstAttribute="trailing" secondItem="74I-A1-UdV" secondAttribute="trailingMargin" id="LYv-Md-XCo"/>
+                    <constraint firstItem="y8I-sf-ZFd" firstAttribute="leading" secondItem="74I-A1-UdV" secondAttribute="leadingMargin" id="NO2-fb-9Vn"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="lblNotification" destination="Rrj-pf-DoG" id="OOD-Bb-gpk"/>
+                <outlet property="txtJumlahUang" destination="2yX-xl-YNv" id="W7F-jQ-ylF"/>
+            </connections>
+            <point key="canvasLocation" x="125.5" y="150"/>
+        </tableViewCell>
+    </objects>
+</document>

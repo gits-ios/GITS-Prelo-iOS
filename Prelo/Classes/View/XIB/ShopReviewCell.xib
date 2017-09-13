@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
-    <customFonts key="customFonts">
-        <array key="PreloAwesome.ttf">
-            <string>PreloAwesome</string>
-        </array>
-    </customFonts>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -20,37 +15,31 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="112"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="BGN-jL-jQ4" id="hir-eh-cmF">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="111"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="111.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="raisa.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="IiW-y5-dnB" userLabel="imgUser">
-                        <rect key="frame" x="8" y="8" width="56" height="56"/>
+                        <rect key="frame" x="8" y="8" width="50" height="50"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="56" id="5Qf-Zk-wkr"/>
-                            <constraint firstAttribute="height" constant="56" id="k4H-N7-gqY"/>
+                            <constraint firstAttribute="width" constant="50" id="5Qf-Zk-wkr"/>
+                            <constraint firstAttribute="height" constant="50" id="k4H-N7-gqY"/>
                         </constraints>
                     </imageView>
-                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zc2-z2-k5K">
-                        <rect key="frame" x="72" y="29" width="240" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="21" id="JqQ-I4-6l2"/>
-                        </constraints>
-                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
-                        <color key="textColor" red="0.80784313730000001" green="0.22352941179999999" blue="0.28235294119999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FKj-bp-sz7" userLabel="View Love">
-                        <rect key="frame" x="72" y="29" width="240" height="21"/>
+                        <rect key="frame" x="66" y="29" width="246" height="21"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="HST-It-OCP"/>
+                        </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lorem ipsum dolor sit amet amet jabang bayi lorem ipsum dolor sit amet amet jabang bayi" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3gW-ON-CEt">
-                        <rect key="frame" x="72" y="52" width="240" height="43"/>
+                        <rect key="frame" x="66" y="52" width="246" height="43"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User fullname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xhl-Wf-a89">
-                        <rect key="frame" x="72" y="8" width="240" height="18"/>
+                        <rect key="frame" x="66" y="8" width="246" height="18"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="18" id="f00-De-XIX"/>
                         </constraints>
@@ -63,17 +52,13 @@
                     <constraint firstItem="FKj-bp-sz7" firstAttribute="top" secondItem="Xhl-Wf-a89" secondAttribute="bottom" constant="3" id="5oQ-hb-jdH"/>
                     <constraint firstItem="Xhl-Wf-a89" firstAttribute="leading" secondItem="IiW-y5-dnB" secondAttribute="trailing" constant="8" id="EAx-Yd-JFA"/>
                     <constraint firstItem="IiW-y5-dnB" firstAttribute="leading" secondItem="hir-eh-cmF" secondAttribute="leading" constant="8" id="EP3-bb-cJl"/>
-                    <constraint firstAttribute="trailing" secondItem="zc2-z2-k5K" secondAttribute="trailing" constant="8" id="JHQ-nv-u1o"/>
                     <constraint firstItem="FKj-bp-sz7" firstAttribute="trailing" secondItem="hir-eh-cmF" secondAttribute="trailingMargin" id="LHw-Ap-B9C"/>
                     <constraint firstItem="IiW-y5-dnB" firstAttribute="top" secondItem="hir-eh-cmF" secondAttribute="top" constant="8" id="MUl-Ga-mnK"/>
                     <constraint firstAttribute="trailing" secondItem="Xhl-Wf-a89" secondAttribute="trailing" constant="8" id="NTU-s7-dTF"/>
                     <constraint firstItem="FKj-bp-sz7" firstAttribute="leading" secondItem="IiW-y5-dnB" secondAttribute="trailing" constant="8" id="Oj8-F1-BdF"/>
                     <constraint firstItem="Xhl-Wf-a89" firstAttribute="top" secondItem="hir-eh-cmF" secondAttribute="top" constant="8" id="TtB-Hu-2jM"/>
                     <constraint firstItem="3gW-ON-CEt" firstAttribute="top" secondItem="FKj-bp-sz7" secondAttribute="bottom" constant="2" id="UqR-Kv-iMN"/>
-                    <constraint firstItem="zc2-z2-k5K" firstAttribute="top" secondItem="Xhl-Wf-a89" secondAttribute="bottom" constant="3" id="Y2h-sa-5VQ"/>
                     <constraint firstItem="3gW-ON-CEt" firstAttribute="leading" secondItem="IiW-y5-dnB" secondAttribute="trailing" constant="8" id="YnZ-f3-yIS"/>
-                    <constraint firstItem="3gW-ON-CEt" firstAttribute="top" secondItem="zc2-z2-k5K" secondAttribute="bottom" constant="2" id="bHF-QA-M9M"/>
-                    <constraint firstItem="zc2-z2-k5K" firstAttribute="leading" secondItem="IiW-y5-dnB" secondAttribute="trailing" constant="8" id="ksz-lo-XH0"/>
                     <constraint firstAttribute="trailing" secondItem="3gW-ON-CEt" secondAttribute="trailing" constant="8" id="q8r-iu-tFr"/>
                 </constraints>
             </tableViewCellContentView>
@@ -81,7 +66,6 @@
                 <outlet property="imgBuyer" destination="IiW-y5-dnB" id="ydQ-rC-Hus"/>
                 <outlet property="lblBuyerName" destination="Xhl-Wf-a89" id="6dx-2Y-DKw"/>
                 <outlet property="lblComment" destination="3gW-ON-CEt" id="Ngg-KT-V0K"/>
-                <outlet property="lblStar" destination="zc2-z2-k5K" id="SON-VU-0uR"/>
                 <outlet property="vwLove" destination="FKj-bp-sz7" id="CHY-kc-ndG"/>
             </connections>
             <point key="canvasLocation" x="196" y="370"/>

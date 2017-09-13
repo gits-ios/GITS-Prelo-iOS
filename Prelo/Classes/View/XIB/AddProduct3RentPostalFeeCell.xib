@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="71" id="t6w-Zd-hRq" customClass="AddProduct3RentPostalFeeCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="72"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="t6w-Zd-hRq" id="5Da-BN-sXS">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="71.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UBd-2D-6b3" userLabel="Ditanggung Pembeli" customClass="BorderedView" customModule="Prelo" customModuleProvider="target">
+                        <rect key="frame" x="12" y="4" width="351" height="60"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_ditanggung_pembeli.png" translatesAutoresizingMaskIntoConstraints="NO" id="Tct-Qd-iYe" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                                <rect key="frame" x="158.5" y="4" width="34" height="34"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Ditanggung Penyewa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dRu-7R-Ual">
+                                <rect key="frame" x="116" y="42" width="119" height="14"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="Qpy-yV-lfE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Tct-Qd-iYe" firstAttribute="centerX" secondItem="UBd-2D-6b3" secondAttribute="centerX" id="1CP-7h-PRr"/>
+                            <constraint firstAttribute="bottom" secondItem="dRu-7R-Ual" secondAttribute="bottom" constant="4" id="8tQ-VH-rvv"/>
+                            <constraint firstItem="dRu-7R-Ual" firstAttribute="centerX" secondItem="UBd-2D-6b3" secondAttribute="centerX" id="IME-WY-o4V"/>
+                            <constraint firstItem="Tct-Qd-iYe" firstAttribute="top" secondItem="UBd-2D-6b3" secondAttribute="top" constant="4" id="Jo4-R8-hqo"/>
+                            <constraint firstItem="dRu-7R-Ual" firstAttribute="top" secondItem="Tct-Qd-iYe" secondAttribute="bottom" constant="4" id="Mvb-zK-xIp"/>
+                            <constraint firstAttribute="height" constant="60" id="rPa-jc-ubd"/>
+                            <constraint firstItem="Tct-Qd-iYe" firstAttribute="width" secondItem="Tct-Qd-iYe" secondAttribute="height" multiplier="1:1" id="sTZ-XE-CRR"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
+                                <color key="value" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                <real key="value" value="1"/>
+                            </userDefinedRuntimeAttribute>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailingMargin" secondItem="UBd-2D-6b3" secondAttribute="trailing" constant="4" id="QAZ-bU-HaD"/>
+                    <constraint firstItem="UBd-2D-6b3" firstAttribute="leading" secondItem="5Da-BN-sXS" secondAttribute="leadingMargin" constant="4" id="cgl-jV-SwM"/>
+                    <constraint firstItem="UBd-2D-6b3" firstAttribute="top" secondItem="5Da-BN-sXS" secondAttribute="topMargin" constant="-4" id="fJZ-ER-f9j"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="imgPaidOngkir" destination="Tct-Qd-iYe" id="y96-Vp-VHD"/>
+                <outlet property="lblPaidOngkir" destination="dRu-7R-Ual" id="EWF-wB-QQ8"/>
+                <outlet property="vwPaidOngkir" destination="UBd-2D-6b3" id="QPu-9G-VwN"/>
+            </connections>
+            <point key="canvasLocation" x="-28.5" y="14.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="ic_ditanggung_pembeli.png" width="96" height="96"/>
+    </resources>
+</document>

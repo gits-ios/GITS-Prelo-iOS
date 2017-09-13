@@ -25,6 +25,10 @@ class CDCategory: NSManagedObject {
     @NSManaged var children : NSMutableSet
     @NSManaged var hashtags : String?
     
+    @NSManaged var image_label_budget : String?
+    @NSManaged var image_label_everyday : String?
+    @NSManaged var image_label_luxury : String?
+    
     static func saveCategoriesFromArrayJson(_ arr: [JSON]) -> Bool {
         
         if (arr.count <= 0) {
@@ -46,6 +50,39 @@ class CDCategory: NSManagedObject {
             n.parentId = categ["parent"].string
             if let h = categ["hashtags"].string {
                 n.hashtags = h
+            }
+            
+            if let budget = categ["image_label"]["budget"].array, budget.count > 0 {
+                var bg = ""
+                for i in 0..<budget.count {
+                    bg += budget[i].stringValue
+                    if i < budget.count-1 {
+                        bg += ";"
+                    }
+                }
+                n.image_label_budget = bg
+            }
+            
+            if let everyday = categ["image_label"]["everyday"].array, everyday.count > 0 {
+                var ev = ""
+                for i in 0..<everyday.count {
+                    ev += everyday[i].stringValue
+                    if i < everyday.count-1 {
+                        ev += ";"
+                    }
+                }
+                n.image_label_everyday = ev
+            }
+            
+            if let luxury = categ["image_label"]["luxury"].array, luxury.count > 0 {
+                var lx = ""
+                for i in 0..<luxury.count {
+                    lx += luxury[i].stringValue
+                    if i < luxury.count-1 {
+                        lx += ";"
+                    }
+                }
+                n.image_label_luxury = lx
             }
         }
         
@@ -83,6 +120,39 @@ class CDCategory: NSManagedObject {
                         result.parentId = arr[i]["parent"].string
                         if let h = arr[i]["hashtags"].string {
                             result.hashtags = h
+                        }
+                        
+                        if let budget = arr[i]["image_label"]["budget"].array, budget.count > 0 {
+                            var bg = ""
+                            for i in 0..<budget.count {
+                                bg += budget[i].stringValue
+                                if i < budget.count-1 {
+                                    bg += ";"
+                                }
+                            }
+                            result.image_label_budget = bg
+                        }
+                        
+                        if let everyday = arr[i]["image_label"]["everyday"].array, everyday.count > 0 {
+                            var ev = ""
+                            for i in 0..<everyday.count {
+                                ev += everyday[i].stringValue
+                                if i < everyday.count-1 {
+                                    ev += ";"
+                                }
+                            }
+                            result.image_label_everyday = ev
+                        }
+                        
+                        if let luxury = arr[i]["image_label"]["luxury"].array, luxury.count > 0 {
+                            var lx = ""
+                            for i in 0..<luxury.count {
+                                lx += luxury[i].stringValue
+                                if i < luxury.count-1 {
+                                    lx += ";"
+                                }
+                            }
+                            result.image_label_luxury = lx
                         }
                     }
                 }
@@ -133,6 +203,7 @@ class CDCategory: NSManagedObject {
     
     static func saveCategories(_ json : JSON, m : NSManagedObjectContext) -> Bool {
         // Mulai dari category all, tidak perlu loop
+        
         let allJson = json[0]
         let a = NSEntityDescription.insertNewObject(forEntityName: "CDCategory", into: m) as! CDCategory
         a.id = allJson["_id"].string!
@@ -145,6 +216,40 @@ class CDCategory: NSManagedObject {
         a.categorySizeId = nil
         a.parent = nil
         a.hashtags = nil
+        
+        if let budget = allJson["image_label"]["budget"].array, budget.count > 0 {
+            var bg = ""
+            for i in 0..<budget.count {
+                bg += budget[i].stringValue
+                if i < budget.count-1 {
+                    bg += ";"
+                }
+            }
+            a.image_label_budget = bg
+        }
+        
+        if let everyday = allJson["image_label"]["everyday"].array, everyday.count > 0 {
+            var ev = ""
+            for i in 0..<everyday.count {
+                ev += everyday[i].stringValue
+                if i < everyday.count-1 {
+                    ev += ";"
+                }
+            }
+            a.image_label_everyday = ev
+        }
+        
+        if let luxury = allJson["image_label"]["luxury"].array, luxury.count > 0 {
+            var lx = ""
+            for i in 0..<luxury.count {
+                lx += luxury[i].stringValue
+                if i < luxury.count-1 {
+                    lx += ";"
+                }
+            }
+            a.image_label_luxury = lx
+        }
+        
         self.saveCategoryChildren(a, json: allJson["children"])
         
         if (m.saveSave() == false) {
@@ -157,6 +262,7 @@ class CDCategory: NSManagedObject {
     
     static func saveCategoryChildren(_ parent : CDCategory, json : JSON) {
         let m = UIApplication.appDelegate.managedObjectContext
+        
         for i in 0 ..< json.count {
             let childJson = json[i]
             let c = NSEntityDescription.insertNewObject(forEntityName: "CDCategory", into: m) as! CDCategory
@@ -173,6 +279,40 @@ class CDCategory: NSManagedObject {
             if let h = childJson["hashtags"].string {
                 c.hashtags = h
             }
+            
+            if let budget = childJson["image_label"]["budget"].array, budget.count > 0 {
+                var bg = ""
+                for i in 0..<budget.count {
+                    bg += budget[i].stringValue
+                    if i < budget.count-1 {
+                        bg += ";"
+                    }
+                }
+                c.image_label_budget = bg
+            }
+            
+            if let everyday = childJson["image_label"]["everyday"].array, everyday.count > 0 {
+                var ev = ""
+                for i in 0..<everyday.count {
+                    ev += everyday[i].stringValue
+                    if i < everyday.count-1 {
+                        ev += ";"
+                    }
+                }
+                c.image_label_everyday = ev
+            }
+            
+            if let luxury = childJson["image_label"]["luxury"].array, luxury.count > 0 {
+                var lx = ""
+                for i in 0..<luxury.count {
+                    lx += luxury[i].stringValue
+                    if i < luxury.count-1 {
+                        lx += ";"
+                    }
+                }
+                c.image_label_luxury = lx
+            }
+            
             parent.children.add(c)
             self.saveCategoryChildren(c, json: childJson["children"])
         }

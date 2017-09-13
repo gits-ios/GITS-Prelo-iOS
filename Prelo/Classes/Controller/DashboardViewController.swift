@@ -405,9 +405,14 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func launchFreeVoucher() {
+        /*
         let referralPageVC = Bundle.main.loadNibNamed(Tags.XibNameReferralPage, owner: nil, options: nil)?.first as! ReferralPageViewController
         referralPageVC.previousScreen = PageName.DashboardLoggedIn
         self.previousController!.navigationController?.pushViewController(referralPageVC, animated: true)
+        */
+        
+        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareReferral, owner: nil, options: nil)?.first as! ShareReferralViewController
+        self.navigationController?.pushViewController(shareReferralVC, animated: true)
     }
     
     func launchRequestBarang() {
@@ -494,10 +499,18 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        let preloMessageVC = Bundle.main.loadNibNamed(Tags.XibNamePreloMessage, owner: nil, options: nil)?.first as! PreloMessageViewController
 //        self.navigationController?.pushViewController(preloMessageVC, animated: true)
         
+        // share profile -- OKE
+//        let shareProfileVC = Bundle.main.loadNibNamed(Tags.XibNameShareProfile, owner: nil, options: nil)?.first as! ShareProfileViewController
+//        self.navigationController?.pushViewController(shareProfileVC, animated: true)
+        
+        // share referral - baru -- OKE
+//        let shareReferralVC = Bundle.main.loadNibNamed(Tags.XibNameShareReferral, owner: nil, options: nil)?.first as! ShareReferralViewController
+//        self.navigationController?.pushViewController(shareReferralVC, animated: true)
+        
         // add product share v2 -- OKE
 //        let addProductShare2 = Bundle.main.loadNibNamed(Tags.XibNameAddProductShare2, owner: nil, options: nil)?.first as! AddProductShareViewController2
 //        self.navigationController?.pushViewController(addProductShare2, animated: true)
-
+        
         // google map -- OKE
 //        let googleMapVC = Bundle.main.loadNibNamed(Tags.XibNameGoogleMap, owner: nil, options: nil)?.first as! GoogleMapViewController
 //        googleMapVC.blockDone = { result in
@@ -516,6 +529,17 @@ class DashboardViewController: BaseViewController, UITableViewDataSource, UITabl
 //        checkout2VC.previousController = self
 //        checkout2VC.previousScreen = PageName.DashboardLoggedIn
 //        self.navigationController?.pushViewController(checkout2VC, animated: true)
+        
+        // add product v3
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        if AppTools.isRent {
+            addProduct3VC.product.addProductType = .rent
+        }
+        self.navigationController?.pushViewController(addProduct3VC, animated: true)
+        
+        // multipleimagepicker -- OKE
+//        let imagePicker = Bundle.main.loadNibNamed(Tags.XibNameMultipleImagePicker, owner: nil, options: nil)?.first as! AddProduct3ListImagesViewController
+//        self.navigationController?.pushViewController(imagePicker, animated: true)
     }
     
     func launchFAQ() {
