@@ -280,6 +280,11 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                                 if let isLux = data[i]["is_luxury"].bool {
                                     isLuxury = isLux
                                 }
+                                var segment = ""
+                                if let seg = data[i]["segments"].array, seg.count > 0 {
+                                    segment = seg[0].stringValue
+                                }
+                                /*
                                 if let segments = data[i]["segments"].array , segments.count > 0 {
                                     for j in 0...(segments.count - 1) {
                                         if (segments[j].stringValue.lowercased() == "luxury") {
@@ -287,7 +292,8 @@ class PickerViewController: UITableViewController, UISearchBarDelegate
                                         }
                                     }
                                 }
-                                strToHide += ";" + (isLuxury ? "1" : "0")
+                                */
+                                strToHide += ";" + (isLuxury ? "1" : "0") + ";" + segment
                                 self.items?.append(merkName + PickerViewController.TAG_START_HIDDEN + strToHide + PickerViewController.TAG_END_HIDDEN)
                                 if (merkName.lowercased() == name.lowercased()) { // Jika ada merk yg sama dengan query search, tidak perlu memunculkan 'Tambahkan merek..'
                                     isShowAddNewBrandCell = false

@@ -715,6 +715,7 @@ open class ProductDetail : NSObject, TawarItem
     
     var imageLabels : [String]
     {
+        /*
         var labels : [String] = []
         //print(json["_data"]["original_picts"])
         if let ori = json["_data"]["original_picts"].arrayObject
@@ -735,6 +736,17 @@ open class ProductDetail : NSObject, TawarItem
                     }
                 }
                 i += 1
+            }
+        }
+        return labels
+        */
+        
+        var labels : [String] = []
+        if let ori = json["_data"]["display_pict_labels"].array {
+            for x in ori {
+                if let i = x.string {
+                    labels.append(i)
+                }
             }
         }
         return labels

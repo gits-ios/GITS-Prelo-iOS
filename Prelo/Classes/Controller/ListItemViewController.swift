@@ -323,6 +323,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
             
             // Prelo Analytic - Filter
             self.sendFilterAnalytic()
+            
+            // AppsFlyer - Filter
+            let afPdata: [String : Any] = [
+                AFEventParamCategory: self.lblFilterKategori.text ?? "All"
+            ]
+            AppsFlyerTracker.shared().trackEvent("af_list_view", withValues: afPdata)
+            
         }
         
         if currentMode == .shop || currentMode == .newShop {
@@ -3552,8 +3559,14 @@ class ButtonJualView: UIView {
     }
     
     func sellPressed(_ sender: AnyObject) {
+        /*
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = self.currentPage
         self.parent.navigationController?.pushViewController(add, animated: true)
+        */
+        
+        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
+        addProduct3VC.screenBeforeAddProduct = self.currentPage
+        self.parent.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
 }
