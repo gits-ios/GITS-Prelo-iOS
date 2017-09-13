@@ -27,7 +27,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     var controllerBrowse : UIViewController?
     var _controllerDashboard : BaseViewController?
     var controllerDashboard : BaseViewController?
-        {
+    {
         get {
             return _controllerDashboard
         }
@@ -38,7 +38,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     }
     var _controllerDashboard2 : BaseViewController?
     var controllerDashboard2 : BaseViewController?
-        {
+    {
         get {
             return _controllerDashboard2
         }
@@ -76,7 +76,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         
         // Resume product upload
         if (User.Token != nil && CDUser.getOne() != nil) { // If user is logged in
-//            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
+            //            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async(execute: {
             DispatchQueue.global(qos: DispatchQoS.QoSClass.default).async(execute: {
                 AppDelegate.Instance.produkUploader.start()
             })
@@ -103,7 +103,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         NotificationCenter.default.addObserver(self, selector: #selector(KumangTabBarViewController.hideBottomBar), name: NSNotification.Name(rawValue: "hideBottomBar"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(KumangTabBarViewController.showBottomBar), name: NSNotification.Name(rawValue: "showBottomBar"), object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(KumangTabBarViewController.updateLoginButton), name: NSNotification.Name(rawValue: "userLoggedIn"), object: nil)
-
+        
         // Sell button setup
         btnAdd?.layoutIfNeeded()
         btnAdd?.layer.cornerRadius = (btnAdd?.frame.size.width)!/2
@@ -179,12 +179,12 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     func subdistrictProfileCheck() {
         if (User.IsLoggedIn && CDUser.getOne() != nil && CDUserProfile.getOne() != nil && CDUserOther.getOne() != nil && (CDUserProfile.getOne()?.subdistrictID == nil || CDUserProfile.getOne()?.subdistrictID == "")) {
             /*
-            let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
-            sdAlert.addAction(UIAlertAction(title: "Oke", style: .default, handler: { action in
-                let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
-                self.navigationController?.pushViewController(userProfileVC, animated: true)
-            }))
-            self.present(sdAlert, animated: true, completion: nil)
+             let sdAlert = UIAlertController(title: "Perhatian", message: "Lengkapi kecamatan di profil kamu sekarang untuk ongkos kirim yang lebih akurat", preferredStyle: .alert)
+             sdAlert.addAction(UIAlertAction(title: "Oke", style: .default, handler: { action in
+             let userProfileVC = Bundle.main.loadNibNamed(Tags.XibNameUserProfile, owner: nil, options: nil)?.first as! UserProfileViewController
+             self.navigationController?.pushViewController(userProfileVC, animated: true)
+             }))
+             self.present(sdAlert, animated: true, completion: nil)
              */
             
             let alertView = SCLAlertView(appearance: Constant.appearance)
@@ -284,7 +284,7 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         } else if let pro = n.object as? Product {
             d.product = pro
         }
-
+        
         self.navigationController?.pushViewController(d, animated: true)
     }
     
@@ -336,6 +336,9 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
             if currentTab == 0 {
+                
+                self.performSegue(withIdentifier: "performSegueSewa", sender: self)
+                
                 return
             }
             
@@ -376,23 +379,23 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
     
     @IBAction func launchMenu() {
         /*
-        let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
-        add.screenBeforeAddProduct = PageName.Home
-        self.navigationController?.pushViewController(add, animated: true)
-        */
+         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+         add.screenBeforeAddProduct = PageName.Home
+         self.navigationController?.pushViewController(add, animated: true)
+         */
         
         let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
         addProduct3VC.screenBeforeAddProduct = PageName.Home
         self.navigationController?.pushViewController(addProduct3VC, animated: true)
- 
+        
         
         /*
-        let circleMenuViewController = CircleMenuViewController(buttonCount: 2, menuSize: 280, buttonSize: 64, buttonImageNameFormat: "placeholder-circle.png", centerButtonSize: 64, centerButtonImageName: "placeholder-circle.png", centerButtonBackgroundImageName: "placeholder-circle.png")
-        
-        circleMenuViewController?.root = self
-        circleMenuViewController?.screenBefore = PageName.Home
-        
-        self.parent?.present(circleMenuViewController!, animated: true, completion: nil)
+         let circleMenuViewController = CircleMenuViewController(buttonCount: 2, menuSize: 280, buttonSize: 64, buttonImageNameFormat: "placeholder-circle.png", centerButtonSize: 64, centerButtonImageName: "placeholder-circle.png", centerButtonBackgroundImageName: "placeholder-circle.png")
+         
+         circleMenuViewController?.root = self
+         circleMenuViewController?.screenBefore = PageName.Home
+         
+         self.parent?.present(circleMenuViewController!, animated: true, completion: nil)
          */
     }
     
@@ -512,30 +515,30 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
                 CDVersion.saveVersions(data)
                 
                 /*
-                // Check if app need to be updated
-                if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
-                    if let newVer = CDVersion.getOne()?.appVersion {
-                        if (newVer.compare(installedVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
-                            UserDefaults.standard.set(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
-                            
-                            if let releaseNotes = data["release_notes"].array {
-                                var notes = ""
-                                for rn in releaseNotes {
-                                    notes += rn.stringValue + "\n"
-                                }
-                                UserDefaults.standard.set(notes, forKey: UserDefaultsKey.UpdatePopUpNotes)
-                            } else if let releaseNotes = data["release_notes"].string {
-                                UserDefaults.standard.set(releaseNotes, forKey: UserDefaultsKey.UpdatePopUpNotes)
-                            }
-                            
-                            if let isForceUpdate = data["is_force_update"].bool {
-                                UserDefaults.standard.set(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
-                            }
-                            
-                            UserDefaults.standard.synchronize()
-                        }
-                    }
-                }
+                 // Check if app need to be updated
+                 if let installedVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                 if let newVer = CDVersion.getOne()?.appVersion {
+                 if (newVer.compare(installedVer, options: .numeric, range: nil, locale: nil) == .orderedDescending) {
+                 UserDefaults.standard.set(newVer, forKey: UserDefaultsKey.UpdatePopUpVer)
+                 
+                 if let releaseNotes = data["release_notes"].array {
+                 var notes = ""
+                 for rn in releaseNotes {
+                 notes += rn.stringValue + "\n"
+                 }
+                 UserDefaults.standard.set(notes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                 } else if let releaseNotes = data["release_notes"].string {
+                 UserDefaults.standard.set(releaseNotes, forKey: UserDefaultsKey.UpdatePopUpNotes)
+                 }
+                 
+                 if let isForceUpdate = data["is_force_update"].bool {
+                 UserDefaults.standard.set(isForceUpdate, forKey: UserDefaultsKey.UpdatePopUpForced)
+                 }
+                 
+                 UserDefaults.standard.synchronize()
+                 }
+                 }
+                 }
                  */
             }
             

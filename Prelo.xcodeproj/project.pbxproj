@@ -627,6 +627,7 @@
 		58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		A992FA721F67E49F007EBF12 /* Sewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A992FA711F67E49F007EBF12 /* Sewa.storyboard */; };
+		A9E327F71F68DB3C009382F5 /* TanggalSewaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */; };
 		B2050B4F1F00F4A700E7557B /* ic_checkout_visa.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */; };
 		B2050B511F00F4C600E7557B /* ic_checkout_cimb_clicks.png in Resources */ = {isa = PBXBuildFile; fileRef = B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */; };
 		B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */; };
@@ -1879,6 +1880,7 @@
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
 		A992FA711F67E49F007EBF12 /* Sewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sewa.storyboard; sourceTree = "<group>"; };
+		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalSewaViewController.swift; sourceTree = "<group>"; };
 		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
 		B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
@@ -2740,12 +2742,12 @@
 				210959B51B8DDBC9000F2939 /* ListRekeningViewController.swift */,
 				B2D481C81E02A7AD006006CC /* LocationFilterViewController.swift */,
 				589BD4181D993EAB006EDB2E /* LoginFransiskaViewController.swift */,
-				212007C51B6A102600D9C84B /* LoginViewController.swift */,
 				44B708761BBA6D86001EACBF /* MyLovelistViewController.swift */,
+				212007C51B6A102600D9C84B /* LoginViewController.swift */,
 				44B708771BBA6D86001EACBF /* MyProductCompletedViewController.swift */,
+				21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */,
 				44B708781BBA6D86001EACBF /* MyProductDetailViewController.swift */,
 				44B708791BBA6D86001EACBF /* MyProductProcessingViewController.swift */,
-				21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */,
 				58C87C941DA382BA00F132E2 /* MyProductTransactionViewController.swift */,
 				21EA7D4F1B8AF079005FB8D4 /* MyProductViewController.swift */,
 				21104AB31BAA8ECC00947E7F /* MyPurchaseCompletedViewController.swift */,
@@ -3704,6 +3706,7 @@
 		A992FA831F67E683007EBF12 /* Sewa */ = {
 			isa = PBXGroup;
 			children = (
+				A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */,
 			);
 			path = Sewa;
 			sourceTree = "<group>";
@@ -4942,6 +4945,7 @@
 				B2FFCBAC1EA52669004F01D0 /* SocketIOClientSpec.swift in Sources */,
 				21B467EC1CCE5EDB00E145ED /* NSArray+BFKit.swift in Sources */,
 				21679A451B901C5300F18F90 /* MPTweak.m in Sources */,
+				A9E327F71F68DB3C009382F5 /* TanggalSewaViewController.swift in Sources */,
 				B229DDDE1F4946A40062F5DF /* CircleMenu.swift in Sources */,
 				5847E15C1DBD9C6A00C1B2BA /* CDProductCondition.swift in Sources */,
 				21B467F21CCE5EDB00E145ED /* NSMutableDictionary+BFKit.swift in Sources */,

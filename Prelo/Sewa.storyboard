@@ -11,7 +11,7 @@
         <!--Tanggal Sewa-->
         <scene sceneID="3BL-VG-T0B">
             <objects>
-                <viewController id="65a-wQ-iYO" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TanggalSewa" id="65a-wQ-iYO" customClass="TanggalSewaViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="gTG-Eq-t92"/>
                         <viewControllerLayoutGuide type="bottom" id="hMU-O9-kzu"/>
@@ -21,16 +21,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zh-7H-mBd">
-                                <rect key="frame" x="0.0" y="587" width="375" height="80"/>
+                                <rect key="frame" x="0.0" y="603" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 + 2 hari" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sec-FA-krN">
-                                        <rect key="frame" x="20" y="29.5" width="73" height="21"/>
+                                        <rect key="frame" x="20" y="21.5" width="73" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nsU-Vh-h78">
-                                        <rect key="frame" x="259" y="23.5" width="96" height="33"/>
+                                        <rect key="frame" x="259" y="15.5" width="96" height="33"/>
                                         <color key="backgroundColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="qfY-Eb-Eqi"/>
@@ -43,7 +43,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="3Gq-hs-OPe"/>
+                                    <constraint firstAttribute="height" constant="64" id="3Gq-hs-OPe"/>
                                     <constraint firstItem="sec-FA-krN" firstAttribute="leading" secondItem="7Zh-7H-mBd" secondAttribute="leading" constant="20" id="6I1-xk-rEo"/>
                                     <constraint firstAttribute="trailing" secondItem="nsU-Vh-h78" secondAttribute="trailing" constant="20" id="SEm-aY-9W8"/>
                                     <constraint firstItem="nsU-Vh-h78" firstAttribute="centerY" secondItem="7Zh-7H-mBd" secondAttribute="centerY" id="Typ-eY-Z2M"/>
@@ -51,7 +51,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bga-FL-duf">
-                                <rect key="frame" x="0.0" y="547" width="375" height="40"/>
+                                <rect key="frame" x="0.0" y="563" width="375" height="40"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ay5-fg-qjs">
                                         <rect key="frame" x="1" y="1" width="373" height="38"/>
