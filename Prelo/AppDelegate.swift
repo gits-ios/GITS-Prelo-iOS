@@ -1949,9 +1949,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 let json = JSON(resp.result.value!)
                 var data = json["_data"]
                 
-//                print("data version check")
-//                print(data)
-                
                 // Save version to core data
                 CDVersion.saveVersions(data)
                 
@@ -2029,24 +2026,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                         AppTools.switchToSingleCart(false)
                     } else  {
                         AppTools.switchToSingleCart(true)
-                    }
-                }
-                
-                // Check top up for init
-                if let j = data["ab_test"].array {
-                    if j.contains("topup_active") {
-                        AppTools.switchToTopUp(true)
-                    } else  {
-                        AppTools.switchToTopUp(false)
-                    }
-                }
-                
-                // Check verification for init
-                if let j = data["ab_test"].array {
-                    if j.contains("verification") {
-                        AppTools.switchToVerification(true)
-                    } else  {
-                        AppTools.switchToVerification(false)
                     }
                 }
                 

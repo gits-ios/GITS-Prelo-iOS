@@ -113,8 +113,7 @@ class ProdukUploader: NSObject {
         
         if let p = getQueue().first
         {
-            // UPDATE to v2 -> http://dev.prelo.id/docs/#api-Product-addProductV2
-            let url = "\(AppTools.PreloBaseUrl)/api/v2/product"
+            let url = "\(AppTools.PreloBaseUrl)/api/product"
             let userAgent : String? = UserDefaults.standard.object(forKey: UserDefaultsKey.UserAgent) as? String
             
             currentStatus = .uploading

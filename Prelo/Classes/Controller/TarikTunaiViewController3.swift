@@ -179,10 +179,6 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
         self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
     
-    func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -196,20 +192,6 @@ class TarikTunaiViewController3: BaseViewController, UIScrollViewDelegate, UITab
 //        captionPreloWJP.text = "..."
 //        captionWithdrawAmount.text = "..."
         
-        // done button
-        let ViewForDoneButtonOnKeyboard = UIToolbar()
-        ViewForDoneButtonOnKeyboard.sizeToFit()
-        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.dismissKeyboard))
-        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
-        self.txtJumlah.inputAccessoryView = ViewForDoneButtonOnKeyboard
-        self.txtPassword.inputAccessoryView = ViewForDoneButtonOnKeyboard
-        self.txtRekNewRekening.inputAccessoryView = ViewForDoneButtonOnKeyboard
-        self.txtNameNewRekening.inputAccessoryView = ViewForDoneButtonOnKeyboard
-        self.txtBranchNewRekening.inputAccessoryView = ViewForDoneButtonOnKeyboard
-        self.txtRekWithoutRekening.inputAccessoryView = ViewForDoneButtonOnKeyboard
-        self.txtNameWithoutRekening.inputAccessoryView = ViewForDoneButtonOnKeyboard
-        self.txtBranchWithoutRekening.inputAccessoryView = ViewForDoneButtonOnKeyboard
         
         self.consHeightSeparatorHeaderTable.constant = 0
         self.consHeightHistory.constant = 0

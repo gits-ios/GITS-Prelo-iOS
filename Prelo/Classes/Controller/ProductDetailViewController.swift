@@ -69,12 +69,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBOutlet weak var reservationBtnSet: UIView!
     @IBOutlet weak var btnReservation: BorderedButton!
-    @IBAction func btnOpenShopPressed(_ sender: Any) {
-        isNeedReload = true
-        
-        let changeShopStatusVC = Bundle.main.loadNibNamed(Tags.XibNameChangeShopStatus, owner: nil, options: nil)?.first as! ChangeShopStatusViewController
-        self.navigationController?.pushViewController(changeShopStatusVC, animated: true)
-    }
     
     var pDetailCover : ProductDetailCover?
     
@@ -114,21 +108,9 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     // add to cart popup
     var add2cartPopup: AddToCartPopup?
-    // close
-    @IBOutlet weak var vwClose: UIView!
-    @IBOutlet weak var consVwCloseHeight: NSLayoutConstraint!
-    @IBOutlet weak var lblEnd: UILabel!
-    @IBOutlet weak var btnOpenShop: UIButton!
-    @IBOutlet weak var consTableViewTop: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Apps Flyer
-        let afPdata: [String : Any] = [
-            AFEventParamContentId: product?.id
-        ]
-        AppsFlyerTracker.shared().trackEvent("af_content_view", withValues: afPdata)
         
         self.title = product?.name
         
@@ -155,11 +137,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         self.hideUpPopUp()
         self.vwUpBarangPopUp.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-        
-        // hide closed shop
-        self.vwClose.isHidden = true
-        //self.consVwCloseHeight.constant = 0
-        self.consTableViewTop.constant = 0
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -236,10 +213,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             
             self.thisScreen = PageName.ProductDetail
         }
-        
     }
-    
-    var shopBuka = true
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return UIStatusBarStyle.lightContent
@@ -266,51 +240,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                     }
                     
                     self.title = self.detail?.name
-                    
-                    print("")
-                    
-                    if(self.detail?.myShop.isEmpty)!{
-                        self.shopBuka = true
-                        self.vwClose.isHidden = true
-                        self.consTableViewTop.constant = 0
-                    } else {
-                        if(self.detail?.myShop["status"] == 1){
-                            self.shopBuka = true
-                            self.vwClose.isHidden = true
-                            self.consTableViewTop.constant = 0
-                        } else {
-                            self.shopBuka = false
-                            self.vwClose.isHidden = false
-                            if(self.detail?.theirId==User.Id){
-                                let end_date = self.detail?.myShop["end_date"]?.string
-                                var arrEnd = end_date?.components(separatedBy: "T")
-                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
-                                let date = dateFormatter.date(from: labelEnd)
-                                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date!)
-                                self.lblEnd.text = "Kamu akan membuka shop pada tanggal " + dateFormatter.string(from: tomorrow!)
-                                
-                                self.disableButton(self.btnUp)
-                                self.disableButton(self.btnSold)
-                            } else {
-                                let end_date = self.detail?.myShop["end_date"]?.string
-                                var arrEnd = end_date?.components(separatedBy: "T")
-                                var arrLabelEnd = arrEnd?[0].components(separatedBy: "-")
-                                var labelEnd = (arrLabelEnd?[2])!+"/"+(arrLabelEnd?[1])!+"/"+(arrLabelEnd?[0])!
-                                let dateFormatter = DateFormatter()
-                                dateFormatter.dateFormat = "dd/mm/yyyy" //Your date format
-                                let date = dateFormatter.date(from: labelEnd)
-                                let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: date!)
-                                self.lblEnd.text = "Penjual barang ini akan membuka shop pada tanggal " + dateFormatter.string(from: tomorrow!)
-                                self.disableButton(self.btnBuy)
-                                self.btnOpenShop.isHidden = true
-                                self.consVwCloseHeight.constant = 50
-                            }
-                        }
-                    }
-                    self.hideLoading()
                     
                     self.activated = (self.detail?.isActive)!
                     //print((self.detail?.json ?? ""))
@@ -1207,7 +1136,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     @IBAction func editPressed(_ sender: AnyObject) {
         self.showLoading()
-        /*
+        
         isNeedReload = true
         
         let a = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
@@ -1228,24 +1157,6 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 a.editProduct = ProductDetail.instance(JSON(resp.result.value!))
                 self.hideLoading()
                 self.navigationController?.pushViewController(a, animated: true)
-            }
-        }
-        */
-        
-        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
-        addProduct3VC.editDoneBlock = {
-            self.isNeedReload = true
-        }
-        addProduct3VC.topBannerText = (detail?.rejectionText)
-        addProduct3VC.delegate = self.delegate
-        addProduct3VC.screenBeforeAddProduct = PageName.ProductDetailMine
-        
-        // API Migrasi
-        let _ = request(APIProduct.detail(productId: detail!.productID, forEdit: 1)).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
-                addProduct3VC.editProduct = ProductDetail.instance(JSON(resp.result.value!))
-                self.hideLoading()
-                self.navigationController?.pushViewController(addProduct3VC, animated: true)
             }
         }
     }

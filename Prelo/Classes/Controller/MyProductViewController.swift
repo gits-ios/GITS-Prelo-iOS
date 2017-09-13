@@ -53,10 +53,6 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubview(toFront: viewJualButton)
         
-        // MARK: HACK Menu Add
-        self.circleMenu = CircleMenu()
-        circleMenu?.setupView(self, name: PageName.MyProducts, parent: self.viewJualButton, frame: self.viewJualButton.frame)
-        
         // swipe gesture for carbon (pop view)
         let vwLeft = UIView(frame: CGRect(x: 0, y: 0, width: 8, height: UIScreen.main.bounds.height))
         vwLeft.backgroundColor = UIColor.clear
@@ -104,16 +100,9 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
     
     @IBAction func jualPressed(_ sender: AnyObject) {
         self.isFromDraft = true
-        
-        /*
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.MyProducts
         self.navigationController?.pushViewController(add, animated: true)
-        */
-        
-        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
-        addProduct3VC.screenBeforeAddProduct = PageName.MyProducts
-        self.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
     
     // MARK: - Delegate

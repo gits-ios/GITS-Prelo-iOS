@@ -27,7 +27,7 @@ enum imageFilterMode {
 class AppTools: NSObject {
     static let isDev = true // Set true for demo/testing purpose only
     
-    fileprivate static var devURL = "https://dev.prelo.id"
+    fileprivate static var devURL = "http://dev.prelo.id"
     fileprivate static var prodURL = "https://prelo.co.id"
     
     fileprivate static var _PreloBaseUrl = isDev ? devURL : prodURL
@@ -99,38 +99,6 @@ class AppTools: NSObject {
     static func switchToSingleCart(_ isOn: Bool) {
         _isSingleCart = isOn
     }
-    
-    fileprivate static var _isTopUp = true
-    static var isTopUp : Bool {
-        get {
-            return _isTopUp
-        }
-    }
-
-    static func switchToTopUp(_ isOn: Bool){
-        _isTopUp = isOn
-    }
-    
-    fileprivate static var _isVerification = true
-    static var isVerification : Bool {
-        get {
-            return _isVerification
-        }
-    }
-    
-    static func switchToVerification(_ isOn: Bool){
-        _isVerification = isOn
-      
-    fileprivate static var _isRent = true
-    static var isRent : Bool {
-        get {
-            return _isRent
-        }
-    }
-    
-    static func switchToRent(_ isOn: Bool) {
-        _isRent = isOn
-    }
 }
 
 enum AppFont {
@@ -183,7 +151,6 @@ extension UIView {
     class func fromNib<T : UIView>() -> T {
         return Bundle.main.loadNibNamed(String(describing: T.self), owner: nil, options: nil)![0] as! T
     }
-    
     var snapshot: UIImage {
 //        UIGraphicsBeginImageContextWithOptions(bounds.size, false, UIScreen.main.scale)
 //        drawHierarchy(in: bounds, afterScreenUpdates: true)
@@ -197,33 +164,6 @@ extension UIView {
         let screenShot = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         return screenShot!
-    }
-    
-    /// Create snapshot
-    ///
-    /// - parameter rect: The `CGRect` of the portion of the view to return. If `nil` (or omitted),
-    ///                   return snapshot of the whole view.
-    ///
-    /// - returns: Returns `UIImage` of the specified portion of the view.
-    
-    func snapshot(of rect: CGRect? = nil) -> UIImage? {
-        // snapshot entire view
-        
-        UIGraphicsBeginImageContextWithOptions(bounds.size, isOpaque, 0)
-        drawHierarchy(in: bounds, afterScreenUpdates: true)
-        let wholeImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        // if no `rect` provided, return image of whole view
-        
-        guard let image = wholeImage, let rect = rect else { return wholeImage }
-        
-        // otherwise, grab specified `rect` of image
-        
-        let scale = image.scale
-        let scaledRect = CGRect(x: rect.origin.x * scale, y: rect.origin.y * scale, width: rect.size.width * scale, height: rect.size.height * scale)
-        guard let cgImage = image.cgImage?.cropping(to: scaledRect) else { return nil }
-        return UIImage(cgImage: cgImage, scale: scale, orientation: .up)
     }
 }
 
@@ -293,18 +233,6 @@ extension String {
     func indexDistance(of character: Character) -> Int? {
         guard let index = characters.index(of: character) else { return nil }
         return distance(from: startIndex, to: index)
-    }
-    
-    // json helper
-    func convertToDictionary() -> [String: Any]? {
-        if let data = self.data(using: .utf8) {
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        return nil
     }
 }
 
@@ -956,8 +884,6 @@ class Tags : NSObject {
     static let XibNameAddressAddEdit = "AddressAddEdit"
     static let XibNameUserProfile2 = "UserProfile2"
     static let XibNameReportTransaction = "ReportTransaction"
-    static let XibNameShareProfile = "ShareProfile"
-    static let XibNameShareReferral = "ShareReferral"
     static let XibNameAddProductShare2 = "AddProductShare2"
     static let XibNameCheckout2Ship = "Checkout2Ship"
     static let XibNameCheckout2Pay = "Checkout2Pay"
@@ -968,16 +894,6 @@ class Tags : NSObject {
     static let XibNameTarikTunaiwithSaveBankAccount2 = "TarikTunaiwithSaveBankAccount2"
     static let XibNameListBank = "ListBank"
     static let XibNameTarikTunai3 = "TarikTunai3"
-    static let XibNameChangeShopStatus = "ChangeShopStatus"
-    static let XibNameTopUp = "TopUp"
-    static let XibNameTopUpConfirm = "TopUpConfirm"
-    static let XibNameReviewAsSeller = "ReviewAsSeller"
-    static let XibNameReviewAsBuyer = "ReviewAsBuyer"
-    static let XibNameReviewTabBar = "ReviewTabBar"
-    static let XibNameShopReview2 = "ShopReview2"
-    static let XibNameTopUpVerification = "TopUpVerification"
-    static let XibNameAddProduct3 = "AddProduct3"
-    static let XibNameMultipleImagePicker = "AddProduct3ListImages"
 }
 
 class OrderStatus : NSObject {
@@ -1056,8 +972,6 @@ class PageName {
     static let EditAddress = "Edit Address"
     static let RekeningList = "Rekening List"
     static let RekeningAdd = "Add Rekening"
-    static let ChangeShopStatus = "Change Shop Status"
-    static let BalanceMutation = "Balance Mutation"
 }
 
 extension Mixpanel {

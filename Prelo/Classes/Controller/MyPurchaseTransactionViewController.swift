@@ -72,10 +72,6 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
         viewJualButton.layer.shadowOpacity = 0.3
         self.view.bringSubview(toFront: viewJualButton)
         
-        // MARK: HACK Menu Add
-        self.circleMenu = CircleMenu()
-        circleMenu?.setupView(self, name: PageName.MyOrders, parent: self.viewJualButton, frame: self.viewJualButton.frame)
-        
         // Search bar setup
         searchBar.delegate = self
         searchBar.placeholder = "Cari Barang"
@@ -225,15 +221,9 @@ class MyPurchaseTransactionViewController: BaseViewController, UITableViewDataSo
     // MARK: - Actions
     
     @IBAction func sellPressed(_ sender: AnyObject) {
-        /*
         let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
         add.screenBeforeAddProduct = PageName.MyOrders
         self.navigationController?.pushViewController(add, animated: true)
-        */
-        
-        let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
-        addProduct3VC.screenBeforeAddProduct = PageName.MyOrders
-        self.navigationController?.pushViewController(addProduct3VC, animated: true)
     }
     
     func readNotif(_ idx : Int) {

@@ -73,7 +73,6 @@
 #define AFEventParam8                      @"af_param_8"
 #define AFEventParam9                      @"af_param_9"
 #define AFEventParam10                     @"af_param_10"
-#define AFEventParamCategory                    @"af_category"
 
 
 typedef enum  {

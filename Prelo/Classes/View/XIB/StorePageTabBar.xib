@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -73,7 +73,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_verified.png" translatesAutoresizingMaskIntoConstraints="NO" id="5sv-f6-Wcw" userLabel="Verified">
-                                        <rect key="frame" x="214" y="135" width="20" height="20"/>
+                                        <rect key="frame" x="214" y="134.5" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="RGs-f2-xbP"/>
                                             <constraint firstAttribute="width" constant="20" id="dML-Ja-rH0"/>
@@ -86,7 +86,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="f0o-nD-Jk7" userLabel="Geolocation">
-                                        <rect key="frame" x="161.5" y="159" width="53" height="20"/>
+                                        <rect key="frame" x="161.5" y="159" width="53.5" height="20"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uIC-kw-rbu">
                                                 <rect key="frame" x="0.0" y="0.0" width="9.5" height="20"/>
@@ -156,81 +156,43 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mub-22-rqs" userLabel="View Navigation Button">
-                                <rect key="frame" x="0.0" y="234" width="375" height="94"/>
+                                <rect key="frame" x="0.0" y="234" width="375" height="45"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5SN-gn-KTD">
-                                        <rect key="frame" x="0.0" y="93" width="375" height="1"/>
+                                        <rect key="frame" x="0.0" y="44" width="375" height="1"/>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="krr-JJ-PfD"/>
                                         </constraints>
                                     </view>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HPT-bc-QGw">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
-                                        <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0YA-hQ-e0u">
-                                                <rect key="frame" x="8" y="25" width="359" height="20"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <state key="normal">
-                                                    <attributedString key="attributedTitle">
-                                                        <fragment content="Buka shop sekarang">
-                                                            <attributes>
-                                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <font key="NSFont" size="13" name=".AppleSystemUIFontEmphasized"/>
-                                                                <font key="NSOriginalFont" size="13" name=".AppleSystemUIFontEmphasized"/>
-                                                                <integer key="NSUnderline" value="1"/>
-                                                            </attributes>
-                                                        </fragment>
-                                                    </attributedString>
-                                                </state>
-                                                <connections>
-                                                    <action selector="btnOpenShopPressed:" destination="uWh-pR-NIj" eventType="touchUpInside" id="LSz-Ri-qE2"/>
-                                                </connections>
-                                            </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Shop akan dibuka pada tanggal DD/MM/YYYY" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3rt-A3-gJ0">
-                                                <rect key="frame" x="8" y="4" width="359" height="22"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <nil key="highlightedColor"/>
-                                            </label>
-                                        </subviews>
-                                        <color key="backgroundColor" red="0.96350902319999998" green="0.75235640999999998" blue="0.2837362289" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="49" id="MXa-8P-x58"/>
-                                        </constraints>
-                                    </view>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="HPT-bc-QGw" firstAttribute="leading" secondItem="5SN-gn-KTD" secondAttribute="leading" id="O9a-hH-Cx7"/>
-                                    <constraint firstItem="HPT-bc-QGw" firstAttribute="trailing" secondItem="5SN-gn-KTD" secondAttribute="trailing" id="Pwj-EH-kwC"/>
                                     <constraint firstItem="5SN-gn-KTD" firstAttribute="leading" secondItem="mub-22-rqs" secondAttribute="leading" id="TRW-rt-gGA"/>
                                     <constraint firstAttribute="trailing" secondItem="5SN-gn-KTD" secondAttribute="trailing" id="UwZ-CC-xhv"/>
                                     <constraint firstAttribute="bottom" secondItem="5SN-gn-KTD" secondAttribute="bottom" id="nwf-Cv-uus"/>
-                                    <constraint firstItem="HPT-bc-QGw" firstAttribute="top" secondItem="mub-22-rqs" secondAttribute="top" id="uCU-hb-wQn"/>
-                                    <constraint firstAttribute="height" constant="94" id="wwx-HU-fJl"/>
+                                    <constraint firstAttribute="height" constant="45" id="wwx-HU-fJl"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vH0-wM-j22">
-                                <rect key="frame" x="0.0" y="328" width="375" height="339"/>
+                                <rect key="frame" x="0.0" y="279" width="375" height="388"/>
                                 <subviews>
                                     <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NBP-uq-PzI">
-                                        <rect key="frame" x="0.0" y="0.0" width="375" height="396"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="388"/>
                                         <subviews>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hDi-QL-Svq" userLabel="View TabBar">
-                                                <rect key="frame" x="0.0" y="0.0" width="1125" height="396"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="1125" height="388"/>
                                                 <subviews>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Zyh-o3-6F2" userLabel="View Toko">
-                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="396"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="388"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="24F-Q3-UU1" userLabel="View Review">
-                                                        <rect key="frame" x="375" y="0.0" width="375" height="396"/>
+                                                        <rect key="frame" x="375" y="0.0" width="375" height="388"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bwY-ex-pxm" userLabel="View Badge">
-                                                        <rect key="frame" x="750" y="0.0" width="375" height="396"/>
+                                                        <rect key="frame" x="750" y="0.0" width="375" height="388"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </view>
                                                 </subviews>
@@ -263,7 +225,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="NBP-uq-PzI" secondAttribute="trailing" id="3v7-WN-ift"/>
-                                    <constraint firstAttribute="bottom" secondItem="NBP-uq-PzI" secondAttribute="bottom" constant="-57" id="Qf0-Mc-hTj"/>
+                                    <constraint firstAttribute="bottom" secondItem="NBP-uq-PzI" secondAttribute="bottom" id="Qf0-Mc-hTj"/>
                                     <constraint firstItem="Zyh-o3-6F2" firstAttribute="width" secondItem="vH0-wM-j22" secondAttribute="width" id="aCZ-n1-ab8"/>
                                     <constraint firstItem="NBP-uq-PzI" firstAttribute="leading" secondItem="vH0-wM-j22" secondAttribute="leading" id="cR4-Yo-Pcu"/>
                                     <constraint firstItem="NBP-uq-PzI" firstAttribute="top" secondItem="vH0-wM-j22" secondAttribute="top" id="n7O-ap-Fhm"/>
@@ -273,7 +235,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="Eeo-T4-DUt" userLabel="loading">
-                                        <rect key="frame" x="178" y="324" width="20" height="20"/>
+                                        <rect key="frame" x="178" y="323.5" width="20" height="20"/>
                                         <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </activityIndicatorView>
                                 </subviews>
@@ -318,15 +280,11 @@
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
             <connections>
-                <outlet property="btnBukaShop" destination="0YA-hQ-e0u" id="Ycr-hz-2QA"/>
                 <outlet property="consCenterxLbToko" destination="lLb-cg-tKM" id="BfB-HU-Ygn"/>
-                <outlet property="consHeightCloseNavButton" destination="MXa-8P-x58" id="kf8-qU-EMW"/>
-                <outlet property="consHeightVwNavigationButton" destination="wwx-HU-fJl" id="SeL-tQ-wqn"/>
                 <outlet property="consTopVw" destination="LM8-SB-Vww" id="BZc-2Y-Vqv"/>
                 <outlet property="consWidthCollectionView" destination="aTL-o0-IBH" id="XAF-Eb-8lo"/>
                 <outlet property="dashboardCover" destination="EhL-Uh-AkS" id="y3D-eB-SQH"/>
                 <outlet property="imageVIew" destination="FLo-Uq-qwE" id="Wxb-yU-MHM"/>
-                <outlet property="lblTutupSampai" destination="3rt-A3-gJ0" id="QNg-00-ziU"/>
                 <outlet property="loadingPanel" destination="iGk-Io-Uri" id="7tk-uP-tsw"/>
                 <outlet property="scrollView" destination="NBP-uq-PzI" id="zPV-JM-OJv"/>
                 <outlet property="shopAvatar" destination="klj-uP-T42" id="5ZF-DR-w5u"/>
@@ -336,7 +294,6 @@
                 <outlet property="shopVerified" destination="5sv-f6-Wcw" id="aaE-BW-gOA"/>
                 <outlet property="vwBadge" destination="bwY-ex-pxm" id="5WZ-JQ-cSI"/>
                 <outlet property="vwChild" destination="vH0-wM-j22" id="cqI-Sm-tye"/>
-                <outlet property="vwCloseNavButton" destination="HPT-bc-QGw" id="0ya-O2-cuc"/>
                 <outlet property="vwCollection" destination="Xax-xW-Wct" id="AQE-BM-4pU"/>
                 <outlet property="vwGeolocation" destination="f0o-nD-Jk7" id="8Gh-e2-Ejy"/>
                 <outlet property="vwHeaderTabBar" destination="ta8-wP-cZr" id="WJ9-bI-o2G"/>
