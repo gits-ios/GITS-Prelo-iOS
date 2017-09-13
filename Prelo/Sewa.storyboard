@@ -39,6 +39,9 @@
                                         <state key="normal" title="LANJUT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
+                                        <connections>
+                                            <action selector="lanjutClickAction:" destination="65a-wQ-iYO" eventType="touchUpInside" id="rog-aH-S4W"/>
+                                        </connections>
                                     </button>
                                 </subviews>
                                 <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -103,10 +106,21 @@
                     <navigationItem key="navigationItem" title="Tanggal Sewa" id="jSf-ud-9CF">
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="cva-1h-ejq"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="KIb-cP-zZn" kind="show" identifier="performSegueBarangSaya" id="bm7-9h-WiL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Udy-AJ-vIr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="510" y="-98"/>
+        </scene>
+        <!--BarangSaya-->
+        <scene sceneID="g3B-rB-WiY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="BarangSaya" id="KIb-cP-zZn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2An-cJ-NKt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1196" y="-99"/>
         </scene>
     </scenes>
 </document>

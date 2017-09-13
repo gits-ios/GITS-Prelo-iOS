@@ -1,0 +1,1795 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		002F1DBB8EBEC4697E294B8388560534 /* MXScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 548143A5D6B6847ADAC26BDDBEC18A3D /* MXScrollViewController.m */; };
+		09FF02A67FD3FCD2242B2A0CB21890B9 /* MXScrollViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CEBAC4575F49B467ECB74E8A3D814F41 /* MXScrollViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18758A05AD1B995A7911EDFB89BA6555 /* MXParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EB541E3B1C39EB75D70D9BE4AD541E /* MXParallaxHeader.m */; };
+		1FC1D37BB3A4083571709FDEB8C7160D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		2325BB8ED8892303FE9BCF68448EC94C /* HMSegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = F30AB61F038BCF0E72F7DC8669CE35AE /* HMSegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		24C5ECBD884823490C4167F40B3F5AEB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2F8650BFD47C1C8680BC2B6DA11D9A /* QuartzCore.framework */; };
+		2783A89B7A418C644E008383404B5CA0 /* HMSegmentedControl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 86B81ACD430DF1097361F1C4FD249FF9 /* HMSegmentedControl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		36CA4AEB0B15471DE03086346065B737 /* MXPagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3098A3A24A36E737B92B2C20283FFEA3 /* MXPagerView.m */; };
+		5359306A4F18062842016E7B7A0AFBBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		5C7B4F7E0B9DDCE17746BECD120C203F /* Pods-PreloTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D1787D4D4C91534F06639A2A378A1342 /* Pods-PreloTests-dummy.m */; };
+		5EF36CE834DD7CA99CD5225415A2FF73 /* MXPagerView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 79BE856351FE3F58F86071605ECEEF57 /* MXPagerView-dummy.m */; };
+		5FA2551F823E6261B889EC5D1D91BFBF /* Pods-PreloTestsCoreData-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 86BDAEDA4DDF7C1D424215C51B244CD4 /* Pods-PreloTestsCoreData-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		602C084DFA5300FDDAE2243F3EC3F459 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		62BF714A0562DFCA6C8933476E327AEB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		6618AD73EDAA2092437280F3081CD0DE /* MXPagerView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A0DC411879DA7AA8DD074977093769D5 /* MXPagerView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		680A8901B6C66D2D6349F05521EC3189 /* Pods-PreloUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AB38B489009D3749127A768CC9B5FD66 /* Pods-PreloUITests-dummy.m */; };
+		70D97D1F6920B85916DDD421F0FBD219 /* Pods-PreloTestsCoreData-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F85967FB52FBF7B24913446C21C862F /* Pods-PreloTestsCoreData-dummy.m */; };
+		731D0A294A013C3D95DAE18BD8BBC7AC /* HMSegmentedControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F28FBC24730148C57ED2BF7DD7BBF8AC /* HMSegmentedControl-dummy.m */; };
+		73343B73993A1538CFEABDD5EA7DA5DA /* MXSegmentedPagerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FA1534519BF110822661762ACA767CB /* MXSegmentedPagerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7677256385EF6CE6DA0728F340A8BE50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		7913DD40CD445EA4EAD484D0D6E34009 /* MXSegmentedPager.h in Headers */ = {isa = PBXBuildFile; fileRef = AC73A588A5432E229F3BE216DB6DAA78 /* MXSegmentedPager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		79DB2806DC12F9AD8B4BF210A6CB4108 /* MXSegmentedPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9DEB816DC97E3D0A053DC2796801A7 /* MXSegmentedPagerController.m */; };
+		8A53530B82FC7728EC9F1961877B4611 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		8AF10EF1AD2853567D579A3344FB3B85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		933741DB7C6CA9CA7BD096A0BD3AFA1A /* MXParallaxHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C7650ACDDD2CEB06BDB526253D4D049 /* MXParallaxHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93EFD9DBF4CC4DAB6D73F2A1115860F9 /* MXParallaxHeader-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 73BD6A3D266DA16990A62CED0A721615 /* MXParallaxHeader-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		95E15733F2BCC3173EC5C55D3998B717 /* MXScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F8649707F5003E37540AE242BABEEE /* MXScrollView.m */; };
+		9ACDDA0BE6BFFA7419944F4D7F8010F2 /* Pods-PushNotif-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F118C69DE3E2B7BC5952E56DFDE79948 /* Pods-PushNotif-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9E7F57C17671C8C3309DFE2036CAB404 /* Pods-Prelo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DE562A3D1AAFD450D451294F0477D9 /* Pods-Prelo-dummy.m */; };
+		A0998A0DCBBAB235CC982D4BE3EFEC51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		A41E9A7918516DF0D9F35B2E4CF84D15 /* MXSegmentedPager-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B95614625D4E0A4374D1282ADD9CC69 /* MXSegmentedPager-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD264987FB7B443C6FBBC3C7987020DB /* MXPagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B310F2B1662C05C5FCA1CFD5E4F0511 /* MXPagerViewController.m */; };
+		AF9CA1291C17E89DFAA8D169B95A974C /* MXSegmentedPager-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDCA3375C50686A38F9D58A62733FC /* MXSegmentedPager-dummy.m */; };
+		B53ECC5D062D04268430EF7D8435080C /* Pods-PushNotif-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D0FBF475B0C2BE93C69B8204C35A161 /* Pods-PushNotif-dummy.m */; };
+		B644A92685E69300A7E2997B614B62C0 /* Pods-PreloUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2670F28F3E1279CA11C04C7060298B48 /* Pods-PreloUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B69CF6AD4E33207861187973C7834EF3 /* MXPagerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 07D9766E24D8BC974298C4EEB567FBA9 /* MXPagerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7CB384BF88B421713036A70A9BCAEDD /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 481B475B1F448D879FCFCD4A253FCAA2 /* HMSegmentedControl.m */; };
+		CC7CBD54B3B3BD5148D8AB9FC71E7F62 /* MXPagerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4238FA39C75AE95AFD0F6916A927435A /* MXPagerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CF7AEDC10DFA19EE70C372D30C6858D4 /* MXParallaxHeader-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 81008F7AD05535602B590A6DEFFC53CA /* MXParallaxHeader-dummy.m */; };
+		D548887A67B1F7521C848937F65C5A2B /* MXSegmentedPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DC04A5698C0495A908C639D5CEE547 /* MXSegmentedPager.m */; };
+		D6A2727BBC7F07DCDA6651630F0D72DA /* Pods-Prelo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9955EDFB5B2481CA39BF0C033ADFF8 /* Pods-Prelo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E5DEE9C1CB9BFDDE5E20AF6F5EC0FF9E /* HMSegmentedControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3405E265A91A2A286CFC17B31885F5F8 /* HMSegmentedControl.framework */; };
+		E890A08A095515E8A4FB6E2E065ACBCA /* MXParallaxHeader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A1A8708E18E9A9C8D9F9B92880CD92 /* MXParallaxHeader.framework */; };
+		F5BE869E786110BC54691842E8065062 /* MXPagerView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0BDEF6B73A362D567F19EAD5031A7E /* MXPagerView.framework */; };
+		FBDBAF19862BA62740250978C70FC7A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		FC07C9DF7DFEE45A3906B0513717D0EC /* MXScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E026EACD077F2E3D0B70F5E823460B /* MXScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FE27046BEFF090902ECA0078F210D73C /* Pods-PreloTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D01999847EC684B8783C81C2B894EC0 /* Pods-PreloTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0C3B5551E28734A841C598CBCEA91298 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7891E2B724C54EF58FB1692B34F1455C;
+			remoteInfo = HMSegmentedControl;
+		};
+		10DDAF57722435CC6D7B35BE08C2DDAD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28546100F97BDD9F1D3D863522625D5B;
+			remoteInfo = MXPagerView;
+		};
+		23597F802790C23798354CC56F1F44E0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D41F2F37088EE2B724A283C89AC6B567;
+			remoteInfo = MXSegmentedPager;
+		};
+		4EC1DC2A42D80F9966FFE234ECD7D32A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7891E2B724C54EF58FB1692B34F1455C;
+			remoteInfo = HMSegmentedControl;
+		};
+		625CFEDBE5484F21411E0A026EBB120B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28546100F97BDD9F1D3D863522625D5B;
+			remoteInfo = MXPagerView;
+		};
+		A85F080C4FEE0FB2E1F8D7A17C59BB73 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E75E5BAC0FE6E4C6A5E5F95EA6807F8A;
+			remoteInfo = MXParallaxHeader;
+		};
+		D27930397912EFC3BE43F4CEEAE02DD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E75E5BAC0FE6E4C6A5E5F95EA6807F8A;
+			remoteInfo = MXParallaxHeader;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0443870E764501102A0D96C7A9B8996A /* HMSegmentedControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HMSegmentedControl.framework; path = HMSegmentedControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		06B9B562261CBE1E1E594E5221E1566B /* MXParallaxHeader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXParallaxHeader.framework; path = MXParallaxHeader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		07D9766E24D8BC974298C4EEB567FBA9 /* MXPagerViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXPagerViewController.h; path = MXPagerView/MXPagerViewController.h; sourceTree = "<group>"; };
+		07DE562A3D1AAFD450D451294F0477D9 /* Pods-Prelo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Prelo-dummy.m"; sourceTree = "<group>"; };
+		099EC828CC4FD3E32007286FE8AE6F86 /* MXParallaxHeader.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXParallaxHeader.modulemap; sourceTree = "<group>"; };
+		0BB1C262C89F600563B68B04D627FBCC /* Pods-PreloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTests.debug.xcconfig"; sourceTree = "<group>"; };
+		18596BECDB755BABE78A136CAF742610 /* MXPagerView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXPagerView.modulemap; sourceTree = "<group>"; };
+		18AD23A82E28150F8354B2DBDB593C35 /* Pods-Prelo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Prelo-resources.sh"; sourceTree = "<group>"; };
+		2670F28F3E1279CA11C04C7060298B48 /* Pods-PreloUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PreloUITests-umbrella.h"; sourceTree = "<group>"; };
+		27A92130771F9FC67BD805B581A7FC5E /* Pods-PreloTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PreloTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		280DEF39CBC77B6D80C46A03CDEC3330 /* Pods-PreloTestsCoreData.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PreloTestsCoreData.modulemap"; sourceTree = "<group>"; };
+		2874CD75E3684F5069595468A76DA3E2 /* Pods-PreloTestsCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTestsCoreData.release.xcconfig"; sourceTree = "<group>"; };
+		2A0A57C30ABA5A2BEA0EBC9DDF9F0240 /* HMSegmentedControl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = HMSegmentedControl.modulemap; sourceTree = "<group>"; };
+		2D0FBF475B0C2BE93C69B8204C35A161 /* Pods-PushNotif-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PushNotif-dummy.m"; sourceTree = "<group>"; };
+		2F01E21D16B478248E26FC52A552D936 /* Pods-PreloUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloUITests-frameworks.sh"; sourceTree = "<group>"; };
+		3098A3A24A36E737B92B2C20283FFEA3 /* MXPagerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXPagerView.m; path = MXPagerView/MXPagerView.m; sourceTree = "<group>"; };
+		30A1A8708E18E9A9C8D9F9B92880CD92 /* MXParallaxHeader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MXParallaxHeader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3405E265A91A2A286CFC17B31885F5F8 /* HMSegmentedControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HMSegmentedControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		34C779ADFE3D32E873D66B5B77080016 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		376125C737F195779C02C4B23D1C9A4A /* Pods-Prelo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Prelo.debug.xcconfig"; sourceTree = "<group>"; };
+		38A1C67A0ACDEEA2B268C9D444926775 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3E810760D11F9A4CDEA097C7FA57D2D4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3EFB1AA9FC69235E075FD19D81D80BA2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F2F8650BFD47C1C8680BC2B6DA11D9A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		3FA1534519BF110822661762ACA767CB /* MXSegmentedPagerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXSegmentedPagerController.h; path = MXSegmentedPager/MXSegmentedPagerController.h; sourceTree = "<group>"; };
+		414A8E34366115D3A6F41FF52D462CDA /* MXSegmentedPager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXSegmentedPager-prefix.pch"; sourceTree = "<group>"; };
+		4238FA39C75AE95AFD0F6916A927435A /* MXPagerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXPagerView.h; path = MXPagerView/MXPagerView.h; sourceTree = "<group>"; };
+		440A8525F22013C842EFB99F11F32E5A /* Pods_PreloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloTests.framework; path = "Pods-PreloTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		468C56C1DC19C50FBA877C9F791FF20E /* Pods-PushNotif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PushNotif.debug.xcconfig"; sourceTree = "<group>"; };
+		48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXPagerView.xcconfig; sourceTree = "<group>"; };
+		481B475B1F448D879FCFCD4A253FCAA2 /* HMSegmentedControl.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HMSegmentedControl.m; path = HMSegmentedControl/HMSegmentedControl.m; sourceTree = "<group>"; };
+		50B36D405417DF397511B60C6AFE5423 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		548143A5D6B6847ADAC26BDDBEC18A3D /* MXScrollViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXScrollViewController.m; path = MXParallaxHeader/MXScrollViewController.m; sourceTree = "<group>"; };
+		593955076F4A87191223AF804D1C61BD /* Pods-PreloTestsCoreData-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PreloTestsCoreData-acknowledgements.plist"; sourceTree = "<group>"; };
+		5B310F2B1662C05C5FCA1CFD5E4F0511 /* MXPagerViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXPagerViewController.m; path = MXPagerView/MXPagerViewController.m; sourceTree = "<group>"; };
+		5B4F176719F264B3A35EE94AF056D5B9 /* Pods-PushNotif-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PushNotif-acknowledgements.plist"; sourceTree = "<group>"; };
+		5F9DEB816DC97E3D0A053DC2796801A7 /* MXSegmentedPagerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXSegmentedPagerController.m; path = MXSegmentedPager/MXSegmentedPagerController.m; sourceTree = "<group>"; };
+		62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXParallaxHeader.xcconfig; sourceTree = "<group>"; };
+		64613037138C52A35002B28EFFD38764 /* Pods-PushNotif-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PushNotif-acknowledgements.markdown"; sourceTree = "<group>"; };
+		67EA2FE37AE8E951E621AC0FEDF2B46E /* Pods-PushNotif.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PushNotif.modulemap"; sourceTree = "<group>"; };
+		684FDF3D77A0B0223D5ED0F831B886CA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		68F35EE8C371353FBB925B1FDFC7C02A /* Pods-PreloUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PreloUITests.modulemap"; sourceTree = "<group>"; };
+		6933F2124D03450B9E76819EC9B8039F /* MXSegmentedPager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXSegmentedPager.framework; path = MXSegmentedPager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D01999847EC684B8783C81C2B894EC0 /* Pods-PreloTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PreloTests-umbrella.h"; sourceTree = "<group>"; };
+		6F15BD6E1908A77D63438017F609AD55 /* Pods-PreloTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PreloTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		6F9E5DC7FD3B349F37882EBCC927D51E /* Pods-PreloTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PreloTests.modulemap"; sourceTree = "<group>"; };
+		6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		73BD6A3D266DA16990A62CED0A721615 /* MXParallaxHeader-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXParallaxHeader-umbrella.h"; sourceTree = "<group>"; };
+		77F8B0894414BDE75BE445C37C274F5D /* Pods-PreloTestsCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTestsCoreData.debug.xcconfig"; sourceTree = "<group>"; };
+		79BE856351FE3F58F86071605ECEEF57 /* MXPagerView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXPagerView-dummy.m"; sourceTree = "<group>"; };
+		7A87285DBCB64363F891C55E65919688 /* HMSegmentedControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HMSegmentedControl-prefix.pch"; sourceTree = "<group>"; };
+		7A8A679AF9A510F362D9EAEE12966B4E /* Pods-PreloTestsCoreData-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PreloTestsCoreData-acknowledgements.markdown"; sourceTree = "<group>"; };
+		7B95614625D4E0A4374D1282ADD9CC69 /* MXSegmentedPager-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXSegmentedPager-umbrella.h"; sourceTree = "<group>"; };
+		7C2D5EEEBBDF7CDBCAAC392D93F849AA /* MXParallaxHeader-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXParallaxHeader-prefix.pch"; sourceTree = "<group>"; };
+		7D0BDEF6B73A362D567F19EAD5031A7E /* MXPagerView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MXPagerView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7F85967FB52FBF7B24913446C21C862F /* Pods-PreloTestsCoreData-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PreloTestsCoreData-dummy.m"; sourceTree = "<group>"; };
+		81008F7AD05535602B590A6DEFFC53CA /* MXParallaxHeader-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXParallaxHeader-dummy.m"; sourceTree = "<group>"; };
+		81702A0032E2670CADB04AED66EAF7BF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8175DE7BF1F150B90F9231EB845CBCCB /* Pods-PreloUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PreloUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		81EB541E3B1C39EB75D70D9BE4AD541E /* MXParallaxHeader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXParallaxHeader.m; path = MXParallaxHeader/MXParallaxHeader.m; sourceTree = "<group>"; };
+		8636C60D2BC75E2698D4C280A94E0015 /* Pods-Prelo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Prelo-acknowledgements.plist"; sourceTree = "<group>"; };
+		86462134785639EC307421F3DDE8AE43 /* Pods-PreloTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTests-frameworks.sh"; sourceTree = "<group>"; };
+		86B81ACD430DF1097361F1C4FD249FF9 /* HMSegmentedControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HMSegmentedControl-umbrella.h"; sourceTree = "<group>"; };
+		86BDAEDA4DDF7C1D424215C51B244CD4 /* Pods-PreloTestsCoreData-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PreloTestsCoreData-umbrella.h"; sourceTree = "<group>"; };
+		8786CF8E0C84ADE12DAABB719C26E131 /* Pods-PreloTestsCoreData-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTestsCoreData-resources.sh"; sourceTree = "<group>"; };
+		882710FAB85F468E9280FBA5A3312943 /* MXPagerView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXPagerView-prefix.pch"; sourceTree = "<group>"; };
+		8B068BBCCC8C74643704A4CA1013887B /* Pods-PushNotif-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PushNotif-resources.sh"; sourceTree = "<group>"; };
+		8C9700D2E8FC4E4AB0478B0B7C5FA4C6 /* Pods-Prelo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Prelo.release.xcconfig"; sourceTree = "<group>"; };
+		8D47752B4AFE21AE15ED90531823C123 /* Pods_PreloTestsCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloTestsCoreData.framework; path = "Pods-PreloTestsCoreData.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		91DC04A5698C0495A908C639D5CEE547 /* MXSegmentedPager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXSegmentedPager.m; path = MXSegmentedPager/MXSegmentedPager.m; sourceTree = "<group>"; };
+		92CDAC3EAAC08EEB6C50E5FFB38717DA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93E026EACD077F2E3D0B70F5E823460B /* MXScrollView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXScrollView.h; path = MXParallaxHeader/MXScrollView.h; sourceTree = "<group>"; };
+		9A9955EDFB5B2481CA39BF0C033ADFF8 /* Pods-Prelo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Prelo-umbrella.h"; sourceTree = "<group>"; };
+		9C7650ACDDD2CEB06BDB526253D4D049 /* MXParallaxHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXParallaxHeader.h; path = MXParallaxHeader/MXParallaxHeader.h; sourceTree = "<group>"; };
+		9DEDCA3375C50686A38F9D58A62733FC /* MXSegmentedPager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXSegmentedPager-dummy.m"; sourceTree = "<group>"; };
+		9F9869197B76BEFF837B05B400D5C95A /* Pods-PreloTestsCoreData-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTestsCoreData-frameworks.sh"; sourceTree = "<group>"; };
+		A0DC411879DA7AA8DD074977093769D5 /* MXPagerView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXPagerView-umbrella.h"; sourceTree = "<group>"; };
+		A6BB85FE87F13419481784A5185DDCDD /* Pods_Prelo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Prelo.framework; path = "Pods-Prelo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A80627262A4051FC67B54A7CB56851A1 /* Pods-Prelo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Prelo-frameworks.sh"; sourceTree = "<group>"; };
+		AB38B489009D3749127A768CC9B5FD66 /* Pods-PreloUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PreloUITests-dummy.m"; sourceTree = "<group>"; };
+		AC73A588A5432E229F3BE216DB6DAA78 /* MXSegmentedPager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXSegmentedPager.h; path = MXSegmentedPager/MXSegmentedPager.h; sourceTree = "<group>"; };
+		ACF6FC223A3CD5DC608961AC55193BFA /* MXSegmentedPager.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXSegmentedPager.modulemap; sourceTree = "<group>"; };
+		B43043D88FA776B5E232B31B8B85B793 /* Pods-PreloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BE5E0280B01DF2FDFA23C539557EF593 /* Pods-Prelo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Prelo.modulemap"; sourceTree = "<group>"; };
+		C27327C5CDB28C458CFC30ABFE43BFFB /* Pods-PreloUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloUITests-resources.sh"; sourceTree = "<group>"; };
+		C6F8649707F5003E37540AE242BABEEE /* MXScrollView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXScrollView.m; path = MXParallaxHeader/MXScrollView.m; sourceTree = "<group>"; };
+		CEBAC4575F49B467ECB74E8A3D814F41 /* MXScrollViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXScrollViewController.h; path = MXParallaxHeader/MXScrollViewController.h; sourceTree = "<group>"; };
+		CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HMSegmentedControl.xcconfig; sourceTree = "<group>"; };
+		D04CF71F5E7028259234355E9D806CA4 /* Pods-PreloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D1787D4D4C91534F06639A2A378A1342 /* Pods-PreloTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PreloTests-dummy.m"; sourceTree = "<group>"; };
+		D5714B62317AD5B0EC744536FD445554 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DC76A029D88E82A8D0296C5A234362BD /* Pods-PushNotif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PushNotif.release.xcconfig"; sourceTree = "<group>"; };
+		E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXSegmentedPager.xcconfig; sourceTree = "<group>"; };
+		E57050725ED75C9F117FBD83C81C5113 /* Pods-PreloUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PreloUITests-acknowledgements.plist"; sourceTree = "<group>"; };
+		E7CF28412A9F2A7B96523209C193AE56 /* MXPagerView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXPagerView.framework; path = MXPagerView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EEFACCDA86545E3FB938D9A082179516 /* Pods_PushNotif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PushNotif.framework; path = "Pods-PushNotif.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F118C69DE3E2B7BC5952E56DFDE79948 /* Pods-PushNotif-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PushNotif-umbrella.h"; sourceTree = "<group>"; };
+		F28FBC24730148C57ED2BF7DD7BBF8AC /* HMSegmentedControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HMSegmentedControl-dummy.m"; sourceTree = "<group>"; };
+		F30AB61F038BCF0E72F7DC8669CE35AE /* HMSegmentedControl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HMSegmentedControl.h; path = HMSegmentedControl/HMSegmentedControl.h; sourceTree = "<group>"; };
+		F5E7CDC0F18179EE6ABD828BDC1F3B41 /* Pods_PreloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloUITests.framework; path = "Pods-PreloUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF1A13F58E5C3A4C63FA1647E17BC164 /* Pods-PreloTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTests-resources.sh"; sourceTree = "<group>"; };
+		FF56F43246C155B72529233B227D58B2 /* Pods-Prelo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Prelo-acknowledgements.markdown"; sourceTree = "<group>"; };
+		FF61EB569103714F28BF348ECE320854 /* Pods-PreloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1B6F9C993D023D14521340E8E5BE435F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62BF714A0562DFCA6C8933476E327AEB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C47C554DFAB995C61507A8DBDB76DD7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A0998A0DCBBAB235CC982D4BE3EFEC51 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		613D7B2B49200C254E1B3466407A87E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FBDBAF19862BA62740250978C70FC7A9 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6E436D2629C910E0CE87DCCBA617659D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8AF10EF1AD2853567D579A3344FB3B85 /* Foundation.framework in Frameworks */,
+				E5DEE9C1CB9BFDDE5E20AF6F5EC0FF9E /* HMSegmentedControl.framework in Frameworks */,
+				F5BE869E786110BC54691842E8065062 /* MXPagerView.framework in Frameworks */,
+				E890A08A095515E8A4FB6E2E065ACBCA /* MXParallaxHeader.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		744B01DB778F0FA25FADEF70544B4C3B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				602C084DFA5300FDDAE2243F3EC3F459 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		989176C407415E8151BC9A20A4C47278 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8A53530B82FC7728EC9F1961877B4611 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ACC8CDE03C2F954CEA0A32E991A0C433 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5359306A4F18062842016E7B7A0AFBBC /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9EBF163DB07E57D7DF3B8F2993EDDAC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1FC1D37BB3A4083571709FDEB8C7160D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E2B834EA7E1D35E47CB49A8EA5911A8F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7677256385EF6CE6DA0728F340A8BE50 /* Foundation.framework in Frameworks */,
+				24C5ECBD884823490C4167F40B3F5AEB /* QuartzCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0380B222265B8AC1E51E5C828EFC794D /* Pods-PreloTests */ = {
+			isa = PBXGroup;
+			children = (
+				3EFB1AA9FC69235E075FD19D81D80BA2 /* Info.plist */,
+				6F9E5DC7FD3B349F37882EBCC927D51E /* Pods-PreloTests.modulemap */,
+				6F15BD6E1908A77D63438017F609AD55 /* Pods-PreloTests-acknowledgements.markdown */,
+				27A92130771F9FC67BD805B581A7FC5E /* Pods-PreloTests-acknowledgements.plist */,
+				D1787D4D4C91534F06639A2A378A1342 /* Pods-PreloTests-dummy.m */,
+				86462134785639EC307421F3DDE8AE43 /* Pods-PreloTests-frameworks.sh */,
+				FF1A13F58E5C3A4C63FA1647E17BC164 /* Pods-PreloTests-resources.sh */,
+				6D01999847EC684B8783C81C2B894EC0 /* Pods-PreloTests-umbrella.h */,
+				0BB1C262C89F600563B68B04D627FBCC /* Pods-PreloTests.debug.xcconfig */,
+				FF61EB569103714F28BF348ECE320854 /* Pods-PreloTests.release.xcconfig */,
+			);
+			name = "Pods-PreloTests";
+			path = "Target Support Files/Pods-PreloTests";
+			sourceTree = "<group>";
+		};
+		0D18BF2FD387D7A0ABA3605EE462D94A /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				92CDAC3EAAC08EEB6C50E5FFB38717DA /* Info.plist */,
+				099EC828CC4FD3E32007286FE8AE6F86 /* MXParallaxHeader.modulemap */,
+				62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */,
+				81008F7AD05535602B590A6DEFFC53CA /* MXParallaxHeader-dummy.m */,
+				7C2D5EEEBBDF7CDBCAAC392D93F849AA /* MXParallaxHeader-prefix.pch */,
+				73BD6A3D266DA16990A62CED0A721615 /* MXParallaxHeader-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/MXParallaxHeader";
+			sourceTree = "<group>";
+		};
+		0E3E502656EB4E3837FCF5447735BE94 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */,
+				3F2F8650BFD47C1C8680BC2B6DA11D9A /* QuartzCore.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+		3BAA5D59B338BCC2BAA8AE4164F2EE73 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				38A1C67A0ACDEEA2B268C9D444926775 /* Info.plist */,
+				18596BECDB755BABE78A136CAF742610 /* MXPagerView.modulemap */,
+				48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */,
+				79BE856351FE3F58F86071605ECEEF57 /* MXPagerView-dummy.m */,
+				882710FAB85F468E9280FBA5A3312943 /* MXPagerView-prefix.pch */,
+				A0DC411879DA7AA8DD074977093769D5 /* MXPagerView-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/MXPagerView";
+			sourceTree = "<group>";
+		};
+		505FD03A1F49B9D71E0A42D2E20064B1 /* MXSegmentedPager */ = {
+			isa = PBXGroup;
+			children = (
+				AC73A588A5432E229F3BE216DB6DAA78 /* MXSegmentedPager.h */,
+				91DC04A5698C0495A908C639D5CEE547 /* MXSegmentedPager.m */,
+				3FA1534519BF110822661762ACA767CB /* MXSegmentedPagerController.h */,
+				5F9DEB816DC97E3D0A053DC2796801A7 /* MXSegmentedPagerController.m */,
+				62E4620D10F3E89B10760C3CDD6F1996 /* Support Files */,
+			);
+			name = MXSegmentedPager;
+			path = MXSegmentedPager;
+			sourceTree = "<group>";
+		};
+		5D03D6223BC8317463323D03B4446ADE /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				2A0A57C30ABA5A2BEA0EBC9DDF9F0240 /* HMSegmentedControl.modulemap */,
+				CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */,
+				F28FBC24730148C57ED2BF7DD7BBF8AC /* HMSegmentedControl-dummy.m */,
+				7A87285DBCB64363F891C55E65919688 /* HMSegmentedControl-prefix.pch */,
+				86B81ACD430DF1097361F1C4FD249FF9 /* HMSegmentedControl-umbrella.h */,
+				D5714B62317AD5B0EC744536FD445554 /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/HMSegmentedControl";
+			sourceTree = "<group>";
+		};
+		62E4620D10F3E89B10760C3CDD6F1996 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3E810760D11F9A4CDEA097C7FA57D2D4 /* Info.plist */,
+				ACF6FC223A3CD5DC608961AC55193BFA /* MXSegmentedPager.modulemap */,
+				E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */,
+				9DEDCA3375C50686A38F9D58A62733FC /* MXSegmentedPager-dummy.m */,
+				414A8E34366115D3A6F41FF52D462CDA /* MXSegmentedPager-prefix.pch */,
+				7B95614625D4E0A4374D1282ADD9CC69 /* MXSegmentedPager-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/MXSegmentedPager";
+			sourceTree = "<group>";
+		};
+		6D9180F37B2376126F4D5365081AF49E /* Pods-PushNotif */ = {
+			isa = PBXGroup;
+			children = (
+				81702A0032E2670CADB04AED66EAF7BF /* Info.plist */,
+				67EA2FE37AE8E951E621AC0FEDF2B46E /* Pods-PushNotif.modulemap */,
+				64613037138C52A35002B28EFFD38764 /* Pods-PushNotif-acknowledgements.markdown */,
+				5B4F176719F264B3A35EE94AF056D5B9 /* Pods-PushNotif-acknowledgements.plist */,
+				2D0FBF475B0C2BE93C69B8204C35A161 /* Pods-PushNotif-dummy.m */,
+				8B068BBCCC8C74643704A4CA1013887B /* Pods-PushNotif-resources.sh */,
+				F118C69DE3E2B7BC5952E56DFDE79948 /* Pods-PushNotif-umbrella.h */,
+				468C56C1DC19C50FBA877C9F791FF20E /* Pods-PushNotif.debug.xcconfig */,
+				DC76A029D88E82A8D0296C5A234362BD /* Pods-PushNotif.release.xcconfig */,
+			);
+			name = "Pods-PushNotif";
+			path = "Target Support Files/Pods-PushNotif";
+			sourceTree = "<group>";
+		};
+		7825245867D43594B4B2D79C53519FAE /* HMSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				F30AB61F038BCF0E72F7DC8669CE35AE /* HMSegmentedControl.h */,
+				481B475B1F448D879FCFCD4A253FCAA2 /* HMSegmentedControl.m */,
+				5D03D6223BC8317463323D03B4446ADE /* Support Files */,
+			);
+			name = HMSegmentedControl;
+			path = HMSegmentedControl;
+			sourceTree = "<group>";
+		};
+		7D0077AA48672E8B1BD71E626625DC9D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				7825245867D43594B4B2D79C53519FAE /* HMSegmentedControl */,
+				8BAF7866EB34CA8AEF944A6080FB390C /* MXPagerView */,
+				C035BE0D982D19111F3B308E9CC122D5 /* MXParallaxHeader */,
+				505FD03A1F49B9D71E0A42D2E20064B1 /* MXSegmentedPager */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				8D2EA23AEE56C501B80AA5DA1A6468D8 /* Frameworks */,
+				7D0077AA48672E8B1BD71E626625DC9D /* Pods */,
+				D26DD47082B8D6F61513ABC50968C187 /* Products */,
+				FE567C2E44394F2EFC9DF5A2573C07D3 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		8BAF7866EB34CA8AEF944A6080FB390C /* MXPagerView */ = {
+			isa = PBXGroup;
+			children = (
+				4238FA39C75AE95AFD0F6916A927435A /* MXPagerView.h */,
+				3098A3A24A36E737B92B2C20283FFEA3 /* MXPagerView.m */,
+				07D9766E24D8BC974298C4EEB567FBA9 /* MXPagerViewController.h */,
+				5B310F2B1662C05C5FCA1CFD5E4F0511 /* MXPagerViewController.m */,
+				3BAA5D59B338BCC2BAA8AE4164F2EE73 /* Support Files */,
+			);
+			name = MXPagerView;
+			path = MXPagerView;
+			sourceTree = "<group>";
+		};
+		8D2EA23AEE56C501B80AA5DA1A6468D8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3405E265A91A2A286CFC17B31885F5F8 /* HMSegmentedControl.framework */,
+				7D0BDEF6B73A362D567F19EAD5031A7E /* MXPagerView.framework */,
+				30A1A8708E18E9A9C8D9F9B92880CD92 /* MXParallaxHeader.framework */,
+				0E3E502656EB4E3837FCF5447735BE94 /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		998D35B2E326B7CEE067E31198922B4A /* Pods-PreloUITests */ = {
+			isa = PBXGroup;
+			children = (
+				684FDF3D77A0B0223D5ED0F831B886CA /* Info.plist */,
+				68F35EE8C371353FBB925B1FDFC7C02A /* Pods-PreloUITests.modulemap */,
+				8175DE7BF1F150B90F9231EB845CBCCB /* Pods-PreloUITests-acknowledgements.markdown */,
+				E57050725ED75C9F117FBD83C81C5113 /* Pods-PreloUITests-acknowledgements.plist */,
+				AB38B489009D3749127A768CC9B5FD66 /* Pods-PreloUITests-dummy.m */,
+				2F01E21D16B478248E26FC52A552D936 /* Pods-PreloUITests-frameworks.sh */,
+				C27327C5CDB28C458CFC30ABFE43BFFB /* Pods-PreloUITests-resources.sh */,
+				2670F28F3E1279CA11C04C7060298B48 /* Pods-PreloUITests-umbrella.h */,
+				D04CF71F5E7028259234355E9D806CA4 /* Pods-PreloUITests.debug.xcconfig */,
+				B43043D88FA776B5E232B31B8B85B793 /* Pods-PreloUITests.release.xcconfig */,
+			);
+			name = "Pods-PreloUITests";
+			path = "Target Support Files/Pods-PreloUITests";
+			sourceTree = "<group>";
+		};
+		AEF4384CABD43B7580215D49C26FCFB5 /* Pods-Prelo */ = {
+			isa = PBXGroup;
+			children = (
+				34C779ADFE3D32E873D66B5B77080016 /* Info.plist */,
+				BE5E0280B01DF2FDFA23C539557EF593 /* Pods-Prelo.modulemap */,
+				FF56F43246C155B72529233B227D58B2 /* Pods-Prelo-acknowledgements.markdown */,
+				8636C60D2BC75E2698D4C280A94E0015 /* Pods-Prelo-acknowledgements.plist */,
+				07DE562A3D1AAFD450D451294F0477D9 /* Pods-Prelo-dummy.m */,
+				A80627262A4051FC67B54A7CB56851A1 /* Pods-Prelo-frameworks.sh */,
+				18AD23A82E28150F8354B2DBDB593C35 /* Pods-Prelo-resources.sh */,
+				9A9955EDFB5B2481CA39BF0C033ADFF8 /* Pods-Prelo-umbrella.h */,
+				376125C737F195779C02C4B23D1C9A4A /* Pods-Prelo.debug.xcconfig */,
+				8C9700D2E8FC4E4AB0478B0B7C5FA4C6 /* Pods-Prelo.release.xcconfig */,
+			);
+			name = "Pods-Prelo";
+			path = "Target Support Files/Pods-Prelo";
+			sourceTree = "<group>";
+		};
+		C035BE0D982D19111F3B308E9CC122D5 /* MXParallaxHeader */ = {
+			isa = PBXGroup;
+			children = (
+				9C7650ACDDD2CEB06BDB526253D4D049 /* MXParallaxHeader.h */,
+				81EB541E3B1C39EB75D70D9BE4AD541E /* MXParallaxHeader.m */,
+				93E026EACD077F2E3D0B70F5E823460B /* MXScrollView.h */,
+				C6F8649707F5003E37540AE242BABEEE /* MXScrollView.m */,
+				CEBAC4575F49B467ECB74E8A3D814F41 /* MXScrollViewController.h */,
+				548143A5D6B6847ADAC26BDDBEC18A3D /* MXScrollViewController.m */,
+				0D18BF2FD387D7A0ABA3605EE462D94A /* Support Files */,
+			);
+			name = MXParallaxHeader;
+			path = MXParallaxHeader;
+			sourceTree = "<group>";
+		};
+		D26DD47082B8D6F61513ABC50968C187 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0443870E764501102A0D96C7A9B8996A /* HMSegmentedControl.framework */,
+				E7CF28412A9F2A7B96523209C193AE56 /* MXPagerView.framework */,
+				06B9B562261CBE1E1E594E5221E1566B /* MXParallaxHeader.framework */,
+				6933F2124D03450B9E76819EC9B8039F /* MXSegmentedPager.framework */,
+				A6BB85FE87F13419481784A5185DDCDD /* Pods_Prelo.framework */,
+				440A8525F22013C842EFB99F11F32E5A /* Pods_PreloTests.framework */,
+				8D47752B4AFE21AE15ED90531823C123 /* Pods_PreloTestsCoreData.framework */,
+				F5E7CDC0F18179EE6ABD828BDC1F3B41 /* Pods_PreloUITests.framework */,
+				EEFACCDA86545E3FB938D9A082179516 /* Pods_PushNotif.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E5A29FAD0CE06B6051DADD09372EE693 /* Pods-PreloTestsCoreData */ = {
+			isa = PBXGroup;
+			children = (
+				50B36D405417DF397511B60C6AFE5423 /* Info.plist */,
+				280DEF39CBC77B6D80C46A03CDEC3330 /* Pods-PreloTestsCoreData.modulemap */,
+				7A8A679AF9A510F362D9EAEE12966B4E /* Pods-PreloTestsCoreData-acknowledgements.markdown */,
+				593955076F4A87191223AF804D1C61BD /* Pods-PreloTestsCoreData-acknowledgements.plist */,
+				7F85967FB52FBF7B24913446C21C862F /* Pods-PreloTestsCoreData-dummy.m */,
+				9F9869197B76BEFF837B05B400D5C95A /* Pods-PreloTestsCoreData-frameworks.sh */,
+				8786CF8E0C84ADE12DAABB719C26E131 /* Pods-PreloTestsCoreData-resources.sh */,
+				86BDAEDA4DDF7C1D424215C51B244CD4 /* Pods-PreloTestsCoreData-umbrella.h */,
+				77F8B0894414BDE75BE445C37C274F5D /* Pods-PreloTestsCoreData.debug.xcconfig */,
+				2874CD75E3684F5069595468A76DA3E2 /* Pods-PreloTestsCoreData.release.xcconfig */,
+			);
+			name = "Pods-PreloTestsCoreData";
+			path = "Target Support Files/Pods-PreloTestsCoreData";
+			sourceTree = "<group>";
+		};
+		FE567C2E44394F2EFC9DF5A2573C07D3 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				AEF4384CABD43B7580215D49C26FCFB5 /* Pods-Prelo */,
+				0380B222265B8AC1E51E5C828EFC794D /* Pods-PreloTests */,
+				E5A29FAD0CE06B6051DADD09372EE693 /* Pods-PreloTestsCoreData */,
+				998D35B2E326B7CEE067E31198922B4A /* Pods-PreloUITests */,
+				6D9180F37B2376126F4D5365081AF49E /* Pods-PushNotif */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		385A36525D3BA9AFB1F9732D634170CA /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A41E9A7918516DF0D9F35B2E4CF84D15 /* MXSegmentedPager-umbrella.h in Headers */,
+				7913DD40CD445EA4EAD484D0D6E34009 /* MXSegmentedPager.h in Headers */,
+				73343B73993A1538CFEABDD5EA7DA5DA /* MXSegmentedPagerController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46B6944604AD7A5365126A2C6823A49E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5FA2551F823E6261B889EC5D1D91BFBF /* Pods-PreloTestsCoreData-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4D4E54874AA429EE053EC752BB9937D5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2783A89B7A418C644E008383404B5CA0 /* HMSegmentedControl-umbrella.h in Headers */,
+				2325BB8ED8892303FE9BCF68448EC94C /* HMSegmentedControl.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4E374D9CE5CE1F3876EE34E2481FD773 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B644A92685E69300A7E2997B614B62C0 /* Pods-PreloUITests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		734BED72980A2C46935A2A5D326AFF7C /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D6A2727BBC7F07DCDA6651630F0D72DA /* Pods-Prelo-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7E8DF35BA96A7C6BA3F2E86E514D8441 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6618AD73EDAA2092437280F3081CD0DE /* MXPagerView-umbrella.h in Headers */,
+				CC7CBD54B3B3BD5148D8AB9FC71E7F62 /* MXPagerView.h in Headers */,
+				B69CF6AD4E33207861187973C7834EF3 /* MXPagerViewController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B9B7A3D9E298783788DFB931AEF589A5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FE27046BEFF090902ECA0078F210D73C /* Pods-PreloTests-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DB64A60513607A89CFF19E92EB7F6A04 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				93EFD9DBF4CC4DAB6D73F2A1115860F9 /* MXParallaxHeader-umbrella.h in Headers */,
+				933741DB7C6CA9CA7BD096A0BD3AFA1A /* MXParallaxHeader.h in Headers */,
+				FC07C9DF7DFEE45A3906B0513717D0EC /* MXScrollView.h in Headers */,
+				09FF02A67FD3FCD2242B2A0CB21890B9 /* MXScrollViewController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DCC205256C0A5584E36E75D37F3579D4 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9ACDDA0BE6BFFA7419944F4D7F8010F2 /* Pods-PushNotif-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		28546100F97BDD9F1D3D863522625D5B /* MXPagerView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 05293241BAAEC30E34F82C901D7CC755 /* Build configuration list for PBXNativeTarget "MXPagerView" */;
+			buildPhases = (
+				6437D24C2533B3E32ED29A329C14AE84 /* Sources */,
+				ACC8CDE03C2F954CEA0A32E991A0C433 /* Frameworks */,
+				7E8DF35BA96A7C6BA3F2E86E514D8441 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MXPagerView;
+			productName = MXPagerView;
+			productReference = E7CF28412A9F2A7B96523209C193AE56 /* MXPagerView.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		2FB34B5794EB367F3F1E3D1CAA05C3D6 /* Pods-Prelo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 44E3CD7DA9C185FE4E68646BE3A934B2 /* Build configuration list for PBXNativeTarget "Pods-Prelo" */;
+			buildPhases = (
+				8048957F7841011C5A5E983EBE442C9E /* Sources */,
+				C9EBF163DB07E57D7DF3B8F2993EDDAC /* Frameworks */,
+				734BED72980A2C46935A2A5D326AFF7C /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				725C7CDE9BA94198EC99C3B0F107AAA1 /* PBXTargetDependency */,
+				B9BB049956669B836AECF2D0E69AEA20 /* PBXTargetDependency */,
+				2E63FF4F9BADA33421E553A48D0550E5 /* PBXTargetDependency */,
+				A2EF4716DC4B4EFA3A1D35F91BB0D796 /* PBXTargetDependency */,
+			);
+			name = "Pods-Prelo";
+			productName = "Pods-Prelo";
+			productReference = A6BB85FE87F13419481784A5185DDCDD /* Pods_Prelo.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8668A63F70CDBE548BD2FE7AB28FD686 /* Build configuration list for PBXNativeTarget "HMSegmentedControl" */;
+			buildPhases = (
+				8348D47C5324F7D73F7D3938E0D6B724 /* Sources */,
+				E2B834EA7E1D35E47CB49A8EA5911A8F /* Frameworks */,
+				4D4E54874AA429EE053EC752BB9937D5 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HMSegmentedControl;
+			productName = HMSegmentedControl;
+			productReference = 0443870E764501102A0D96C7A9B8996A /* HMSegmentedControl.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		84C30E6664F431D0D6BBA4F47CE26815 /* Pods-PushNotif */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4E67588F3C33A316B568B513AC77CD88 /* Build configuration list for PBXNativeTarget "Pods-PushNotif" */;
+			buildPhases = (
+				C07B5E9CF23983240FD013EEFA01305A /* Sources */,
+				989176C407415E8151BC9A20A4C47278 /* Frameworks */,
+				DCC205256C0A5584E36E75D37F3579D4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PushNotif";
+			productName = "Pods-PushNotif";
+			productReference = EEFACCDA86545E3FB938D9A082179516 /* Pods_PushNotif.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D23A54958A47B229A262E67F927EA046 /* Pods-PreloUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C388D8DFAA06E0707C53545C2AA7F600 /* Build configuration list for PBXNativeTarget "Pods-PreloUITests" */;
+			buildPhases = (
+				FEB43E85B04AE4598F0265BE972B09C0 /* Sources */,
+				4C47C554DFAB995C61507A8DBDB76DD7 /* Frameworks */,
+				4E374D9CE5CE1F3876EE34E2481FD773 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PreloUITests";
+			productName = "Pods-PreloUITests";
+			productReference = F5E7CDC0F18179EE6ABD828BDC1F3B41 /* Pods_PreloUITests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D41F2F37088EE2B724A283C89AC6B567 /* MXSegmentedPager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 01CD8D6F1635E512AAA745434F266DC4 /* Build configuration list for PBXNativeTarget "MXSegmentedPager" */;
+			buildPhases = (
+				B9396C70E46B80B1E6AA5B5A94BD972A /* Sources */,
+				6E436D2629C910E0CE87DCCBA617659D /* Frameworks */,
+				385A36525D3BA9AFB1F9732D634170CA /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				15DD9A4661B983110E8F0A4371A91F55 /* PBXTargetDependency */,
+				53065000DD6834607332B2FD5A46B99B /* PBXTargetDependency */,
+				9D3112C4DC818E0D67D4735F06613632 /* PBXTargetDependency */,
+			);
+			name = MXSegmentedPager;
+			productName = MXSegmentedPager;
+			productReference = 6933F2124D03450B9E76819EC9B8039F /* MXSegmentedPager.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9594800AC07C8054887E8EA7BCD131A /* Build configuration list for PBXNativeTarget "MXParallaxHeader" */;
+			buildPhases = (
+				FC49044EAB026254DC7C4D660F051312 /* Sources */,
+				744B01DB778F0FA25FADEF70544B4C3B /* Frameworks */,
+				DB64A60513607A89CFF19E92EB7F6A04 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MXParallaxHeader;
+			productName = MXParallaxHeader;
+			productReference = 06B9B562261CBE1E1E594E5221E1566B /* MXParallaxHeader.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EEC744D038383594692D06DAC3BD3337 /* Pods-PreloTestsCoreData */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA2EBA8A5ACFC1406E3F93AC72509D19 /* Build configuration list for PBXNativeTarget "Pods-PreloTestsCoreData" */;
+			buildPhases = (
+				D0F3132564D764E8DF72DE383A40D0F0 /* Sources */,
+				613D7B2B49200C254E1B3466407A87E8 /* Frameworks */,
+				46B6944604AD7A5365126A2C6823A49E /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PreloTestsCoreData";
+			productName = "Pods-PreloTestsCoreData";
+			productReference = 8D47752B4AFE21AE15ED90531823C123 /* Pods_PreloTestsCoreData.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FD82FBEEE74C2B0A8A2018A035F04F1D /* Pods-PreloTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A0C370D38C8C92DAEABCCA259D649A3D /* Build configuration list for PBXNativeTarget "Pods-PreloTests" */;
+			buildPhases = (
+				00F4D8B72D20F0F91D1E6BE3D474E5DA /* Sources */,
+				1B6F9C993D023D14521340E8E5BE435F /* Frameworks */,
+				B9B7A3D9E298783788DFB931AEF589A5 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Pods-PreloTests";
+			productName = "Pods-PreloTests";
+			productReference = 440A8525F22013C842EFB99F11F32E5A /* Pods_PreloTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0830;
+				LastUpgradeCheck = 0700;
+			};
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = D26DD47082B8D6F61513ABC50968C187 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */,
+				28546100F97BDD9F1D3D863522625D5B /* MXPagerView */,
+				E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */,
+				D41F2F37088EE2B724A283C89AC6B567 /* MXSegmentedPager */,
+				2FB34B5794EB367F3F1E3D1CAA05C3D6 /* Pods-Prelo */,
+				FD82FBEEE74C2B0A8A2018A035F04F1D /* Pods-PreloTests */,
+				EEC744D038383594692D06DAC3BD3337 /* Pods-PreloTestsCoreData */,
+				D23A54958A47B229A262E67F927EA046 /* Pods-PreloUITests */,
+				84C30E6664F431D0D6BBA4F47CE26815 /* Pods-PushNotif */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		00F4D8B72D20F0F91D1E6BE3D474E5DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5C7B4F7E0B9DDCE17746BECD120C203F /* Pods-PreloTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6437D24C2533B3E32ED29A329C14AE84 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5EF36CE834DD7CA99CD5225415A2FF73 /* MXPagerView-dummy.m in Sources */,
+				36CA4AEB0B15471DE03086346065B737 /* MXPagerView.m in Sources */,
+				AD264987FB7B443C6FBBC3C7987020DB /* MXPagerViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8048957F7841011C5A5E983EBE442C9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9E7F57C17671C8C3309DFE2036CAB404 /* Pods-Prelo-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8348D47C5324F7D73F7D3938E0D6B724 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				731D0A294A013C3D95DAE18BD8BBC7AC /* HMSegmentedControl-dummy.m in Sources */,
+				B7CB384BF88B421713036A70A9BCAEDD /* HMSegmentedControl.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B9396C70E46B80B1E6AA5B5A94BD972A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF9CA1291C17E89DFAA8D169B95A974C /* MXSegmentedPager-dummy.m in Sources */,
+				D548887A67B1F7521C848937F65C5A2B /* MXSegmentedPager.m in Sources */,
+				79DB2806DC12F9AD8B4BF210A6CB4108 /* MXSegmentedPagerController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C07B5E9CF23983240FD013EEFA01305A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B53ECC5D062D04268430EF7D8435080C /* Pods-PushNotif-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D0F3132564D764E8DF72DE383A40D0F0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70D97D1F6920B85916DDD421F0FBD219 /* Pods-PreloTestsCoreData-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC49044EAB026254DC7C4D660F051312 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CF7AEDC10DFA19EE70C372D30C6858D4 /* MXParallaxHeader-dummy.m in Sources */,
+				18758A05AD1B995A7911EDFB89BA6555 /* MXParallaxHeader.m in Sources */,
+				95E15733F2BCC3173EC5C55D3998B717 /* MXScrollView.m in Sources */,
+				002F1DBB8EBEC4697E294B8388560534 /* MXScrollViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEB43E85B04AE4598F0265BE972B09C0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				680A8901B6C66D2D6349F05521EC3189 /* Pods-PreloUITests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		15DD9A4661B983110E8F0A4371A91F55 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HMSegmentedControl;
+			target = 7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */;
+			targetProxy = 0C3B5551E28734A841C598CBCEA91298 /* PBXContainerItemProxy */;
+		};
+		2E63FF4F9BADA33421E553A48D0550E5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MXParallaxHeader;
+			target = E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */;
+			targetProxy = A85F080C4FEE0FB2E1F8D7A17C59BB73 /* PBXContainerItemProxy */;
+		};
+		53065000DD6834607332B2FD5A46B99B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MXPagerView;
+			target = 28546100F97BDD9F1D3D863522625D5B /* MXPagerView */;
+			targetProxy = 10DDAF57722435CC6D7B35BE08C2DDAD /* PBXContainerItemProxy */;
+		};
+		725C7CDE9BA94198EC99C3B0F107AAA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HMSegmentedControl;
+			target = 7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */;
+			targetProxy = 4EC1DC2A42D80F9966FFE234ECD7D32A /* PBXContainerItemProxy */;
+		};
+		9D3112C4DC818E0D67D4735F06613632 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MXParallaxHeader;
+			target = E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */;
+			targetProxy = D27930397912EFC3BE43F4CEEAE02DD5 /* PBXContainerItemProxy */;
+		};
+		A2EF4716DC4B4EFA3A1D35F91BB0D796 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MXSegmentedPager;
+			target = D41F2F37088EE2B724A283C89AC6B567 /* MXSegmentedPager */;
+			targetProxy = 23597F802790C23798354CC56F1F44E0 /* PBXContainerItemProxy */;
+		};
+		B9BB049956669B836AECF2D0E69AEA20 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MXPagerView;
+			target = 28546100F97BDD9F1D3D863522625D5B /* MXPagerView */;
+			targetProxy = 625CFEDBE5484F21411E0A026EBB120B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		145FE0BD2CA07A2FA9DDC0F0EDC10054 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2874CD75E3684F5069595468A76DA3E2 /* Pods-PreloTestsCoreData.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloTestsCoreData/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloTestsCoreData;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		25BF14B53227E09DC11141664D85C6E6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DC76A029D88E82A8D0296C5A234362BD /* Pods-PushNotif.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PushNotif/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PushNotif/Pods-PushNotif.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PushNotif;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		35212B3460369DADE52AD8025FC680A0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MXSegmentedPager/MXSegmentedPager-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MXSegmentedPager/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MXSegmentedPager/MXSegmentedPager.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = MXSegmentedPager;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		39D163835A2E52266E613758CE400E07 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MXSegmentedPager/MXSegmentedPager-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MXSegmentedPager/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MXSegmentedPager/MXSegmentedPager.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = MXSegmentedPager;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		4E584A20BFB6F04C6D8E57B13F507DED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MXPagerView/MXPagerView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MXPagerView/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MXPagerView/MXPagerView.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = MXPagerView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		67C041BE18649B588C5C6EE2A95EA029 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B43043D88FA776B5E232B31B8B85B793 /* Pods-PreloUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloUITests/Pods-PreloUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		74292C59B1F331CC734056ECAAD36D37 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77F8B0894414BDE75BE445C37C274F5D /* Pods-PreloTestsCoreData.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloTestsCoreData/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloTestsCoreData;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		8CFBFD526D1E037C3BBD16E72D7183DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MXPagerView/MXPagerView-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MXPagerView/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MXPagerView/MXPagerView.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = MXPagerView;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		970CBA92A64EF098AD27F3DCCCF63BB9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8C9700D2E8FC4E4AB0478B0B7C5FA4C6 /* Pods-Prelo.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Prelo/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Prelo/Pods-Prelo.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Prelo;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		97803B46811A9BDB5E70FA1303AFBFFE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		9D548EC952D158DCE86B4E954F3006FB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D04CF71F5E7028259234355E9D806CA4 /* Pods-PreloUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloUITests/Pods-PreloUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		A0E73F6374E7474B895F86AB60B51C4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FF61EB569103714F28BF348ECE320854 /* Pods-PreloTests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloTests/Pods-PreloTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		AA4C5E3157A1AB52B0E17BB51D1237B5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/HMSegmentedControl/HMSegmentedControl-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/HMSegmentedControl/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/HMSegmentedControl/HMSegmentedControl.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = HMSegmentedControl;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		BD17D75752113CA16429DABB93F0D3ED /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/HMSegmentedControl/HMSegmentedControl-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/HMSegmentedControl/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/HMSegmentedControl/HMSegmentedControl.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = HMSegmentedControl;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		BDD0139D6EB93FA375F887ABD62DAB2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		C2F02E25BA8B5BE18BCC74C750699A41 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 468C56C1DC19C50FBA877C9F791FF20E /* Pods-PushNotif.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PushNotif/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PushNotif/Pods-PushNotif.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PushNotif;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		CAB9CC7A34E555A4184C8CB8FE810887 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0BB1C262C89F600563B68B04D627FBCC /* Pods-PreloTests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloTests/Pods-PreloTests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloTests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		D2CECE8AFAB730A050AF15AEA270E4A3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MXParallaxHeader/MXParallaxHeader-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MXParallaxHeader/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MXParallaxHeader/MXParallaxHeader.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = MXParallaxHeader;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		F3C2FBF8B1C395C784A05612BD8292E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 376125C737F195779C02C4B23D1C9A4A /* Pods-Prelo.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-Prelo/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-Prelo/Pods-Prelo.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_Prelo;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FE893276A4280A7D567F3B09EC85E8F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/MXParallaxHeader/MXParallaxHeader-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/MXParallaxHeader/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/MXParallaxHeader/MXParallaxHeader.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = MXParallaxHeader;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		01CD8D6F1635E512AAA745434F266DC4 /* Build configuration list for PBXNativeTarget "MXSegmentedPager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35212B3460369DADE52AD8025FC680A0 /* Debug */,
+				39D163835A2E52266E613758CE400E07 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		05293241BAAEC30E34F82C901D7CC755 /* Build configuration list for PBXNativeTarget "MXPagerView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4E584A20BFB6F04C6D8E57B13F507DED /* Debug */,
+				8CFBFD526D1E037C3BBD16E72D7183DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				97803B46811A9BDB5E70FA1303AFBFFE /* Debug */,
+				BDD0139D6EB93FA375F887ABD62DAB2E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		44E3CD7DA9C185FE4E68646BE3A934B2 /* Build configuration list for PBXNativeTarget "Pods-Prelo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F3C2FBF8B1C395C784A05612BD8292E0 /* Debug */,
+				970CBA92A64EF098AD27F3DCCCF63BB9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4E67588F3C33A316B568B513AC77CD88 /* Build configuration list for PBXNativeTarget "Pods-PushNotif" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C2F02E25BA8B5BE18BCC74C750699A41 /* Debug */,
+				25BF14B53227E09DC11141664D85C6E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8668A63F70CDBE548BD2FE7AB28FD686 /* Build configuration list for PBXNativeTarget "HMSegmentedControl" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD17D75752113CA16429DABB93F0D3ED /* Debug */,
+				AA4C5E3157A1AB52B0E17BB51D1237B5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A0C370D38C8C92DAEABCCA259D649A3D /* Build configuration list for PBXNativeTarget "Pods-PreloTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CAB9CC7A34E555A4184C8CB8FE810887 /* Debug */,
+				A0E73F6374E7474B895F86AB60B51C4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C388D8DFAA06E0707C53545C2AA7F600 /* Build configuration list for PBXNativeTarget "Pods-PreloUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D548EC952D158DCE86B4E954F3006FB /* Debug */,
+				67C041BE18649B588C5C6EE2A95EA029 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9594800AC07C8054887E8EA7BCD131A /* Build configuration list for PBXNativeTarget "MXParallaxHeader" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FE893276A4280A7D567F3B09EC85E8F2 /* Debug */,
+				D2CECE8AFAB730A050AF15AEA270E4A3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA2EBA8A5ACFC1406E3F93AC72509D19 /* Build configuration list for PBXNativeTarget "Pods-PreloTestsCoreData" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				74292C59B1F331CC734056ECAAD36D37 /* Debug */,
+				145FE0BD2CA07A2FA9DDC0F0EDC10054 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+}

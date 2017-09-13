@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="jHc-wc-nbM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Jualan Saya-->
+        <scene sceneID="lB6-1A-XBd">
+            <objects>
+                <viewController id="jHc-wc-nbM" customClass="BarangSayaViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TpB-AY-5mb"/>
+                        <viewControllerLayoutGuide type="bottom" id="dsF-Am-f3N"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Yvg-iw-s8S">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZOd-Y0-NES" customClass="MXSegmentedPager">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dsF-Am-f3N" firstAttribute="top" secondItem="ZOd-Y0-NES" secondAttribute="bottom" id="HQK-ZG-4bZ"/>
+                            <constraint firstAttribute="trailing" secondItem="ZOd-Y0-NES" secondAttribute="trailing" id="XoX-M6-MEt"/>
+                            <constraint firstItem="ZOd-Y0-NES" firstAttribute="top" secondItem="TpB-AY-5mb" secondAttribute="bottom" id="kxy-vd-ikI"/>
+                            <constraint firstItem="ZOd-Y0-NES" firstAttribute="leading" secondItem="Yvg-iw-s8S" secondAttribute="leading" id="zSd-Ng-x0h"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Jualan Saya" id="2R4-3U-g8Q"/>
+                    <connections>
+                        <outlet property="navTitle" destination="2R4-3U-g8Q" id="b1v-TU-buJ"/>
+                        <outlet property="segmentedPager" destination="ZOd-Y0-NES" id="ScD-Sw-Xo0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="PdH-wn-yhF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="170" y="198"/>
+        </scene>
+        <!--Segment Barang View Controller-->
+        <scene sceneID="4eX-FX-au9">
+            <objects>
+                <viewController storyboardIdentifier="SegmentBarang" id="jRK-ld-QsQ" customClass="SegmentBarangViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Lkv-R2-mG2"/>
+                        <viewControllerLayoutGuide type="bottom" id="HDd-fR-Tg6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pFr-QF-iqy">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ffZ-GS-YsM">
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="HDd-fR-Tg6" firstAttribute="top" secondItem="ffZ-GS-YsM" secondAttribute="bottom" id="BgY-q2-6O5"/>
+                            <constraint firstItem="ffZ-GS-YsM" firstAttribute="top" secondItem="Lkv-R2-mG2" secondAttribute="bottom" id="Mcg-Q7-Se7"/>
+                            <constraint firstItem="ffZ-GS-YsM" firstAttribute="leading" secondItem="pFr-QF-iqy" secondAttribute="leading" id="Spr-dl-ffY"/>
+                            <constraint firstAttribute="trailing" secondItem="ffZ-GS-YsM" secondAttribute="trailing" id="vH8-FV-7Z2"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="listBarangTableView" destination="ffZ-GS-YsM" id="tsz-pM-zyQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dfe-Jv-er9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="169" y="934"/>
+        </scene>
+    </scenes>
+</document>

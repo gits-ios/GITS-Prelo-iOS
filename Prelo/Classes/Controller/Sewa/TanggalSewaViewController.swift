@@ -32,4 +32,7 @@ class TanggalSewaViewController: UIViewController {
     }
     */
 
+    @IBAction func lanjutClickAction(_ sender: Any) {
+        self.performSegue(withIdentifier: "performSegueBarangSaya", sender: self)
+    }
 }
