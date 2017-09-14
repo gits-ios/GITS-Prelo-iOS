@@ -42,12 +42,12 @@
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
-                  timestampString = "526989784.97499"
+                  timestampString = "527058628.249395"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1132"
                   endingLineNumber = "1132"
-                  offsetFromSymbolStart = "58">
+                  offsetFromSymbolStart = "68">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -57,12 +57,12 @@
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
-                  timestampString = "526989784.977992"
+                  timestampString = "527058628.251393"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1133"
                   endingLineNumber = "1133"
-                  offsetFromSymbolStart = "15">
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>

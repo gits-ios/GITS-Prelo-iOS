@@ -20,6 +20,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Cjv-Ot-39L" userLabel="CalendarView">
+                                <rect key="frame" x="0.0" y="20" width="375" height="543"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Zh-7H-mBd">
                                 <rect key="frame" x="0.0" y="603" width="375" height="64"/>
                                 <subviews>
@@ -95,8 +99,12 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Cjv-Ot-39L" firstAttribute="top" secondItem="gTG-Eq-t92" secondAttribute="bottom" id="Ae7-A9-a8N"/>
+                            <constraint firstItem="bga-FL-duf" firstAttribute="top" secondItem="Cjv-Ot-39L" secondAttribute="bottom" id="HGN-Ub-uLj"/>
+                            <constraint firstAttribute="trailing" secondItem="Cjv-Ot-39L" secondAttribute="trailing" id="PHL-K5-VVL"/>
                             <constraint firstAttribute="bottom" secondItem="7Zh-7H-mBd" secondAttribute="bottom" id="av2-UT-T9s"/>
                             <constraint firstItem="bga-FL-duf" firstAttribute="leading" secondItem="zya-rJ-L23" secondAttribute="leading" id="imc-OK-SMb"/>
+                            <constraint firstItem="Cjv-Ot-39L" firstAttribute="leading" secondItem="zya-rJ-L23" secondAttribute="leading" id="lo9-0Y-owz"/>
                             <constraint firstItem="7Zh-7H-mBd" firstAttribute="leading" secondItem="zya-rJ-L23" secondAttribute="leading" id="naE-L0-yhk"/>
                             <constraint firstAttribute="trailing" secondItem="7Zh-7H-mBd" secondAttribute="trailing" id="pBR-pk-78M"/>
                             <constraint firstItem="7Zh-7H-mBd" firstAttribute="top" secondItem="bga-FL-duf" secondAttribute="bottom" id="s7D-JN-fFV"/>
@@ -107,6 +115,7 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="cva-1h-ejq"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="calendarView" destination="Cjv-Ot-39L" id="1TN-J6-M8S"/>
                         <segue destination="KIb-cP-zZn" kind="show" identifier="performSegueBarangSaya" id="bm7-9h-WiL"/>
                     </connections>
                 </viewController>

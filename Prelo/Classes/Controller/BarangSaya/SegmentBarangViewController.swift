@@ -54,6 +54,10 @@ extension SegmentBarangViewController: UITableViewDataSource, UITableViewDelegat
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.listBarangTableView.dequeueReusableCell(withIdentifier: "BarangTableViewCell", for: indexPath) as! BarangTableViewCell
+        if (indexPath.row % 2) == 0 {
+            cell.isNotForRent()
+        }
+        
         return cell
     }
     

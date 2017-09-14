@@ -9,6 +9,8 @@
 import UIKit
 
 class BarangTableViewCell: UITableViewCell {
+    @IBOutlet weak var sellPriceView: UIView!
+    @IBOutlet weak var rentPriceView: UIView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -21,4 +23,6 @@ class BarangTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
 
+    func isNotForRent() {
+    }
 }

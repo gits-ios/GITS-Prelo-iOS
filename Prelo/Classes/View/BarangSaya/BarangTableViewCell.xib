@@ -45,8 +45,8 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NYY-T7-ibt">
-                        <rect key="frame" x="88" y="25" width="287" height="12"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NYY-T7-ibt" userLabel="SellPriceView">
+                        <rect key="frame" x="88" y="25" width="140" height="12"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OAI-C2-yLJ">
                                 <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
@@ -57,7 +57,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp500.000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RMS-sB-6rV">
-                                <rect key="frame" x="16" y="-1" width="59" height="14"/>
+                                <rect key="frame" x="16" y="-1" width="124" height="14"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -70,10 +70,12 @@
                             <constraint firstItem="RMS-sB-6rV" firstAttribute="centerY" secondItem="NYY-T7-ibt" secondAttribute="centerY" id="Nfm-I0-JKT"/>
                             <constraint firstAttribute="height" constant="12" id="SK3-k4-K52"/>
                             <constraint firstItem="RMS-sB-6rV" firstAttribute="leading" secondItem="OAI-C2-yLJ" secondAttribute="trailing" constant="4" id="dhu-Y1-gbi"/>
+                            <constraint firstAttribute="width" constant="140" id="sQA-Bv-hEa"/>
+                            <constraint firstAttribute="trailing" secondItem="RMS-sB-6rV" secondAttribute="trailing" id="ypx-Vm-Pvj"/>
                         </constraints>
                     </view>
-                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sib-QN-KgQ">
-                        <rect key="frame" x="248" y="25" width="119" height="12"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Sib-QN-KgQ" userLabel="RentPriceView">
+                        <rect key="frame" x="228" y="25" width="139" height="12"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="D0i-9M-Vap">
                                 <rect key="frame" x="0.0" y="0.0" width="12" height="12"/>
@@ -84,7 +86,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp750.000" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qGO-Z3-2Zf">
-                                <rect key="frame" x="16" y="-0.5" width="57.5" height="13.5"/>
+                                <rect key="frame" x="16" y="-0.5" width="123" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -96,6 +98,7 @@
                             <constraint firstAttribute="height" constant="12" id="BlX-Sa-QJU"/>
                             <constraint firstItem="D0i-9M-Vap" firstAttribute="centerY" secondItem="Sib-QN-KgQ" secondAttribute="centerY" id="JHJ-wU-moe"/>
                             <constraint firstItem="qGO-Z3-2Zf" firstAttribute="leading" secondItem="D0i-9M-Vap" secondAttribute="trailing" constant="4" id="gVJ-Ca-1Nu"/>
+                            <constraint firstAttribute="trailing" secondItem="qGO-Z3-2Zf" secondAttribute="trailing" id="rKE-Fx-Vjv"/>
                             <constraint firstItem="qGO-Z3-2Zf" firstAttribute="centerY" secondItem="Sib-QN-KgQ" secondAttribute="centerY" id="xYa-Qn-yeG"/>
                         </constraints>
                     </view>
@@ -163,8 +166,8 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="TPI-Qh-Zfc" firstAttribute="top" secondItem="cTy-s7-V5B" secondAttribute="top" id="0gu-55-oNK"/>
-                    <constraint firstAttribute="trailing" secondItem="NYY-T7-ibt" secondAttribute="trailing" id="0pz-8I-L1N"/>
                     <constraint firstAttribute="bottom" secondItem="iIF-GD-Nkc" secondAttribute="bottom" constant="8" id="1Xz-Ga-lYo"/>
+                    <constraint firstItem="Sib-QN-KgQ" firstAttribute="leading" secondItem="NYY-T7-ibt" secondAttribute="trailing" id="5by-Pa-lS5"/>
                     <constraint firstItem="yiP-b4-tQy" firstAttribute="top" secondItem="VAe-hG-hQ6" secondAttribute="bottom" constant="8" id="5zF-76-85y"/>
                     <constraint firstItem="ufn-4Z-meL" firstAttribute="leading" secondItem="VAe-hG-hQ6" secondAttribute="trailing" constant="4" id="6oC-A1-MPV"/>
                     <constraint firstItem="yiP-b4-tQy" firstAttribute="top" secondItem="ufn-4Z-meL" secondAttribute="bottom" constant="8" id="8Gs-VF-CO2"/>
@@ -179,7 +182,6 @@
                     <constraint firstItem="YbB-JH-ZyR" firstAttribute="leading" secondItem="iIF-GD-Nkc" secondAttribute="trailing" constant="4" id="FVm-wK-fNU"/>
                     <constraint firstAttribute="trailing" secondItem="yiP-b4-tQy" secondAttribute="trailing" id="Iqt-vH-gE7"/>
                     <constraint firstItem="YbB-JH-ZyR" firstAttribute="centerY" secondItem="iIF-GD-Nkc" secondAttribute="centerY" id="MYd-DY-z90"/>
-                    <constraint firstItem="Sib-QN-KgQ" firstAttribute="leading" secondItem="Z5h-XP-6Os" secondAttribute="trailing" constant="168" id="MrJ-dx-chq"/>
                     <constraint firstAttribute="trailing" secondItem="Sib-QN-KgQ" secondAttribute="trailing" constant="8" id="Oiu-B3-bIS"/>
                     <constraint firstItem="yiP-b4-tQy" firstAttribute="top" secondItem="YJO-Ob-96y" secondAttribute="bottom" constant="8" id="Qlh-Wp-8Rf"/>
                     <constraint firstItem="Z5h-XP-6Os" firstAttribute="leading" secondItem="cTy-s7-V5B" secondAttribute="leading" constant="16" id="SJ4-nm-wFc"/>
@@ -196,8 +198,13 @@
                     <constraint firstItem="VAe-hG-hQ6" firstAttribute="leading" secondItem="YbB-JH-ZyR" secondAttribute="trailing" constant="16" id="mFP-Ep-Ge4"/>
                     <constraint firstAttribute="trailing" secondItem="ZC2-oG-3GB" secondAttribute="trailing" constant="8" id="nks-HN-KKB"/>
                     <constraint firstItem="ZC2-oG-3GB" firstAttribute="top" secondItem="TPI-Qh-Zfc" secondAttribute="bottom" constant="8" id="nzZ-mW-zoV"/>
+                    <constraint firstItem="Sib-QN-KgQ" firstAttribute="leading" secondItem="Z5h-XP-6Os" secondAttribute="trailing" priority="750" constant="8" id="u7T-aH-CbG"/>
                 </constraints>
             </tableViewCellContentView>
+            <connections>
+                <outlet property="rentPriceView" destination="Sib-QN-KgQ" id="mPk-U8-H8y"/>
+                <outlet property="sellPriceView" destination="NYY-T7-ibt" id="wb3-9Y-pt8"/>
+            </connections>
             <point key="canvasLocation" x="-185.5" y="66"/>
         </tableViewCell>
     </objects>

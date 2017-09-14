@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		194E59E153C3D0B52404F648 /* Pods_PreloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AFCE5E430A9782B91A7C2775 /* Pods_PreloTests.framework */; };
 		210000BC1BCBBC5000E16611 /* KDEDateLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */; };
 		210107F91B687ED4005698D1 /* Prelo2.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 210107F81B687ED4005698D1 /* Prelo2.ttf */; };
 		210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 210702D91BE7A8F100DD9E52 /* cu_bbm@2x.png */; };
@@ -281,8 +282,6 @@
 		44B8EDC81BEB47620063DEA8 /* TwitterCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B8EDC51BEB47620063DEA8 /* TwitterCore.framework */; };
 		44BB8EF81BC6ABF70052B020 /* GIBadgeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 44BB8EF71BC6ABF70052B020 /* GIBadgeView.m */; };
 		44C10A671B8C8145006D8770 /* basic_green@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 44C10A661B8C8145006D8770 /* basic_green@2x.png */; };
-		45B43F1D700E3BFA196158FD /* Pods_PreloTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E5C295A5101BF44539018381 /* Pods_PreloTests.framework */; };
-		49469361BC6881E5A53E7601 /* Pods_Prelo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 340F6F97C6E1065B800B378B /* Pods_Prelo.framework */; };
 		5804CBC21EEE300C00B7D032 /* RekeningListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5804CBC11EEE300C00B7D032 /* RekeningListViewController.swift */; };
 		5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5804CBD31EEE6A8900B7D032 /* RekeningListCell.xib */; };
 		5804CBD61EEE6A8900B7D032 /* RekeningListNewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5804CBD41EEE6A8900B7D032 /* RekeningListNewCell.xib */; };
@@ -628,8 +627,8 @@
 		58F8C1541F289E2900B24BD7 /* TopUpMethodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */; };
 		58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
-		8F730B3152E0305354E60BCA /* Pods_PushNotif.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 483191C2E15041F10B941B5F /* Pods_PushNotif.framework */; };
-		A492573A5250F1FD161BA0AB /* Pods_PreloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B21C16C6C07BFFAE593C9494 /* Pods_PreloUITests.framework */; };
+		603C1B068531A23CF2FC6BEF /* Pods_PreloUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E393C1B87EA3BEF13FB2C2D7 /* Pods_PreloUITests.framework */; };
+		8A795DBE4F4801587AD3630A /* Pods_PushNotif.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9869E4A986F7238B806C047C /* Pods_PushNotif.framework */; };
 		A90D84781F6912080085ABAD /* BarangSaya.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90D84771F6912080085ABAD /* BarangSaya.storyboard */; };
 		A90D84A01F691EB70085ABAD /* BarangSayaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D849F1F691EB70085ABAD /* BarangSayaViewController.swift */; };
 		A90D84A21F69204E0085ABAD /* BarangTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D84A11F69204E0085ABAD /* BarangTableViewCell.swift */; };
@@ -896,7 +895,8 @@
 		B2FFCBB31EA52669004F01D0 /* SSLSecurity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB9A1EA52669004F01D0 /* SSLSecurity.swift */; };
 		B2FFCBB41EA52669004F01D0 /* WebSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB9B1EA52669004F01D0 /* WebSocket.swift */; };
 		B2FFCBB51EA52669004F01D0 /* SwiftyJSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2FFCB9C1EA52669004F01D0 /* SwiftyJSON.swift */; };
-		E2B9063259FC35FBF585AD18 /* Pods_PreloTestsCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367ED74A882C2925050DBC58 /* Pods_PreloTestsCoreData.framework */; };
+		BA4444192FF3DB1134691503 /* Pods_PreloTestsCoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B20F2ED2CC51366E01E0AECA /* Pods_PreloTestsCoreData.framework */; };
+		C78CC2838EA644AA1DBC1C39 /* Pods_Prelo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE9350E310EF074045F3822 /* Pods_Prelo.framework */; };
 		FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D471C1963AC0002C7B4 /* libz.dylib */; };
 		FD3C6D4A1C1964390002C7B4 /* libGoogleAnalyticsServices.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FD3C6D491C1964390002C7B4 /* libGoogleAnalyticsServices.a */; };
 		FD3C8DEC1C43A42B00D40EF8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 216799951B9010E900F18F90 /* Crashlytics.framework */; };
@@ -1113,6 +1113,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1B78ECF3350A04E4AB56F400 /* Pods-Prelo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prelo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Prelo/Pods-Prelo.debug.xcconfig"; sourceTree = "<group>"; };
 		210000B91BCB89D500E16611 /* MessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessagePool.swift; path = Controller/MessagePool.swift; sourceTree = "<group>"; };
 		210000BB1BCBBC5000E16611 /* KDEDateLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KDEDateLabel.swift; sourceTree = "<group>"; };
 		210107F81B687ED4005698D1 /* Prelo2.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Prelo2.ttf; sourceTree = "<group>"; };
@@ -1558,9 +1559,6 @@
 		21F4FCE41B61E9AE00223028 /* DAO.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DAO.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		21F4FCE61B61EE3D00223028 /* UIImageView+AFNetworking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImageView+AFNetworking.swift"; sourceTree = "<group>"; };
 		21F4FCE81B61F28C00223028 /* PreloAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PreloAwesome.ttf; sourceTree = "<group>"; };
-		340F6F97C6E1065B800B378B /* Pods_Prelo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prelo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		367ED74A882C2925050DBC58 /* Pods_PreloTestsCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloTestsCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		38862348EB4A9FA6AD2980A3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		440AF6571BE0DEA500074CBC /* ReferralPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ReferralPageViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		440AF6591BE0DF1600074CBC /* ReferralPage.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReferralPage.xib; sourceTree = "<group>"; };
 		440AF65B1BE1090800074CBC /* ic_round_ellipsis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_round_ellipsis.png; sourceTree = "<group>"; };
@@ -1604,7 +1602,8 @@
 		44D32A131BDF1B9300EFC1E3 /* CDShipping.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDShipping.swift; sourceTree = "<group>"; };
 		44D32A151BDF2C0C00EFC1E3 /* CDCategorySize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDCategorySize.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		44D58C491BC7C8C800F85F13 /* CDNotification.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CDNotification.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		483191C2E15041F10B941B5F /* Pods_PushNotif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PushNotif.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B7958AB55C58F0F3823A1CB /* Pods-PreloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests.release.xcconfig"; sourceTree = "<group>"; };
+		53FAF8EE72A76070A320CF5F /* Pods-PreloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		5800FF981C8836BE00492DB2 /* NotifAnggiTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiTabBarViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FF9A1C88372B00492DB2 /* NotifAnggiTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTabBar.xib; sourceTree = "<group>"; };
 		5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiTransactionViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -1892,13 +1891,10 @@
 		58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopUpViewController.swift; sourceTree = "<group>"; };
 		58F91B181CF313CB00943A7A /* ListBrandViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = ListBrandViewController2.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		58FE766E1D34FB9B00D90F27 /* banner_featured.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_featured.png; sourceTree = "<group>"; };
-		684DB03F94432258470B6705 /* Pods-PreloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests.release.xcconfig"; sourceTree = "<group>"; };
-		6BD5947A3039D5A8EBBAA351 /* Pods-PreloTestsCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTestsCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.release.xcconfig"; sourceTree = "<group>"; };
-		79AE36BAC9B11BCFC914A023 /* Pods-PushNotif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushNotif.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PushNotif/Pods-PushNotif.debug.xcconfig"; sourceTree = "<group>"; };
-		8E51BEC8A5ACE04DB8F374F9 /* Pods-PreloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests.debug.xcconfig"; sourceTree = "<group>"; };
-		9863A899E403CE565F7B2EED /* Pods-PreloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests.release.xcconfig"; sourceTree = "<group>"; };
-		A4503BC35DFEF3279494F1FD /* Pods-PreloTestsCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTestsCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.debug.xcconfig"; sourceTree = "<group>"; };
-		A820D2B34474C0FEDB8DA57F /* Pods-PushNotif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushNotif.release.xcconfig"; path = "Pods/Target Support Files/Pods-PushNotif/Pods-PushNotif.release.xcconfig"; sourceTree = "<group>"; };
+		5D12525E64A9604753519FB7 /* Pods-PreloTestsCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTestsCoreData.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.debug.xcconfig"; sourceTree = "<group>"; };
+		6E59527E3EB0C557018BC325 /* Pods-PushNotif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushNotif.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PushNotif/Pods-PushNotif.debug.xcconfig"; sourceTree = "<group>"; };
+		9869E4A986F7238B806C047C /* Pods_PushNotif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PushNotif.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9AE9350E310EF074045F3822 /* Pods_Prelo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Prelo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A90D84771F6912080085ABAD /* BarangSaya.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarangSaya.storyboard; sourceTree = "<group>"; };
 		A90D849F1F691EB70085ABAD /* BarangSayaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarangSayaViewController.swift; sourceTree = "<group>"; };
 		A90D84A11F69204E0085ABAD /* BarangTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarangTableViewCell.swift; sourceTree = "<group>"; };
@@ -1906,7 +1902,7 @@
 		A90D84A51F6929F90085ABAD /* SegmentBarangViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentBarangViewController.swift; sourceTree = "<group>"; };
 		A992FA711F67E49F007EBF12 /* Sewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sewa.storyboard; sourceTree = "<group>"; };
 		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalSewaViewController.swift; sourceTree = "<group>"; };
-		AE5CC28BFED91455947B6011 /* Pods-Prelo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prelo.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Prelo/Pods-Prelo.debug.xcconfig"; sourceTree = "<group>"; };
+		AFCE5E430A9782B91A7C2775 /* Pods_PreloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2050B4E1F00F4A700E7557B /* ic_checkout_visa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_visa.png; sourceTree = "<group>"; };
 		B2050B501F00F4C600E7557B /* ic_checkout_cimb_clicks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkout_cimb_clicks.png; sourceTree = "<group>"; };
 		B2099F951E1D1A3C00EBB57F /* CDDraftProduct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDDraftProduct.swift; sourceTree = "<group>"; };
@@ -1914,11 +1910,11 @@
 		B20B89901F07880A001DA0F4 /* AddProduct3ImagesPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ImagesPreviewCell.xib; sourceTree = "<group>"; };
 		B20B89921F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3DetailProductCell.xib; sourceTree = "<group>"; };
 		B20E25671EB0719200B0E3DD /* PreloV2Endpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloV2Endpoints.swift; sourceTree = "<group>"; };
+		B20F2ED2CC51366E01E0AECA /* Pods_PreloTestsCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloTestsCoreData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B213E4191E698A6500C76D04 /* tour_4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = tour_4.jpg; sourceTree = "<group>"; };
 		B21416541ECAAB49008A19AE /* ic_dev.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_dev.png; sourceTree = "<group>"; };
 		B21B3F081E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreloAnalyticEndpoints.swift; sourceTree = "<group>"; };
 		B21B3F181E5ADFE600FE5DB4 /* AnalyticManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticManager.swift; sourceTree = "<group>"; };
-		B21C16C6C07BFFAE593C9494 /* Pods_PreloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B21DF5291E5179E5007A60C5 /* UserProfile2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProfile2.xib; sourceTree = "<group>"; };
 		B21DF53F1E5187EA007A60C5 /* UserProfileViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileViewController2.swift; sourceTree = "<group>"; };
 		B21DF54F1E519E5E007A60C5 /* Prelo 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Prelo 10.xcdatamodel"; sourceTree = "<group>"; };
@@ -2182,9 +2178,12 @@
 		B2FFCB9A1EA52669004F01D0 /* SSLSecurity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSLSecurity.swift; sourceTree = "<group>"; };
 		B2FFCB9B1EA52669004F01D0 /* WebSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebSocket.swift; sourceTree = "<group>"; };
 		B2FFCB9C1EA52669004F01D0 /* SwiftyJSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftyJSON.swift; sourceTree = "<group>"; };
-		CE91E844B7B43C146249B8A1 /* Pods-Prelo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prelo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Prelo/Pods-Prelo.release.xcconfig"; sourceTree = "<group>"; };
-		E5C295A5101BF44539018381 /* Pods_PreloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F946BEC6AA8790368764535D /* Pods-PreloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		B3A6E45564DE9571643A489E /* Pods-PreloTestsCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTestsCoreData.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.release.xcconfig"; sourceTree = "<group>"; };
+		C372CA09EE1CCF2DB1761CF5 /* Pods-PreloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests.debug.xcconfig"; sourceTree = "<group>"; };
+		C6586D206D25D97B9CF1DF89 /* Pods-Prelo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Prelo.release.xcconfig"; path = "Pods/Target Support Files/Pods-Prelo/Pods-Prelo.release.xcconfig"; sourceTree = "<group>"; };
+		E393C1B87EA3BEF13FB2C2D7 /* Pods_PreloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F50D77428B606A5CEB987094 /* Pods-PreloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests.release.xcconfig"; sourceTree = "<group>"; };
+		F7DFAD1420F81E42AED310CE /* Pods-PushNotif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PushNotif.release.xcconfig"; path = "Pods/Target Support Files/Pods-PushNotif/Pods-PushNotif.release.xcconfig"; sourceTree = "<group>"; };
 		FD3C6D3D1C1963190002C7B4 /* GAI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAI.h; sourceTree = "<group>"; };
 		FD3C6D3E1C1963190002C7B4 /* GAIDictionaryBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIDictionaryBuilder.h; sourceTree = "<group>"; };
 		FD3C6D3F1C1963190002C7B4 /* GAIEcommerceFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GAIEcommerceFields.h; sourceTree = "<group>"; };
@@ -2272,7 +2271,7 @@
 				B2F184B71E938A4A001EEB36 /* GoogleMapsBase.framework in Frameworks */,
 				FD3C6D481C1963AC0002C7B4 /* libz.dylib in Frameworks */,
 				21EEB4421B86FAC400CAD5C9 /* libz.1.2.5.dylib in Frameworks */,
-				49469361BC6881E5A53E7601 /* Pods_Prelo.framework in Frameworks */,
+				C78CC2838EA644AA1DBC1C39 /* Pods_Prelo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2280,7 +2279,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E2B9063259FC35FBF585AD18 /* Pods_PreloTestsCoreData.framework in Frameworks */,
+				BA4444192FF3DB1134691503 /* Pods_PreloTestsCoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2288,7 +2287,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A492573A5250F1FD161BA0AB /* Pods_PreloUITests.framework in Frameworks */,
+				603C1B068531A23CF2FC6BEF /* Pods_PreloUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2296,7 +2295,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45B43F1D700E3BFA196158FD /* Pods_PreloTests.framework in Frameworks */,
+				194E59E153C3D0B52404F648 /* Pods_PreloTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2304,7 +2303,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F730B3152E0305354E60BCA /* Pods_PushNotif.framework in Frameworks */,
+				8A795DBE4F4801587AD3630A /* Pods_PushNotif.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2347,12 +2346,11 @@
 				2142E1681B85D9A4009D7131 /* AVFoundation.framework */,
 				2127A2AB1B7B45B300469CFC /* AssetsLibrary.framework */,
 				21AE67BA1B4A623300D2CF63 /* QuartzCore.framework */,
-				38862348EB4A9FA6AD2980A3 /* libPods.a */,
-				340F6F97C6E1065B800B378B /* Pods_Prelo.framework */,
-				E5C295A5101BF44539018381 /* Pods_PreloTests.framework */,
-				367ED74A882C2925050DBC58 /* Pods_PreloTestsCoreData.framework */,
-				B21C16C6C07BFFAE593C9494 /* Pods_PreloUITests.framework */,
-				483191C2E15041F10B941B5F /* Pods_PushNotif.framework */,
+				9AE9350E310EF074045F3822 /* Pods_Prelo.framework */,
+				AFCE5E430A9782B91A7C2775 /* Pods_PreloTests.framework */,
+				B20F2ED2CC51366E01E0AECA /* Pods_PreloTestsCoreData.framework */,
+				E393C1B87EA3BEF13FB2C2D7 /* Pods_PreloUITests.framework */,
+				9869E4A986F7238B806C047C /* Pods_PushNotif.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -2381,7 +2379,7 @@
 				58095B421EE927290023F499 /* PreloTestsCoreData */,
 				2115E6C91B4A27E500509D2A /* Products */,
 				163B49F396DAE9C45C1A8F32 /* Frameworks */,
-				4E4A15EFDC595320CF679AE3 /* Pods */,
+				27B45D93DAA6A479A5511CC5 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -3528,6 +3526,23 @@
 			path = XIB;
 			sourceTree = "<group>";
 		};
+		27B45D93DAA6A479A5511CC5 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				1B78ECF3350A04E4AB56F400 /* Pods-Prelo.debug.xcconfig */,
+				C6586D206D25D97B9CF1DF89 /* Pods-Prelo.release.xcconfig */,
+				C372CA09EE1CCF2DB1761CF5 /* Pods-PreloTests.debug.xcconfig */,
+				4B7958AB55C58F0F3823A1CB /* Pods-PreloTests.release.xcconfig */,
+				5D12525E64A9604753519FB7 /* Pods-PreloTestsCoreData.debug.xcconfig */,
+				B3A6E45564DE9571643A489E /* Pods-PreloTestsCoreData.release.xcconfig */,
+				53FAF8EE72A76070A320CF5F /* Pods-PreloUITests.debug.xcconfig */,
+				F50D77428B606A5CEB987094 /* Pods-PreloUITests.release.xcconfig */,
+				6E59527E3EB0C557018BC325 /* Pods-PushNotif.debug.xcconfig */,
+				F7DFAD1420F81E42AED310CE /* Pods-PushNotif.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		44BB8EF31BC654850052B020 /* Socket */ = {
 			isa = PBXGroup;
 			children = (
@@ -3535,23 +3550,6 @@
 				44BB8EF41BC654AC0052B020 /* PreloNotificationListener.swift */,
 			);
 			name = Socket;
-			sourceTree = "<group>";
-		};
-		4E4A15EFDC595320CF679AE3 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				AE5CC28BFED91455947B6011 /* Pods-Prelo.debug.xcconfig */,
-				CE91E844B7B43C146249B8A1 /* Pods-Prelo.release.xcconfig */,
-				8E51BEC8A5ACE04DB8F374F9 /* Pods-PreloTests.debug.xcconfig */,
-				684DB03F94432258470B6705 /* Pods-PreloTests.release.xcconfig */,
-				A4503BC35DFEF3279494F1FD /* Pods-PreloTestsCoreData.debug.xcconfig */,
-				6BD5947A3039D5A8EBBAA351 /* Pods-PreloTestsCoreData.release.xcconfig */,
-				F946BEC6AA8790368764535D /* Pods-PreloUITests.debug.xcconfig */,
-				9863A899E403CE565F7B2EED /* Pods-PreloUITests.release.xcconfig */,
-				79AE36BAC9B11BCFC914A023 /* Pods-PushNotif.debug.xcconfig */,
-				A820D2B34474C0FEDB8DA57F /* Pods-PushNotif.release.xcconfig */,
-			);
-			name = Pods;
 			sourceTree = "<group>";
 		};
 		58095B421EE927290023F499 /* PreloTestsCoreData */ = {
@@ -4165,14 +4163,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2115E6EA1B4A27E500509D2A /* Build configuration list for PBXNativeTarget "Prelo" */;
 			buildPhases = (
-				BEE7D64C5446F92DDBAF2297 /* [CP] Check Pods Manifest.lock */,
+				F24D3DB6AFDD217A6656DC22 /* [CP] Check Pods Manifest.lock */,
 				2115E6C41B4A27E500509D2A /* Sources */,
 				2115E6C51B4A27E500509D2A /* Frameworks */,
 				2115E6C61B4A27E500509D2A /* Resources */,
 				58F5BEFA1DB088D1009B0E0B /* Embed Frameworks */,
 				B2B34BE51E37042D001B653F /* Embed App Extensions */,
-				1620110A7A8A35B5258BC186 /* [CP] Embed Pods Frameworks */,
-				CBEAF00491978695560E8C6B /* [CP] Copy Pods Resources */,
+				8502496E436D0E4CD1005EA8 /* [CP] Embed Pods Frameworks */,
+				E522B2190DB0F8500F16DF00 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4192,12 +4190,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58095B481EE9272A0023F499 /* Build configuration list for PBXNativeTarget "PreloTestsCoreData" */;
 			buildPhases = (
-				6DF94920945AC1BDFBA4C171 /* [CP] Check Pods Manifest.lock */,
+				0C78BD6EEDFB5F7DAA64412A /* [CP] Check Pods Manifest.lock */,
 				58095B3D1EE927290023F499 /* Sources */,
 				58095B3E1EE927290023F499 /* Frameworks */,
 				58095B3F1EE927290023F499 /* Resources */,
-				5109185C9A5D3F8998FB6F75 /* [CP] Embed Pods Frameworks */,
-				1A3A8BC7CE1B2960568C869D /* [CP] Copy Pods Resources */,
+				8408F62B12C9846CCAF6EFD2 /* [CP] Embed Pods Frameworks */,
+				57059A1BEF6E7D8CDFDA57F8 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4213,12 +4211,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 588123891EE65F5B005047AD /* Build configuration list for PBXNativeTarget "PreloUITests" */;
 			buildPhases = (
-				39A923B7D81DE280FC21297A /* [CP] Check Pods Manifest.lock */,
+				E65AB8D001E5117FD27438EE /* [CP] Check Pods Manifest.lock */,
 				5881237E1EE65F5B005047AD /* Sources */,
 				5881237F1EE65F5B005047AD /* Frameworks */,
 				588123801EE65F5B005047AD /* Resources */,
-				91A3EE73008E5C21F51AB018 /* [CP] Embed Pods Frameworks */,
-				0C4969B1BCAE225F89D66D94 /* [CP] Copy Pods Resources */,
+				2F19621230E61AD86048F628 /* [CP] Embed Pods Frameworks */,
+				368D17157E6A80F05249F67E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4234,12 +4232,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58D5045D1EE79BEA00BC07C8 /* Build configuration list for PBXNativeTarget "PreloTests" */;
 			buildPhases = (
-				16D54235FE950F98D9F4FEB0 /* [CP] Check Pods Manifest.lock */,
+				08470F8FBD76169C5BA75161 /* [CP] Check Pods Manifest.lock */,
 				58D504521EE79BEA00BC07C8 /* Sources */,
 				58D504531EE79BEA00BC07C8 /* Frameworks */,
 				58D504541EE79BEA00BC07C8 /* Resources */,
-				900B975F5F0DE0C2662DEC90 /* [CP] Embed Pods Frameworks */,
-				FA44D623273E850C2270BA70 /* [CP] Copy Pods Resources */,
+				BD47D0FBCBC7D4E44A52AA32 /* [CP] Embed Pods Frameworks */,
+				8A535C4341AC5CA6B2C1F336 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4255,11 +4253,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2B34BE41E37042D001B653F /* Build configuration list for PBXNativeTarget "PushNotif" */;
 			buildPhases = (
-				00C6EC6282D52386599AFFBD /* [CP] Check Pods Manifest.lock */,
+				A55D675B6474579F93A3D0A8 /* [CP] Check Pods Manifest.lock */,
 				B2B34BC81E37042C001B653F /* Sources */,
 				B2B34BC91E37042C001B653F /* Frameworks */,
 				B2B34BCA1E37042C001B653F /* Resources */,
-				7B98E28E8EF524EFE6A786F7 /* [CP] Copy Pods Resources */,
+				B4919503950582631AE987ED /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -4284,6 +4282,7 @@
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = A72B22UTXM;
 						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -4944,7 +4943,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		00C6EC6282D52386599AFFBD /* [CP] Check Pods Manifest.lock */ = {
+		08470F8FBD76169C5BA75161 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4955,14 +4954,47 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PushNotif-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-PreloTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		0C4969B1BCAE225F89D66D94 /* [CP] Copy Pods Resources */ = {
+		0C78BD6EEDFB5F7DAA64412A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PreloTestsCoreData-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2F19621230E61AD86048F628 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		368D17157E6A80F05249F67E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -4977,7 +5009,37 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1620110A7A8A35B5258BC186 /* [CP] Embed Pods Frameworks */ = {
+		57059A1BEF6E7D8CDFDA57F8 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8408F62B12C9846CCAF6EFD2 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8502496E436D0E4CD1005EA8 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5001,25 +5063,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Prelo/Pods-Prelo-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		16D54235FE950F98D9F4FEB0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PreloTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		1A3A8BC7CE1B2960568C869D /* [CP] Copy Pods Resources */ = {
+		8A535C4341AC5CA6B2C1F336 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5031,10 +5075,73 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		39A923B7D81DE280FC21297A /* [CP] Check Pods Manifest.lock */ = {
+		A55D675B6474579F93A3D0A8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PushNotif-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4919503950582631AE987ED /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PushNotif/Pods-PushNotif-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BD47D0FBCBC7D4E44A52AA32 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E522B2190DB0F8500F16DF00 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Prelo/Pods-Prelo-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E65AB8D001E5117FD27438EE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5052,85 +5159,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5109185C9A5D3F8998FB6F75 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6DF94920945AC1BDFBA4C171 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-PreloTestsCoreData-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7B98E28E8EF524EFE6A786F7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PushNotif/Pods-PushNotif-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		900B975F5F0DE0C2662DEC90 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		91A3EE73008E5C21F51AB018 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BEE7D64C5446F92DDBAF2297 /* [CP] Check Pods Manifest.lock */ = {
+		F24D3DB6AFDD217A6656DC22 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -5146,36 +5175,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CBEAF00491978695560E8C6B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Prelo/Pods-Prelo-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FA44D623273E850C2270BA70 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-PreloTests/Pods-PreloTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -5793,14 +5792,14 @@
 		};
 		2115E6EB1B4A27E500509D2A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = AE5CC28BFED91455947B6011 /* Pods-Prelo.debug.xcconfig */;
+			baseConfigurationReference = 1B78ECF3350A04E4AB56F400 /* Pods-Prelo.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Djuned Fernando Djusdek (7RQVZ2XTXD)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Djuned Fernando Djusdek (7RQVZ2XTXD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Audi CF (B9MKF2525V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
@@ -5814,7 +5813,7 @@
 					"TARGET_OS_IOS=1",
 				);
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5830,9 +5829,10 @@
 					"-all_load",
 				);
 				"OTHER_SWIFT_FLAGS[sdk=iphonesimulator*]" = "-D IOS_SIMULATOR";
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.ios.Prelo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "678e0e84-f430-49b7-ad82-7aeccf4b258d";
-				PROVISIONING_PROFILE_SPECIFIER = PreloEbi_Development;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5841,13 +5841,14 @@
 		};
 		2115E6EC1B4A27E500509D2A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CE91E844B7B43C146249B8A1 /* Pods-Prelo.release.xcconfig */;
+			baseConfigurationReference = C6586D206D25D97B9CF1DF89 /* Pods-Prelo.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Djuned Fernando Djusdek (7RQVZ2XTXD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Audi CF (B9MKF2525V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
@@ -5858,7 +5859,7 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "TARGET_OS_IOS=1";
 				INFOPLIST_FILE = Prelo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -5873,9 +5874,10 @@
 					"-ObjC",
 					"-all_load",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.prelo.ios.Prelo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "2cdc1344-60c3-41bc-9cf0-40c4bf6c0a0b";
-				PROVISIONING_PROFILE_SPECIFIER = PreloEbi_Development;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Prelo-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -5884,7 +5886,7 @@
 		};
 		58095B491EE9272A0023F499 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A4503BC35DFEF3279494F1FD /* Pods-PreloTestsCoreData.debug.xcconfig */;
+			baseConfigurationReference = 5D12525E64A9604753519FB7 /* Pods-PreloTestsCoreData.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5907,7 +5909,7 @@
 		};
 		58095B4A1EE9272A0023F499 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BD5947A3039D5A8EBBAA351 /* Pods-PreloTestsCoreData.release.xcconfig */;
+			baseConfigurationReference = B3A6E45564DE9571643A489E /* Pods-PreloTestsCoreData.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -5928,7 +5930,7 @@
 		};
 		5881238A1EE65F5B005047AD /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = F946BEC6AA8790368764535D /* Pods-PreloUITests.debug.xcconfig */;
+			baseConfigurationReference = 53FAF8EE72A76070A320CF5F /* Pods-PreloUITests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -5954,7 +5956,7 @@
 		};
 		5881238B1EE65F5B005047AD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9863A899E403CE565F7B2EED /* Pods-PreloUITests.release.xcconfig */;
+			baseConfigurationReference = F50D77428B606A5CEB987094 /* Pods-PreloUITests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -5978,7 +5980,7 @@
 		};
 		58D5045E1EE79BEA00BC07C8 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8E51BEC8A5ACE04DB8F374F9 /* Pods-PreloTests.debug.xcconfig */;
+			baseConfigurationReference = C372CA09EE1CCF2DB1761CF5 /* Pods-PreloTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6001,7 +6003,7 @@
 		};
 		58D5045F1EE79BEA00BC07C8 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 684DB03F94432258470B6705 /* Pods-PreloTests.release.xcconfig */;
+			baseConfigurationReference = 4B7958AB55C58F0F3823A1CB /* Pods-PreloTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ANALYZER_NONNULL = YES;
@@ -6022,14 +6024,14 @@
 		};
 		B2B34BD41E37042D001B653F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 79AE36BAC9B11BCFC914A023 /* Pods-PushNotif.debug.xcconfig */;
+			baseConfigurationReference = 6E59527E3EB0C557018BC325 /* Pods-PushNotif.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Djuned Fernando Djusdek (7RQVZ2XTXD)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Djuned Fernando Djusdek (7RQVZ2XTXD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Audi CF (B9MKF2525V)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Audi CF (B9MKF2525V)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_TESTABILITY = YES;
@@ -6048,13 +6050,13 @@
 		};
 		B2B34BD51E37042D001B653F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A820D2B34474C0FEDB8DA57F /* Pods-PushNotif.release.xcconfig */;
+			baseConfigurationReference = F7DFAD1420F81E42AED310CE /* Pods-PushNotif.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Djuned Fernando Djusdek (7RQVZ2XTXD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Audi CF (B9MKF2525V)";
 				DEVELOPMENT_TEAM = A72B22UTXM;
 				INFOPLIST_FILE = PushNotif/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
