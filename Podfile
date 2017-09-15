@@ -7,6 +7,7 @@ target 'Prelo' do
 
   # Pods for Prelo
 	pod 'MXSegmentedPager'
+    pod 'JTAppleCalendar'
 
   target 'PreloTests' do
     inherit! :search_paths

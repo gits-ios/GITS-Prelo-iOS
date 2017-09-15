@@ -42,12 +42,12 @@
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
-                  timestampString = "527058628.249395"
+                  timestampString = "527154389.547363"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1132"
                   endingLineNumber = "1132"
-                  offsetFromSymbolStart = "68">
+                  offsetFromSymbolStart = "58">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -57,12 +57,12 @@
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/LoginViewController.swift"
-                  timestampString = "527058628.251393"
+                  timestampString = "527154389.550077"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1133"
                   endingLineNumber = "1133"
-                  offsetFromSymbolStart = "20">
+                  offsetFromSymbolStart = "15">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -80,22 +80,6 @@
             startingLineNumber = "112"
             endingLineNumber = "112"
             landmarkName = "termConditionPressed(_:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Prelo/Classes/Controller/LoginFransiskaViewController.swift"
-            timestampString = "526981016.610498"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "setupTabSwipe()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

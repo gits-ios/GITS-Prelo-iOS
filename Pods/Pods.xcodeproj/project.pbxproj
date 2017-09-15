@@ -7,52 +7,69 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		002F1DBB8EBEC4697E294B8388560534 /* MXScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 548143A5D6B6847ADAC26BDDBEC18A3D /* MXScrollViewController.m */; };
-		09FF02A67FD3FCD2242B2A0CB21890B9 /* MXScrollViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = CEBAC4575F49B467ECB74E8A3D814F41 /* MXScrollViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		18758A05AD1B995A7911EDFB89BA6555 /* MXParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EB541E3B1C39EB75D70D9BE4AD541E /* MXParallaxHeader.m */; };
-		1FC1D37BB3A4083571709FDEB8C7160D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
-		2325BB8ED8892303FE9BCF68448EC94C /* HMSegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = F30AB61F038BCF0E72F7DC8669CE35AE /* HMSegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		002F1DBB8EBEC4697E294B8388560534 /* MXScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6B072E63CE06E372BA9E8B6E0EA66C7B /* MXScrollViewController.m */; };
+		0383A13C6B7C59A3D8EA592B545DABA0 /* JTAppleCalendarDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BD6A9391C0C9B7F5E40CB7560E8C1FD /* JTAppleCalendarDelegateProtocol.swift */; };
+		09FF02A67FD3FCD2242B2A0CB21890B9 /* MXScrollViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = BCB8BA63F58F1DDE2A7D4F0DC273545C /* MXScrollViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		18758A05AD1B995A7911EDFB89BA6555 /* MXParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 90EC68BDB963EB2CD28ED713A0430996 /* MXParallaxHeader.m */; };
+		18904C96207EA9E40B4E71F855201AD8 /* JTAppleCalendarVariables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54B81A83AC58840058D0F5D01BD62ACB /* JTAppleCalendarVariables.swift */; };
+		1EA321561936A1EBE33685BCB0BDA407 /* Pods-Prelo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DE562A3D1AAFD450D451294F0477D9 /* Pods-Prelo-dummy.m */; };
+		21A3A4A6EF95F8704DC18E4E5F509D07 /* JTAppleCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846EA5C138AA07DD0D45B98B0A1CED69 /* JTAppleCollectionReusableView.swift */; };
+		2325BB8ED8892303FE9BCF68448EC94C /* HMSegmentedControl.h in Headers */ = {isa = PBXBuildFile; fileRef = 046BC7E7BCA19F45AC1AE3417665C239 /* HMSegmentedControl.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		24C5ECBD884823490C4167F40B3F5AEB /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F2F8650BFD47C1C8680BC2B6DA11D9A /* QuartzCore.framework */; };
-		2783A89B7A418C644E008383404B5CA0 /* HMSegmentedControl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 86B81ACD430DF1097361F1C4FD249FF9 /* HMSegmentedControl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		36CA4AEB0B15471DE03086346065B737 /* MXPagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3098A3A24A36E737B92B2C20283FFEA3 /* MXPagerView.m */; };
+		2783A89B7A418C644E008383404B5CA0 /* HMSegmentedControl-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 775AE0F632D7A8E679236A3217D97DC5 /* HMSegmentedControl-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2856845AB8FCE3B1D319091061F593EF /* UserInteractionFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AD10FAA741E75424BF9A29F9C001F0 /* UserInteractionFunctions.swift */; };
+		36CA4AEB0B15471DE03086346065B737 /* MXPagerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D6E871068F12EC3A5C6DEE4F0FD490EC /* MXPagerView.m */; };
+		37DA6BBB9D14C410F90F4028EF60BD09 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		42F0A3DBCAC670C336C5C988F6609D98 /* UICollectionViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524814791A6685463B221531BA4278F2 /* UICollectionViewDelegates.swift */; };
+		4F6DEE9AFEAB9D857C75619968848946 /* Pods-Prelo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9955EDFB5B2481CA39BF0C033ADFF8 /* Pods-Prelo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5359306A4F18062842016E7B7A0AFBBC /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		53D7D34D0142A101314ABFA663AC9D08 /* JTAppleCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC976C523C8B94B55A0B1ED935F14BF6 /* JTAppleCalendarView.swift */; };
 		5C7B4F7E0B9DDCE17746BECD120C203F /* Pods-PreloTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D1787D4D4C91534F06639A2A378A1342 /* Pods-PreloTests-dummy.m */; };
-		5EF36CE834DD7CA99CD5225415A2FF73 /* MXPagerView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 79BE856351FE3F58F86071605ECEEF57 /* MXPagerView-dummy.m */; };
+		5EF36CE834DD7CA99CD5225415A2FF73 /* MXPagerView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C334FE095C02C156E4CF7BEC5954F86 /* MXPagerView-dummy.m */; };
 		5FA2551F823E6261B889EC5D1D91BFBF /* Pods-PreloTestsCoreData-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 86BDAEDA4DDF7C1D424215C51B244CD4 /* Pods-PreloTestsCoreData-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		602C084DFA5300FDDAE2243F3EC3F459 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
 		62BF714A0562DFCA6C8933476E327AEB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
-		6618AD73EDAA2092437280F3081CD0DE /* MXPagerView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A0DC411879DA7AA8DD074977093769D5 /* MXPagerView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		6618AD73EDAA2092437280F3081CD0DE /* MXPagerView-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2AF27E26D65F3EB6D462BF86A7F333E9 /* MXPagerView-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		680A8901B6C66D2D6349F05521EC3189 /* Pods-PreloUITests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AB38B489009D3749127A768CC9B5FD66 /* Pods-PreloUITests-dummy.m */; };
+		6DE7D8CE614DBA55D744EDE81C632AD8 /* CalendarStructs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610B8CCB785C62AE5D63F133BE2035C0 /* CalendarStructs.swift */; };
+		6E8E4422AA0E96DCBB9D329BDFFB881A /* GlobalFunctionsAndExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3830A12EBD45AEB388F05DBCFF22A45C /* GlobalFunctionsAndExtensions.swift */; };
 		70D97D1F6920B85916DDD421F0FBD219 /* Pods-PreloTestsCoreData-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F85967FB52FBF7B24913446C21C862F /* Pods-PreloTestsCoreData-dummy.m */; };
-		731D0A294A013C3D95DAE18BD8BBC7AC /* HMSegmentedControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F28FBC24730148C57ED2BF7DD7BBF8AC /* HMSegmentedControl-dummy.m */; };
-		73343B73993A1538CFEABDD5EA7DA5DA /* MXSegmentedPagerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 3FA1534519BF110822661762ACA767CB /* MXSegmentedPagerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		731D0A294A013C3D95DAE18BD8BBC7AC /* HMSegmentedControl-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 032879FAFFEFDF9FEF6DDD0733D3206C /* HMSegmentedControl-dummy.m */; };
+		73343B73993A1538CFEABDD5EA7DA5DA /* MXSegmentedPagerController.h in Headers */ = {isa = PBXBuildFile; fileRef = 640D2846C96F8E0FF526A18B3DD1203B /* MXSegmentedPagerController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7677256385EF6CE6DA0728F340A8BE50 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
-		7913DD40CD445EA4EAD484D0D6E34009 /* MXSegmentedPager.h in Headers */ = {isa = PBXBuildFile; fileRef = AC73A588A5432E229F3BE216DB6DAA78 /* MXSegmentedPager.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		79DB2806DC12F9AD8B4BF210A6CB4108 /* MXSegmentedPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5F9DEB816DC97E3D0A053DC2796801A7 /* MXSegmentedPagerController.m */; };
+		7913DD40CD445EA4EAD484D0D6E34009 /* MXSegmentedPager.h in Headers */ = {isa = PBXBuildFile; fileRef = 028F2D22F7A9E692FD52B957F9A478E7 /* MXSegmentedPager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		79DB2806DC12F9AD8B4BF210A6CB4108 /* MXSegmentedPagerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 29BF9CBD336A076A85BBC69D083434F6 /* MXSegmentedPagerController.m */; };
+		7BE39092951B492E5954D8012747BFD0 /* JTAppleCalendarLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B4DBAF25B01B1C4F757843807FCA0E /* JTAppleCalendarLayout.swift */; };
+		87329FA016F0D57803855BCE3E90EC82 /* JTCalendarProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = F39EC12B08E5DC42A444F82963B0E8D7 /* JTCalendarProtocols.swift */; };
 		8A53530B82FC7728EC9F1961877B4611 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
 		8AF10EF1AD2853567D579A3344FB3B85 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
-		933741DB7C6CA9CA7BD096A0BD3AFA1A /* MXParallaxHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 9C7650ACDDD2CEB06BDB526253D4D049 /* MXParallaxHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		93EFD9DBF4CC4DAB6D73F2A1115860F9 /* MXParallaxHeader-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 73BD6A3D266DA16990A62CED0A721615 /* MXParallaxHeader-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		95E15733F2BCC3173EC5C55D3998B717 /* MXScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6F8649707F5003E37540AE242BABEEE /* MXScrollView.m */; };
+		933741DB7C6CA9CA7BD096A0BD3AFA1A /* MXParallaxHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 97230199D9D349A961F40DF3B1BB14C4 /* MXParallaxHeader.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		93EFD9DBF4CC4DAB6D73F2A1115860F9 /* MXParallaxHeader-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A1E545351AA547DD7AC0B6BFEC64F8B /* MXParallaxHeader-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		95E15733F2BCC3173EC5C55D3998B717 /* MXScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1682BA4E44B5D309C5581BF97E2DAD72 /* MXScrollView.m */; };
 		9ACDDA0BE6BFFA7419944F4D7F8010F2 /* Pods-PushNotif-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = F118C69DE3E2B7BC5952E56DFDE79948 /* Pods-PushNotif-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		9E7F57C17671C8C3309DFE2036CAB404 /* Pods-Prelo-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 07DE562A3D1AAFD450D451294F0477D9 /* Pods-Prelo-dummy.m */; };
 		A0998A0DCBBAB235CC982D4BE3EFEC51 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
-		A41E9A7918516DF0D9F35B2E4CF84D15 /* MXSegmentedPager-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B95614625D4E0A4374D1282ADD9CC69 /* MXSegmentedPager-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AD264987FB7B443C6FBBC3C7987020DB /* MXPagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B310F2B1662C05C5FCA1CFD5E4F0511 /* MXPagerViewController.m */; };
-		AF9CA1291C17E89DFAA8D169B95A974C /* MXSegmentedPager-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDCA3375C50686A38F9D58A62733FC /* MXSegmentedPager-dummy.m */; };
+		A41E9A7918516DF0D9F35B2E4CF84D15 /* MXSegmentedPager-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CCC94A68C4AD1FCAE1CB9BC8277685EB /* MXSegmentedPager-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD07BFC6787F19F9D7CADB48C114FDB7 /* JTAppleCalendar-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 230B8602B6CF9C3335F48D91A5A64008 /* JTAppleCalendar-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AD264987FB7B443C6FBBC3C7987020DB /* MXPagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 240256CA9BBBCAFA9768120BE1951FED /* MXPagerViewController.m */; };
+		AF9CA1291C17E89DFAA8D169B95A974C /* MXSegmentedPager-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AF960495BD98D1BAA0FCF081FE6984DC /* MXSegmentedPager-dummy.m */; };
 		B53ECC5D062D04268430EF7D8435080C /* Pods-PushNotif-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D0FBF475B0C2BE93C69B8204C35A161 /* Pods-PushNotif-dummy.m */; };
 		B644A92685E69300A7E2997B614B62C0 /* Pods-PreloUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2670F28F3E1279CA11C04C7060298B48 /* Pods-PreloUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B69CF6AD4E33207861187973C7834EF3 /* MXPagerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 07D9766E24D8BC974298C4EEB567FBA9 /* MXPagerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B7CB384BF88B421713036A70A9BCAEDD /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 481B475B1F448D879FCFCD4A253FCAA2 /* HMSegmentedControl.m */; };
-		CC7CBD54B3B3BD5148D8AB9FC71E7F62 /* MXPagerView.h in Headers */ = {isa = PBXBuildFile; fileRef = 4238FA39C75AE95AFD0F6916A927435A /* MXPagerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF7AEDC10DFA19EE70C372D30C6858D4 /* MXParallaxHeader-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 81008F7AD05535602B590A6DEFFC53CA /* MXParallaxHeader-dummy.m */; };
-		D548887A67B1F7521C848937F65C5A2B /* MXSegmentedPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 91DC04A5698C0495A908C639D5CEE547 /* MXSegmentedPager.m */; };
-		D6A2727BBC7F07DCDA6651630F0D72DA /* Pods-Prelo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9A9955EDFB5B2481CA39BF0C033ADFF8 /* Pods-Prelo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B69CF6AD4E33207861187973C7834EF3 /* MXPagerViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = E1385D43F2FDB3D8AC380E05DF971777 /* MXPagerViewController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B7CB384BF88B421713036A70A9BCAEDD /* HMSegmentedControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 267D418B3B8A2BF60FBA8AA88138F9F1 /* HMSegmentedControl.m */; };
+		B815F6A8C0E87E87871758E6EAD46D89 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
+		CC7CBD54B3B3BD5148D8AB9FC71E7F62 /* MXPagerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C5E3C38CCFABA352FB9FD2A32574A408 /* MXPagerView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CF7AEDC10DFA19EE70C372D30C6858D4 /* MXParallaxHeader-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 58B6B003BDCEF441B7DE2F9677912B00 /* MXParallaxHeader-dummy.m */; };
+		D548887A67B1F7521C848937F65C5A2B /* MXSegmentedPager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2042D3B51880D95A8D0A073E00179450 /* MXSegmentedPager.m */; };
+		E10E15A8A65DB167DE5046915870021A /* JTAppleCalendarLayoutProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2168A18E3B930D57772BF2618BF484EE /* JTAppleCalendarLayoutProtocol.swift */; };
+		E1CF59B57CC636FECACC39325231B177 /* CalendarEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 701823579EFDAE174014D037D5B7E588 /* CalendarEnums.swift */; };
+		E4E19B08166BF4E9E368134D68E9C7DE /* JTAppleCalendar-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 42E1B8496CD238F143D4CAA0047F4FB4 /* JTAppleCalendar-dummy.m */; };
 		E5DEE9C1CB9BFDDE5E20AF6F5EC0FF9E /* HMSegmentedControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3405E265A91A2A286CFC17B31885F5F8 /* HMSegmentedControl.framework */; };
 		E890A08A095515E8A4FB6E2E065ACBCA /* MXParallaxHeader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30A1A8708E18E9A9C8D9F9B92880CD92 /* MXParallaxHeader.framework */; };
+		F2BB49EF903A70B7B68565CCE233FB83 /* JTAppleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 540A0E872F4472F8E74E4FD6E77E732F /* JTAppleCell.swift */; };
 		F5BE869E786110BC54691842E8065062 /* MXPagerView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D0BDEF6B73A362D567F19EAD5031A7E /* MXPagerView.framework */; };
+		F963037A1450F74FAE911C248EED47CE /* UIScrollViewDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AF2BD767FFFC16CF3D73F3D4478B57 /* UIScrollViewDelegates.swift */; };
 		FBDBAF19862BA62740250978C70FC7A9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */; };
-		FC07C9DF7DFEE45A3906B0513717D0EC /* MXScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 93E026EACD077F2E3D0B70F5E823460B /* MXScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC07C9DF7DFEE45A3906B0513717D0EC /* MXScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7ACE9CD7BE4094E2727BE7D735EE1901 /* MXScrollView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FE27046BEFF090902ECA0078F210D73C /* Pods-PreloTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6D01999847EC684B8783C81C2B894EC0 /* Pods-PreloTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
@@ -71,35 +88,42 @@
 			remoteGlobalIDString = 28546100F97BDD9F1D3D863522625D5B;
 			remoteInfo = MXPagerView;
 		};
-		23597F802790C23798354CC56F1F44E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D41F2F37088EE2B724A283C89AC6B567;
-			remoteInfo = MXSegmentedPager;
-		};
-		4EC1DC2A42D80F9966FFE234ECD7D32A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7891E2B724C54EF58FB1692B34F1455C;
-			remoteInfo = HMSegmentedControl;
-		};
-		625CFEDBE5484F21411E0A026EBB120B /* PBXContainerItemProxy */ = {
+		35DAF3DC6A1083B8549E0D47F5D4036A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 28546100F97BDD9F1D3D863522625D5B;
 			remoteInfo = MXPagerView;
 		};
-		A85F080C4FEE0FB2E1F8D7A17C59BB73 /* PBXContainerItemProxy */ = {
+		6C7F6EF77C484B1E8A08582253F0E7EB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7891E2B724C54EF58FB1692B34F1455C;
+			remoteInfo = HMSegmentedControl;
+		};
+		BB9ED1C1007299E78C7609252E1894B0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BFED2E29E95E065400F8846E0231A970;
+			remoteInfo = JTAppleCalendar;
+		};
+		D27930397912EFC3BE43F4CEEAE02DD5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = E75E5BAC0FE6E4C6A5E5F95EA6807F8A;
 			remoteInfo = MXParallaxHeader;
 		};
-		D27930397912EFC3BE43F4CEEAE02DD5 /* PBXContainerItemProxy */ = {
+		D8762D6A76AA0D3177DDAA5AD0E7AD22 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D41F2F37088EE2B724A283C89AC6B567;
+			remoteInfo = MXSegmentedPager;
+		};
+		E7A890485CA61447905BA358A16E41F6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
@@ -109,118 +133,155 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0443870E764501102A0D96C7A9B8996A /* HMSegmentedControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HMSegmentedControl.framework; path = HMSegmentedControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		06B9B562261CBE1E1E594E5221E1566B /* MXParallaxHeader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXParallaxHeader.framework; path = MXParallaxHeader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		07D9766E24D8BC974298C4EEB567FBA9 /* MXPagerViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXPagerViewController.h; path = MXPagerView/MXPagerViewController.h; sourceTree = "<group>"; };
+		0028102041E4CC61AC77A231FD2557CE /* MXPagerView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXPagerView.modulemap; sourceTree = "<group>"; };
+		028F2D22F7A9E692FD52B957F9A478E7 /* MXSegmentedPager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXSegmentedPager.h; path = MXSegmentedPager/MXSegmentedPager.h; sourceTree = "<group>"; };
+		032879FAFFEFDF9FEF6DDD0733D3206C /* HMSegmentedControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HMSegmentedControl-dummy.m"; sourceTree = "<group>"; };
+		046BC7E7BCA19F45AC1AE3417665C239 /* HMSegmentedControl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HMSegmentedControl.h; path = HMSegmentedControl/HMSegmentedControl.h; sourceTree = "<group>"; };
 		07DE562A3D1AAFD450D451294F0477D9 /* Pods-Prelo-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Prelo-dummy.m"; sourceTree = "<group>"; };
-		099EC828CC4FD3E32007286FE8AE6F86 /* MXParallaxHeader.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXParallaxHeader.modulemap; sourceTree = "<group>"; };
 		0BB1C262C89F600563B68B04D627FBCC /* Pods-PreloTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTests.debug.xcconfig"; sourceTree = "<group>"; };
-		18596BECDB755BABE78A136CAF742610 /* MXPagerView.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXPagerView.modulemap; sourceTree = "<group>"; };
+		0F04DE0A197F5EF10B5DE54857C8BB13 /* MXPagerView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXPagerView.xcconfig; sourceTree = "<group>"; };
+		1682BA4E44B5D309C5581BF97E2DAD72 /* MXScrollView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXScrollView.m; path = MXParallaxHeader/MXScrollView.m; sourceTree = "<group>"; };
 		18AD23A82E28150F8354B2DBDB593C35 /* Pods-Prelo-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Prelo-resources.sh"; sourceTree = "<group>"; };
+		1BD6A9391C0C9B7F5E40CB7560E8C1FD /* JTAppleCalendarDelegateProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTAppleCalendarDelegateProtocol.swift; path = Sources/JTAppleCalendarDelegateProtocol.swift; sourceTree = "<group>"; };
+		2042D3B51880D95A8D0A073E00179450 /* MXSegmentedPager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXSegmentedPager.m; path = MXSegmentedPager/MXSegmentedPager.m; sourceTree = "<group>"; };
+		2168A18E3B930D57772BF2618BF484EE /* JTAppleCalendarLayoutProtocol.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTAppleCalendarLayoutProtocol.swift; path = Sources/JTAppleCalendarLayoutProtocol.swift; sourceTree = "<group>"; };
+		230B8602B6CF9C3335F48D91A5A64008 /* JTAppleCalendar-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JTAppleCalendar-umbrella.h"; sourceTree = "<group>"; };
+		240256CA9BBBCAFA9768120BE1951FED /* MXPagerViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXPagerViewController.m; path = MXPagerView/MXPagerViewController.m; sourceTree = "<group>"; };
 		2670F28F3E1279CA11C04C7060298B48 /* Pods-PreloUITests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PreloUITests-umbrella.h"; sourceTree = "<group>"; };
+		267D418B3B8A2BF60FBA8AA88138F9F1 /* HMSegmentedControl.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HMSegmentedControl.m; path = HMSegmentedControl/HMSegmentedControl.m; sourceTree = "<group>"; };
 		27A92130771F9FC67BD805B581A7FC5E /* Pods-PreloTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PreloTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		280DEF39CBC77B6D80C46A03CDEC3330 /* Pods-PreloTestsCoreData.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PreloTestsCoreData.modulemap"; sourceTree = "<group>"; };
 		2874CD75E3684F5069595468A76DA3E2 /* Pods-PreloTestsCoreData.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTestsCoreData.release.xcconfig"; sourceTree = "<group>"; };
-		2A0A57C30ABA5A2BEA0EBC9DDF9F0240 /* HMSegmentedControl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = HMSegmentedControl.modulemap; sourceTree = "<group>"; };
+		29BF9CBD336A076A85BBC69D083434F6 /* MXSegmentedPagerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXSegmentedPagerController.m; path = MXSegmentedPager/MXSegmentedPagerController.m; sourceTree = "<group>"; };
+		2AF27E26D65F3EB6D462BF86A7F333E9 /* MXPagerView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXPagerView-umbrella.h"; sourceTree = "<group>"; };
+		2C334FE095C02C156E4CF7BEC5954F86 /* MXPagerView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXPagerView-dummy.m"; sourceTree = "<group>"; };
 		2D0FBF475B0C2BE93C69B8204C35A161 /* Pods-PushNotif-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PushNotif-dummy.m"; sourceTree = "<group>"; };
+		2D856E3E4FC6E601A3BAD0E231EFEC62 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2F01E21D16B478248E26FC52A552D936 /* Pods-PreloUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloUITests-frameworks.sh"; sourceTree = "<group>"; };
-		3098A3A24A36E737B92B2C20283FFEA3 /* MXPagerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXPagerView.m; path = MXPagerView/MXPagerView.m; sourceTree = "<group>"; };
 		30A1A8708E18E9A9C8D9F9B92880CD92 /* MXParallaxHeader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MXParallaxHeader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3405E265A91A2A286CFC17B31885F5F8 /* HMSegmentedControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HMSegmentedControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		34C779ADFE3D32E873D66B5B77080016 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		376125C737F195779C02C4B23D1C9A4A /* Pods-Prelo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Prelo.debug.xcconfig"; sourceTree = "<group>"; };
-		38A1C67A0ACDEEA2B268C9D444926775 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3E810760D11F9A4CDEA097C7FA57D2D4 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3830A12EBD45AEB388F05DBCFF22A45C /* GlobalFunctionsAndExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = GlobalFunctionsAndExtensions.swift; path = Sources/GlobalFunctionsAndExtensions.swift; sourceTree = "<group>"; };
+		383A3F426BE1CFA43A1785D9C4AEB930 /* MXSegmentedPager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXSegmentedPager.xcconfig; sourceTree = "<group>"; };
+		39AC65660C96D8E769B7E8149B44440C /* JTAppleCalendar.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = JTAppleCalendar.framework; path = JTAppleCalendar.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3EFB1AA9FC69235E075FD19D81D80BA2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3F2F8650BFD47C1C8680BC2B6DA11D9A /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
-		3FA1534519BF110822661762ACA767CB /* MXSegmentedPagerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXSegmentedPagerController.h; path = MXSegmentedPager/MXSegmentedPagerController.h; sourceTree = "<group>"; };
-		414A8E34366115D3A6F41FF52D462CDA /* MXSegmentedPager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXSegmentedPager-prefix.pch"; sourceTree = "<group>"; };
-		4238FA39C75AE95AFD0F6916A927435A /* MXPagerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXPagerView.h; path = MXPagerView/MXPagerView.h; sourceTree = "<group>"; };
-		440A8525F22013C842EFB99F11F32E5A /* Pods_PreloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloTests.framework; path = "Pods-PreloTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		42E1B8496CD238F143D4CAA0047F4FB4 /* JTAppleCalendar-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "JTAppleCalendar-dummy.m"; sourceTree = "<group>"; };
+		45A07AB2064E3FDC0A4A20D7C62C2F53 /* HMSegmentedControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HMSegmentedControl.framework; path = HMSegmentedControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		468C56C1DC19C50FBA877C9F791FF20E /* Pods-PushNotif.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PushNotif.debug.xcconfig"; sourceTree = "<group>"; };
-		48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXPagerView.xcconfig; sourceTree = "<group>"; };
-		481B475B1F448D879FCFCD4A253FCAA2 /* HMSegmentedControl.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = HMSegmentedControl.m; path = HMSegmentedControl/HMSegmentedControl.m; sourceTree = "<group>"; };
 		50B36D405417DF397511B60C6AFE5423 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		548143A5D6B6847ADAC26BDDBEC18A3D /* MXScrollViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXScrollViewController.m; path = MXParallaxHeader/MXScrollViewController.m; sourceTree = "<group>"; };
+		524814791A6685463B221531BA4278F2 /* UICollectionViewDelegates.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UICollectionViewDelegates.swift; path = Sources/UICollectionViewDelegates.swift; sourceTree = "<group>"; };
+		540A0E872F4472F8E74E4FD6E77E732F /* JTAppleCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTAppleCell.swift; path = Sources/JTAppleCell.swift; sourceTree = "<group>"; };
+		54B81A83AC58840058D0F5D01BD62ACB /* JTAppleCalendarVariables.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTAppleCalendarVariables.swift; path = Sources/JTAppleCalendarVariables.swift; sourceTree = "<group>"; };
+		57AD10FAA741E75424BF9A29F9C001F0 /* UserInteractionFunctions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UserInteractionFunctions.swift; path = Sources/UserInteractionFunctions.swift; sourceTree = "<group>"; };
+		585200BED217A8AD116686EF978F9F7D /* JTAppleCalendar-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "JTAppleCalendar-prefix.pch"; sourceTree = "<group>"; };
+		58B6B003BDCEF441B7DE2F9677912B00 /* MXParallaxHeader-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXParallaxHeader-dummy.m"; sourceTree = "<group>"; };
 		593955076F4A87191223AF804D1C61BD /* Pods-PreloTestsCoreData-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PreloTestsCoreData-acknowledgements.plist"; sourceTree = "<group>"; };
-		5B310F2B1662C05C5FCA1CFD5E4F0511 /* MXPagerViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXPagerViewController.m; path = MXPagerView/MXPagerViewController.m; sourceTree = "<group>"; };
 		5B4F176719F264B3A35EE94AF056D5B9 /* Pods-PushNotif-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PushNotif-acknowledgements.plist"; sourceTree = "<group>"; };
-		5F9DEB816DC97E3D0A053DC2796801A7 /* MXSegmentedPagerController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXSegmentedPagerController.m; path = MXSegmentedPager/MXSegmentedPagerController.m; sourceTree = "<group>"; };
-		62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXParallaxHeader.xcconfig; sourceTree = "<group>"; };
+		610B8CCB785C62AE5D63F133BE2035C0 /* CalendarStructs.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CalendarStructs.swift; path = Sources/CalendarStructs.swift; sourceTree = "<group>"; };
+		630F9127982C53F98FF41364E5ABA8EC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		640D2846C96F8E0FF526A18B3DD1203B /* MXSegmentedPagerController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXSegmentedPagerController.h; path = MXSegmentedPager/MXSegmentedPagerController.h; sourceTree = "<group>"; };
 		64613037138C52A35002B28EFFD38764 /* Pods-PushNotif-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PushNotif-acknowledgements.markdown"; sourceTree = "<group>"; };
 		67EA2FE37AE8E951E621AC0FEDF2B46E /* Pods-PushNotif.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PushNotif.modulemap"; sourceTree = "<group>"; };
 		684FDF3D77A0B0223D5ED0F831B886CA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		68F35EE8C371353FBB925B1FDFC7C02A /* Pods-PreloUITests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PreloUITests.modulemap"; sourceTree = "<group>"; };
-		6933F2124D03450B9E76819EC9B8039F /* MXSegmentedPager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXSegmentedPager.framework; path = MXSegmentedPager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6B072E63CE06E372BA9E8B6E0EA66C7B /* MXScrollViewController.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXScrollViewController.m; path = MXParallaxHeader/MXScrollViewController.m; sourceTree = "<group>"; };
 		6D01999847EC684B8783C81C2B894EC0 /* Pods-PreloTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PreloTests-umbrella.h"; sourceTree = "<group>"; };
 		6F15BD6E1908A77D63438017F609AD55 /* Pods-PreloTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PreloTests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6F9E5DC7FD3B349F37882EBCC927D51E /* Pods-PreloTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-PreloTests.modulemap"; sourceTree = "<group>"; };
 		6FA4F322C2574F2C120A462867A6CF56 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS10.3.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		73BD6A3D266DA16990A62CED0A721615 /* MXParallaxHeader-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXParallaxHeader-umbrella.h"; sourceTree = "<group>"; };
+		701823579EFDAE174014D037D5B7E588 /* CalendarEnums.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CalendarEnums.swift; path = Sources/CalendarEnums.swift; sourceTree = "<group>"; };
+		724D1558C6720BBD608F7F4CD46B6173 /* Pods_Prelo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Prelo.framework; path = "Pods-Prelo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		774047BC72CB9487A5D6F14ACBD8CA51 /* HMSegmentedControl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HMSegmentedControl.xcconfig; sourceTree = "<group>"; };
+		775AE0F632D7A8E679236A3217D97DC5 /* HMSegmentedControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HMSegmentedControl-umbrella.h"; sourceTree = "<group>"; };
 		77F8B0894414BDE75BE445C37C274F5D /* Pods-PreloTestsCoreData.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTestsCoreData.debug.xcconfig"; sourceTree = "<group>"; };
-		79BE856351FE3F58F86071605ECEEF57 /* MXPagerView-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXPagerView-dummy.m"; sourceTree = "<group>"; };
-		7A87285DBCB64363F891C55E65919688 /* HMSegmentedControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HMSegmentedControl-prefix.pch"; sourceTree = "<group>"; };
 		7A8A679AF9A510F362D9EAEE12966B4E /* Pods-PreloTestsCoreData-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PreloTestsCoreData-acknowledgements.markdown"; sourceTree = "<group>"; };
-		7B95614625D4E0A4374D1282ADD9CC69 /* MXSegmentedPager-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXSegmentedPager-umbrella.h"; sourceTree = "<group>"; };
-		7C2D5EEEBBDF7CDBCAAC392D93F849AA /* MXParallaxHeader-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXParallaxHeader-prefix.pch"; sourceTree = "<group>"; };
+		7ACE9CD7BE4094E2727BE7D735EE1901 /* MXScrollView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXScrollView.h; path = MXParallaxHeader/MXScrollView.h; sourceTree = "<group>"; };
+		7C2EC215B77BCD2FFAF1AF38CB1EFBBE /* MXParallaxHeader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXParallaxHeader.framework; path = MXParallaxHeader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D0BDEF6B73A362D567F19EAD5031A7E /* MXPagerView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MXPagerView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F85967FB52FBF7B24913446C21C862F /* Pods-PreloTestsCoreData-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PreloTestsCoreData-dummy.m"; sourceTree = "<group>"; };
-		81008F7AD05535602B590A6DEFFC53CA /* MXParallaxHeader-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXParallaxHeader-dummy.m"; sourceTree = "<group>"; };
 		81702A0032E2670CADB04AED66EAF7BF /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8175DE7BF1F150B90F9231EB845CBCCB /* Pods-PreloUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-PreloUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		81EB541E3B1C39EB75D70D9BE4AD541E /* MXParallaxHeader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXParallaxHeader.m; path = MXParallaxHeader/MXParallaxHeader.m; sourceTree = "<group>"; };
+		846EA5C138AA07DD0D45B98B0A1CED69 /* JTAppleCollectionReusableView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTAppleCollectionReusableView.swift; path = Sources/JTAppleCollectionReusableView.swift; sourceTree = "<group>"; };
 		8636C60D2BC75E2698D4C280A94E0015 /* Pods-Prelo-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Prelo-acknowledgements.plist"; sourceTree = "<group>"; };
 		86462134785639EC307421F3DDE8AE43 /* Pods-PreloTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTests-frameworks.sh"; sourceTree = "<group>"; };
-		86B81ACD430DF1097361F1C4FD249FF9 /* HMSegmentedControl-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HMSegmentedControl-umbrella.h"; sourceTree = "<group>"; };
 		86BDAEDA4DDF7C1D424215C51B244CD4 /* Pods-PreloTestsCoreData-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PreloTestsCoreData-umbrella.h"; sourceTree = "<group>"; };
+		871B1EBD8ED1B00F76E6D6C8DD430FDF /* MXSegmentedPager-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXSegmentedPager-prefix.pch"; sourceTree = "<group>"; };
 		8786CF8E0C84ADE12DAABB719C26E131 /* Pods-PreloTestsCoreData-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTestsCoreData-resources.sh"; sourceTree = "<group>"; };
-		882710FAB85F468E9280FBA5A3312943 /* MXPagerView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXPagerView-prefix.pch"; sourceTree = "<group>"; };
+		888487BC226070D742A92976ECCDB696 /* MXSegmentedPager.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXSegmentedPager.framework; path = MXSegmentedPager.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		88F8F60ADA74C87F76F6CABB687E0532 /* JTAppleCalendar.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = JTAppleCalendar.modulemap; sourceTree = "<group>"; };
 		8B068BBCCC8C74643704A4CA1013887B /* Pods-PushNotif-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PushNotif-resources.sh"; sourceTree = "<group>"; };
 		8C9700D2E8FC4E4AB0478B0B7C5FA4C6 /* Pods-Prelo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Prelo.release.xcconfig"; sourceTree = "<group>"; };
-		8D47752B4AFE21AE15ED90531823C123 /* Pods_PreloTestsCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloTestsCoreData.framework; path = "Pods-PreloTestsCoreData.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		91DC04A5698C0495A908C639D5CEE547 /* MXSegmentedPager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXSegmentedPager.m; path = MXSegmentedPager/MXSegmentedPager.m; sourceTree = "<group>"; };
-		92CDAC3EAAC08EEB6C50E5FFB38717DA /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90EC68BDB963EB2CD28ED713A0430996 /* MXParallaxHeader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXParallaxHeader.m; path = MXParallaxHeader/MXParallaxHeader.m; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		93E026EACD077F2E3D0B70F5E823460B /* MXScrollView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXScrollView.h; path = MXParallaxHeader/MXScrollView.h; sourceTree = "<group>"; };
+		97230199D9D349A961F40DF3B1BB14C4 /* MXParallaxHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXParallaxHeader.h; path = MXParallaxHeader/MXParallaxHeader.h; sourceTree = "<group>"; };
+		9A1E545351AA547DD7AC0B6BFEC64F8B /* MXParallaxHeader-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXParallaxHeader-umbrella.h"; sourceTree = "<group>"; };
 		9A9955EDFB5B2481CA39BF0C033ADFF8 /* Pods-Prelo-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Prelo-umbrella.h"; sourceTree = "<group>"; };
-		9C7650ACDDD2CEB06BDB526253D4D049 /* MXParallaxHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXParallaxHeader.h; path = MXParallaxHeader/MXParallaxHeader.h; sourceTree = "<group>"; };
-		9DEDCA3375C50686A38F9D58A62733FC /* MXSegmentedPager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXSegmentedPager-dummy.m"; sourceTree = "<group>"; };
 		9F9869197B76BEFF837B05B400D5C95A /* Pods-PreloTestsCoreData-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTestsCoreData-frameworks.sh"; sourceTree = "<group>"; };
-		A0DC411879DA7AA8DD074977093769D5 /* MXPagerView-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXPagerView-umbrella.h"; sourceTree = "<group>"; };
-		A6BB85FE87F13419481784A5185DDCDD /* Pods_Prelo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Prelo.framework; path = "Pods-Prelo.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A285A0D141642D8872C6DD0AC5747FFB /* HMSegmentedControl-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HMSegmentedControl-prefix.pch"; sourceTree = "<group>"; };
 		A80627262A4051FC67B54A7CB56851A1 /* Pods-Prelo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Prelo-frameworks.sh"; sourceTree = "<group>"; };
 		AB38B489009D3749127A768CC9B5FD66 /* Pods-PreloUITests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PreloUITests-dummy.m"; sourceTree = "<group>"; };
-		AC73A588A5432E229F3BE216DB6DAA78 /* MXSegmentedPager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXSegmentedPager.h; path = MXSegmentedPager/MXSegmentedPager.h; sourceTree = "<group>"; };
-		ACF6FC223A3CD5DC608961AC55193BFA /* MXSegmentedPager.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXSegmentedPager.modulemap; sourceTree = "<group>"; };
+		AB73EEDF3DC51D5D0DC221460B633E3D /* MXPagerView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXPagerView.framework; path = MXPagerView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		ACDC7B29F9E87A8F8D29B8A93853E6C6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AF960495BD98D1BAA0FCF081FE6984DC /* MXSegmentedPager-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "MXSegmentedPager-dummy.m"; sourceTree = "<group>"; };
 		B43043D88FA776B5E232B31B8B85B793 /* Pods-PreloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BCB8BA63F58F1DDE2A7D4F0DC273545C /* MXScrollViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXScrollViewController.h; path = MXParallaxHeader/MXScrollViewController.h; sourceTree = "<group>"; };
 		BE5E0280B01DF2FDFA23C539557EF593 /* Pods-Prelo.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = "Pods-Prelo.modulemap"; sourceTree = "<group>"; };
 		C27327C5CDB28C458CFC30ABFE43BFFB /* Pods-PreloUITests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloUITests-resources.sh"; sourceTree = "<group>"; };
-		C6F8649707F5003E37540AE242BABEEE /* MXScrollView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXScrollView.m; path = MXParallaxHeader/MXScrollView.m; sourceTree = "<group>"; };
-		CEBAC4575F49B467ECB74E8A3D814F41 /* MXScrollViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXScrollViewController.h; path = MXParallaxHeader/MXScrollViewController.h; sourceTree = "<group>"; };
-		CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HMSegmentedControl.xcconfig; sourceTree = "<group>"; };
+		C52F04210CD126D1089E143D94675D7C /* MXSegmentedPager.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXSegmentedPager.modulemap; sourceTree = "<group>"; };
+		C5B4DBAF25B01B1C4F757843807FCA0E /* JTAppleCalendarLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTAppleCalendarLayout.swift; path = Sources/JTAppleCalendarLayout.swift; sourceTree = "<group>"; };
+		C5E3C38CCFABA352FB9FD2A32574A408 /* MXPagerView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXPagerView.h; path = MXPagerView/MXPagerView.h; sourceTree = "<group>"; };
+		CC61FAC135C3487697233F2B09748126 /* MXParallaxHeader-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXParallaxHeader-prefix.pch"; sourceTree = "<group>"; };
+		CC976C523C8B94B55A0B1ED935F14BF6 /* JTAppleCalendarView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTAppleCalendarView.swift; path = Sources/JTAppleCalendarView.swift; sourceTree = "<group>"; };
+		CCC94A68C4AD1FCAE1CB9BC8277685EB /* MXSegmentedPager-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXSegmentedPager-umbrella.h"; sourceTree = "<group>"; };
+		CFF58B0A09FBF057B746C40B4CDC81A6 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D04CF71F5E7028259234355E9D806CA4 /* Pods-PreloUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D1787D4D4C91534F06639A2A378A1342 /* Pods-PreloTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-PreloTests-dummy.m"; sourceTree = "<group>"; };
-		D5714B62317AD5B0EC744536FD445554 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D61B201E0E83BF09D76EACA2B5CF0DAD /* HMSegmentedControl.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = HMSegmentedControl.modulemap; sourceTree = "<group>"; };
+		D6E871068F12EC3A5C6DEE4F0FD490EC /* MXPagerView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = MXPagerView.m; path = MXPagerView/MXPagerView.m; sourceTree = "<group>"; };
+		D8978BD95919A94A29B5F17275702CB3 /* Pods_PreloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloUITests.framework; path = "Pods-PreloUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D8F20DB43D8309D1CEE256431DD80C1B /* Pods_PreloTestsCoreData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloTestsCoreData.framework; path = "Pods-PreloTestsCoreData.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC76A029D88E82A8D0296C5A234362BD /* Pods-PushNotif.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PushNotif.release.xcconfig"; sourceTree = "<group>"; };
-		E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXSegmentedPager.xcconfig; sourceTree = "<group>"; };
+		E02287FCC65DFDD65E3A753E6A43B478 /* MXParallaxHeader.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = MXParallaxHeader.xcconfig; sourceTree = "<group>"; };
+		E1385D43F2FDB3D8AC380E05DF971777 /* MXPagerViewController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MXPagerViewController.h; path = MXPagerView/MXPagerViewController.h; sourceTree = "<group>"; };
+		E258E7D1C13131F4ABEFC37E3027BF2E /* MXParallaxHeader.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; path = MXParallaxHeader.modulemap; sourceTree = "<group>"; };
+		E47F60B3628A88988110335EA30ECEDE /* Pods_PreloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloTests.framework; path = "Pods-PreloTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E57050725ED75C9F117FBD83C81C5113 /* Pods-PreloUITests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-PreloUITests-acknowledgements.plist"; sourceTree = "<group>"; };
-		E7CF28412A9F2A7B96523209C193AE56 /* MXPagerView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = MXPagerView.framework; path = MXPagerView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EEFACCDA86545E3FB938D9A082179516 /* Pods_PushNotif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PushNotif.framework; path = "Pods-PushNotif.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC8A642CEC4A60428FF0D0E99A0B988E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F118C69DE3E2B7BC5952E56DFDE79948 /* Pods-PushNotif-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-PushNotif-umbrella.h"; sourceTree = "<group>"; };
-		F28FBC24730148C57ED2BF7DD7BBF8AC /* HMSegmentedControl-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HMSegmentedControl-dummy.m"; sourceTree = "<group>"; };
-		F30AB61F038BCF0E72F7DC8669CE35AE /* HMSegmentedControl.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = HMSegmentedControl.h; path = HMSegmentedControl/HMSegmentedControl.h; sourceTree = "<group>"; };
-		F5E7CDC0F18179EE6ABD828BDC1F3B41 /* Pods_PreloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PreloUITests.framework; path = "Pods-PreloUITests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F39EC12B08E5DC42A444F82963B0E8D7 /* JTCalendarProtocols.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = JTCalendarProtocols.swift; path = Sources/JTCalendarProtocols.swift; sourceTree = "<group>"; };
+		F6377B5B5539DABCC96F51F7A8860EE3 /* Pods_PushNotif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_PushNotif.framework; path = "Pods-PushNotif.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F8AF2BD767FFFC16CF3D73F3D4478B57 /* UIScrollViewDelegates.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UIScrollViewDelegates.swift; path = Sources/UIScrollViewDelegates.swift; sourceTree = "<group>"; };
+		FDE15568B9A197A8A52CD84CEA97BFE9 /* MXPagerView-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "MXPagerView-prefix.pch"; sourceTree = "<group>"; };
+		FED7144596490A9F990ED42755F576CF /* JTAppleCalendar.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = JTAppleCalendar.xcconfig; sourceTree = "<group>"; };
 		FF1A13F58E5C3A4C63FA1647E17BC164 /* Pods-PreloTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-PreloTests-resources.sh"; sourceTree = "<group>"; };
 		FF56F43246C155B72529233B227D58B2 /* Pods-Prelo-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Prelo-acknowledgements.markdown"; sourceTree = "<group>"; };
 		FF61EB569103714F28BF348ECE320854 /* Pods-PreloTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-PreloTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		16AD9EB5EC5F41FA67F4CC2CCB35782D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37DA6BBB9D14C410F90F4028EF60BD09 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1B6F9C993D023D14521340E8E5BE435F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				62BF714A0562DFCA6C8933476E327AEB /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		456A38528F491C16A318D4091CF2E1F8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B815F6A8C0E87E87871758E6EAD46D89 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,14 +336,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		C9EBF163DB07E57D7DF3B8F2993EDDAC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1FC1D37BB3A4083571709FDEB8C7160D /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		E2B834EA7E1D35E47CB49A8EA5911A8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -313,20 +366,6 @@
 			path = "Target Support Files/Pods-PreloTests";
 			sourceTree = "<group>";
 		};
-		0D18BF2FD387D7A0ABA3605EE462D94A /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				92CDAC3EAAC08EEB6C50E5FFB38717DA /* Info.plist */,
-				099EC828CC4FD3E32007286FE8AE6F86 /* MXParallaxHeader.modulemap */,
-				62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */,
-				81008F7AD05535602B590A6DEFFC53CA /* MXParallaxHeader-dummy.m */,
-				7C2D5EEEBBDF7CDBCAAC392D93F849AA /* MXParallaxHeader-prefix.pch */,
-				73BD6A3D266DA16990A62CED0A721615 /* MXParallaxHeader-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/MXParallaxHeader";
-			sourceTree = "<group>";
-		};
 		0E3E502656EB4E3837FCF5447735BE94 /* iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,59 +375,84 @@
 			name = iOS;
 			sourceTree = "<group>";
 		};
-		3BAA5D59B338BCC2BAA8AE4164F2EE73 /* Support Files */ = {
+		3FE100BAF0DF4F51EE9F876BC8086DC7 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				38A1C67A0ACDEEA2B268C9D444926775 /* Info.plist */,
-				18596BECDB755BABE78A136CAF742610 /* MXPagerView.modulemap */,
-				48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */,
-				79BE856351FE3F58F86071605ECEEF57 /* MXPagerView-dummy.m */,
-				882710FAB85F468E9280FBA5A3312943 /* MXPagerView-prefix.pch */,
-				A0DC411879DA7AA8DD074977093769D5 /* MXPagerView-umbrella.h */,
+				ACDC7B29F9E87A8F8D29B8A93853E6C6 /* Info.plist */,
+				88F8F60ADA74C87F76F6CABB687E0532 /* JTAppleCalendar.modulemap */,
+				FED7144596490A9F990ED42755F576CF /* JTAppleCalendar.xcconfig */,
+				42E1B8496CD238F143D4CAA0047F4FB4 /* JTAppleCalendar-dummy.m */,
+				585200BED217A8AD116686EF978F9F7D /* JTAppleCalendar-prefix.pch */,
+				230B8602B6CF9C3335F48D91A5A64008 /* JTAppleCalendar-umbrella.h */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/MXPagerView";
+			path = "../Target Support Files/JTAppleCalendar";
 			sourceTree = "<group>";
 		};
-		505FD03A1F49B9D71E0A42D2E20064B1 /* MXSegmentedPager */ = {
+		411E3325D1FA3BE6AF7DF364B4B0FEE4 /* JTAppleCalendar */ = {
 			isa = PBXGroup;
 			children = (
-				AC73A588A5432E229F3BE216DB6DAA78 /* MXSegmentedPager.h */,
-				91DC04A5698C0495A908C639D5CEE547 /* MXSegmentedPager.m */,
-				3FA1534519BF110822661762ACA767CB /* MXSegmentedPagerController.h */,
-				5F9DEB816DC97E3D0A053DC2796801A7 /* MXSegmentedPagerController.m */,
-				62E4620D10F3E89B10760C3CDD6F1996 /* Support Files */,
+				701823579EFDAE174014D037D5B7E588 /* CalendarEnums.swift */,
+				610B8CCB785C62AE5D63F133BE2035C0 /* CalendarStructs.swift */,
+				3830A12EBD45AEB388F05DBCFF22A45C /* GlobalFunctionsAndExtensions.swift */,
+				1BD6A9391C0C9B7F5E40CB7560E8C1FD /* JTAppleCalendarDelegateProtocol.swift */,
+				C5B4DBAF25B01B1C4F757843807FCA0E /* JTAppleCalendarLayout.swift */,
+				2168A18E3B930D57772BF2618BF484EE /* JTAppleCalendarLayoutProtocol.swift */,
+				54B81A83AC58840058D0F5D01BD62ACB /* JTAppleCalendarVariables.swift */,
+				CC976C523C8B94B55A0B1ED935F14BF6 /* JTAppleCalendarView.swift */,
+				540A0E872F4472F8E74E4FD6E77E732F /* JTAppleCell.swift */,
+				846EA5C138AA07DD0D45B98B0A1CED69 /* JTAppleCollectionReusableView.swift */,
+				F39EC12B08E5DC42A444F82963B0E8D7 /* JTCalendarProtocols.swift */,
+				524814791A6685463B221531BA4278F2 /* UICollectionViewDelegates.swift */,
+				F8AF2BD767FFFC16CF3D73F3D4478B57 /* UIScrollViewDelegates.swift */,
+				57AD10FAA741E75424BF9A29F9C001F0 /* UserInteractionFunctions.swift */,
+				3FE100BAF0DF4F51EE9F876BC8086DC7 /* Support Files */,
 			);
-			name = MXSegmentedPager;
-			path = MXSegmentedPager;
+			name = JTAppleCalendar;
+			path = JTAppleCalendar;
 			sourceTree = "<group>";
 		};
-		5D03D6223BC8317463323D03B4446ADE /* Support Files */ = {
+		4D9F06938C9343807FDE9B451DF4A9FF /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				2A0A57C30ABA5A2BEA0EBC9DDF9F0240 /* HMSegmentedControl.modulemap */,
-				CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */,
-				F28FBC24730148C57ED2BF7DD7BBF8AC /* HMSegmentedControl-dummy.m */,
-				7A87285DBCB64363F891C55E65919688 /* HMSegmentedControl-prefix.pch */,
-				86B81ACD430DF1097361F1C4FD249FF9 /* HMSegmentedControl-umbrella.h */,
-				D5714B62317AD5B0EC744536FD445554 /* Info.plist */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/HMSegmentedControl";
-			sourceTree = "<group>";
-		};
-		62E4620D10F3E89B10760C3CDD6F1996 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				3E810760D11F9A4CDEA097C7FA57D2D4 /* Info.plist */,
-				ACF6FC223A3CD5DC608961AC55193BFA /* MXSegmentedPager.modulemap */,
-				E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */,
-				9DEDCA3375C50686A38F9D58A62733FC /* MXSegmentedPager-dummy.m */,
-				414A8E34366115D3A6F41FF52D462CDA /* MXSegmentedPager-prefix.pch */,
-				7B95614625D4E0A4374D1282ADD9CC69 /* MXSegmentedPager-umbrella.h */,
+				EC8A642CEC4A60428FF0D0E99A0B988E /* Info.plist */,
+				C52F04210CD126D1089E143D94675D7C /* MXSegmentedPager.modulemap */,
+				383A3F426BE1CFA43A1785D9C4AEB930 /* MXSegmentedPager.xcconfig */,
+				AF960495BD98D1BAA0FCF081FE6984DC /* MXSegmentedPager-dummy.m */,
+				871B1EBD8ED1B00F76E6D6C8DD430FDF /* MXSegmentedPager-prefix.pch */,
+				CCC94A68C4AD1FCAE1CB9BC8277685EB /* MXSegmentedPager-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/MXSegmentedPager";
+			sourceTree = "<group>";
+		};
+		596A35E39C46ECD3C71B073DEE5EA207 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E55F3DFB1D3A12ABAF50FC961B39D18F /* HMSegmentedControl */,
+				411E3325D1FA3BE6AF7DF364B4B0FEE4 /* JTAppleCalendar */,
+				7F61B9C389E091C0F1C147073E0BC3A9 /* MXPagerView */,
+				EDEFEDB63D7F3A0BA528599D4BB3D7D0 /* MXParallaxHeader */,
+				B295FC9EFC8D9EC8DC686DB14444EB8E /* MXSegmentedPager */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		673ADF6651C0D2359E63E9DF7E5B9B80 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				45A07AB2064E3FDC0A4A20D7C62C2F53 /* HMSegmentedControl.framework */,
+				39AC65660C96D8E769B7E8149B44440C /* JTAppleCalendar.framework */,
+				AB73EEDF3DC51D5D0DC221460B633E3D /* MXPagerView.framework */,
+				7C2EC215B77BCD2FFAF1AF38CB1EFBBE /* MXParallaxHeader.framework */,
+				888487BC226070D742A92976ECCDB696 /* MXSegmentedPager.framework */,
+				724D1558C6720BBD608F7F4CD46B6173 /* Pods_Prelo.framework */,
+				E47F60B3628A88988110335EA30ECEDE /* Pods_PreloTests.framework */,
+				D8F20DB43D8309D1CEE256431DD80C1B /* Pods_PreloTestsCoreData.framework */,
+				D8978BD95919A94A29B5F17275702CB3 /* Pods_PreloUITests.framework */,
+				F6377B5B5539DABCC96F51F7A8860EE3 /* Pods_PushNotif.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		6D9180F37B2376126F4D5365081AF49E /* Pods-PushNotif */ = {
@@ -408,47 +472,25 @@
 			path = "Target Support Files/Pods-PushNotif";
 			sourceTree = "<group>";
 		};
-		7825245867D43594B4B2D79C53519FAE /* HMSegmentedControl */ = {
-			isa = PBXGroup;
-			children = (
-				F30AB61F038BCF0E72F7DC8669CE35AE /* HMSegmentedControl.h */,
-				481B475B1F448D879FCFCD4A253FCAA2 /* HMSegmentedControl.m */,
-				5D03D6223BC8317463323D03B4446ADE /* Support Files */,
-			);
-			name = HMSegmentedControl;
-			path = HMSegmentedControl;
-			sourceTree = "<group>";
-		};
-		7D0077AA48672E8B1BD71E626625DC9D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				7825245867D43594B4B2D79C53519FAE /* HMSegmentedControl */,
-				8BAF7866EB34CA8AEF944A6080FB390C /* MXPagerView */,
-				C035BE0D982D19111F3B308E9CC122D5 /* MXParallaxHeader */,
-				505FD03A1F49B9D71E0A42D2E20064B1 /* MXSegmentedPager */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		7DB346D0F39D3F0E887471402A8071AB = {
 			isa = PBXGroup;
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				8D2EA23AEE56C501B80AA5DA1A6468D8 /* Frameworks */,
-				7D0077AA48672E8B1BD71E626625DC9D /* Pods */,
-				D26DD47082B8D6F61513ABC50968C187 /* Products */,
+				596A35E39C46ECD3C71B073DEE5EA207 /* Pods */,
+				673ADF6651C0D2359E63E9DF7E5B9B80 /* Products */,
 				FE567C2E44394F2EFC9DF5A2573C07D3 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
-		8BAF7866EB34CA8AEF944A6080FB390C /* MXPagerView */ = {
+		7F61B9C389E091C0F1C147073E0BC3A9 /* MXPagerView */ = {
 			isa = PBXGroup;
 			children = (
-				4238FA39C75AE95AFD0F6916A927435A /* MXPagerView.h */,
-				3098A3A24A36E737B92B2C20283FFEA3 /* MXPagerView.m */,
-				07D9766E24D8BC974298C4EEB567FBA9 /* MXPagerViewController.h */,
-				5B310F2B1662C05C5FCA1CFD5E4F0511 /* MXPagerViewController.m */,
-				3BAA5D59B338BCC2BAA8AE4164F2EE73 /* Support Files */,
+				C5E3C38CCFABA352FB9FD2A32574A408 /* MXPagerView.h */,
+				D6E871068F12EC3A5C6DEE4F0FD490EC /* MXPagerView.m */,
+				E1385D43F2FDB3D8AC380E05DF971777 /* MXPagerViewController.h */,
+				240256CA9BBBCAFA9768120BE1951FED /* MXPagerViewController.m */,
+				CF964B5290B598258CCDD3E60B5F4743 /* Support Files */,
 			);
 			name = MXPagerView;
 			path = MXPagerView;
@@ -463,6 +505,20 @@
 				0E3E502656EB4E3837FCF5447735BE94 /* iOS */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		98B9638C760CD8E55E27A95D94667552 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D61B201E0E83BF09D76EACA2B5CF0DAD /* HMSegmentedControl.modulemap */,
+				774047BC72CB9487A5D6F14ACBD8CA51 /* HMSegmentedControl.xcconfig */,
+				032879FAFFEFDF9FEF6DDD0733D3206C /* HMSegmentedControl-dummy.m */,
+				A285A0D141642D8872C6DD0AC5747FFB /* HMSegmentedControl-prefix.pch */,
+				775AE0F632D7A8E679236A3217D97DC5 /* HMSegmentedControl-umbrella.h */,
+				2D856E3E4FC6E601A3BAD0E231EFEC62 /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/HMSegmentedControl";
 			sourceTree = "<group>";
 		};
 		998D35B2E326B7CEE067E31198922B4A /* Pods-PreloUITests */ = {
@@ -501,35 +557,56 @@
 			path = "Target Support Files/Pods-Prelo";
 			sourceTree = "<group>";
 		};
-		C035BE0D982D19111F3B308E9CC122D5 /* MXParallaxHeader */ = {
+		B295FC9EFC8D9EC8DC686DB14444EB8E /* MXSegmentedPager */ = {
 			isa = PBXGroup;
 			children = (
-				9C7650ACDDD2CEB06BDB526253D4D049 /* MXParallaxHeader.h */,
-				81EB541E3B1C39EB75D70D9BE4AD541E /* MXParallaxHeader.m */,
-				93E026EACD077F2E3D0B70F5E823460B /* MXScrollView.h */,
-				C6F8649707F5003E37540AE242BABEEE /* MXScrollView.m */,
-				CEBAC4575F49B467ECB74E8A3D814F41 /* MXScrollViewController.h */,
-				548143A5D6B6847ADAC26BDDBEC18A3D /* MXScrollViewController.m */,
-				0D18BF2FD387D7A0ABA3605EE462D94A /* Support Files */,
+				028F2D22F7A9E692FD52B957F9A478E7 /* MXSegmentedPager.h */,
+				2042D3B51880D95A8D0A073E00179450 /* MXSegmentedPager.m */,
+				640D2846C96F8E0FF526A18B3DD1203B /* MXSegmentedPagerController.h */,
+				29BF9CBD336A076A85BBC69D083434F6 /* MXSegmentedPagerController.m */,
+				4D9F06938C9343807FDE9B451DF4A9FF /* Support Files */,
 			);
-			name = MXParallaxHeader;
-			path = MXParallaxHeader;
+			name = MXSegmentedPager;
+			path = MXSegmentedPager;
 			sourceTree = "<group>";
 		};
-		D26DD47082B8D6F61513ABC50968C187 /* Products */ = {
+		BF93ADBBF2F69CCAB3A3C0EF01A4201C /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				0443870E764501102A0D96C7A9B8996A /* HMSegmentedControl.framework */,
-				E7CF28412A9F2A7B96523209C193AE56 /* MXPagerView.framework */,
-				06B9B562261CBE1E1E594E5221E1566B /* MXParallaxHeader.framework */,
-				6933F2124D03450B9E76819EC9B8039F /* MXSegmentedPager.framework */,
-				A6BB85FE87F13419481784A5185DDCDD /* Pods_Prelo.framework */,
-				440A8525F22013C842EFB99F11F32E5A /* Pods_PreloTests.framework */,
-				8D47752B4AFE21AE15ED90531823C123 /* Pods_PreloTestsCoreData.framework */,
-				F5E7CDC0F18179EE6ABD828BDC1F3B41 /* Pods_PreloUITests.framework */,
-				EEFACCDA86545E3FB938D9A082179516 /* Pods_PushNotif.framework */,
+				630F9127982C53F98FF41364E5ABA8EC /* Info.plist */,
+				E258E7D1C13131F4ABEFC37E3027BF2E /* MXParallaxHeader.modulemap */,
+				E02287FCC65DFDD65E3A753E6A43B478 /* MXParallaxHeader.xcconfig */,
+				58B6B003BDCEF441B7DE2F9677912B00 /* MXParallaxHeader-dummy.m */,
+				CC61FAC135C3487697233F2B09748126 /* MXParallaxHeader-prefix.pch */,
+				9A1E545351AA547DD7AC0B6BFEC64F8B /* MXParallaxHeader-umbrella.h */,
 			);
-			name = Products;
+			name = "Support Files";
+			path = "../Target Support Files/MXParallaxHeader";
+			sourceTree = "<group>";
+		};
+		CF964B5290B598258CCDD3E60B5F4743 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				CFF58B0A09FBF057B746C40B4CDC81A6 /* Info.plist */,
+				0028102041E4CC61AC77A231FD2557CE /* MXPagerView.modulemap */,
+				0F04DE0A197F5EF10B5DE54857C8BB13 /* MXPagerView.xcconfig */,
+				2C334FE095C02C156E4CF7BEC5954F86 /* MXPagerView-dummy.m */,
+				FDE15568B9A197A8A52CD84CEA97BFE9 /* MXPagerView-prefix.pch */,
+				2AF27E26D65F3EB6D462BF86A7F333E9 /* MXPagerView-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/MXPagerView";
+			sourceTree = "<group>";
+		};
+		E55F3DFB1D3A12ABAF50FC961B39D18F /* HMSegmentedControl */ = {
+			isa = PBXGroup;
+			children = (
+				046BC7E7BCA19F45AC1AE3417665C239 /* HMSegmentedControl.h */,
+				267D418B3B8A2BF60FBA8AA88138F9F1 /* HMSegmentedControl.m */,
+				98B9638C760CD8E55E27A95D94667552 /* Support Files */,
+			);
+			name = HMSegmentedControl;
+			path = HMSegmentedControl;
 			sourceTree = "<group>";
 		};
 		E5A29FAD0CE06B6051DADD09372EE693 /* Pods-PreloTestsCoreData */ = {
@@ -548,6 +625,21 @@
 			);
 			name = "Pods-PreloTestsCoreData";
 			path = "Target Support Files/Pods-PreloTestsCoreData";
+			sourceTree = "<group>";
+		};
+		EDEFEDB63D7F3A0BA528599D4BB3D7D0 /* MXParallaxHeader */ = {
+			isa = PBXGroup;
+			children = (
+				97230199D9D349A961F40DF3B1BB14C4 /* MXParallaxHeader.h */,
+				90EC68BDB963EB2CD28ED713A0430996 /* MXParallaxHeader.m */,
+				7ACE9CD7BE4094E2727BE7D735EE1901 /* MXScrollView.h */,
+				1682BA4E44B5D309C5581BF97E2DAD72 /* MXScrollView.m */,
+				BCB8BA63F58F1DDE2A7D4F0DC273545C /* MXScrollViewController.h */,
+				6B072E63CE06E372BA9E8B6E0EA66C7B /* MXScrollViewController.m */,
+				BF93ADBBF2F69CCAB3A3C0EF01A4201C /* Support Files */,
+			);
+			name = MXParallaxHeader;
+			path = MXParallaxHeader;
 			sourceTree = "<group>";
 		};
 		FE567C2E44394F2EFC9DF5A2573C07D3 /* Targets Support Files */ = {
@@ -600,14 +692,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		734BED72980A2C46935A2A5D326AFF7C /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D6A2727BBC7F07DCDA6651630F0D72DA /* Pods-Prelo-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7E8DF35BA96A7C6BA3F2E86E514D8441 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -645,6 +729,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E42DA9148182A46B5FFB1D7341C7BBC1 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F6DEE9AFEAB9D857C75619968848946 /* Pods-Prelo-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EB3B104AA552AE0C55DA5E3D426A375A /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AD07BFC6787F19F9D7CADB48C114FDB7 /* JTAppleCalendar-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -662,28 +762,7 @@
 			);
 			name = MXPagerView;
 			productName = MXPagerView;
-			productReference = E7CF28412A9F2A7B96523209C193AE56 /* MXPagerView.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		2FB34B5794EB367F3F1E3D1CAA05C3D6 /* Pods-Prelo */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 44E3CD7DA9C185FE4E68646BE3A934B2 /* Build configuration list for PBXNativeTarget "Pods-Prelo" */;
-			buildPhases = (
-				8048957F7841011C5A5E983EBE442C9E /* Sources */,
-				C9EBF163DB07E57D7DF3B8F2993EDDAC /* Frameworks */,
-				734BED72980A2C46935A2A5D326AFF7C /* Headers */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				725C7CDE9BA94198EC99C3B0F107AAA1 /* PBXTargetDependency */,
-				B9BB049956669B836AECF2D0E69AEA20 /* PBXTargetDependency */,
-				2E63FF4F9BADA33421E553A48D0550E5 /* PBXTargetDependency */,
-				A2EF4716DC4B4EFA3A1D35F91BB0D796 /* PBXTargetDependency */,
-			);
-			name = "Pods-Prelo";
-			productName = "Pods-Prelo";
-			productReference = A6BB85FE87F13419481784A5185DDCDD /* Pods_Prelo.framework */;
+			productReference = AB73EEDF3DC51D5D0DC221460B633E3D /* MXPagerView.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */ = {
@@ -700,7 +779,7 @@
 			);
 			name = HMSegmentedControl;
 			productName = HMSegmentedControl;
-			productReference = 0443870E764501102A0D96C7A9B8996A /* HMSegmentedControl.framework */;
+			productReference = 45A07AB2064E3FDC0A4A20D7C62C2F53 /* HMSegmentedControl.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		84C30E6664F431D0D6BBA4F47CE26815 /* Pods-PushNotif */ = {
@@ -717,7 +796,46 @@
 			);
 			name = "Pods-PushNotif";
 			productName = "Pods-PushNotif";
-			productReference = EEFACCDA86545E3FB938D9A082179516 /* Pods_PushNotif.framework */;
+			productReference = F6377B5B5539DABCC96F51F7A8860EE3 /* Pods_PushNotif.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		9CC33E0C97BC9FDCABF0BDA11C4AA358 /* Pods-Prelo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA3E3D87316B73095234E24BA2D856D9 /* Build configuration list for PBXNativeTarget "Pods-Prelo" */;
+			buildPhases = (
+				B988097738ACEBE4AF89D4C365F458D6 /* Sources */,
+				16AD9EB5EC5F41FA67F4CC2CCB35782D /* Frameworks */,
+				E42DA9148182A46B5FFB1D7341C7BBC1 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A1A65BC03E63ECA36F8AE465EE6A4B7E /* PBXTargetDependency */,
+				7DD2E6A2FD363B603B577F53A12FFACF /* PBXTargetDependency */,
+				9BFF12501FD21999D377761BD3E49BCF /* PBXTargetDependency */,
+				8826874AB5C6541ACDDBA34C829F092C /* PBXTargetDependency */,
+				3CA597D7030FA16D2255568894D011E9 /* PBXTargetDependency */,
+			);
+			name = "Pods-Prelo";
+			productName = "Pods-Prelo";
+			productReference = 724D1558C6720BBD608F7F4CD46B6173 /* Pods_Prelo.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BFED2E29E95E065400F8846E0231A970 /* JTAppleCalendar */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 851CF7150444685C470082788BA7AD96 /* Build configuration list for PBXNativeTarget "JTAppleCalendar" */;
+			buildPhases = (
+				5D5AC0418099BE9EFEA67AA7EF8A9423 /* Sources */,
+				456A38528F491C16A318D4091CF2E1F8 /* Frameworks */,
+				EB3B104AA552AE0C55DA5E3D426A375A /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = JTAppleCalendar;
+			productName = JTAppleCalendar;
+			productReference = 39AC65660C96D8E769B7E8149B44440C /* JTAppleCalendar.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D23A54958A47B229A262E67F927EA046 /* Pods-PreloUITests */ = {
@@ -734,7 +852,7 @@
 			);
 			name = "Pods-PreloUITests";
 			productName = "Pods-PreloUITests";
-			productReference = F5E7CDC0F18179EE6ABD828BDC1F3B41 /* Pods_PreloUITests.framework */;
+			productReference = D8978BD95919A94A29B5F17275702CB3 /* Pods_PreloUITests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		D41F2F37088EE2B724A283C89AC6B567 /* MXSegmentedPager */ = {
@@ -754,7 +872,7 @@
 			);
 			name = MXSegmentedPager;
 			productName = MXSegmentedPager;
-			productReference = 6933F2124D03450B9E76819EC9B8039F /* MXSegmentedPager.framework */;
+			productReference = 888487BC226070D742A92976ECCDB696 /* MXSegmentedPager.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */ = {
@@ -771,7 +889,7 @@
 			);
 			name = MXParallaxHeader;
 			productName = MXParallaxHeader;
-			productReference = 06B9B562261CBE1E1E594E5221E1566B /* MXParallaxHeader.framework */;
+			productReference = 7C2EC215B77BCD2FFAF1AF38CB1EFBBE /* MXParallaxHeader.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		EEC744D038383594692D06DAC3BD3337 /* Pods-PreloTestsCoreData */ = {
@@ -788,7 +906,7 @@
 			);
 			name = "Pods-PreloTestsCoreData";
 			productName = "Pods-PreloTestsCoreData";
-			productReference = 8D47752B4AFE21AE15ED90531823C123 /* Pods_PreloTestsCoreData.framework */;
+			productReference = D8F20DB43D8309D1CEE256431DD80C1B /* Pods_PreloTestsCoreData.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		FD82FBEEE74C2B0A8A2018A035F04F1D /* Pods-PreloTests */ = {
@@ -805,7 +923,7 @@
 			);
 			name = "Pods-PreloTests";
 			productName = "Pods-PreloTests";
-			productReference = 440A8525F22013C842EFB99F11F32E5A /* Pods_PreloTests.framework */;
+			productReference = E47F60B3628A88988110335EA30ECEDE /* Pods_PreloTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -825,15 +943,16 @@
 				en,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = D26DD47082B8D6F61513ABC50968C187 /* Products */;
+			productRefGroup = 673ADF6651C0D2359E63E9DF7E5B9B80 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */,
+				BFED2E29E95E065400F8846E0231A970 /* JTAppleCalendar */,
 				28546100F97BDD9F1D3D863522625D5B /* MXPagerView */,
 				E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */,
 				D41F2F37088EE2B724A283C89AC6B567 /* MXSegmentedPager */,
-				2FB34B5794EB367F3F1E3D1CAA05C3D6 /* Pods-Prelo */,
+				9CC33E0C97BC9FDCABF0BDA11C4AA358 /* Pods-Prelo */,
 				FD82FBEEE74C2B0A8A2018A035F04F1D /* Pods-PreloTests */,
 				EEC744D038383594692D06DAC3BD3337 /* Pods-PreloTestsCoreData */,
 				D23A54958A47B229A262E67F927EA046 /* Pods-PreloUITests */,
@@ -851,6 +970,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5D5AC0418099BE9EFEA67AA7EF8A9423 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1CF59B57CC636FECACC39325231B177 /* CalendarEnums.swift in Sources */,
+				6DE7D8CE614DBA55D744EDE81C632AD8 /* CalendarStructs.swift in Sources */,
+				6E8E4422AA0E96DCBB9D329BDFFB881A /* GlobalFunctionsAndExtensions.swift in Sources */,
+				E4E19B08166BF4E9E368134D68E9C7DE /* JTAppleCalendar-dummy.m in Sources */,
+				0383A13C6B7C59A3D8EA592B545DABA0 /* JTAppleCalendarDelegateProtocol.swift in Sources */,
+				7BE39092951B492E5954D8012747BFD0 /* JTAppleCalendarLayout.swift in Sources */,
+				E10E15A8A65DB167DE5046915870021A /* JTAppleCalendarLayoutProtocol.swift in Sources */,
+				18904C96207EA9E40B4E71F855201AD8 /* JTAppleCalendarVariables.swift in Sources */,
+				53D7D34D0142A101314ABFA663AC9D08 /* JTAppleCalendarView.swift in Sources */,
+				F2BB49EF903A70B7B68565CCE233FB83 /* JTAppleCell.swift in Sources */,
+				21A3A4A6EF95F8704DC18E4E5F509D07 /* JTAppleCollectionReusableView.swift in Sources */,
+				87329FA016F0D57803855BCE3E90EC82 /* JTCalendarProtocols.swift in Sources */,
+				42F0A3DBCAC670C336C5C988F6609D98 /* UICollectionViewDelegates.swift in Sources */,
+				F963037A1450F74FAE911C248EED47CE /* UIScrollViewDelegates.swift in Sources */,
+				2856845AB8FCE3B1D319091061F593EF /* UserInteractionFunctions.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6437D24C2533B3E32ED29A329C14AE84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -858,14 +999,6 @@
 				5EF36CE834DD7CA99CD5225415A2FF73 /* MXPagerView-dummy.m in Sources */,
 				36CA4AEB0B15471DE03086346065B737 /* MXPagerView.m in Sources */,
 				AD264987FB7B443C6FBBC3C7987020DB /* MXPagerViewController.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8048957F7841011C5A5E983EBE442C9E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				9E7F57C17671C8C3309DFE2036CAB404 /* Pods-Prelo-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -885,6 +1018,14 @@
 				AF9CA1291C17E89DFAA8D169B95A974C /* MXSegmentedPager-dummy.m in Sources */,
 				D548887A67B1F7521C848937F65C5A2B /* MXSegmentedPager.m in Sources */,
 				79DB2806DC12F9AD8B4BF210A6CB4108 /* MXSegmentedPagerController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B988097738ACEBE4AF89D4C365F458D6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1EA321561936A1EBE33685BCB0BDA407 /* Pods-Prelo-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -932,11 +1073,11 @@
 			target = 7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */;
 			targetProxy = 0C3B5551E28734A841C598CBCEA91298 /* PBXContainerItemProxy */;
 		};
-		2E63FF4F9BADA33421E553A48D0550E5 /* PBXTargetDependency */ = {
+		3CA597D7030FA16D2255568894D011E9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = MXParallaxHeader;
-			target = E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */;
-			targetProxy = A85F080C4FEE0FB2E1F8D7A17C59BB73 /* PBXContainerItemProxy */;
+			name = MXSegmentedPager;
+			target = D41F2F37088EE2B724A283C89AC6B567 /* MXSegmentedPager */;
+			targetProxy = D8762D6A76AA0D3177DDAA5AD0E7AD22 /* PBXContainerItemProxy */;
 		};
 		53065000DD6834607332B2FD5A46B99B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -944,11 +1085,23 @@
 			target = 28546100F97BDD9F1D3D863522625D5B /* MXPagerView */;
 			targetProxy = 10DDAF57722435CC6D7B35BE08C2DDAD /* PBXContainerItemProxy */;
 		};
-		725C7CDE9BA94198EC99C3B0F107AAA1 /* PBXTargetDependency */ = {
+		7DD2E6A2FD363B603B577F53A12FFACF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = HMSegmentedControl;
-			target = 7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */;
-			targetProxy = 4EC1DC2A42D80F9966FFE234ECD7D32A /* PBXContainerItemProxy */;
+			name = JTAppleCalendar;
+			target = BFED2E29E95E065400F8846E0231A970 /* JTAppleCalendar */;
+			targetProxy = BB9ED1C1007299E78C7609252E1894B0 /* PBXContainerItemProxy */;
+		};
+		8826874AB5C6541ACDDBA34C829F092C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MXParallaxHeader;
+			target = E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */;
+			targetProxy = E7A890485CA61447905BA358A16E41F6 /* PBXContainerItemProxy */;
+		};
+		9BFF12501FD21999D377761BD3E49BCF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MXPagerView;
+			target = 28546100F97BDD9F1D3D863522625D5B /* MXPagerView */;
+			targetProxy = 35DAF3DC6A1083B8549E0D47F5D4036A /* PBXContainerItemProxy */;
 		};
 		9D3112C4DC818E0D67D4735F06613632 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -956,56 +1109,53 @@
 			target = E75E5BAC0FE6E4C6A5E5F95EA6807F8A /* MXParallaxHeader */;
 			targetProxy = D27930397912EFC3BE43F4CEEAE02DD5 /* PBXContainerItemProxy */;
 		};
-		A2EF4716DC4B4EFA3A1D35F91BB0D796 /* PBXTargetDependency */ = {
+		A1A65BC03E63ECA36F8AE465EE6A4B7E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = MXSegmentedPager;
-			target = D41F2F37088EE2B724A283C89AC6B567 /* MXSegmentedPager */;
-			targetProxy = 23597F802790C23798354CC56F1F44E0 /* PBXContainerItemProxy */;
-		};
-		B9BB049956669B836AECF2D0E69AEA20 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = MXPagerView;
-			target = 28546100F97BDD9F1D3D863522625D5B /* MXPagerView */;
-			targetProxy = 625CFEDBE5484F21411E0A026EBB120B /* PBXContainerItemProxy */;
+			name = HMSegmentedControl;
+			target = 7891E2B724C54EF58FB1692B34F1455C /* HMSegmentedControl */;
+			targetProxy = 6C7F6EF77C484B1E8A08582253F0E7EB /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		145FE0BD2CA07A2FA9DDC0F0EDC10054 /* Release */ = {
+		212F7AB61EFF5EC9D10062035627B656 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2874CD75E3684F5069595468A76DA3E2 /* Pods-PreloTestsCoreData.release.xcconfig */;
+			baseConfigurationReference = 376125C737F195779C02C4B23D1C9A4A /* Pods-Prelo.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-PreloTestsCoreData/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Prelo/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
+				MODULEMAP_FILE = "Target Support Files/Pods-Prelo/Pods-Prelo.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_PreloTestsCoreData;
+				PRODUCT_NAME = Pods_Prelo;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Release;
+			name = Debug;
 		};
 		25BF14B53227E09DC11141664D85C6E6 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1043,9 +1193,81 @@
 			};
 			name = Release;
 		};
+		2B97D5B29E0C0B6CE43D6FCE91F59FDF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2874CD75E3684F5069595468A76DA3E2 /* Pods-PreloTestsCoreData.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloTestsCoreData/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloTestsCoreData;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		31517E044CAF175AD675B34292505436 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77F8B0894414BDE75BE445C37C274F5D /* Pods-PreloTestsCoreData.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloTestsCoreData/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloTestsCoreData;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		35212B3460369DADE52AD8025FC680A0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */;
+			baseConfigurationReference = 383A3F426BE1CFA43A1785D9C4AEB930 /* MXSegmentedPager.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1077,9 +1299,45 @@
 			};
 			name = Debug;
 		};
+		36597ABE76E4835BD43CBAF7841E3C51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = D04CF71F5E7028259234355E9D806CA4 /* Pods-PreloUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloUITests/Pods-PreloUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		39D163835A2E52266E613758CE400E07 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E142E71BF499F33E16E01E7978072DB3 /* MXSegmentedPager.xcconfig */;
+			baseConfigurationReference = 383A3F426BE1CFA43A1785D9C4AEB930 /* MXSegmentedPager.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1113,7 +1371,7 @@
 		};
 		4E584A20BFB6F04C6D8E57B13F507DED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */;
+			baseConfigurationReference = 0F04DE0A197F5EF10B5DE54857C8BB13 /* MXPagerView.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1145,45 +1403,9 @@
 			};
 			name = Debug;
 		};
-		67C041BE18649B588C5C6EE2A95EA029 /* Release */ = {
+		76B34214CA2B28DFEB7AE5C00BC4419A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B43043D88FA776B5E232B31B8B85B793 /* Pods-PreloUITests.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-PreloUITests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-PreloUITests/Pods-PreloUITests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_PreloUITests;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		74292C59B1F331CC734056ECAAD36D37 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 77F8B0894414BDE75BE445C37C274F5D /* Pods-PreloTestsCoreData.debug.xcconfig */;
+			baseConfigurationReference = FED7144596490A9F990ED42755F576CF /* JTAppleCalendar.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1197,20 +1419,19 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-PreloTestsCoreData/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/JTAppleCalendar/JTAppleCalendar-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/JTAppleCalendar/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-PreloTestsCoreData/Pods-PreloTestsCoreData.modulemap";
+				MODULEMAP_FILE = "Target Support Files/JTAppleCalendar/JTAppleCalendar.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_PreloTestsCoreData;
+				PRODUCT_NAME = JTAppleCalendar;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -1219,7 +1440,7 @@
 		};
 		8CFBFD526D1E037C3BBD16E72D7183DD /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 48190FC249D2E0BAB3F65EBDD8F5A6A4 /* MXPagerView.xcconfig */;
+			baseConfigurationReference = 0F04DE0A197F5EF10B5DE54857C8BB13 /* MXPagerView.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1251,7 +1472,7 @@
 			};
 			name = Release;
 		};
-		970CBA92A64EF098AD27F3DCCCF63BB9 /* Release */ = {
+		8ECFD2FDBF0957AE9C86B4E73337811B /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8C9700D2E8FC4E4AB0478B0B7C5FA4C6 /* Pods-Prelo.release.xcconfig */;
 			buildSettings = {
@@ -1269,7 +1490,7 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Target Support Files/Pods-Prelo/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-Prelo/Pods-Prelo.modulemap";
@@ -1281,13 +1502,50 @@
 				PRODUCT_NAME = Pods_Prelo;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		97803B46811A9BDB5E70FA1303AFBFFE /* Debug */ = {
+		900E2CC733D18C689F7F927E967A1667 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = FED7144596490A9F990ED42755F576CF /* JTAppleCalendar.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREFIX_HEADER = "Target Support Files/JTAppleCalendar/JTAppleCalendar-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/JTAppleCalendar/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MODULEMAP_FILE = "Target Support Files/JTAppleCalendar/JTAppleCalendar.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = JTAppleCalendar;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		9BFC9E4A7AAD7A607ACE06D95A401A5A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1327,7 +1585,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -1336,81 +1594,9 @@
 			};
 			name = Debug;
 		};
-		9D548EC952D158DCE86B4E954F3006FB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = D04CF71F5E7028259234355E9D806CA4 /* Pods-PreloUITests.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-PreloUITests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-PreloUITests/Pods-PreloUITests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_PreloUITests;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		A0E73F6374E7474B895F86AB60B51C4D /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF61EB569103714F28BF348ECE320854 /* Pods-PreloTests.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-PreloTests/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-PreloTests/Pods-PreloTests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_PreloTests;
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		AA4C5E3157A1AB52B0E17BB51D1237B5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */;
+			baseConfigurationReference = 774047BC72CB9487A5D6F14ACBD8CA51 /* HMSegmentedControl.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1444,7 +1630,7 @@
 		};
 		BD17D75752113CA16429DABB93F0D3ED /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CFF4335737D0A9A362394C9D6EA1AA1C /* HMSegmentedControl.xcconfig */;
+			baseConfigurationReference = 774047BC72CB9487A5D6F14ACBD8CA51 /* HMSegmentedControl.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1476,7 +1662,7 @@
 			};
 			name = Debug;
 		};
-		BDD0139D6EB93FA375F887ABD62DAB2E /* Release */ = {
+		C03B8870130C98D1B02B59D003687524 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1512,7 +1698,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				PROVISIONING_PROFILE_SPECIFIER = NO_SIGNING/;
 				STRIP_INSTALLED_PRODUCT = NO;
 				SYMROOT = "${SRCROOT}/../build";
@@ -1556,16 +1742,16 @@
 			};
 			name = Debug;
 		};
-		CAB9CC7A34E555A4184C8CB8FE810887 /* Debug */ = {
+		C53DADF07680D5A9C77F2279191B036E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0BB1C262C89F600563B68B04D627FBCC /* Pods-PreloTests.debug.xcconfig */;
+			baseConfigurationReference = FF61EB569103714F28BF348ECE320854 /* Pods-PreloTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1574,11 +1760,11 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "Target Support Files/Pods-PreloTests/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MODULEMAP_FILE = "Target Support Files/Pods-PreloTests/Pods-PreloTests.modulemap";
-				MTL_ENABLE_DEBUG_INFO = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1590,11 +1776,47 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
+		};
+		D1248E17F2FDD1370B3C1EC3ADB59E60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B43043D88FA776B5E232B31B8B85B793 /* Pods-PreloUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloUITests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloUITests/Pods-PreloUITests.modulemap";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = Pods_PreloUITests;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
 		};
 		D2CECE8AFAB730A050AF15AEA270E4A3 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */;
+			baseConfigurationReference = E02287FCC65DFDD65E3A753E6A43B478 /* MXParallaxHeader.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1626,9 +1848,9 @@
 			};
 			name = Release;
 		};
-		F3C2FBF8B1C395C784A05612BD8292E0 /* Debug */ = {
+		FD66F2E8469471FB6BA70FD0B5C29C51 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 376125C737F195779C02C4B23D1C9A4A /* Pods-Prelo.debug.xcconfig */;
+			baseConfigurationReference = 0BB1C262C89F600563B68B04D627FBCC /* Pods-PreloTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1642,18 +1864,18 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "Target Support Files/Pods-Prelo/Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-PreloTests/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
-				MODULEMAP_FILE = "Target Support Files/Pods-Prelo/Pods-Prelo.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-PreloTests/Pods-PreloTests.modulemap";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = Pods_Prelo;
+				PRODUCT_NAME = Pods_PreloTests;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1664,7 +1886,7 @@
 		};
 		FE893276A4280A7D567F3B09EC85E8F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 62D8F6DAAEB005D5879515B3AC8DF7A1 /* MXParallaxHeader.xcconfig */;
+			baseConfigurationReference = E02287FCC65DFDD65E3A753E6A43B478 /* MXParallaxHeader.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1720,17 +1942,8 @@
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				97803B46811A9BDB5E70FA1303AFBFFE /* Debug */,
-				BDD0139D6EB93FA375F887ABD62DAB2E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		44E3CD7DA9C185FE4E68646BE3A934B2 /* Build configuration list for PBXNativeTarget "Pods-Prelo" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				F3C2FBF8B1C395C784A05612BD8292E0 /* Debug */,
-				970CBA92A64EF098AD27F3DCCCF63BB9 /* Release */,
+				9BFC9E4A7AAD7A607ACE06D95A401A5A /* Debug */,
+				C03B8870130C98D1B02B59D003687524 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1740,6 +1953,15 @@
 			buildConfigurations = (
 				C2F02E25BA8B5BE18BCC74C750699A41 /* Debug */,
 				25BF14B53227E09DC11141664D85C6E6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		851CF7150444685C470082788BA7AD96 /* Build configuration list for PBXNativeTarget "JTAppleCalendar" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				76B34214CA2B28DFEB7AE5C00BC4419A /* Debug */,
+				900E2CC733D18C689F7F927E967A1667 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1756,8 +1978,8 @@
 		A0C370D38C8C92DAEABCCA259D649A3D /* Build configuration list for PBXNativeTarget "Pods-PreloTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CAB9CC7A34E555A4184C8CB8FE810887 /* Debug */,
-				A0E73F6374E7474B895F86AB60B51C4D /* Release */,
+				FD66F2E8469471FB6BA70FD0B5C29C51 /* Debug */,
+				C53DADF07680D5A9C77F2279191B036E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1765,8 +1987,8 @@
 		C388D8DFAA06E0707C53545C2AA7F600 /* Build configuration list for PBXNativeTarget "Pods-PreloUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				9D548EC952D158DCE86B4E954F3006FB /* Debug */,
-				67C041BE18649B588C5C6EE2A95EA029 /* Release */,
+				36597ABE76E4835BD43CBAF7841E3C51 /* Debug */,
+				D1248E17F2FDD1370B3C1EC3ADB59E60 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1783,8 +2005,17 @@
 		DA2EBA8A5ACFC1406E3F93AC72509D19 /* Build configuration list for PBXNativeTarget "Pods-PreloTestsCoreData" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				74292C59B1F331CC734056ECAAD36D37 /* Debug */,
-				145FE0BD2CA07A2FA9DDC0F0EDC10054 /* Release */,
+				31517E044CAF175AD675B34292505436 /* Debug */,
+				2B97D5B29E0C0B6CE43D6FCE91F59FDF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DA3E3D87316B73095234E24BA2D856D9 /* Build configuration list for PBXNativeTarget "Pods-Prelo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				212F7AB61EFF5EC9D10062035627B656 /* Debug */,
+				8ECFD2FDBF0957AE9C86B4E73337811B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
