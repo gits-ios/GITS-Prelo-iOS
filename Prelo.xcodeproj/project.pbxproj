@@ -633,6 +633,8 @@
 		A90D84A41F6920770085ABAD /* BarangTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90D84A31F6920770085ABAD /* BarangTableViewCell.xib */; };
 		A90D84A61F6929F90085ABAD /* SegmentBarangViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D84A51F6929F90085ABAD /* SegmentBarangViewController.swift */; };
 		A992FA721F67E49F007EBF12 /* Sewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A992FA711F67E49F007EBF12 /* Sewa.storyboard */; };
+		A9B2813B1F6BBEA900D0759F /* HeaderTanggalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */; };
+		A9B281521F6BBF3300D0759F /* HeaderTanggalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */; };
 		A9E327F71F68DB3C009382F5 /* TanggalSewaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */; };
 		A9E369EB1F6AED4B00DF69F1 /* TanggalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */; };
 		A9E369ED1F6AED7700DF69F1 /* TanggalViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */; };
@@ -1874,6 +1876,8 @@
 		A90D84A31F6920770085ABAD /* BarangTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BarangTableViewCell.xib; sourceTree = "<group>"; };
 		A90D84A51F6929F90085ABAD /* SegmentBarangViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentBarangViewController.swift; sourceTree = "<group>"; };
 		A992FA711F67E49F007EBF12 /* Sewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sewa.storyboard; sourceTree = "<group>"; };
+		A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTanggalView.xib; sourceTree = "<group>"; };
+		A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTanggalView.swift; sourceTree = "<group>"; };
 		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalSewaViewController.swift; sourceTree = "<group>"; };
 		A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalViewCell.swift; sourceTree = "<group>"; };
 		A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TanggalViewCell.xib; sourceTree = "<group>"; };
@@ -3774,6 +3778,8 @@
 			children = (
 				A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */,
 				A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */,
+				A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */,
+				A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */,
 			);
 			path = TanggalSewa;
 			sourceTree = "<group>";
@@ -4793,6 +4799,7 @@
 				B2BE47871F60F20A008252D3 /* Rekening_Utama_32px.png in Resources */,
 				B2E176101F0C992900E9A45A /* bg_book.png in Resources */,
 				B2998E961F358D7800D404AF /* AddProduct3PostalFeeCell.xib in Resources */,
+				A9B2813B1F6BBEA900D0759F /* HeaderTanggalView.xib in Resources */,
 				585887421DBEDAC3006EC6D5 /* MyProductProcessing.xib in Resources */,
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
 				B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */,
@@ -5551,6 +5558,7 @@
 				585887931DBF3309006EC6D5 /* MyProductCompletedViewController.swift in Sources */,
 				B2207FC11ED67C2F00BCE613 /* DKAssetGroupListVC.swift in Sources */,
 				58A99A391C6D864E00E3E7D7 /* BranchLinkProperties.m in Sources */,
+				A9B281521F6BBF3300D0759F /* HeaderTanggalView.swift in Sources */,
 				216345071CC3A855005CBA37 /* MKSnackbar.swift in Sources */,
 				21679A361B901C5300F18F90 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				5847E15A1DBD9C2800C1B2BA /* CartProduct.swift in Sources */,

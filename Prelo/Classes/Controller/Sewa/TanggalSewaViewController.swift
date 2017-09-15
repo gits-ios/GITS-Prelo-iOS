@@ -13,16 +13,12 @@ class TanggalSewaViewController: UIViewController {
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     var iii: Date?
     let formatter = DateFormatter()
+    var testCalendar = Calendar.current
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.calendarView.minimumLineSpacing = 0
-        self.calendarView.minimumInteritemSpacing = 0
-        self.calendarView.sectionInset.top = 0
-        self.calendarView.sectionInset.left = 0
-        self.calendarView.sectionInset.right = 0
-        self.calendarView.sectionInset.bottom = 0
+        self.setupCalendar()
         self.calendarView.visibleDates {[unowned self] (visibleDates: DateSegmentInfo) in
             self.setupViewsOfCalendar(from: visibleDates)
         }
@@ -35,6 +31,18 @@ class TanggalSewaViewController: UIViewController {
     
     @IBAction func lanjutClickAction(_ sender: Any) {
         self.performSegue(withIdentifier: "performSegueBarangSaya", sender: self)
+    }
+    
+    func setupCalendar() {
+        self.calendarView.minimumLineSpacing = 0
+        self.calendarView.minimumInteritemSpacing = 0
+        self.calendarView.sectionInset.top = 0
+        self.calendarView.sectionInset.left = 0
+        self.calendarView.sectionInset.right = 0
+        self.calendarView.sectionInset.bottom = 0
+        calendarView.register(UINib(nibName: "HeaderTanggalView", bundle: Bundle.main),
+                              forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
+                              withReuseIdentifier: "HeaderTanggalView")
     }
     
     func setupViewsOfCalendar(from visibleDates: DateSegmentInfo) {
@@ -51,9 +59,14 @@ class TanggalSewaViewController: UIViewController {
     func configureCell(view: JTAppleCell?, cellState: CellState) {
         guard let myCustomCell = view as? TanggalViewCell  else { return }
         
-        myCustomCell.selectedView.layer.cornerRadius = 13
-        myCustomCell.selectedView.setCornerRadius(13)
+        myCustomCell.selectedView.layer.cornerRadius = myCustomCell.frame.height / 2
         myCustomCell.selectedView.layer.masksToBounds = true  // optional
+        
+        if myCustomCell.isSelected {
+                    myCustomCell.selectedView.isHidden = false
+        } else {
+                    myCustomCell.selectedView.isHidden = true
+        }
     }
 
 }
@@ -104,5 +117,30 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
     
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         configureCell(view: cell, cellState: cellState)
+    }
+    
+    // This sets the height of your header
+    func calendar(_ calendar: JTAppleCalendarView, sectionHeaderSizeFor range: (start: Date, end: Date), belongingTo month: Int) -> CGSize {
+        return CGSize(width: 200, height: 50)
+    }
+    // This setups the display of your header
+    func calendar(_ calendar: JTAppleCalendarView, willDisplaySectionHeader header: JTAppleCollectionReusableView, range: (start: Date, end: Date), identifier: String) {
+        let headerCell = (header as? HeaderTanggalView)
+        headerCell?.headerLabel.text = "Hello Header"
+    }
+    
+    func calendar(_ calendar: JTAppleCalendarView, headerViewForDateRange range: (start: Date, end: Date), at indexPath: IndexPath) -> JTAppleCollectionReusableView {
+        let date = range.start
+        let month = testCalendar.component(.month, from: date)
+        
+        let header: JTAppleCollectionReusableView
+        if month % 2 > 0 {
+            header = calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "HeaderTanggalView", for: indexPath)
+            (header as! HeaderTanggalView).headerLabel.text = "HEADER"
+        } else {
+            header = calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "HeaderTanggalView", for: indexPath)
+            (header as! HeaderTanggalView).headerLabel.text = "HEADER"
+        }
+        return header
     }
 }
