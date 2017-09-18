@@ -16,7 +16,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x1s-CQ-dVc" customClass="HeaderTanggal">
-                    <rect key="frame" x="20" y="8" width="42" height="21"/>
+                    <rect key="frame" x="16" y="32.5" width="42" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
@@ -24,12 +24,11 @@
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="x1s-CQ-dVc" firstAttribute="top" secondItem="zph-d0-axX" secondAttribute="top" constant="8" id="7Hn-nM-vcS"/>
-                <constraint firstItem="x1s-CQ-dVc" firstAttribute="leading" secondItem="zph-d0-axX" secondAttribute="leading" constant="20" id="Yds-bN-7vJ"/>
+                <constraint firstItem="x1s-CQ-dVc" firstAttribute="centerY" secondItem="zph-d0-axX" secondAttribute="centerY" id="V59-qd-uOe"/>
+                <constraint firstItem="x1s-CQ-dVc" firstAttribute="leading" secondItem="zph-d0-axX" secondAttribute="leading" constant="16" id="Yds-bN-7vJ"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
-                <outlet property="calendarHeaderLabel" destination="x1s-CQ-dVc" id="bw6-yB-FRa"/>
                 <outlet property="headerLabel" destination="x1s-CQ-dVc" id="4ZD-Li-jax"/>
             </connections>
             <point key="canvasLocation" x="-25.5" y="-412"/>
