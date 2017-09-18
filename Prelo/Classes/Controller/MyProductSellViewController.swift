@@ -10,7 +10,7 @@ import UIKit
 import Alamofire
 
 class MyProductSellViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
-
+    
     @IBOutlet weak var loading: UIActivityIndicatorView!
     @IBOutlet weak var lblEmpty: UILabel!
     @IBOutlet weak var btnRefresh: UIButton!
@@ -39,7 +39,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.lblEmpty.isHidden = true
         self.tableView.isHidden = true
@@ -55,8 +55,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         self.getProducts()
         
         // Register custom cell
-        let transactionListCellNib = UINib(nibName: "TransactionListCell", bundle: nil)
-        tableView.register(transactionListCellNib, forCellReuseIdentifier: "TransactionListCell")
+        let ItemListCellNib = UINib(nibName: "ItemListCell", bundle: nil)
+        tableView.register(ItemListCellNib, forCellReuseIdentifier: "ItemListCell")
         
         // Hide bottom refresh first
         bottomLoading.stopAnimating()
@@ -81,17 +81,17 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         super.viewWillAppear(animated)
         
         // Mixpanel
-//        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
+        //        Mixpanel.trackPageVisit(PageName.MyProducts, otherParam: ["Tab" : "Active"])
         
         // Google Analytics
         GAI.trackPageVisit(PageName.MyProducts)
         
-//        if (!first)
-//        {
-//            self.refresh(0 as AnyObject, isSearchMode: false)
-//        }
+        //        if (!first)
+        //        {
+        //            self.refresh(0 as AnyObject, isSearchMode: false)
+        //        }
         
-//        first = false
+        //        first = false
         
         if (self.delegate?.getFromDraftOrNew())!
         {
@@ -115,10 +115,10 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         refresh(0 as AnyObject, isSearchMode: false)
         //        Constant.showDialog("Upload Barang Berhasil", message: "Proses review barang akan memakan waktu maksimal 2 hari kerja. Mohon tunggu :)")
         
-//        //print(notif.object)
+        //        //print(notif.object)
         let o = notif.object as! [Any]
         
-//        let metaJson = JSON((notif.object ?? [:]))
+        //        let metaJson = JSON((notif.object ?? [:]))
         let metaJson = JSON(o[0])
         let metadata = metaJson["_data"]
         //print(metadata)
@@ -146,14 +146,14 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             "Facebook" : metadata["share_status"]["shared"]["FACEBOOK"].int!,
             "Twitter" : metadata["share_status"]["shared"]["TWITTER"].int!,
             "Instagram" : metadata["share_status"]["shared"]["INSTAGRAM"].int!
-        ] as [String : Any]
+            ] as [String : Any]
         
         let images = metadata["display_picts"].array!
         
         // imgae
         var imagesOke : [Bool] = []
         for i in 0...images.count - 1 {
-//            //print(images[i].description)
+            //            //print(images[i].description)
             if images[i].description != "null" {
                 imagesOke.append(true)
             } else {
@@ -300,7 +300,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     @IBAction func refreshPressed(_ sender: AnyObject) {
         self.refresh(sender, isSearchMode : false)
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -319,7 +319,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell : TransactionListCell = self.tableView.dequeueReusableCell(withIdentifier: "TransactionListCell") as! TransactionListCell
+        let cell : ItemListCell = self.tableView.dequeueReusableCell(withIdentifier: "ItemListCell") as! ItemListCell
         if (!refreshControl.isRefreshing) {
             if (indexPath as NSIndexPath).section == 0 {
                 let idx = (indexPath as NSIndexPath).row
@@ -329,8 +329,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.backgroundColor = UIColor.white
                 
                 cell.lblProductName.text = p.name
-                cell.lblPrice.text = p.price.int.asPrice
-                cell.lblOrderTime.text = ""
+                if p.price.int != 0 {
+                    cell.lblPrice.text = p.price.int.asPrice
+                }
+                
+                if p.priceRent.int != 0 {
+                    cell.lblRentPrice.text = p.priceRent.int.asPrice
+                }
                 
                 cell.imgProduct.image = nil
                 
@@ -338,15 +343,15 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     var image : UIImage?
                     
                     /*
-                    if let data = NSData(contentsOfFile: p.imagePath1){
-                        if let imageUrl = UIImage(data: data as Data) {
-                            let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as! Int)!).resizeWithWidth(120)
-                            image = img
-                        }
-                    } else { // placeholder image
-                        image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
-                    }
-                    */
+                     if let data = NSData(contentsOfFile: p.imagePath1){
+                     if let imageUrl = UIImage(data: data as Data) {
+                     let img = UIImage(cgImage: imageUrl.cgImage!, scale: 1, orientation: UIImageOrientation(rawValue: p.imageOrientation1 as! Int)!).resizeWithWidth(120)
+                     image = img
+                     }
+                     } else { // placeholder image
+                     image = UIImage(named: "placeholder-standar-white")?.resizeWithWidth(120)
+                     }
+                     */
                     
                     // v2
                     let jsonstring = "{\"_data\":" + p.imagesPathAndLabel + "}"
@@ -372,14 +377,6 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 cell.imgProduct.afInflate()
                 
-                cell.lblOrderStatus.text = "DRAFT"
-                cell.lblOrderStatus.textColor = UIColor.blue
-                
-                // Fix product status text width
-                let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
-                ////print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
-                cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
-                
                 // Socmed share status
                 cell.vwShareStatus.isHidden = false
                 
@@ -392,7 +389,8 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price
-                cell.lblOrderTime.text = p.time
+                
+                
                 
                 if (p.isFreeOngkir) {
                     cell.imgFreeOngkir.isHidden = false
@@ -414,24 +412,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 }
                 
                 let status : String = (p.json["status_text"] != nil) ? p.json["status_text"].string! : "-"
-                cell.lblOrderStatus.text = status.uppercased()
-                if (p.isLokal)
-                {
-                    cell.lblOrderStatus.text = "UPLOADING"
-                }
-                
-                if (status.lowercased() == "aktif") {
-                    cell.lblOrderStatus.textColor = Theme.PrimaryColor
-                } else if (status.lowercased() == "direview admin") {
-                    cell.lblOrderStatus.textColor = Theme.ThemeOrange
-                } else {
-                    cell.lblOrderStatus.textColor = UIColor.red
-                }
-                
-                // Fix product status text width
-                let sizeThatShouldFitTheContent = cell.lblOrderStatus.sizeThatFits(cell.lblOrderStatus.frame.size)
                 ////print("size untuk '\(cell.lblOrderStatus.text)' = \(sizeThatShouldFitTheContent)")
-                cell.consWidthLblOrderStatus.constant = sizeThatShouldFitTheContent.width
                 
                 // Socmed share status
                 cell.vwShareStatus.isHidden = false
@@ -451,26 +432,26 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
         return cell
         
         /* If using MyProductCell
-        let m = tableView.dequeueReusableCellWithIdentifier("cell") as! MyProductCell
-        let p = products[indexPath.row]
-        m.captionName.text = p.name
-        m.captionPrice.text = p.price
-        m.captionTotalComment.text = p.discussionCountText
-        m.captionTotalLove.text = p.loveCountText
-        m.captionDate.text = p.time
-        
-        if let isActive = p.json["is_active"].bool
-        {
-            m.captionStatus.text = isActive ? "AKTIF" : "TIDAK AKTIF"
-        }
-        
-        m.ivCover.image = nil
-        if let url = p.coverImageURL
-        {
-            m.ivCover.afSetImage(withURL: url)
-        }
-        
-        return m*/
+         let m = tableView.dequeueReusableCellWithIdentifier("cell") as! MyProductCell
+         let p = products[indexPath.row]
+         m.captionName.text = p.name
+         m.captionPrice.text = p.price
+         m.captionTotalComment.text = p.discussionCountText
+         m.captionTotalLove.text = p.loveCountText
+         m.captionDate.text = p.time
+         
+         if let isActive = p.json["is_active"].bool
+         {
+         m.captionStatus.text = isActive ? "AKTIF" : "TIDAK AKTIF"
+         }
+         
+         m.ivCover.image = nil
+         if let url = p.coverImageURL
+         {
+         m.ivCover.afSetImage(withURL: url)
+         }
+         
+         return m*/
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -485,12 +466,12 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             self.delegate?.setFromDraftOrNew(true)
             
             /*
-            let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
-            add.screenBeforeAddProduct = PageName.MyProducts
-            add.draftMode = true
-            add.draftProduct = localProducts[(indexPath as NSIndexPath).row]
-            self.navigationController?.pushViewController(add, animated: true)
-            */
+             let add = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdAddProduct2) as! AddProductViewController2
+             add.screenBeforeAddProduct = PageName.MyProducts
+             add.draftMode = true
+             add.draftProduct = localProducts[(indexPath as NSIndexPath).row]
+             self.navigationController?.pushViewController(add, animated: true)
+             */
             
             let addProduct3VC = Bundle.main.loadNibNamed(Tags.XibNameAddProduct3, owner: nil, options: nil)?.first as! AddProductViewController3
             addProduct3VC.screenBeforeAddProduct = PageName.ProductDetailMine

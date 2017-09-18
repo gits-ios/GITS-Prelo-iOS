@@ -399,7 +399,6 @@
 		5858876F1DBEF433006EC6D5 /* MyProductTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C87C941DA382BA00F132E2 /* MyProductTransactionViewController.swift */; };
 		585887701DBEF436006EC6D5 /* MyProductSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21EA7D511B8B13E9005FB8D4 /* MyProductSellViewController.swift */; };
 		585887711DBEF45D006EC6D5 /* TransactionListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21104AB81BAA8ECC00947E7F /* TransactionListCell.swift */; };
-		585887721DBEF4EC006EC6D5 /* NotifAnggiTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */; };
 		585887731DBEF571006EC6D5 /* TransactionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58CECD971C926EFF003470C3 /* TransactionDetailViewController.swift */; };
 		585887741DBEFCE6006EC6D5 /* MyPurchaseTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58C87C981DA3929700F132E2 /* MyPurchaseTransactionViewController.swift */; };
 		585887751DBF0560006EC6D5 /* BalanceMutationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A7C4441D3625F400405CEC /* BalanceMutationViewController.swift */; };
@@ -633,6 +632,9 @@
 		A90D84A41F6920770085ABAD /* BarangTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A90D84A31F6920770085ABAD /* BarangTableViewCell.xib */; };
 		A90D84A61F6929F90085ABAD /* SegmentBarangViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D84A51F6929F90085ABAD /* SegmentBarangViewController.swift */; };
 		A992FA721F67E49F007EBF12 /* Sewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A992FA711F67E49F007EBF12 /* Sewa.storyboard */; };
+		A9A9F9171F6BE23D00A7B5ED /* ItemListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A9F9161F6BE23D00A7B5ED /* ItemListCell.xib */; };
+		A9A9F92C1F6BE63C00A7B5ED /* ItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A9F92B1F6BE63C00A7B5ED /* ItemListCell.swift */; };
+		A9A9F9451F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */; };
 		A9B2813B1F6BBEA900D0759F /* HeaderTanggalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */; };
 		A9B281521F6BBF3300D0759F /* HeaderTanggalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */; };
 		A9E327F71F68DB3C009382F5 /* TanggalSewaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */; };
@@ -1576,7 +1578,6 @@
 		49E371D8FDAFBD1E101465F3 /* Pods_PushNotif.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PushNotif.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5800FF981C8836BE00492DB2 /* NotifAnggiTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiTabBarViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FF9A1C88372B00492DB2 /* NotifAnggiTabBar.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTabBar.xib; sourceTree = "<group>"; };
-		5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiTransactionViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = NotifAnggiConversationViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		5800FFA21C8852D600492DB2 /* NotifAnggiTransaction.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiTransaction.xib; sourceTree = "<group>"; };
 		5800FFA41C88530900492DB2 /* NotifAnggiConversation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NotifAnggiConversation.xib; sourceTree = "<group>"; };
@@ -1876,6 +1877,9 @@
 		A90D84A31F6920770085ABAD /* BarangTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BarangTableViewCell.xib; sourceTree = "<group>"; };
 		A90D84A51F6929F90085ABAD /* SegmentBarangViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SegmentBarangViewController.swift; sourceTree = "<group>"; };
 		A992FA711F67E49F007EBF12 /* Sewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Sewa.storyboard; sourceTree = "<group>"; };
+		A9A9F9161F6BE23D00A7B5ED /* ItemListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemListCell.xib; sourceTree = "<group>"; };
+		A9A9F92B1F6BE63C00A7B5ED /* ItemListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
+		A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifAnggiTransactionViewController.swift; sourceTree = "<group>"; };
 		A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTanggalView.xib; sourceTree = "<group>"; };
 		A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTanggalView.swift; sourceTree = "<group>"; };
 		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalSewaViewController.swift; sourceTree = "<group>"; };
@@ -2719,6 +2723,7 @@
 		21AE67AE1B4A59F400D2CF63 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */,
 				A90D849E1F691EAA0085ABAD /* BarangSaya */,
 				A992FA831F67E683007EBF12 /* Sewa */,
 				21C6589F1B8F01E10037F85F /* AboutViewController.swift */,
@@ -2772,7 +2777,6 @@
 				21104AB51BAA8ECC00947E7F /* MyPurchaseViewController.swift */,
 				5800FF9E1C883E1600492DB2 /* NotifAnggiConversationViewController.swift */,
 				5800FF981C8836BE00492DB2 /* NotifAnggiTabBarViewController.swift */,
-				5800FF9C1C883DF900492DB2 /* NotifAnggiTransactionViewController.swift */,
 				21C68F5F1B74922200D1125E /* OrderConfirmViewController.swift */,
 				44B93C781BBEA4BC00036173 /* PathLoginViewController.swift */,
 				21EEB4561B87036000CAD5C9 /* PaymentConfirmationViewController.swift */,
@@ -2829,6 +2833,7 @@
 				B2BE479A1F6658B0008252D3 /* TopUpVerificationViewController.swift */,
 				B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */,
 				B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */,
+				A9A9F92B1F6BE63C00A7B5ED /* ItemListCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -3394,6 +3399,7 @@
 		21EEB45D1B87038400CAD5C9 /* XIB */ = {
 			isa = PBXGroup;
 			children = (
+				A9A9F9161F6BE23D00A7B5ED /* ItemListCell.xib */,
 				B240F4D21E24BBD500DCAFF7 /* Achievement.xib */,
 				B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */,
 				B2D119881E28CD2A0064045B /* AchievementCellDescriptionCell.xib */,
@@ -4821,6 +4827,7 @@
 				58A99A4E1C6D866000E3E7D7 /* Prelo.entitlements in Resources */,
 				B2DF58491E484131005B6CF1 /* AddressBookCell.xib in Resources */,
 				B229F4CE1F37087700A2F60B /* AddProduct3ImagesPreviewCellNewOneCell.xib in Resources */,
+				A9A9F9171F6BE23D00A7B5ED /* ItemListCell.xib in Resources */,
 				B229F4DC1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib in Resources */,
 				B2D965D71E9E01AE00B2C29C /* Checkout2AddressFillCell.xib in Resources */,
 				5804CBD51EEE6A8900B7D032 /* RekeningListCell.xib in Resources */,
@@ -5250,6 +5257,7 @@
 				21D3875F1B6B967A00D0FA90 /* ZSWTappableLabel.m in Sources */,
 				58A99A2A1C6D864E00E3E7D7 /* BNCContentDiscoveryManager.m in Sources */,
 				58DD28F11DAF36DD00130B6F /* UIPasteboard.swift in Sources */,
+				A9A9F9451F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift in Sources */,
 				585887881DBF2A95006EC6D5 /* AddProductViewController.swift in Sources */,
 				21679A291B901C5300F18F90 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				B229F4D41F370C0200A2F60B /* AddProductViewController3.swift in Sources */,
@@ -5418,6 +5426,7 @@
 				B2FFCBB31EA52669004F01D0 /* SSLSecurity.swift in Sources */,
 				58A99A2F1C6D864E00E3E7D7 /* BNCPreferenceHelper.m in Sources */,
 				216799901B8F8AB900F18F90 /* AFURLRequestSerialization.m in Sources */,
+				A9A9F92C1F6BE63C00A7B5ED /* ItemListCell.swift in Sources */,
 				5847E1961DBE067400C1B2BA /* RegisterViewController.swift in Sources */,
 				21B467E11CCE5EDB00E145ED /* BFApp.swift in Sources */,
 				B21B3F091E5AD33400FE5DB4 /* PreloAnalyticEndpoints.swift in Sources */,
@@ -5505,7 +5514,6 @@
 				5847E19C1DBE103200C1B2BA /* ImagePickerViewController.swift in Sources */,
 				5858879C1DBF33B0006EC6D5 /* ProductCommentsController.swift in Sources */,
 				21679A311B901C5300F18F90 /* MPEventBinding.m in Sources */,
-				585887721DBEF4EC006EC6D5 /* NotifAnggiTransactionViewController.swift in Sources */,
 				B280A1541F4D526F006433A8 /* ShopReviewViewController.swift in Sources */,
 				583234351DB8D6290059B3A2 /* DummyGridViewController.swift in Sources */,
 				585887851DBF275C006EC6D5 /* AddProductShareViewController.swift in Sources */,

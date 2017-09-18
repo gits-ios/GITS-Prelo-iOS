@@ -623,6 +623,10 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
             vwCaption.backgroundColor = Theme.ThemeOrange
         } else if (notif.caption.lowercased() == "beli") {
             vwCaption.backgroundColor = Theme.PrimaryColor
+        } else if (notif.caption.lowercased() == "disewa") {
+            vwCaption.backgroundColor = Theme.ThemeOrage
+        } else if (notif.caption.lowercased() == "sewa") {
+            vwCaption.backgroundColor = Theme.PrimaryColor
         }
         
         // Set Labels
@@ -710,6 +714,10 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                     vwIcon.backgroundColor = Theme.ThemeOrange
                 } else if (self.notif?.caption.lowercased() == "beli") {
                     vwIcon.backgroundColor = Theme.PrimaryColor
+                } else if (self.notif?.caption.lowercased() == "disewa") {
+                    vwCaption.backgroundColor = Theme.ThemeOrage
+                } else if (self.notif?.caption.lowercased() == "sewa") {
+                    vwCaption.backgroundColor = Theme.PrimaryColor
                 }
             } else {
                 let progress = self.notif!.progress
@@ -720,6 +728,10 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                         vwIcon.backgroundColor = Theme.ThemeOrange
                     } else if (self.notif?.caption.lowercased() == "beli") {
                         vwIcon.backgroundColor = Theme.PrimaryColor
+                    } else if (self.notif?.caption.lowercased() == "disewa") {
+                        vwCaption.backgroundColor = Theme.ThemeOrage
+                    } else if (self.notif?.caption.lowercased() == "sewa") {
+                        vwCaption.backgroundColor = Theme.PrimaryColor
                     }
                 } else if (progress == -2) {
                     vwIcon.backgroundColor = Theme.ThemeRed
@@ -740,6 +752,10 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                             vwIcon.backgroundColor = Theme.ThemeOrange
                         } else if (self.notif?.caption.lowercased() == "beli") {
                             vwIcon.backgroundColor = Theme.PrimaryColor
+                        } else if (self.notif?.caption.lowercased() == "disewa") {
+                            vwCaption.backgroundColor = Theme.ThemeOrage
+                        } else if (self.notif?.caption.lowercased() == "sewa") {
+                            vwCaption.backgroundColor = Theme.PrimaryColor
                         }
                     } else {
                         vwIcon.backgroundColor = Theme.ThemeRed
@@ -752,6 +768,18 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                     vwIcon.backgroundColor = Theme.GrayLight
                 }
             } else if (self.notif?.caption.lowercased() == "beli") {
+                if (idx <= self.notif?.progress) {
+                    vwIcon.backgroundColor = Theme.PrimaryColor
+                } else {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                }
+            } else if (self.notif?.caption.lowercased() == "disewa") {
+                if (idx <= self.notif?.progress) {
+                    vwIcon.backgroundColor = Theme.ThemeOrage
+                } else {
+                    vwIcon.backgroundColor = Theme.GrayLight
+                }
+            } else if (self.notif?.caption.lowercased() == "sewa") {
                 if (idx <= self.notif?.progress) {
                     vwIcon.backgroundColor = Theme.PrimaryColor
                 } else {
