@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -15,18 +16,22 @@
             <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scJ-xP-jzQ">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scJ-xP-jzQ" userLabel="selectedView">
                     <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="160" id="etu-ae-QWY"/>
-                        <constraint firstAttribute="width" constant="160" id="huK-CD-Zeb"/>
-                    </constraints>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                             <integer key="value" value="80"/>
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="svV-QM-L9o" userLabel="startBufferView">
+                    <rect key="frame" x="80" y="0.0" width="80" height="160"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4MQ-MA-kU6" userLabel="finishBufferView">
+                    <rect key="frame" x="0.0" y="0.0" width="80" height="160"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1D7-pA-3w1">
                     <rect key="frame" x="59" y="69.5" width="42" height="21"/>
@@ -37,19 +42,29 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
+                <constraint firstItem="svV-QM-L9o" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="1/2" id="29l-VD-sBW"/>
                 <constraint firstItem="1D7-pA-3w1" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="3Rj-he-FFC"/>
                 <constraint firstAttribute="trailing" secondItem="scJ-xP-jzQ" secondAttribute="trailing" id="5Zm-CM-LYN"/>
                 <constraint firstItem="scJ-xP-jzQ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="GHV-K8-rVv"/>
                 <constraint firstItem="1D7-pA-3w1" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="UJ6-TH-OPN"/>
+                <constraint firstAttribute="bottom" secondItem="4MQ-MA-kU6" secondAttribute="bottom" id="V4B-6r-3Q1"/>
+                <constraint firstItem="svV-QM-L9o" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VpT-bl-Sfb"/>
                 <constraint firstAttribute="bottom" secondItem="scJ-xP-jzQ" secondAttribute="bottom" id="b7s-sT-czc"/>
+                <constraint firstAttribute="trailing" secondItem="svV-QM-L9o" secondAttribute="trailing" id="ngL-7P-ngE"/>
+                <constraint firstAttribute="bottom" secondItem="svV-QM-L9o" secondAttribute="bottom" id="oLU-lw-yCq"/>
+                <constraint firstItem="4MQ-MA-kU6" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" multiplier="1/2" id="oWj-LR-wlH"/>
+                <constraint firstItem="4MQ-MA-kU6" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="pH4-6Y-0nx"/>
                 <constraint firstItem="scJ-xP-jzQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="qaG-PR-Yjz"/>
+                <constraint firstItem="4MQ-MA-kU6" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="w1Q-er-hba"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="dayLabel" destination="1D7-pA-3w1" id="AQE-BL-3ob"/>
+                <outlet property="finishBufferView" destination="4MQ-MA-kU6" id="eSo-KY-tBA"/>
                 <outlet property="selectedView" destination="scJ-xP-jzQ" id="XUr-tt-upi"/>
+                <outlet property="startBufferView" destination="svV-QM-L9o" id="z2g-c8-sNq"/>
             </connections>
-            <point key="canvasLocation" x="119.5" y="134"/>
+            <point key="canvasLocation" x="119" y="134"/>
         </view>
     </objects>
 </document>

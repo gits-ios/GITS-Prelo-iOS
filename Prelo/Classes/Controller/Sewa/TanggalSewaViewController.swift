@@ -10,24 +10,29 @@ import UIKit
 import JTAppleCalendar
 
 class TanggalSewaViewController: UIViewController {
+    @IBOutlet var startDayLabel: UILabel!
+    @IBOutlet var startDateLabel: UILabel!
+    @IBOutlet var finishDayLabel: UILabel!
+    @IBOutlet var finishDateLabel: UILabel!
+    @IBOutlet var totalDayLabel: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
+    
     var iii: Date?
     let formatter = DateFormatter()
     var testCalendar = Calendar.current
     var isStartSelected: Bool = false
     var isFinishSelected: Bool = false
+    var systemStartDate: Date?
+    var systemFinishDate: Date?
     var startDate: Date?
     var finishDate: Date?
-    var startBuffer: Int = -3
-    var finishBuffer: Int = 3
+    var startBuffer: Int = 2
+    var finishBuffer: Int = 2
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.setupCalendar()
-        self.calendarView.visibleDates {[unowned self] (visibleDates: DateSegmentInfo) in
-            self.setupViewsOfCalendar(from: visibleDates)
-        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -42,10 +47,10 @@ class TanggalSewaViewController: UIViewController {
     func setupCalendar() {
         self.calendarView.minimumLineSpacing = 0
         self.calendarView.minimumInteritemSpacing = 0
-        self.calendarView.sectionInset.top = 0
+        self.calendarView.sectionInset.top = 1
         self.calendarView.sectionInset.left = 0
         self.calendarView.sectionInset.right = 0
-        self.calendarView.sectionInset.bottom = 0
+        self.calendarView.sectionInset.bottom = 1
         self.calendarView.allowsMultipleSelection = true
         self.calendarView.isRangeSelectionUsed = true
         self.calendarView.allowsDateCellStretching = true
@@ -57,24 +62,64 @@ class TanggalSewaViewController: UIViewController {
                               withReuseIdentifier: "HeaderTanggalView")
     }
     
-    func setupViewsOfCalendar(from visibleDates: DateSegmentInfo) {
-        guard let startDate = visibleDates.monthDates.first?.date else {
-            return
+    func convertDayNameEnglishToIndonesia(date: Date) -> String{
+        switch date.dayFromWeekday(){
+        case "Monday" :
+            return "SENIN"
+        case "Tuesday" :
+            return "SELASA"
+        case "Wednesday" :
+            return "RABU"
+        case "Thursday" :
+            return "KAMIS"
+        case "Friday" :
+            return "JUMAT"
+        case "Saturday" :
+            return "SABTU"
+        default:
+            return "MINGGU"
         }
-        let month = Calendar.current.dateComponents([.month], from: startDate).month!
-        let monthName = DateFormatter().monthSymbols[(month-1) % 12]
-        // 0 indexed array
-        let year = Calendar.current.component(.year, from: startDate)
-        //        monthLabel.text = monthName + " " + String(year)
+    }
+    
+    func configureMenuView() {
+        formatter.dateFormat = "dd MMM"
+        if isStartSelected {
+            self.startDayLabel.text = convertDayNameEnglishToIndonesia(date: startDate!)
+            self.startDayLabel.textColor = UIColor.black
+            self.startDateLabel.text = formatter.string(from: startDate!).uppercased()
+            self.startDateLabel.textColor = UIColor.black
+        } else {
+            self.startDayLabel.text = "TANGGAL"
+            self.startDayLabel.textColor = UIColor.gray
+            self.startDateLabel.text = "MULAI"
+            self.startDateLabel.textColor = UIColor.gray
+        }
+        
+        if isFinishSelected {
+            self.finishDayLabel.text = convertDayNameEnglishToIndonesia(date: finishDate!)
+            self.finishDayLabel.textColor = UIColor.black
+            self.finishDateLabel.text = formatter.string(from: finishDate!).uppercased()
+            self.finishDateLabel.textColor = UIColor.black
+        } else {
+            self.finishDayLabel.text = "TANGGAL"
+            self.finishDayLabel.textColor = UIColor.gray
+            self.finishDateLabel.text = "SELESAI"
+            self.finishDateLabel.textColor = UIColor.gray
+        }
+        
+        if isStartSelected && isFinishSelected {
+            let totalBuffer: String = String(finishBuffer + startBuffer)
+            let totalDay: String = String(finishDate!.daysBetweenDate(startDate!)) + " + " + totalBuffer
+            self.totalDayLabel.text = totalDay + " hari"
+        } else {
+            self.totalDayLabel.text = "0 hari"
+        }
     }
     
     func configureCell(view: JTAppleCell?, cellState: CellState, cellDate: Date) {
         guard let myCustomCell = view as? TanggalViewCell  else { return }
         
-        
         //customize view each date cell
-        myCustomCell.selectedView.layer.cornerRadius = myCustomCell.frame.height / 2
-        myCustomCell.selectedView.layer.masksToBounds = true  // optional
         myCustomCell.dayLabel.text = cellState.text
         if cellState.dateBelongsTo == .thisMonth {
             myCustomCell.dayLabel.textColor = UIColor.black
@@ -88,46 +133,46 @@ class TanggalSewaViewController: UIViewController {
             myCustomCell.backgroundColor = UIColor.white
         }
         
-        
         //handle cell selection view status based on date selection status
         myCustomCell.isSelected = false
-        myCustomCell.selectedView.isHidden = true
+        myCustomCell.configureDefaultView()
+        let checkStartDateBuffer = startDate?.dateByAddingDays(-startBuffer)
+        let checkFinishDateBuffer = finishDate?.dateByAddingDays(finishBuffer)
+        
         if isStartSelected {
-            if cellDate.isGreaterThanDate((startDate?.dateByAddingDays(startBuffer))!) &&
-                //process buffer date of selected start date cell
-                cellDate.isLessThanDate(startDate!) {
-                myCustomCell.selectedView.isHidden = false
-                myCustomCell.selectedView.backgroundColor = UIColor.blue
-                myCustomCell.dayLabel.textColor = UIColor.white
+            //configure buffer start date cell
+            if cellDate.isSameDay(checkStartDateBuffer!) {
+                myCustomCell.configureStartBufferView(isAtEndOfBuffer: true)
             }
+                //configure cell range from buffer start cell to selected start date
+            else if cellDate.isGreaterThanDate(checkStartDateBuffer!) &&
+                cellDate.isLessThanDate(startDate!) {
+                myCustomCell.configureStartBufferView(isAtEndOfBuffer: false)
+            }
+                //configure selected start date cell
             else if cellDate.isSameDay(startDate!) {
-                //selected start date cell
                 myCustomCell.isSelected = true
-                myCustomCell.selectedView.isHidden = false
-                myCustomCell.selectedView.backgroundColor = UIColor.green
-                myCustomCell.dayLabel.textColor = UIColor.white
+                myCustomCell.configureStartView()
             } else {
                 if isFinishSelected {
+                    //configure cell range from selected start date to finish
                     if cellDate.isGreaterThanDate(startDate!) &&
                         cellDate.isLessThanDate(finishDate!) {
-                        //start to finish range selected date cell
-                        myCustomCell.selectedView.isHidden = false
-                        myCustomCell.selectedView.backgroundColor = UIColor.green
-                        myCustomCell.dayLabel.textColor = UIColor.white
+                        myCustomCell.configureRangeView()
                     }
-                    else if cellDate.isSameDay(finishDate!) {
                         //selected finish date cell
+                    else if cellDate.isSameDay(finishDate!) {
                         myCustomCell.isSelected = true
-                        myCustomCell.selectedView.isHidden = false
-                        myCustomCell.selectedView.backgroundColor = UIColor.yellow
-                        myCustomCell.dayLabel.textColor = UIColor.white
+                        myCustomCell.configureFinishView()
                     }
+                        //configure cell range from selected finish date to buffer finish cell
                     else if cellDate.isGreaterThanDate(finishDate!) &&
-                        //process buffer date of selected finish date cell
-                        cellDate.isLessThanDate((finishDate?.dateByAddingDays(finishBuffer))!) {
-                        myCustomCell.selectedView.isHidden = false
-                        myCustomCell.selectedView.backgroundColor = UIColor.red
-                        myCustomCell.dayLabel.textColor = UIColor.white
+                        cellDate.isLessThanDate(checkFinishDateBuffer!) {
+                        myCustomCell.configureFinishBufferView(isAtEndOfBuffer: false)
+                    }
+                        //configure buffer finish date cell
+                    else if cellDate.isSameDay(checkFinishDateBuffer!) {
+                        myCustomCell.configureFinishBufferView(isAtEndOfBuffer: true)
                     }
                 }
             }
@@ -141,11 +186,11 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
         
-        let startDate = formatter.date(from: "2017 01 01")!
-        let endDate = formatter.date(from: "2030 02 01")!
+        self.systemStartDate = formatter.date(from: "2017 01 01")!
+        self.systemFinishDate = systemStartDate?.dateByAddingDays(365)
         
-        let parameters = ConfigurationParameters(startDate: startDate,
-                                                 endDate: endDate,
+        let parameters = ConfigurationParameters(startDate: self.systemStartDate!,
+                                                 endDate: self.systemFinishDate!,
                                                  numberOfRows: 5,
                                                  calendar: testCalendar,
                                                  generateInDates: .none,
@@ -157,16 +202,14 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
     
     func calendar(_ calendar: JTAppleCalendarView, willDisplay cell: JTAppleCell, forItemAt date: Date, cellState: CellState, indexPath: IndexPath) {
         configureCell(view: cell, cellState: cellState, cellDate: date)
+        configureMenuView()
     }
     
     func calendar(_ calendar: JTAppleCalendarView, cellForItemAt date: Date, cellState: CellState, indexPath: IndexPath) -> JTAppleCell {
         let cell = calendar.dequeueReusableJTAppleCell(withReuseIdentifier: "Cell", for: indexPath) as! TanggalViewCell
         configureCell(view: cell, cellState: cellState, cellDate: date)
+        configureMenuView()
         return cell
-    }
-    
-    func calendar(_ calendar: JTAppleCalendarView, didScrollToDateSegmentWith visibleDates: DateSegmentInfo) {
-        setupViewsOfCalendar(from: visibleDates)
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {

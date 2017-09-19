@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -150,7 +151,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xzg-Qb-MEB">
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xzg-Qb-MEB" userLabel="SelectedView">
                                                     <rect key="frame" x="0.0" y="0.0" width="160" height="160"/>
                                                     <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <userDefinedRuntimeAttributes>
@@ -158,6 +159,14 @@
                                                             <integer key="value" value="80"/>
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vxk-Ax-PA7" userLabel="StartBufferView">
+                                                    <rect key="frame" x="80" y="0.0" width="80" height="160"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qUN-nB-ZdD" userLabel="FinishBufferView">
+                                                    <rect key="frame" x="0.0" y="0.0" width="80" height="160"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bDP-Kw-HON">
                                                     <rect key="frame" x="62.5" y="69.5" width="35" height="21"/>
@@ -168,12 +177,20 @@
                                             </subviews>
                                         </view>
                                         <constraints>
+                                            <constraint firstItem="qUN-nB-ZdD" firstAttribute="top" secondItem="Z8K-db-4Fv" secondAttribute="top" id="1R9-Iq-wdj"/>
+                                            <constraint firstItem="qUN-nB-ZdD" firstAttribute="width" secondItem="Z8K-db-4Fv" secondAttribute="width" multiplier="1/2" id="G1e-tO-v2m"/>
                                             <constraint firstItem="bDP-Kw-HON" firstAttribute="centerY" secondItem="Z8K-db-4Fv" secondAttribute="centerY" id="HOv-Vh-Lev"/>
                                             <constraint firstAttribute="bottom" secondItem="Xzg-Qb-MEB" secondAttribute="bottom" id="JAa-y8-n2O"/>
+                                            <constraint firstItem="Vxk-Ax-PA7" firstAttribute="width" secondItem="Z8K-db-4Fv" secondAttribute="width" multiplier="1/2" id="Kx0-kl-g5J"/>
+                                            <constraint firstItem="Vxk-Ax-PA7" firstAttribute="top" secondItem="Z8K-db-4Fv" secondAttribute="top" id="PBD-Fh-6KH"/>
                                             <constraint firstItem="Xzg-Qb-MEB" firstAttribute="leading" secondItem="Z8K-db-4Fv" secondAttribute="leading" id="RPt-5B-6eb"/>
+                                            <constraint firstItem="qUN-nB-ZdD" firstAttribute="leading" secondItem="Z8K-db-4Fv" secondAttribute="leading" id="UQF-gy-w4G"/>
+                                            <constraint firstAttribute="bottom" secondItem="qUN-nB-ZdD" secondAttribute="bottom" id="YT2-Nv-XPL"/>
                                             <constraint firstItem="Xzg-Qb-MEB" firstAttribute="top" secondItem="Z8K-db-4Fv" secondAttribute="top" id="gCh-O4-2lU"/>
                                             <constraint firstItem="bDP-Kw-HON" firstAttribute="centerX" secondItem="Z8K-db-4Fv" secondAttribute="centerX" id="i4t-j6-I4k"/>
                                             <constraint firstAttribute="trailing" secondItem="Xzg-Qb-MEB" secondAttribute="trailing" id="oy5-v3-IYL"/>
+                                            <constraint firstAttribute="bottom" secondItem="Vxk-Ax-PA7" secondAttribute="bottom" id="qIm-oH-mdd"/>
+                                            <constraint firstAttribute="trailing" secondItem="Vxk-Ax-PA7" secondAttribute="trailing" id="qSX-Hd-dL1"/>
                                         </constraints>
                                         <size key="customSize" width="160" height="160"/>
                                         <userDefinedRuntimeAttributes>
@@ -183,7 +200,9 @@
                                         </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="dayLabel" destination="bDP-Kw-HON" id="ER7-qE-PJn"/>
+                                            <outlet property="finishBufferView" destination="qUN-nB-ZdD" id="qie-Gd-ko4"/>
                                             <outlet property="selectedView" destination="Xzg-Qb-MEB" id="p3e-mq-IsY"/>
+                                            <outlet property="startBufferView" destination="Vxk-Ax-PA7" id="KKp-e9-jfA"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>
@@ -261,7 +280,7 @@
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="EhU-v3-axv">
                                         <rect key="frame" x="0.0" y="0.0" width="20" height="20"/>
-                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.078431372550000003" green="0.4823529412" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="Q4Z-cA-1ca"/>
                                             <constraint firstAttribute="height" constant="20" id="jtn-bC-JIo"/>
@@ -270,7 +289,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang Dikirim" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MYN-pv-MoR">
                                         <rect key="frame" x="28" y="5" width="151" height="11"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="RnC-ef-fkl">
@@ -287,12 +306,12 @@
                                             <constraint firstAttribute="width" constant="120" id="48Z-Ra-cmI"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Uub-Jj-YID">
                                         <rect key="frame" x="0.0" y="28" width="20" height="20"/>
-                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.078431372550000003" green="0.59607843140000005" blue="0.5450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="CUv-dW-38h"/>
                                             <constraint firstAttribute="height" constant="20" id="v8a-K4-S8z"/>
@@ -301,12 +320,12 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang ditangan penyewa" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kGZ-pK-pUw">
                                         <rect key="frame" x="28" y="33" width="151" height="11"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="lKk-Ds-wNR">
                                         <rect key="frame" x="187" y="28" width="20" height="20"/>
-                                        <color key="backgroundColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.99215686270000003" green="0.4823529412" blue="0.035294117649999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="20" id="K1y-rC-4Qq"/>
                                             <constraint firstAttribute="width" constant="20" id="zf8-yU-Xf0"/>
@@ -318,19 +337,19 @@
                                             <constraint firstAttribute="width" constant="120" id="svL-9h-R19"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="* Barang tidak bisa dikirim pada hari Minggu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MFk-M7-DiR">
                                         <rect key="frame" x="0.0" y="57" width="335" height="11"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="* Pengiriman barang sewaan dapat dilakukan dengan bertemu langsung dengan penyewa" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IEz-Tb-f6p">
                                         <rect key="frame" x="0.0" y="68" width="335" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h6O-XX-2i6">
@@ -344,7 +363,7 @@
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saya setuju untuk mengembalikan barang pada akhir masa sewa sesuai dengan Syarat dan Ketentuan Prelo" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FV8-DY-Kbt">
                                         <rect key="frame" x="28" y="96.5" width="307" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="9"/>
-                                        <nil key="textColor"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
@@ -421,6 +440,11 @@
                     </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="1oA-B0-gGG" id="YSb-Xb-fQo"/>
+                        <outlet property="finishDateLabel" destination="8hO-B1-Agf" id="dpY-a5-bKp"/>
+                        <outlet property="finishDayLabel" destination="thc-1M-cnm" id="esU-eS-PBg"/>
+                        <outlet property="startDateLabel" destination="keF-Oa-zXa" id="RkG-jX-tfc"/>
+                        <outlet property="startDayLabel" destination="Ee2-AO-yUZ" id="c0Z-5b-jdI"/>
+                        <outlet property="totalDayLabel" destination="sec-FA-krN" id="b85-uY-Qju"/>
                         <segue destination="KIb-cP-zZn" kind="show" identifier="performSegueBarangSaya" id="bm7-9h-WiL"/>
                     </connections>
                 </viewController>
