@@ -687,6 +687,8 @@
 		B240F4DB1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */; };
 		B240F4DE1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */; };
 		B240F4F11E24DE7000DCAFF7 /* AchievementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */; };
+		B24B78631F6F754700A85F8D /* AddProduct3MeetUpCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24B78621F6F754700A85F8D /* AddProduct3MeetUpCell.xib */; };
+		B24B78751F6F78AC00A85F8D /* AddProduct3CODSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24B78741F6F78AC00A85F8D /* AddProduct3CODSwitchCell.xib */; };
 		B258A30B1EBAD95F005CC92C /* CartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B258A30A1EBAD95F005CC92C /* CartManager.swift */; };
 		B26792FA1F4DB50200601F84 /* ic_default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B26792F81F4DB50200601F84 /* ic_default@2x.png */; };
 		B26792FB1F4DB50200601F84 /* ic_default@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = B26792F91F4DB50200601F84 /* ic_default@3x.png */; };
@@ -1915,6 +1917,8 @@
 		B240F4DA1E24D63400DCAFF7 /* AchievementCellBadgeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellBadgeCell.xib; sourceTree = "<group>"; };
 		B240F4DD1E24DAD900DCAFF7 /* AchievementCellProgressCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AchievementCellProgressCell.xib; sourceTree = "<group>"; };
 		B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AchievementViewController.swift; sourceTree = "<group>"; };
+		B24B78621F6F754700A85F8D /* AddProduct3MeetUpCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3MeetUpCell.xib; sourceTree = "<group>"; };
+		B24B78741F6F78AC00A85F8D /* AddProduct3CODSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3CODSwitchCell.xib; sourceTree = "<group>"; };
 		B24FCEF21E536E8000B517A9 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
 		B258A30A1EBAD95F005CC92C /* CartManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartManager.swift; sourceTree = "<group>"; };
 		B26792F81F4DB50200601F84 /* ic_default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ic_default@2x.png"; sourceTree = "<group>"; };
@@ -3675,6 +3679,8 @@
 				B2759CF21F3D5E2600687840 /* AddProduct3SizeCell.xib */,
 				B22855F91F42B7DF001F26AA /* AddProduct3ListImages.xib */,
 				B228560B1F42B834001F26AA /* AddProduct3ListImagesCell.xib */,
+				B24B78621F6F754700A85F8D /* AddProduct3MeetUpCell.xib */,
+				B24B78741F6F78AC00A85F8D /* AddProduct3CODSwitchCell.xib */,
 			);
 			name = "Add Product Version 3";
 			path = XIB;
@@ -4552,6 +4558,7 @@
 				5858874A1DBEDB83006EC6D5 /* NotifAnggiConversationCell.xib in Resources */,
 				58E8FCDD1D92819C0084FAA8 /* ic_prelo_logo_text_white@2x.png in Resources */,
 				5858873F1DBEDA82006EC6D5 /* MyLovelistCell.xib in Resources */,
+				B24B78631F6F754700A85F8D /* AddProduct3MeetUpCell.xib in Resources */,
 				B2C59A941E2E1343002E4597 /* diamond.png in Resources */,
 				5858875B1DBEEA0A006EC6D5 /* SearchTag.xib in Resources */,
 				58A223CB1C898CB600619518 /* ic_trx_wait.png in Resources */,
@@ -4622,6 +4629,7 @@
 				5858874F1DBEDBC2006EC6D5 /* PaymentConfirmation.xib in Resources */,
 				21EEB4711B87095C00CAD5C9 /* btn_checkbox_empty.png in Resources */,
 				58A3874A1C7DBABC00281B85 /* banner_review.png in Resources */,
+				B24B78751F6F78AC00A85F8D /* AddProduct3CODSwitchCell.xib in Resources */,
 				58A4F9781CB5146B00E717AF /* ic_trx_reserved.png in Resources */,
 				212007C41B6A0EA600D9C84B /* basic_path@2x.png in Resources */,
 				2109BCA51BDDF85E004F36C5 /* tour_2.jpg in Resources */,

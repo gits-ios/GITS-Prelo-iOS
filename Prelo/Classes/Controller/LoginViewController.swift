@@ -54,7 +54,7 @@ class LoginViewController: BaseViewController, UIGestureRecognizerDelegate, UITe
         } else if (parentType == "ProductDetailViewController" || parentType == "ProductDetailViewController2") {
             l.screenBeforeLogin = PageName.ProductDetail
         }
-        ////print("screenBeforeLogin = \(l.screenBeforeLogin)")
+        ////print("screenBeforeLogin = \(l.screenBeforeLogin)" )
         l.userRelatedDelegate = userRelatedDelegate
         l.isFromTourVC = isFromTourVC
         l.setupTabSwipe()

@@ -43,6 +43,7 @@ enum AddProduct3SectionType {
     case weight           // 2
     case postalFee        // 2
     case rentPeriod       // 2
+    case meetUp           // 2
     case rentSellOnOff    // 3
     case price            // 3
     
@@ -57,7 +58,8 @@ enum AddProduct3SectionType {
              .postalFee,
              .rentPeriod       : return 2
         case .rentSellOnOff,
-             .price            : return 3
+             .price,
+             .meetUp           : return 3
         }
     }
     
@@ -71,6 +73,7 @@ enum AddProduct3SectionType {
         case .weight           : return "ic_berat"
         case .postalFee        : return "ic_ongkir"
         case .rentPeriod       : return "placeholder-circle"
+        case .meetUp           : return "ic_ongkir"
         case .rentSellOnOff    : return "placeholder-circle"
         case .price            : return "ic_harga"
         }
@@ -86,6 +89,7 @@ enum AddProduct3SectionType {
         case .weight           : return "BERAT"
         case .postalFee        : return "ONGKOS KIRIM"
         case .rentPeriod       : return "PERIODE SEWA"
+        case .meetUp           : return "PENGIRIMAN SEWAAN"
         case .rentSellOnOff    : return "SEWA" // "SEWA" | "JUAL" // override
         case .price            : return "HARGA"
         }
@@ -315,6 +319,13 @@ class AddProductViewController3: BaseViewController {
         let AddProduct3RentPostalFeeCell = UINib(nibName: "AddProduct3RentPostalFeeCell", bundle: nil)
         tableView.register(AddProduct3RentPostalFeeCell, forCellReuseIdentifier: "AddProduct3RentPostalFeeCell")
         
+        let AddProduct3MeetUpCell = UINib(nibName: "AddProduct3MeetUpCell", bundle: nil)
+        tableView.register(AddProduct3MeetUpCell, forCellReuseIdentifier: "AddProduct3MeetUpCell")
+        
+        let AddProduct3CODSwitchCell = UINib(nibName: "AddProduct3CODSwitchCell", bundle: nil)
+        tableView.register(AddProduct3CODSwitchCell, forCellReuseIdentifier: "AddProduct3CODSwitchCell")
+        
+        
         // hack commisions
         let comTwitter = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComTwitter)
         let comFacebook = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComFacebook)
@@ -428,18 +439,21 @@ class AddProductViewController3: BaseViewController {
             self.listSections.append(.imagesPreview)
             self.listSections.append(.productDetail)
             self.listSections.append(.weight)
-            self.listSections.append(.postalFee)
+            // self.listSections.append(.postalFee)
             self.listSections.append(.rentSellOnOff)
             self.listSections.append(.price)
             
             // setup table view
             if self.product.addProductType == .sell { // JUAL
+                let idx = self.findSectionFromType(.weight)
+                self.listSections.insert(.postalFee, at: idx+1)
                 if self.product.isRent { // SEWA
                     
                 }
             } else { // SEWA
-                let idx = self.findSectionFromType(.postalFee)
-                self.listSections.insert(.rentPeriod, at: idx+1)
+                let idx = self.findSectionFromType(.weight)
+                self.listSections.insert(.meetUp, at: idx+1)
+                self.listSections.insert(.rentPeriod, at: idx+2)
                 
                 if self.product.isSell { // JUAL
                     
@@ -1574,6 +1588,12 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else {
                 return AddProduct3RentPeriodCell.heightFor()
             }
+        case .meetUp:
+            if row == 0 {
+                return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
+            } else {
+                return AddProduct3CODSwitchCell.heightFor()
+            }
         case .rentSellOnOff:
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
@@ -1746,7 +1766,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         self.hideLoading()
                     }
                     p.root = self
-                    
+                
                     // gesture override
                     self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     
@@ -2050,6 +2070,30 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
                 
+                return cell
+            }
+        case .meetUp:
+            if row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
+                cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
+                return cell
+            } else if row == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3CODSwitchCell") as! AddProduct3CODSwitchCell
+                cell.reloadRows = { _rows, _section in
+                    let sec = self.findSectionFromType(_section)
+                    var indexPaths: Array<IndexPath> = []
+                    
+                    for i in _rows {
+                        indexPaths.append(IndexPath.init(row: i, section: sec))
+                    }
+                    
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
+                }
+                cell.adapt(label: "Bertemu langsung")
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3CODSwitchCell") as! AddProduct3CODSwitchCell
+                cell.adapt(label: "Menggunakan kurir ekspedisi")
                 return cell
             }
         case .rentSellOnOff:
@@ -3656,5 +3700,55 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
         
         return attributes
+    }
+}
+
+// MARK: - Meet Up Cell
+class AddProduct3MeetUpCell: UITableViewCell {
+    @IBOutlet weak var lblCity: UILabel!
+    @IBOutlet weak var txtLocation: UITextField!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
+    static func heightFor() -> CGFloat {
+        return 150
+    }
+}
+
+// MARK: - COD switch cell
+class AddProduct3CODSwitchCell: UITableViewCell {
+    
+    @IBOutlet weak var labelCOD: UILabel!
+    @IBOutlet weak var switchButton: UISwitch!
+    
+    var insertRows: (_ rows: Array<Int>, _ section: AddProduct3SectionType)->() = {_, _ in }
+    
+    @IBAction func switchButtonPressed(_ sender: Any) {
+        self.insertRows([ 1 ], .price)
+        print("detect")
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
+    func adapt(label:String) {
+        self.labelCOD.text = label
+    }
+    
+    static func heightFor() -> CGFloat {
+        return 44
     }
 }

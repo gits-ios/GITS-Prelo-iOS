@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="GDz-a5-ye3" customClass="AddProduct3CODSwitchCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GDz-a5-ye3" id="9Gi-9c-3UK">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bertemu Langsung" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O5d-u4-ICo">
+                        <rect key="frame" x="8" y="11" width="130" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6gg-y2-26a">
+                        <rect key="frame" x="318" y="6" width="51" height="31"/>
+                        <color key="onTintColor" red="0.98039215690000003" green="0.58823529409999997" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <connections>
+                            <action selector="switchButtonPressed:" destination="GDz-a5-ye3" eventType="valueChanged" id="8oJ-WS-hwK"/>
+                        </connections>
+                    </switch>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="O5d-u4-ICo" firstAttribute="top" secondItem="9Gi-9c-3UK" secondAttribute="topMargin" constant="3" id="1HO-AH-9pH"/>
+                    <constraint firstItem="6gg-y2-26a" firstAttribute="top" secondItem="9Gi-9c-3UK" secondAttribute="top" constant="6" id="Qbc-W9-PKw"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="O5d-u4-ICo" secondAttribute="bottom" constant="3.5" id="d1W-9e-iNm"/>
+                    <constraint firstAttribute="bottom" secondItem="6gg-y2-26a" secondAttribute="bottom" constant="6.5" id="jHx-zF-auG"/>
+                    <constraint firstItem="O5d-u4-ICo" firstAttribute="leading" secondItem="9Gi-9c-3UK" secondAttribute="leadingMargin" id="mgq-oY-dfL"/>
+                    <constraint firstAttribute="trailing" secondItem="6gg-y2-26a" secondAttribute="trailing" constant="8" id="uHM-k8-OuE"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="labelCOD" destination="O5d-u4-ICo" id="Rk9-UB-FN1"/>
+                <outlet property="switchButton" destination="6gg-y2-26a" id="vxW-Ih-HnJ"/>
+            </connections>
+            <point key="canvasLocation" x="56.5" y="169"/>
+        </tableViewCell>
+    </objects>
+</document>

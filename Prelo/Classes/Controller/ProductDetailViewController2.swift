@@ -201,6 +201,7 @@ class ProductDetailViewController2: BaseViewController {
         
         // Google Analytics
         GAI.trackPageVisit(self.thisScreen)
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -208,9 +209,10 @@ class ProductDetailViewController2: BaseViewController {
         
         if (productDetail == nil || isNeedReload) {
             getDetail()
-            
+
             isNeedReload = false
         }
+
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -222,6 +224,18 @@ class ProductDetailViewController2: BaseViewController {
     }
     
     func setupView() {
+        
+        // Button disable
+        if(self.productDetail.status == 4) {
+            self.disableButton(self.btnUpVwSeller)
+            self.disableButton(self.btnSoldVwSeller)
+            self.disableButton(self.btnEditVwSeller)
+            
+            self.disableButton(self.btnBuyVwBuyer_Buy)
+            self.disableButton(self.btnRentVwBuyer_Rent)
+            self.disableButton(self.btnBuyVwBuyer_BuyRent)
+        }
+        
         let sellerId = productDetail.json["_data"]["seller"]["_id"].stringValue
         let listingType = productDetail.json["_data"]["listing_type"].intValue
         
@@ -246,6 +260,7 @@ class ProductDetailViewController2: BaseViewController {
         if User.Id == sellerId {
             self.vwSeller.isHidden = false
         } else {
+            print(listingType)
             if listingType == 0 {
                 self.vwBuyer_Buy.isHidden = false
             } else if listingType == 1 {
@@ -254,7 +269,9 @@ class ProductDetailViewController2: BaseViewController {
                 self.vwBuyer_BuyRent.isHidden = false
             } else if productDetail.status == 1 {
                 self.vwBuyer_PaymentConfirmation.isHidden = false
-            } else if productDetail.isCheckout { // karena affiliate juga butuh payment confirm
+            }
+            if productDetail.isCheckout { // karena affiliate juga butuh payment confirm
+                print("harusnya masuk affiliate")
                 self.vwBuyer_Affiliate.isHidden = false
             }
         }
@@ -317,7 +334,7 @@ class ProductDetailViewController2: BaseViewController {
         if let productId = productDetail?.productID {
             let _ = request(APIProduct.push(productId: productId)).responseJSON { resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Up Barang")) {
-                    
+                    Constant.showDialog("Up Barang", message: "Up Barang Berhasil")
                 }
                 self.hideLoading()
             }
@@ -332,6 +349,10 @@ class ProductDetailViewController2: BaseViewController {
                     if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Mark As Sold")) {
                         let json = JSON(resp.result.value!)
                         let isSuccess = json["_data"].boolValue
+                        
+                            self.disableButton(self.btnUpVwSeller)
+                            self.disableButton(self.btnSoldVwSeller)
+                            self.disableButton(self.btnEditVwSeller)
                         
                     }
                     self.hideLoading()
@@ -356,7 +377,8 @@ class ProductDetailViewController2: BaseViewController {
         let _ = request(APIProduct.detail(productId: productDetail.productID, forEdit: 1)).responseJSON {resp in
             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Detail Barang")) {
                 addProduct3VC.editProduct = ProductDetail.instance(JSON(resp.result.value!))
-                
+                addProduct3VC.product.isSell = false
+                addProduct3VC.product.isRent = true
                 self.hideLoading()
                 self.navigationController?.pushViewController(addProduct3VC, animated: true)
             }
@@ -376,8 +398,10 @@ class ProductDetailViewController2: BaseViewController {
 //            self.navigationController?.pushViewController(t, animated: true)
         }
     }
+    
     @IBAction func btnRentPressed(_ sender: Any) {
     }
+    
     @IBAction func btnBuyPressed(_ sender: Any) {
         if !alreadyInCart {
             if AppTools.isNewCart { // v2
@@ -420,7 +444,112 @@ class ProductDetailViewController2: BaseViewController {
             self.addProduct2cart()
         }
     }
+    
     @IBAction func btnBuyAffiliatePressed(_ sender: Any) {
+        let _ = request(APIAffiliate.postCheckout(productIds: (product?.id)!, affiliateName: (productDetail?.AffiliateData?.name)!)).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout \((self.productDetail?.AffiliateData?.name)!)" /*"Post Affiliate Checkout"*/)) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if let checkoutUrl = data["checkout_url"].string {
+                    let webVC = self.storyboard?.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                    webVC.url = checkoutUrl
+                    webVC.titleString = (self.productDetail?.AffiliateData?.name)!
+                    webVC.affilateMode = true
+                    webVC.checkoutPattern = (self.productDetail?.AffiliateData?.checkoutUrlPattern)!
+                    webVC.checkoutInitiateUrl = checkoutUrl
+                    webVC.checkoutSucceed = { orderId in
+                        print(orderId)
+                        // TODO: - navigate
+                        self.navigateToOrderConfirmVC(orderId)
+                        self.showLoading()
+                    }
+                    webVC.checkoutUnfinished = {
+                        Constant.showDialog("Checkout", message: "Checkout tertunda")
+                    }
+                    webVC.checkoutFailed = {
+                        Constant.showDialog("Checkout", message: "Checkout gagal, silahkan coba beberapa saat lagi")
+                    }
+                    let baseNavC = BaseNavigationController()
+                    baseNavC.setViewControllers([webVC], animated: false)
+                    self.present(baseNavC, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    func navigateToOrderConfirmVC(_ orderId: String) {
+        // get data
+        let _ = request(APIAffiliate.getCheckoutResult(orderId: orderId)).responseJSON {resp in
+            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Get Affiliate Checkout")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                
+                let tId = data["transaction_id"].stringValue
+                let price = data["total_price"].stringValue
+                var imgs : [URL] = []
+                if let cd = data["cart_details"].array {
+                    for c in cd {
+                        if let ps = c["products"].array {
+                            for p in ps {
+                                if let pics = p["display_picts"].array {
+                                    for pic in pics {
+                                        if let url = URL(string: pic.stringValue) {
+                                            imgs.append(url)
+                                            break
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                
+                var backAccounts : Array<BankAccount> = []
+                if let arr = data["affiliate_data"]["bank_accounts"].array {
+                    
+                    if arr.count > 0 {
+                        for i in 0...arr.count-1 {
+                            backAccounts.append(BankAccount.instance(arr[i])!)
+                        }
+                    }
+                }
+                
+                let o = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdOrderConfirm) as! OrderConfirmViewController
+                
+                o.orderID = orderId
+                o.total = price.int64
+                o.transactionId = tId
+                o.isBackTwice = false
+                o.isShowBankBRI = false
+                o.targetBank = ""
+                o.previousScreen = PageName.ProductDetail
+                o.images = imgs
+                o.isFromCheckout = false
+                
+                // hidden payment bank transfer
+                //o.isMidtrans = true
+                
+                o.isAffiliate = true
+                o.rekenings = backAccounts
+                o.targetBank = backAccounts.count > 0 ? backAccounts[0].bank_name : "dummy"
+                
+                if let an = data["affiliate_data"]["affiliate_name"].string {
+                    o.affiliatename = an
+                }
+                
+                if let expire = data["expire_time"].string {
+                    o.expireAffiliate = expire
+                }
+                
+                if let er = data["payment_expired_remaining"].int {
+                    o.remaining = er
+                }
+                
+                o.title = "Order ID \(orderId)"
+                
+                self.hideLoading()
+                self.navigationController?.pushViewController(o, animated: true)
+            }
+        }
     }
     
     @IBAction func btnConfirmPressed(_ sender: Any) {
@@ -463,6 +592,24 @@ class ProductDetailViewController2: BaseViewController {
             self.navigationController?.pushViewController(cart, animated: true)
             return
         }
+    }
+    
+    func disableButton(_ btn : UIButton) {
+        btn.isUserInteractionEnabled = false
+        
+        if (btn.titleLabel?.text == nil || btn.titleLabel?.text == "") { // Button with uiimage icon
+            btn.backgroundColor = UIColor.colorWithColor(UIColor.darkGray, alpha: 0.5)
+            return
+        }
+        
+        // Button with uilabel icon
+        btn.setBackgroundImage(nil, for: UIControlState())
+        btn.backgroundColor = nil
+        btn.setTitleColor(Theme.GrayLight)
+        btn.layer.borderColor = Theme.GrayLight.cgColor
+        btn.layer.borderWidth = 1
+        btn.layer.cornerRadius = 1
+        btn.layer.masksToBounds = true
     }
     
     // MARK: - Section Helper
