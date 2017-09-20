@@ -1333,7 +1333,7 @@ enum APISearch : URLRequestConvertible {
     case getTopSearch(limit : String)
     case insertTopSearch(search : String)
     case brands(name : String, current : Int, limit : Int)
-    case productByFilter(name : String, aggregateId : String, categoryId : String, brandIds : String, productConditionIds : String, segment : String, priceMin : Int64, priceMax : Int64, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String, provinceId : String, regionId : String, subDistrictId : String)
+    case productByFilter(name : String, aggregateId : String, categoryId : String, kind: String, brandIds : String, productConditionIds : String, segment : String, priceMin : Int64, priceMax : Int64, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String, provinceId : String, regionId : String, subDistrictId : String)
     case autocomplete(key : String)
     
     public func asURLRequest() throws -> URLRequest {
@@ -1353,7 +1353,7 @@ enum APISearch : URLRequestConvertible {
         case .find(_, _, _, _, _, _, _, _) : return .get
         case .insertTopSearch(_): return .post
         case .brands(_, _, _) : return .get
-        case .productByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return .get
+        case .productByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return .get
         case .autocomplete(_) : return .get
         }
     }
@@ -1366,7 +1366,7 @@ enum APISearch : URLRequestConvertible {
         case .find(_, _, _, _, _, _, _, _) : return "products"
         case .insertTopSearch(_) :return "top"
         case .brands(_, _, _) : return "brands"
-        case .productByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return "products"
+        case .productByFilter(_, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _, _) : return "products"
         case .autocomplete(_) : return "autocomplete"
         }
     }
@@ -1418,10 +1418,11 @@ enum APISearch : URLRequestConvertible {
                 "current" : current,
                 "limit" : limit
             ]
-        case .productByFilter(let name, let aggregateId, let categoryId, let brandIds, let productConditionIds, let segment, let priceMin, let priceMax, let isFreeOngkir, let sizes, let sortBy, let current, let limit, let lastTimeUuid, let provinceId, let regionId, let subDistrictId):
+        case .productByFilter(let name, let aggregateId, let categoryId, let listingType, let brandIds, let productConditionIds, let segment, let priceMin, let priceMax, let isFreeOngkir, let sizes, let sortBy, let current, let limit, let lastTimeUuid, let provinceId, let regionId, let subDistrictId):
             p = [
                 "name" : name,
                 "aggregate_id" : aggregateId,
+                "listing_type" : listingType,
                 "category_id" : categoryId,
                 "brand_ids" : brandIds,
                 "product_condition_ids" : productConditionIds,

@@ -390,8 +390,6 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 cell.lblProductName.text = p.name
                 cell.lblPrice.text = p.price
                 
-                
-                
                 if (p.isFreeOngkir) {
                     cell.imgFreeOngkir.isHidden = false
                 }
@@ -426,6 +424,19 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     cell.lblTwitter.textColor = Theme.PrimaryColor
                 }
                 cell.lblPercentage.text = "\(100 - p.commission)%"
+                
+                //Check State of Rent or Buy
+                let rent = p.json["rent"]
+                let price = p.json["price"]
+                if price != nil && rent != nil {
+                    cell.showHideInfoProdTransCell(state: 0)
+                    cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
+                }else if price != nil {
+                    cell.showHideInfoProdTransCell(state: 1)
+                }else{
+                    cell.showHideInfoProdTransCell(state: 2)
+                    cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
+                }
             }
         }
         

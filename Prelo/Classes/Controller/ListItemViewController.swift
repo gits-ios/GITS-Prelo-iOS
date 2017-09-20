@@ -164,6 +164,10 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var fltrSegment : String = ""
     var fltrBrands : [String : String] = [:] // [name:id]
     // Predefined values from filtervc
+    
+    // Filter for Kind
+    var fltrProdKind : String = ""
+    
     var fltrProdCondIds : [String] = []
     var fltrPriceMin : Int64 = 0
     var fltrPriceMax : Int64 = 0
@@ -975,7 +979,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : (parentids.count > 1 ? parentids[1] : "")
         let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
         
-        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, kind: fltrProdKind, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 var count = 0
@@ -1539,12 +1543,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     
     // MARK: - Filter delegate function
     
-    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: Int64, fltrPriceMax: Int64, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String]) {
+    func adjustFilter(_ fltrProdCondIds: [String], fltrPriceMin: Int64, fltrPriceMax: Int64, fltrIsFreeOngkir: Bool, fltrSizes: [String], fltrSortBy: String, fltrLocation: [String], fltrProdKind: String) {
         self.fltrProdCondIds = fltrProdCondIds
         self.fltrPriceMin = fltrPriceMin
         self.fltrPriceMax = fltrPriceMax
         self.fltrIsFreeOngkir = fltrIsFreeOngkir
         self.fltrSizes = fltrSizes
+        self.fltrProdKind = fltrProdKind
         self.fltrSortBy = fltrSortBy
         self.fltrLocation = fltrLocation
         lblFilterSort.text = self.FltrValSortBy[self.fltrSortBy]

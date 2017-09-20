@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -58,9 +58,8 @@
                     <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="IKu-g5-oFM">
                         <rect key="frame" x="70.5" y="25" width="241.5" height="16"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ecs-lv-Pit">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic-jual-beli" translatesAutoresizingMaskIntoConstraints="NO" id="Ecs-lv-Pit">
                                 <rect key="frame" x="0.0" y="0.0" width="16" height="16"/>
-                                <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="aPd-HK-8JA"/>
                                     <constraint firstAttribute="width" constant="16" id="mqw-Qm-Y7O"/>
@@ -81,9 +80,8 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iwc-vL-5gg">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic-harga-sewa" translatesAutoresizingMaskIntoConstraints="NO" id="iwc-vL-5gg">
                                 <rect key="frame" x="114.5" y="0.0" width="16" height="16"/>
-                                <color key="backgroundColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="RA2-2R-g8g"/>
                                     <constraint firstAttribute="width" constant="16" id="qfz-yg-7Tp"/>
@@ -247,6 +245,8 @@
                 </variation>
             </tableViewCellContentView>
             <connections>
+                <outlet property="iconPrice" destination="Ecs-lv-Pit" id="b2k-KK-syN"/>
+                <outlet property="iconRentPrice" destination="iwc-vL-5gg" id="6KT-IV-YOL"/>
                 <outlet property="imgFreeOngkir" destination="l8b-B9-Dp1" id="6MY-Wh-ccM"/>
                 <outlet property="imgProduct" destination="kne-rr-5Pc" id="bEV-4B-H1a"/>
                 <outlet property="lblCommentCount" destination="bRZ-Ox-QUR" id="nhH-wf-svx"/>
@@ -264,6 +264,8 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic-harga-sewa" width="32" height="32"/>
+        <image name="ic-jual-beli" width="32" height="32"/>
         <image name="ic_free_ongkir.png" width="256" height="256"/>
         <image name="raisa.jpg" width="152" height="152"/>
     </resources>

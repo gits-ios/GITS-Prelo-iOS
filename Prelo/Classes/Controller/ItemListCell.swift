@@ -14,7 +14,9 @@ class ItemListCell: UITableViewCell {
     @IBOutlet var imgFreeOngkir: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
+    @IBOutlet var iconPrice: UIImageView!
     @IBOutlet var lblRentPrice: UILabel!
+    @IBOutlet var iconRentPrice: UIImageView!
     @IBOutlet weak var lblCommentCount: UILabel!
     @IBOutlet weak var lblLoveCount: UILabel!
     
@@ -117,4 +119,24 @@ class ItemListCell: UITableViewCell {
         }
     }
 
+    
+    func showHideInfoProdTransCell(state: Int){
+        switch state {
+        case 1:
+            iconPrice.isHidden = false
+            lblPrice.isHidden = false
+            iconRentPrice.isHidden = true
+            lblRentPrice.isHidden = true
+        case 2:
+            iconPrice.isHidden = true
+            lblPrice.isHidden = true
+            iconRentPrice.isHidden = false
+            lblRentPrice.isHidden = false
+        default:
+            iconPrice.isHidden = false
+            lblPrice.isHidden = false
+            iconRentPrice.isHidden = false
+            lblRentPrice.isHidden = false
+        }
+    }
 }

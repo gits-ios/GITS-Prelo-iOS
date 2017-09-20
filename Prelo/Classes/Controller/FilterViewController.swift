@@ -12,7 +12,7 @@ import Alamofire
 // MARK: - Protocol
 
 protocol FilterDelegate {
-    func adjustFilter(_ fltrProdCondIds : [String], fltrPriceMin : Int64, fltrPriceMax : Int64, fltrIsFreeOngkir : Bool, fltrSizes : [String], fltrSortBy : String, fltrLocation: [String])
+    func adjustFilter(_ fltrProdCondIds : [String], fltrPriceMin : Int64, fltrPriceMax : Int64, fltrIsFreeOngkir : Bool, fltrSizes : [String], fltrSortBy : String, fltrLocation: [String], fltrProdKind: String)
 }
 
 // MARK: - Class
@@ -46,10 +46,17 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     // Data container
     let SortByData : [String] = ["Populer", "Terkini", "Harga Terendah", "Harga Tertinggi"]
     let SortByDataValue : [String] = ["popular", "recent", "lowest_price", "highest_price"]
+    
+    
+    let jenisListing : [String] = ["Jual", "Sewa"]
+    var jenisListingChecked : [Bool] = [false, false]
+    var selectedJenisListing : String = ""
+    
+    
     let CategSizeCellHeight : CGFloat = 28
     var selectedIdxSortBy : Int = 1
     var productConditions : [String] = []
-    var selectedProductConditions : [Bool] = []
+    var selectedProductConditions : [Bool] = [false, false]
     var isFreeOngkir : Bool = false
     var categorySizes : [CategorySize] = []
     var minPrice : String = ""
@@ -62,11 +69,12 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     
     // Sections
     let SectionSortBy = 0
-    let SectionKondisi = 1
-    let SectionOngkir = 2
-    let SectionUkuran = 3
-    let SectionHarga = 5
-    let SectionLokasi = 4
+    let SectionJenis = 1
+    let SectionKondisi = 2
+    let SectionOngkir = 3
+    let SectionUkuran = 4
+    let SectionLokasi = 5
+    let SectionHarga = 6
     
     // Custom cell ID
     let IdFilterChecklistCell = "FilterChecklistCell"
@@ -219,6 +227,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             lblHeader.text = "Ukuran"
         } else if (section == SectionHarga) {
             lblHeader.text = "Rentang Harga"
+        } else if (section == SectionJenis) {
+            lblHeader.text = "Jenis"
         } else if (section == SectionLokasi) {
             lblHeader.text = "Lokasi Penjual"
         }
@@ -241,6 +251,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             return 1
         } else if (section == SectionUkuran) {
             return categorySizes.count
+        } else if (section == SectionJenis) {
+            return 2
         } else if (section == SectionHarga) {
             return 2
         } else if (section == SectionLokasi) {
@@ -255,6 +267,8 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             return 36
         } else if (section == SectionKondisi) {
             return 36
+        } else if (section == SectionJenis) {
+            return 27
         } else if (section == SectionOngkir) {
             return 44
         } else if (section == SectionUkuran) {
@@ -297,6 +311,12 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             let cell : FilterChecklistCell = self.tableView.dequeueReusableCell(withIdentifier: IdFilterChecklistCell) as! FilterChecklistCell
             if ((indexPath as NSIndexPath).row < productConditions.count) {
                 cell.adapt(productConditions[(indexPath as NSIndexPath).row], isChecked: selectedProductConditions[(indexPath as NSIndexPath).row])
+            }
+            return cell
+        } else if (section == SectionJenis) {
+            let cell : FilterChecklistCell = self.tableView.dequeueReusableCell(withIdentifier: IdFilterChecklistCell) as! FilterChecklistCell
+            if ((indexPath as NSIndexPath).row < productConditions.count) {
+                cell.adapt(jenisListing[(indexPath as NSIndexPath).row], isChecked: jenisListingChecked[(indexPath as NSIndexPath).row])
             }
             return cell
         } else if (section == SectionOngkir) {
@@ -358,6 +378,9 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         } else if (section == SectionKondisi) {
             selectedProductConditions[(indexPath as NSIndexPath).row] = !selectedProductConditions[(indexPath as NSIndexPath).row]
             tableView.reloadData()
+        } else if (section == SectionJenis) {
+            jenisListingChecked[(indexPath as NSIndexPath).row] = !jenisListingChecked[(indexPath as NSIndexPath).row]
+            tableView.reloadData()
         } else if (section == SectionLokasi) {
             let filterlocation = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
             filterlocation.root = self
@@ -418,6 +441,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         minPrice = ""
         maxPrice = ""
         
+        selectedJenisListing = "2"
         locationId = ""
         locationName = "Semua Provinsi"
         locationType = 0
@@ -443,6 +467,18 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             }
         }
         
+        //Prepare Jenis
+        var fltrProdKind : String = ""
+        if jenisListingChecked[0] && !jenisListingChecked[1] { // 0 & ~1
+            fltrProdKind = "0"
+        } else if !jenisListingChecked[0] && jenisListingChecked[1] { // ~0 $ 1
+            fltrProdKind = "1"
+        } else if jenisListingChecked[0] && jenisListingChecked[1] { // 0 & 1
+            fltrProdKind = String(jenisListingChecked.count)
+        }
+//        fltrProdKind = Int64(fltrProdKind)
+        print (fltrProdKind)
+        
         // Prepare category sizes param
         var fltrSizes : [String] = []
         if (categorySizes.count > 0) {
@@ -466,7 +502,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         }
         
         if (self.previousController != nil) {
-            delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy], fltrLocation: [self.locationName, self.locationId, self.locationType.string, self.locationParentIDs])
+            delegate?.adjustFilter(fltrProdCondIds, fltrPriceMin: fltrPriceMin, fltrPriceMax: fltrPriceMax, fltrIsFreeOngkir: self.isFreeOngkir, fltrSizes: fltrSizes, fltrSortBy: self.SortByDataValue[self.selectedIdxSortBy], fltrLocation: [self.locationName, self.locationId, self.locationType.string, self.locationParentIDs], fltrProdKind: fltrProdKind)
             _ = self.navigationController?.popViewController(animated: true)
         } else {
             let mainStoryboard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -478,6 +514,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             l.fltrPriceMin = fltrPriceMin
             l.fltrPriceMax = fltrPriceMax
             l.fltrIsFreeOngkir = self.isFreeOngkir
+            l.fltrProdKind = fltrProdKind
             l.fltrSizes = fltrSizes
             l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
             l.fltrLocation = [self.locationName, self.locationId, self.locationType.string, self.locationParentIDs]
