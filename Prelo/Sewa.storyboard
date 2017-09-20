@@ -76,43 +76,43 @@
                                 <rect key="frame" x="0.0" y="84" width="375" height="24"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="S" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dBS-Vj-232">
-                                        <rect key="frame" x="0.0" y="0.0" width="54" height="24"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="53.5" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="S" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1h-wL-kjH">
-                                        <rect key="frame" x="54" y="0.0" width="53" height="24"/>
+                                        <rect key="frame" x="53.5" y="0.0" width="53.5" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="R" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fI5-0c-94k">
-                                        <rect key="frame" x="107" y="0.0" width="54" height="24"/>
+                                        <rect key="frame" x="107" y="0.0" width="53.5" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="3" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="K" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vyh-AR-dRT">
-                                        <rect key="frame" x="161" y="0.0" width="53" height="24"/>
+                                        <rect key="frame" x="160.5" y="0.0" width="54" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="4" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="J" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pIj-qM-hZd">
-                                        <rect key="frame" x="214" y="0.0" width="54" height="24"/>
+                                        <rect key="frame" x="214.5" y="0.0" width="53.5" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="5" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="S" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7mR-if-dFy">
-                                        <rect key="frame" x="268" y="0.0" width="53" height="24"/>
+                                        <rect key="frame" x="268" y="0.0" width="53.5" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" tag="6" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="M" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qef-PQ-6BT">
-                                        <rect key="frame" x="321" y="0.0" width="54" height="24"/>
+                                        <rect key="frame" x="321.5" y="0.0" width="53.5" height="24"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -241,7 +241,7 @@
                                 <rect key="frame" x="0.0" y="619" width="375" height="48"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3 + 2 hari" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sec-FA-krN">
-                                        <rect key="frame" x="20" y="14" width="73" height="21"/>
+                                        <rect key="frame" x="20" y="14.5" width="73" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
@@ -296,7 +296,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Batas konfirmasi pengambilan" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RJ0-yp-mDJ">
-                                        <rect key="frame" x="215" y="-1" width="120" height="22"/>
+                                        <rect key="frame" x="215" y="-0.5" width="120" height="21.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="48Z-Ra-cmI"/>
                                         </constraints>
@@ -327,7 +327,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang diterima pemilik barang" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qgh-34-Vqc">
-                                        <rect key="frame" x="215" y="27" width="120" height="22"/>
+                                        <rect key="frame" x="215" y="27.5" width="120" height="21.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="svL-9h-R19"/>
                                         </constraints>
@@ -342,19 +342,19 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="* Pengiriman barang sewaan dapat dilakukan dengan bertemu langsung dengan penyewa" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IEz-Tb-f6p">
-                                        <rect key="frame" x="0.0" y="68" width="335" height="22"/>
+                                        <rect key="frame" x="0.0" y="68" width="335" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="9"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saya setuju untuk mengembalikan barang pada akhir masa sewa sesuai dengan Syarat dan Ketentuan Prelo" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FV8-DY-Kbt">
-                                        <rect key="frame" x="28" y="97" width="307" height="22"/>
+                                        <rect key="frame" x="28" y="96.5" width="307" height="21.5"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="9"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FlH-Vy-tpl" userLabel="CheckboxButton">
-                                        <rect key="frame" x="0.0" y="98" width="20" height="20"/>
+                                        <rect key="frame" x="0.0" y="97.5" width="20" height="20"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="20" id="e3x-ZP-hcg"/>
                                             <constraint firstAttribute="height" constant="20" id="swd-kg-v4p"/>
@@ -434,7 +434,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Tanggal Sewa" id="jSf-ud-9CF">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="cva-1h-ejq"/>
+                        <barButtonItem key="rightBarButtonItem" image="iconChecked" id="cva-1h-ejq">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="calendarView" destination="1oA-B0-gGG" id="YSb-Xb-fQo"/>
@@ -462,6 +464,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="iconChecked" width="13" height="11"/>
         <image name="uncheckedbox" width="24" height="24"/>
     </resources>
 </document>

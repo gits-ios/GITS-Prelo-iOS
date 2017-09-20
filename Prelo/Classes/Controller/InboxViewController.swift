@@ -134,7 +134,7 @@ class InboxViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+        let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
         t.tawarItem = inboxes[(indexPath as NSIndexPath).row]
         t.tawarDelegate = self
         self.navigationController?.pushViewController(t, animated: true)

@@ -1314,7 +1314,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     let data = json["_data"]
                     let inbox = Inbox(jsn: data)
                     
-                    let tawarVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+                    let tawarVC = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                     tawarVC.tawarItem = inbox
                     tawarVC.previousScreen = "Push Notification"
                     

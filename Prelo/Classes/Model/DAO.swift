@@ -559,11 +559,31 @@ open class ProductDetail : NSObject, TawarItem
         }
     }
     
+    
     fileprivate func urlForDisplayPicture(_ imageName : String, productID : String) -> String
     {
         let modifiedImageName = imageName.replacingOccurrences(of: "..\\/", with: "", options: NSString.CompareOptions.caseInsensitive, range: nil)
         return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
     }
+    
+    var rentPrice: Int {
+        let rent = json["rent"]
+        if rent != nil {
+            if let rentPrice = rent["price"].int{
+                return rentPrice
+            }
+            return 0
+        }else{
+            return 0
+        }
+    }
+    
+    /*var listingType: Int {
+        if let listingType = json["listing_type"].int {
+            return listingType
+        }
+        return 0
+    }*/
     
     var isActive : Bool {
         return json["_data"]["status"].boolValue
@@ -3047,6 +3067,25 @@ class Inbox : NSObject, TawarItem
             }
         }
     }
+    
+    var rentPrice: Int {
+        let rent = json["rent"]
+        if rent != nil {
+            if let rentPrice = rent["price"].int{
+                return rentPrice
+            }
+            return 0
+        }else{
+            return 0
+        }
+    }
+    
+    /*var listingType: Int {
+        if let listingType = json["listing_type"].int {
+            return listingType
+        }
+        return 0
+    }*/
     
     var id : String
     {

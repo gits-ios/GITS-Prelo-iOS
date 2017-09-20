@@ -113,9 +113,9 @@ class TanggalSewaViewController: UIViewController {
             self.startDateLabel.textColor = UIColor.darkGray
         } else {
             self.startDayLabel.text = "TANGGAL"
-            self.startDayLabel.textColor = UIColor(hexString: "#EBEBF1")
+            self.startDayLabel.textColor = UIColor.gray
             self.startDateLabel.text = "MULAI"
-            self.startDateLabel.textColor = UIColor(hexString: "#EBEBF1")
+            self.startDateLabel.textColor = UIColor.gray
         }
         
         if isFinishSelected {
@@ -125,9 +125,9 @@ class TanggalSewaViewController: UIViewController {
             self.finishDateLabel.textColor = UIColor.darkGray
         } else {
             self.finishDayLabel.text = "TANGGAL"
-            self.finishDayLabel.textColor = UIColor(hexString: "#EBEBF1")
+            self.finishDayLabel.textColor = UIColor.gray
             self.finishDateLabel.text = "SELESAI"
-            self.finishDateLabel.textColor = UIColor(hexString: "#EBEBF1")
+            self.finishDateLabel.textColor = UIColor.gray
         }
         
         if isStartSelected && isFinishSelected {

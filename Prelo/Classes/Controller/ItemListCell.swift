@@ -132,6 +132,11 @@ class ItemListCell: UITableViewCell {
             lblPrice.isHidden = true
             iconRentPrice.isHidden = false
             lblRentPrice.isHidden = false
+        case 3:
+            iconPrice.isHidden = true
+            lblPrice.isHidden = true
+            iconRentPrice.isHidden = true
+            lblRentPrice.isHidden = true
         default:
             iconPrice.isHidden = false
             lblPrice.isHidden = false

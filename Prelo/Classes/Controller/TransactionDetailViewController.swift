@@ -2400,7 +2400,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if let pDetail = ProductDetail.instance(json) {
                     
                         // Goto chat
-                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                         t.previousScreen = PageName.TransactionDetail
                         
                         t.isSellerNotActive = pDetail.IsShopClosed
@@ -2457,7 +2457,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if let pDetail = ProductDetail.instance(json) {
                         
                         // Goto chat
-                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                         t.tawarItem = pDetail
                         t.loadInboxFirst = true
                         t.prodId = pDetail.productID

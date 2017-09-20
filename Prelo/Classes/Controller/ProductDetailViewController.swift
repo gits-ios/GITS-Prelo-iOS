@@ -1254,7 +1254,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     {
         if let d = self.detail
         {
-            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+            let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
             t.tawarItem = d
             t.loadInboxFirst = true
             t.prodId = d.productID

@@ -54,9 +54,18 @@ protocol  TawarItem {
     var productStatus : Int {get}
     var finalPrice : Int64 {get} // Final price after bargain accept/reject
     var markAsSoldTo : String {get}
-    
     func setBargainPrice(_ price : Int64)
     func setFinalPrice(_ price : Int64)
+    //Rent
+    var rentPrice : Int {get}
+    //var listingType : Int {get}
+    
+}
+
+extension NSLayoutConstraint {
+    func constraintWithMultiplier(_ multiplier: CGFloat) -> NSLayoutConstraint {
+        return NSLayoutConstraint(item: self.firstItem, attribute: self.firstAttribute, relatedBy: self.relation, toItem: self.secondItem, attribute: self.secondAttribute, multiplier: multiplier, constant: self.constant)
+    }
 }
 
 // MARK: - Protocol
@@ -69,6 +78,11 @@ protocol TawarDelegate {
 
 class TawarViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, UITextViewDelegate, UIScrollViewDelegate, MessagePoolDelegate, UserRelatedDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MFMessageComposeViewControllerDelegate {
 
+    //Constant height margin options
+    let maxHeightOptions : CGFloat = 170
+    let midHeightOptions : CGFloat = 135
+    let minHeightOptions : CGFloat = 96
+    
     // MARK: - Properties
     
     // Outlets
@@ -86,6 +100,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var btnConfirm : UIButton!
     @IBOutlet weak var btnSold: UIButton!
     @IBOutlet weak var btnBeliSold: UIButton!
+    @IBOutlet weak var btnRent : UIButton!
+    @IBOutlet weak var btnEdit: UIButton!
+    @IBOutlet weak var btnRentOnly: UIButton!
+    @IBOutlet weak var consRentButton: NSLayoutConstraint!
     // Outlets in chat field section
     @IBOutlet weak var btnSend : UIButton!
     @IBOutlet weak var textView : UITextView!
@@ -147,6 +165,8 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.validateHeaderButtonAndPrice()
+        
         // Set title
         self.title = tawarItem.theirName
 
@@ -189,6 +209,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             header.captionOldPrice.text = ""
             captionTawarHargaOri.text = "Harga asli " + tawarItem.price
         }
+        
         // Username in header
         if (tawarItem.opIsMe) { // If I am buyer
             header.captionUsername.text = tawarItem.theirName
@@ -220,23 +241,21 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         txtVwUploadGbr.delegate = self
         
         // Buttons action setup
+        self.btnTawar1.layer.borderWidth = 0.8
+        self.btnTawar1.layer.borderColor = UIColor.orange.cgColor
         btnTawar1.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
+        btnEdit.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
         btnTawar2.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
         btnTolak.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), for: UIControlEvents.touchUpInside)
         btnTolak2.addTarget(self, action: #selector(TawarViewController.rejectTawar(_:)), for: UIControlEvents.touchUpInside)
         btnConfirm.addTarget(self, action: #selector(TawarViewController.confirmTawar(_:)), for: UIControlEvents.touchUpInside)
         btnSold.addTarget(self, action: #selector(TawarViewController.markAsSold), for: UIControlEvents.touchUpInside)
         
-        // Setup messages
-        if (User.IsLoggedIn) {
-            firstSetup()
-        }
-        
         
         // OVERRIDE BUTTON COLOR
         // ORANYE PRELO
-        btnTawar1.backgroundColor = Theme.ThemeOrange
-        btnTawar2.backgroundColor = Theme.ThemeOrange
+        //btnTawar1.backgroundColor = Theme.ThemeOrange
+        //btnTawar2.backgroundColor = Theme.ThemeOrange
         
         // WHITE
         //        btnTolak
@@ -249,10 +268,46 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         btnBeli.backgroundColor = Theme.PrimaryColor
         btnBeliSold.backgroundColor = Theme.PrimaryColor
         
+        
+        // Setup messages
+        if (User.IsLoggedIn) {
+            firstSetup()
+        }
+        
         if (User.IsLoggedIn) {
             if isTawarkan {
                 self.startNew(1, message : isTawarkan_originalPrice, withImg: nil)
             }
+        }
+    }
+    
+    func validateHeaderButtonAndPrice(){
+        //Validation of rent
+        self.btnRentOnly.isHidden = true
+        if self.tawarItem.rentPrice != 0 && self.tawarItem.price != "Rp0" {
+            self.header.iconRent.isHidden = false
+            self.header.labelRent.isHidden = false
+            self.header.labelRent.text = self.tawarItem.rentPrice.asPrice
+            self.header.iconJual.isHidden = false
+            self.header.captionPrice.isHidden = false
+        }else if self.tawarItem.rentPrice != 0 {
+            self.header.iconRent.isHidden = false
+            self.header.labelRent.isHidden = false
+            self.header.labelRent.text = self.tawarItem.rentPrice.asPrice
+            self.header.iconJual.isHidden = true
+            self.header.captionPrice.isHidden = true
+            self.hideButtonHeader()
+            self.btnRentOnly.isHidden = false
+        }else if self.tawarItem.price != "Rp0" {
+            self.header.iconRent.isHidden = true
+            self.header.labelRent.isHidden = true
+            self.header.iconJual.isHidden = false
+            self.header.captionPrice.isHidden = false
+            self.btnRent.isHidden = true
+            let newConstraint = self.consRentButton.constraintWithMultiplier(1/2)
+            self.view!.removeConstraint(self.consRentButton)
+            self.view!.addConstraint(newConstraint)
+            self.view!.layoutIfNeeded()
         }
     }
     
@@ -268,7 +323,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         // Keyboard animation handling
         self.an_subscribeKeyboard(animations: { frame, interval, opening in
             if (opening) {
@@ -393,6 +447,13 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         }
     }
     
+    func hideButtonHeader(){
+        self.btnBeliSold.isHidden = true
+        self.btnTawar1.isHidden = true
+        self.btnRent.isHidden = true
+        self.btnBeli.isHidden = true
+    }
+    
     func adjustButtons() {
         // threadState = 0, means default state (no one is bargaining)
         // threadState = 1, means someone is currently bargaining
@@ -410,47 +471,68 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         btnBatal.isHidden = true
         btnTolak.isHidden = true
         btnTolak2.isHidden = true
+        btnEdit.isHidden = true
         btnConfirm.isHidden = true
         btnSold.isHidden = true
         btnBeliSold.isHidden = true
+        if self.tawarItem.rentPrice != 0 {
+            self.btnRent.isHidden = true
+        }
         
         // Enable buttons
         btnTawar1.isEnabled = true
         btnTawar2.isEnabled = true
+        if self.tawarItem.rentPrice != 0 {
+            self.btnRent.isEnabled = true
+        }
         
         // Set header height
         if (tawarItem.opIsMe) { // I am buyer
             if (self.prodStatus == 1) { // Product isn't sold
-                self.conMarginHeightOptions.constant = 114
+                self.conMarginHeightOptions.constant = midHeightOptions
+                self.btnSold.isHidden = true
             } else { // Product is sold
                 if (tawarItem.markAsSoldTo == User.Id) { // Mark as sold to me
-                    self.conMarginHeightOptions.constant = 114
+                    self.conMarginHeightOptions.constant = midHeightOptions
+                    self.btnSold.isHidden = true
                 } else {
-                    self.conMarginHeightOptions.constant = 80
+                    self.conMarginHeightOptions.constant = minHeightOptions
+                    self.hideButtonHeader()
+                    self.btnRentOnly.isHidden = true
+                    //
                     return
                 }
             }
         } else { // I am seller
             if (self.prodStatus == 1) { // Product isn't sold
                 if (threadState == 0 || threadState == 2 || threadState == 3) { // No one is bargaining
-                    self.conMarginHeightOptions.constant = 149
+                    self.conMarginHeightOptions.constant = maxHeightOptions
+                    self.btnRentOnly.isHidden = true
+                    //
                 } else if (threadState == 1) { // Someone is bargaining
-                    self.conMarginHeightOptions.constant = 114
+                    self.conMarginHeightOptions.constant = midHeightOptions
+                    self.btnSold.isHidden = true
                 }
             } else { // Product is sold
                 if (tawarItem.markAsSoldTo == tawarItem.theirId) { // mark as sold, im seller
-//                    self.conMarginHeightOptions.constant = 149 // 114 // 80
+//                    self.conMarginHeightOptions.constant = maxHeightOptions // midHeightOptions // minHeightOptions
                     if (threadState == 0 || threadState == 2 || threadState == 3) {
-                        self.conMarginHeightOptions.constant = 149
+                        self.conMarginHeightOptions.constant = maxHeightOptions
+                        self.btnRentOnly.isHidden = true
                     } else if (threadState == 1) {
-                        self.conMarginHeightOptions.constant = 114
+                        self.conMarginHeightOptions.constant = midHeightOptions
+                        self.btnSold.isHidden = true
                     }
                 } else if (threadState == 4 || threadState == 3) { // start chat from seller
-                    self.conMarginHeightOptions.constant = 149
+                    self.conMarginHeightOptions.constant = maxHeightOptions
+                    self.btnRentOnly.isHidden = true
                 } else if (threadState == 1) {
-                    self.conMarginHeightOptions.constant = 114
+                    self.conMarginHeightOptions.constant = midHeightOptions
+                    self.btnSold.isHidden = true
                 } else {
-                    self.conMarginHeightOptions.constant = 80
+                    self.conMarginHeightOptions.constant = minHeightOptions
+                    self.hideButtonHeader()
+                    self.btnRentOnly.isHidden = true
                     return
                 }
             }
@@ -472,6 +554,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarItem.opIsMe && tawarItem.markAsSoldTo == User.Id) { // I am buyer & mark as sold to me
                     btnTawar1.isHidden = false
                     btnBeli.isHidden = false
+                    if self.tawarItem.rentPrice != 0 {
+                        self.btnRent.isHidden = false
+                    }
                 } else if (!tawarItem.opIsMe && tawarItem.markAsSoldTo == tawarItem.theirId) { // I am seller & mark as sold to their
                     btnTawar2.isHidden = false
                     btnSold.isHidden = false
@@ -483,8 +568,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarFromMe) { // I am bargaining
                     if (tawarItem.opIsMe) { // I am buyer
                         btnTolak2.isHidden = false
+                        btnEdit.isHidden = false
                     } else { // I am seller
                         btnTolak2.isHidden = false
+                        btnEdit.isHidden = false
                     }
                 } else { // Other is bargaining
                     btnTolak.isHidden = false
@@ -497,6 +584,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarItem.opIsMe) { // I am buyer
                     btnTawar1.isHidden = false
                     btnBeli.isHidden = false
+                    if self.tawarItem.rentPrice != 0 {
+                        self.btnRent.isHidden = false
+                    }
                 } else { // I am seller
                     btnTawar2.isHidden = false
                     btnSold.isHidden = false
@@ -505,8 +595,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                 if (tawarFromMe) { // I am bargaining
                     if (tawarItem.opIsMe) { // I am buyer
                         btnTolak2.isHidden = false
+                        btnEdit.isHidden = false
                     } else { // I am seller
                         btnTolak2.isHidden = false
+                        btnEdit.isHidden = false
                     }
                 } else { // Other is bargaining
                     btnTolak.isHidden = false
@@ -1070,6 +1162,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             txtTawar.text = ""
             btnTawar1.isEnabled = false
             btnTawar2.isEnabled = false
+            if self.tawarItem.rentPrice != 0 {
+                self.btnRent.isEnabled = false
+            }
 //            btnTawar1.isHidden = true
 //            btnTawar2.isHidden = true
             self.tawarItem.setBargainPrice(m)
@@ -1616,6 +1711,10 @@ class TawarHeader : UIView {
     @IBOutlet var btnTawarFull : UIButton!
     @IBOutlet var btnBeli : UIButton!
     @IBOutlet var btnBatal : UIButton!
+    //addition for rent feature
+    @IBOutlet weak var iconRent: UIImageView!
+    @IBOutlet weak var labelRent: UILabel!
+    @IBOutlet weak var iconJual: UIImageView!
 }
 
 // MARK: - Class

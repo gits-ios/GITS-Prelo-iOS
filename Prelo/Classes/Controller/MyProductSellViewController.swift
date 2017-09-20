@@ -428,14 +428,20 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 //Check State of Rent or Buy
                 let rent = p.json["rent"]
                 let price = p.json["price"]
-                if price != nil && rent != nil {
-                    cell.showHideInfoProdTransCell(state: 0)
-                    cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
-                }else if price != nil {
-                    cell.showHideInfoProdTransCell(state: 1)
+                
+                //Validation of rent
+                if price != nil {
+                    if price != 0 && (rent != nil && rent["price"].int != 0) {
+                        cell.showHideInfoProdTransCell(state: 0)
+                        cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
+                    }else if rent != nil {
+                        cell.showHideInfoProdTransCell(state: 2)
+                        cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
+                    }else {
+                        cell.showHideInfoProdTransCell(state: 1)
+                    }
                 }else{
-                    cell.showHideInfoProdTransCell(state: 2)
-                    cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
+                    cell.showHideInfoProdTransCell(state: 4)
                 }
             }
         }

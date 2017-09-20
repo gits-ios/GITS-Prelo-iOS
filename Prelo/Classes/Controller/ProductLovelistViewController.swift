@@ -164,7 +164,7 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
                         // Goto chat
-                        let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                        let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                         t.previousScreen = PageName.ProductLovelist
                         
                         t.isSellerNotActive = pDetail.IsShopClosed

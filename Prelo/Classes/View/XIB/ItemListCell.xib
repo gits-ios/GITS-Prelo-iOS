@@ -55,7 +55,7 @@
                             </mask>
                         </variation>
                     </label>
-                    <stackView opaque="NO" contentMode="scaleToFill" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="IKu-g5-oFM">
+                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="IKu-g5-oFM">
                         <rect key="frame" x="70.5" y="25" width="241.5" height="16"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic-jual-beli" translatesAutoresizingMaskIntoConstraints="NO" id="Ecs-lv-Pit">
@@ -66,7 +66,7 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp 99.999.999" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lia-XW-Wgr">
-                                <rect key="frame" x="20" y="0.0" width="90.5" height="16"/>
+                                <rect key="frame" x="20" y="0.0" width="72" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="5nC-Wb-wKY"/>
                                     <constraint firstAttribute="height" constant="17" id="fL3-wa-ZZk"/>
@@ -81,14 +81,14 @@
                                 </variation>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic-harga-sewa" translatesAutoresizingMaskIntoConstraints="NO" id="iwc-vL-5gg">
-                                <rect key="frame" x="114.5" y="0.0" width="16" height="16"/>
+                                <rect key="frame" x="96" y="0.0" width="16" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="RA2-2R-g8g"/>
                                     <constraint firstAttribute="width" constant="16" id="qfz-yg-7Tp"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Rp 99.999.999 / hari" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="76I-f2-xMm">
-                                <rect key="frame" x="134.5" y="0.0" width="107" height="16"/>
+                                <rect key="frame" x="116" y="0.0" width="125.5" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="Xro-BV-Nwe"/>
                                 </constraints>

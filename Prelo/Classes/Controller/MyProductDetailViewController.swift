@@ -568,7 +568,7 @@ class MyProductDetailViewController : BaseViewController, UINavigationController
                 self.detail = ProductDetail.instance(json)
                 
                 // Goto chat
-                let t = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdTawar) as! TawarViewController
+                let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                 t.previousScreen = PageName.MyProducts
                 
                 t.isSellerNotActive = (self.detail?.IsShopClosed)!
