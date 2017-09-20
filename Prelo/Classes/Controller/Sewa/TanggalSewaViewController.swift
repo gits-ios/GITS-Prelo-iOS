@@ -16,18 +16,21 @@ class TanggalSewaViewController: UIViewController {
     @IBOutlet var finishDateLabel: UILabel!
     @IBOutlet var totalDayLabel: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
+    @IBOutlet var checkboxButton: UIButton!
     
     var iii: Date?
     let formatter = DateFormatter()
     var testCalendar = Calendar.current
+    var isCheckboxAgreed: Bool = false
     var isStartSelected: Bool = false
     var isFinishSelected: Bool = false
     var systemStartDate: Date?
     var systemFinishDate: Date?
     var startDate: Date?
     var finishDate: Date?
-    var startBuffer: Int = 2
-    var finishBuffer: Int = 2
+    var startBuffer: Int = 1
+    var finishBuffer: Int = 1
+    var dayRangeToOpenStartDate: Int = 30
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +44,25 @@ class TanggalSewaViewController: UIViewController {
     }
     
     @IBAction func lanjutClickAction(_ sender: Any) {
-        self.performSegue(withIdentifier: "performSegueBarangSaya", sender: self)
+        if !isStartSelected && !isFinishSelected {
+            Constant.showDialog("Perhatian", message: "Mohon pilih tanggal penyewaan terlebih dahulu")
+        } else {
+            if !isCheckboxAgreed {
+                Constant.showDialog("Perhatian", message: "Anda belum menyetujui syarat dan ketentuan Prelo")
+            } else {
+                self.performSegue(withIdentifier: "performSegueBarangSaya", sender: self)
+            }
+        }
+    }
+    
+    @IBAction func checkboxClickAction(_ sender: UIButton) {
+        if isCheckboxAgreed {
+            self.isCheckboxAgreed = false
+            self.checkboxButton.setBackgroundImage(UIImage(named: "uncheckedbox"), for: .normal)
+        } else {
+            self.isCheckboxAgreed = true
+            self.checkboxButton.setBackgroundImage(UIImage(named: "checkedbox"), for: .normal)
+        }
     }
     
     func setupCalendar() {
@@ -85,9 +106,9 @@ class TanggalSewaViewController: UIViewController {
         formatter.dateFormat = "dd MMM"
         if isStartSelected {
             self.startDayLabel.text = convertDayNameEnglishToIndonesia(date: startDate!)
-            self.startDayLabel.textColor = UIColor.black
+            self.startDayLabel.textColor = UIColor.darkGray
             self.startDateLabel.text = formatter.string(from: startDate!).uppercased()
-            self.startDateLabel.textColor = UIColor.black
+            self.startDateLabel.textColor = UIColor.darkGray
         } else {
             self.startDayLabel.text = "TANGGAL"
             self.startDayLabel.textColor = UIColor.gray
@@ -97,9 +118,9 @@ class TanggalSewaViewController: UIViewController {
         
         if isFinishSelected {
             self.finishDayLabel.text = convertDayNameEnglishToIndonesia(date: finishDate!)
-            self.finishDayLabel.textColor = UIColor.black
+            self.finishDayLabel.textColor = UIColor.darkGray
             self.finishDateLabel.text = formatter.string(from: finishDate!).uppercased()
-            self.finishDateLabel.textColor = UIColor.black
+            self.finishDateLabel.textColor = UIColor.darkGray
         } else {
             self.finishDayLabel.text = "TANGGAL"
             self.finishDayLabel.textColor = UIColor.gray
@@ -122,7 +143,7 @@ class TanggalSewaViewController: UIViewController {
         //customize view each date cell
         myCustomCell.dayLabel.text = cellState.text
         if cellState.dateBelongsTo == .thisMonth {
-            myCustomCell.dayLabel.textColor = UIColor.black
+            myCustomCell.dayLabel.textColor = UIColor.darkGray
         } else {
             //leftover date at beginning or end of the calendar's month section
             myCustomCell.dayLabel.textColor = UIColor.gray
@@ -186,7 +207,8 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
         formatter.timeZone = Calendar.current.timeZone
         formatter.locale = Calendar.current.locale
         
-        self.systemStartDate = formatter.date(from: "2017 01 01")!
+        //        self.systemStartDate = formatter.date(from: "2017 01 01")!
+        self.systemStartDate = Date()
         self.systemFinishDate = systemStartDate?.dateByAddingDays(365)
         
         let parameters = ConfigurationParameters(startDate: self.systemStartDate!,
@@ -213,19 +235,26 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
-        if !isStartSelected {
-            isStartSelected = true
-            startDate = date
-        } else {
-            if date.isLessThanDate(startDate!) {
+        let checkOpenDate = systemStartDate?.dateByAddingDays(dayRangeToOpenStartDate)
+        if date.isSameDay(checkOpenDate!) || date.isGreaterThanDate(checkOpenDate!) {
+            //selected date available
+            if !isStartSelected {
+                isStartSelected = true
                 startDate = date
             } else {
-                isFinishSelected = true
-                finishDate = date
+                if date.isLessThanDate(startDate!) {
+                    startDate = date
+                } else {
+                    isFinishSelected = true
+                    finishDate = date
+                }
             }
+            
+            calendar.reloadData()
+        } else {
+            //selected date not available because less than open date limit
+            Constant.showDialog("Perhatian", message: "Hanya dapat memulai sewa " + dayRangeToOpenStartDate.string + " hari dari hari ini")
         }
-        
-        calendar.reloadData()
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
