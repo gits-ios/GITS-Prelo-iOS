@@ -113,9 +113,9 @@ class TanggalSewaViewController: UIViewController {
             self.startDateLabel.textColor = UIColor.darkGray
         } else {
             self.startDayLabel.text = "TANGGAL"
-            self.startDayLabel.textColor = UIColor.gray
+            self.startDayLabel.textColor = UIColor(hexString: "#EBEBF1")
             self.startDateLabel.text = "MULAI"
-            self.startDateLabel.textColor = UIColor.gray
+            self.startDateLabel.textColor = UIColor(hexString: "#EBEBF1")
         }
         
         if isFinishSelected {
@@ -125,9 +125,9 @@ class TanggalSewaViewController: UIViewController {
             self.finishDateLabel.textColor = UIColor.darkGray
         } else {
             self.finishDayLabel.text = "TANGGAL"
-            self.finishDayLabel.textColor = UIColor.gray
+            self.finishDayLabel.textColor = UIColor(hexString: "#EBEBF1")
             self.finishDateLabel.text = "SELESAI"
-            self.finishDateLabel.textColor = UIColor.gray
+            self.finishDateLabel.textColor = UIColor(hexString: "#EBEBF1")
         }
         
         if isStartSelected && isFinishSelected {
@@ -148,10 +148,10 @@ class TanggalSewaViewController: UIViewController {
             myCustomCell.dayLabel.textColor = UIColor.darkGray
         } else {
             //leftover date at beginning or end of the calendar's month section
-            myCustomCell.dayLabel.textColor = UIColor.gray
+            myCustomCell.dayLabel.textColor = UIColor.lightGray
         }
         if cellDate.dayFromWeekday() == "Sunday" {
-            myCustomCell.backgroundColor = UIColor.lightGray
+            myCustomCell.backgroundColor = UIColor(hexString: "#EBEBF1")
         } else {
             myCustomCell.backgroundColor = UIColor.white
         }
@@ -255,7 +255,7 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
             calendar.reloadData()
         } else {
             //selected date not available because less than open date limit
-            Constant.showDialog("Perhatian", message: "Hanya dapat memulai sewa " + dayRangeToOpenStartDate.string + " hari dari hari ini")
+            Constant.showDialog("Perhatian", message: "Hanya dapat memulai sewa setelah " + dayRangeToOpenStartDate.string + " hari dari hari ini")
         }
     }
     
