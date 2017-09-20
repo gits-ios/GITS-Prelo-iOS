@@ -17,6 +17,7 @@ class TanggalSewaViewController: UIViewController {
     @IBOutlet var totalDayLabel: UILabel!
     @IBOutlet weak var calendarView: JTAppleCalendarView!
     @IBOutlet var checkboxButton: UIButton!
+    @IBOutlet var termAgreementLabel: UILabel!
     
     var iii: Date?
     let formatter = DateFormatter()
@@ -35,6 +36,7 @@ class TanggalSewaViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.termAgreementLabel.colorString(text: "Saya setuju untuk mengembalikan barang pada akhir masa sewa sesuai dengan Syarat dan Ketentuan Prelo", coloredText: "Syarat dan Ketentuan Prelo")
         self.setupCalendar()
     }
     
@@ -291,5 +293,16 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
         header = calendar.dequeueReusableJTAppleSupplementaryView(withReuseIdentifier: "HeaderTanggalView", for: indexPath)
         (header as! HeaderTanggalView).headerLabel.text = month
         return header
+    }
+}
+
+extension UILabel {
+    func colorString(text: String?, coloredText: String?, color: UIColor? = UIColor(hexString: "#14988B")) {
+        
+        let attributedString = NSMutableAttributedString(string: text!)
+        let range = (text! as NSString).range(of: coloredText!)
+        attributedString.setAttributes([NSForegroundColorAttributeName: color!],
+                                       range: range)
+        self.attributedText = attributedString
     }
 }
