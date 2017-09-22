@@ -593,6 +593,10 @@ open class ProductDetail : NSObject, TawarItem
         return json["_data"]["status"].intValue
     }
     
+    var listing_type: Int {
+        return json["_data"]["listing_type"].intValue
+    }
+    
     func setStatus(_ newStatus : Int) {
         json["_data"]["status"] = JSON(newStatus)
     }
@@ -5176,6 +5180,13 @@ class ShippingPackageItem : NSObject {
         }
         return false
     }
+    
+    var isMeetup : Bool {
+        if let j = json["is_meetup"].bool {
+            return j
+        }
+        return false
+    }
 }
 
 // products
@@ -5371,6 +5382,61 @@ class ProductItem : NSObject {
             return j
         }
         return nil
+    }
+    
+    
+    //for sewa product
+    var rent_duration_text : String {
+        if let j = json["rent_duration_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var end_rent_text : String {
+        if let j = json["end_rent_text"].string {
+            return j
+        }
+        return ""
+    }    
+    
+    var end_date_no_buffer_text : String {
+        if let j = json["end_date_no_buffer_text"].string {
+            return j
+        }
+        return ""
+    }
+    var end_date_buffer_text : String {
+        if let j = json["end_date_buffer_text"].string {
+            return j
+        }
+        return ""
+    }
+    var start_date_buffer_text : String {
+        if let j = json["start_date_buffer_text"].string {
+            return j
+        }
+        return ""
+    }
+    var start_date_no_buffer_text : String {
+        if let j = json["start_date_no_buffer_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var total_rent_price : Int64 {
+        if let j = json["total_rent_price"].int64 {
+            return j
+        }
+        return 0
+    }
+    
+    var price_deposit : Int64 {
+        if let j = json["price_deposit"].int64 {
+            return j
+        }
+        return 0
     }
 }
 

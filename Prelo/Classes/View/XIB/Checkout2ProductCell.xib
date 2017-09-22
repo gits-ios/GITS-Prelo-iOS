@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -92,6 +93,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="consWidthBtn" destination="cLQ-yf-VAT" id="xap-Jv-8On"/>
+                <outlet property="deleteImage" destination="9mY-hT-8au" id="kyj-KD-QwY"/>
                 <outlet property="imgProduct" destination="XZ5-Cy-ykk" id="xsJ-q9-CQW"/>
                 <outlet property="lbProductName" destination="sur-mT-9rl" id="dPP-yf-hYw"/>
                 <outlet property="lbProductPrice" destination="ZBF-xk-1bs" id="bmo-4M-iOt"/>

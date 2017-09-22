@@ -50,10 +50,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
     
     var alreadyInCart : Bool = false
     
+    //update for sewa
+    @IBOutlet var sewaView: UIView!
+    @IBOutlet var btnTawar2 : BorderedButton!
+    @IBOutlet var btnBuy2 : UIButton!
+    @IBOutlet weak var btnBuyLabel: UILabel!
+    @IBOutlet weak var imageBuyLabel: UIImageView!
+    
     @IBOutlet var tableView : UITableView?
     @IBOutlet var btnAddDiscussion : UIButton?
     @IBOutlet var btnBuy : UIButton!
     @IBOutlet var btnTawar : BorderedButton!
+    
     @IBOutlet var btnUp: BorderedButton!
     @IBOutlet var btnSold: UIButton!
     @IBOutlet var btnEdit : UIButton!
@@ -141,6 +149,11 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         
         btnBuy.isHidden = true
         btnTawar.isHidden = true
+        
+        //for sewa
+        sewaView.isHidden = true
+        btnBuy2.isHidden = true
+        btnTawar2.isHidden = true
         
         btnAddDiscussion?.layer.cornerRadius = 4
         btnAddDiscussion?.layer.borderColor = UIColor.lightGray.cgColor
@@ -385,6 +398,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
                 if (self.detail?.boughtByMe == true) {
                     self.btnTawar.isHidden = true
                     self.btnBuy.isHidden = true
+                    
+                    //for sewa
+                    sewaView.isHidden = true
+                    btnBuy2.isHidden = true
+                    btnTawar2.isHidden = true
+                    
                     if (self.detail?.transactionProgress == 1 || self.detail?.transactionProgress == 2) {
                         // Tampilkan button konfirmasi bayar
                         self.konfirmasiBayarBtnSet.isHidden = false
@@ -516,6 +535,12 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
 //            }
                 self.btnBuy.isHidden = true
                 self.btnTawar.isHidden = true
+                
+                //for sewa
+                sewaView.isHidden = true
+                btnBuy2.isHidden = true
+                btnTawar2.isHidden = true
+                
                 btnEdit.isHidden = false
                 btnUp.isHidden = false
                 btnSold.isHidden = false
@@ -523,9 +548,32 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             }
             else
             {
-                btnBuy.isHidden = false
-                btnTawar.isHidden = false
+                if (detail!.listing_type == 2) {
+                    sewaView.isHidden = false
+                    btnBuy2.isHidden = false
+                    btnTawar2.isHidden = false
+                    btnBuy.isHidden = true
+                    btnTawar.isHidden = true
+                } else if (detail!.listing_type == 1){
+                    sewaView.isHidden = true
+                    btnBuy2.isHidden = true
+                    btnTawar2.isHidden = true
+                    btnBuy.isHidden = false
+                    btnTawar.isHidden = false
+                    btnBuyLabel.text = "Sewa"
+                    imageBuyLabel.image = UIImage(named: "ic_circle")
+                } else {
+                    btnBuy.isHidden = false
+                    btnTawar.isHidden = false
+                    
+                    sewaView.isHidden = true
+                    btnBuy2.isHidden = true
+                    btnTawar2.isHidden = true
+                }
             }
+            
+            self.btnTawar2.removeTarget(nil, action: nil, for: .allEvents)
+            self.btnTawar2.addTarget(self, action: #selector(ProductDetailViewController.tawar(_:)), for: UIControlEvents.touchUpInside)
             
             self.btnTawar.removeTarget(nil, action: nil, for: .allEvents)
             self.btnTawar.addTarget(self, action: #selector(ProductDetailViewController.tawar(_:)), for: UIControlEvents.touchUpInside)
@@ -560,6 +608,10 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         if (detail?.isCheckout)! {
             btnBuy.isHidden = true
             btnTawar.isHidden = true
+            
+            //for sewa
+            sewaView.isHidden = true
+            
             
             btnEdit.isHidden = true
             btnUp.isHidden = true
@@ -1090,49 +1142,65 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
     }
     
+    //for sewa
+    func sewaBarang() {
+        isNeedReload = true
+        self.performSegue(withIdentifier: "performSegueSewa", sender: self)
+        return
+    }
+    
     // MARK: - button
     
     @IBAction func addToCart(_ sender: UIButton) {
-        if !alreadyInCart {
-            if AppTools.isNewCart { // v2
-                let sellerId = detail?.json["_data"]["seller"]["_id"].stringValue
-                if CartManager.sharedInstance.insertProduct(sellerId!, productId: (detail?.productID)!) {
-                    // FB Analytics - Add to Cart
-                    if AppTools.IsPreloProduction {
-                        let fbPdata: [String : Any] = [
-                            FBSDKAppEventParameterNameContentType          : "product",
-                            FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
-                            FBSDKAppEventParameterNameCurrency             : "IDR"
-                        ]
-                        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+        if (detail!.listing_type == 1){
+            sewaBarang()
+        } else {
+            if !alreadyInCart {
+                if AppTools.isNewCart { // v2
+                    let sellerId = detail?.json["_data"]["seller"]["_id"].stringValue
+                    if CartManager.sharedInstance.insertProduct(sellerId!, productId: (detail?.productID)!) {
+                        // FB Analytics - Add to Cart
+                        if AppTools.IsPreloProduction {
+                            let fbPdata: [String : Any] = [
+                                FBSDKAppEventParameterNameContentType          : "product",
+                                FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
+                                FBSDKAppEventParameterNameCurrency             : "IDR"
+                            ]
+                            FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+                        }
+                        setupView()
+                        self.alreadyInCart = true
                     }
-                    setupView()
-                    self.alreadyInCart = true
-                }
-            } else { // v1
-                if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
-                    Constant.showDialog("Failed", message: "Gagal Menyimpan")
-                } else {
-                    // FB Analytics - Add to Cart
-                    if AppTools.IsPreloProduction {
-                        let fbPdata: [String : Any] = [
-                            FBSDKAppEventParameterNameContentType          : "product",
-                            FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
-                            FBSDKAppEventParameterNameCurrency             : "IDR"
-                        ]
-                        FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+                } else { // v1
+                    if (CartProduct.newOne((detail?.productID)!, email : User.EmailOrEmptyString, name : (detail?.name)!) == nil) {
+                        Constant.showDialog("Failed", message: "Gagal Menyimpan")
+                    } else {
+                        // FB Analytics - Add to Cart
+                        if AppTools.IsPreloProduction {
+                            let fbPdata: [String : Any] = [
+                                FBSDKAppEventParameterNameContentType          : "product",
+                                FBSDKAppEventParameterNameContentID            : (detail?.productID)!,
+                                FBSDKAppEventParameterNameCurrency             : "IDR"
+                            ]
+                            FBSDKAppEvents.logEvent(FBSDKAppEventNameAddedToCart, valueToSum: Double((detail?.priceInt)!), parameters: fbPdata)
+                        }
+                        setupView()
+                        self.alreadyInCart = true
                     }
-                    setupView()
-                    self.alreadyInCart = true
                 }
             }
+            // popup
+            if (self.detail?.isAddToCart)! {
+                self.launchAdd2cartPopUp()
+            } else {
+                self.addProduct2cart()
+            }
         }
-        // popup
-        if (self.detail?.isAddToCart)! {
-            self.launchAdd2cartPopUp()
-        } else {
-            self.addProduct2cart()
-        }
+    }
+    
+    //for sewa
+    @IBAction func sewaAction(_ sender: UIButton) {
+        sewaBarang()
     }
     
     @IBAction func soldPressed(_ sender: AnyObject) {
@@ -1561,7 +1629,14 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
             let c = segue.destination as! ProductCommentsController
             c.pDetail = self.detail
             c.previousScreen = thisScreen
-        } else
+        }
+        else if (segue.identifier == "performSegueSewa") {
+            let vc = segue.destination as! TanggalSewaViewController
+            vc.productID = detail!.productID
+            let seller_id = detail?.json["_data"]["seller"]["_id"].stringValue
+            vc.sellerId = seller_id!
+        }
+        else
         {
             let c = segue.destination as! BaseViewController
             c.previousController = self

@@ -336,9 +336,6 @@ class KumangTabBarViewController: BaseViewController, UserRelatedDelegate {
         let btn : AppButton = sender as! AppButton
         if (btn.stringTag == Tags.Browse) {
             if currentTab == 0 {
-                
-                self.performSegue(withIdentifier: "performSegueSewa", sender: self)
-                
                 return
             }
             

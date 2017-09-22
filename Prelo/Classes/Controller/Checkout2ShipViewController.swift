@@ -1207,6 +1207,7 @@ class Checkout2SellerCell: UITableViewCell {
 
 // MARK: - Class Checkout2ProductCell
 class Checkout2ProductCell: UITableViewCell {
+    @IBOutlet weak var deleteImage: UIButton!
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lbProductName: UILabel!
     @IBOutlet weak var lbProductPrice: UILabel!

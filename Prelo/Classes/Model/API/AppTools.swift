@@ -1059,6 +1059,7 @@ class PageName {
     static let RekeningAdd = "Add Rekening"
     static let ChangeShopStatus = "Change Shop Status"
     static let BalanceMutation = "Balance Mutation"
+    static let TanggalSewa = "Tanggal Sewa"
 }
 
 extension Mixpanel {

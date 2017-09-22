@@ -623,6 +623,11 @@
 		58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
 		A901380B1F74BC9B0046C423 /* TawarSewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A901380A1F74BC9A0046C423 /* TawarSewa.storyboard */; };
+		A90138241F7509860046C423 /* ViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90138231F7509860046C423 /* ViewExtension.swift */; };
+		A901383D1F7509960046C423 /* CheckoutSewaDescriptionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90138391F7509960046C423 /* CheckoutSewaDescriptionCell.swift */; };
+		A901383E1F7509960046C423 /* CheckoutSewaDescriptionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A901383A1F7509960046C423 /* CheckoutSewaDescriptionCell.xib */; };
+		A901383F1F7509960046C423 /* CheckoutSewaPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A901383B1F7509960046C423 /* CheckoutSewaPopupView.swift */; };
+		A90138401F7509960046C423 /* CheckoutSewaPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */; };
 		A906AE6D1F6ABC5C00299796 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */; };
 		A90D84781F6912080085ABAD /* BarangSaya.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90D84771F6912080085ABAD /* BarangSaya.storyboard */; };
 		A90D84A01F691EB70085ABAD /* BarangSayaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D849F1F691EB70085ABAD /* BarangSayaViewController.swift */; };
@@ -1872,6 +1877,11 @@
 		A660744DD20315E091D19C0B /* Pods-PreloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A8C1D147A44BD6A34E6D2D06 /* Pods_PreloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A901380A1F74BC9A0046C423 /* TawarSewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TawarSewa.storyboard; sourceTree = "<group>"; };
+		A90138231F7509860046C423 /* ViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewExtension.swift; sourceTree = "<group>"; };
+		A90138391F7509960046C423 /* CheckoutSewaDescriptionCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutSewaDescriptionCell.swift; sourceTree = "<group>"; };
+		A901383A1F7509960046C423 /* CheckoutSewaDescriptionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutSewaDescriptionCell.xib; sourceTree = "<group>"; };
+		A901383B1F7509960046C423 /* CheckoutSewaPopupView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckoutSewaPopupView.swift; sourceTree = "<group>"; };
+		A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutSewaPopupView.xib; sourceTree = "<group>"; };
 		A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		A90D84771F6912080085ABAD /* BarangSaya.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarangSaya.storyboard; sourceTree = "<group>"; };
 		A90D849F1F691EB70085ABAD /* BarangSayaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarangSayaViewController.swift; sourceTree = "<group>"; };
@@ -2446,6 +2456,7 @@
 		2141BB481B54BE4C00787F5D /* External */ = {
 			isa = PBXGroup;
 			children = (
+				A90138231F7509860046C423 /* ViewExtension.swift */,
 				21D387401B6B95A500D0FA90 /* FakeBridge.h */,
 				21D387411B6B95A500D0FA90 /* FakeBridge.m */,
 				44BB8EF61BC6ABF70052B020 /* GIBadgeView.h */,
@@ -2876,6 +2887,7 @@
 		21AE67B11B4A59F400D2CF63 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A90138381F7509960046C423 /* SewaCheckout */,
 				A9E369D61F6AED2300DF69F1 /* TanggalSewa */,
 				A90D848D1F691C870085ABAD /* BarangSaya */,
 				B229DDDD1F4946A40062F5DF /* CircleMenu.swift */,
@@ -3716,6 +3728,17 @@
 				5EB3A43F19931E2A668907F9 /* Pods-PushNotif.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		A90138381F7509960046C423 /* SewaCheckout */ = {
+			isa = PBXGroup;
+			children = (
+				A90138391F7509960046C423 /* CheckoutSewaDescriptionCell.swift */,
+				A901383A1F7509960046C423 /* CheckoutSewaDescriptionCell.xib */,
+				A901383B1F7509960046C423 /* CheckoutSewaPopupView.swift */,
+				A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */,
+			);
+			path = SewaCheckout;
 			sourceTree = "<group>";
 		};
 		A90D848D1F691C870085ABAD /* BarangSaya */ = {
@@ -4573,6 +4596,7 @@
 				B2998E981F35953400D404AF /* AddProduct3ProductAuthVerificationCell.xib in Resources */,
 				58F5620E1EDEC4210054A3CE /* GoogleSignIn.bundle in Resources */,
 				B229F4BA1F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib in Resources */,
+				A901383E1F7509960046C423 /* CheckoutSewaDescriptionCell.xib in Resources */,
 				58BBF5941EF276E100A0E2A2 /* TarikTunaiwithSaveBankAccount2.xib in Resources */,
 				B2D119931E290BF80064045B /* banner_exclamation.png in Resources */,
 				58BE535F1D479F5B00E358EB /* courier_jne.png in Resources */,
@@ -4662,6 +4686,7 @@
 				B2D39B781EB2F7C800A44A1C /* txt_pin.png in Resources */,
 				5847E1951DBE057800C1B2BA /* LoginFransiska.xib in Resources */,
 				58F562101EDECD590054A3CE /* GoogleService-Info.plist in Resources */,
+				A90138401F7509960046C423 /* CheckoutSewaPopupView.xib in Resources */,
 				21E7A7661B9FF2BC00FC9B38 /* LKActivity.png in Resources */,
 				58BE53611D479F5B00E358EB /* courier_tiki.png in Resources */,
 				A90D84781F6912080085ABAD /* BarangSaya.storyboard in Resources */,
@@ -5235,6 +5260,7 @@
 				B2207FAE1ED67C2F00BCE613 /* DKCamera.swift in Sources */,
 				21B467F81CCE5EDB00E145ED /* String+BFKit.swift in Sources */,
 				21B467E41CCE5EDB00E145ED /* BFLog.swift in Sources */,
+				A90138241F7509860046C423 /* ViewExtension.swift in Sources */,
 				58BBF59A1EF3103B00A0E2A2 /* TarikTunaiViewController3.swift in Sources */,
 				B2C59AA21E2E4B31002E4597 /* SMSegmentView.swift in Sources */,
 				21679A181B901C5300F18F90 /* MPABTestDesignerChangeRequestMessage.m in Sources */,
@@ -5348,6 +5374,7 @@
 				21D3875C1B6B967A00D0FA90 /* UIViewController+KeyboardAnimation.m in Sources */,
 				585887801DBF17FD006EC6D5 /* CarConfirmViewController.swift in Sources */,
 				216345031CC3A855005CBA37 /* MKLayer.swift in Sources */,
+				A901383D1F7509960046C423 /* CheckoutSewaDescriptionCell.swift in Sources */,
 				21679A471B901C5300F18F90 /* MPTweakStore.m in Sources */,
 				B2207FC21ED67C2F00BCE613 /* DKPermissionView.swift in Sources */,
 				B27948251E35D971002CEED4 /* TarikTunaiViewController2.swift in Sources */,
@@ -5378,6 +5405,7 @@
 				B2FFCBA61EA52669004F01D0 /* SocketEngineWebsocket.swift in Sources */,
 				216345001CC3A855005CBA37 /* MKEmbedMainControllerSegue.swift in Sources */,
 				B2FFCBB11EA52669004F01D0 /* SocketStringReader.swift in Sources */,
+				A901383F1F7509960046C423 /* CheckoutSewaPopupView.swift in Sources */,
 				585887961DBF3309006EC6D5 /* MyPurchaseCompletedViewController.swift in Sources */,
 				58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */,
 				21679A2C1B901C5300F18F90 /* MPClassDescription.m in Sources */,

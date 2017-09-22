@@ -33,11 +33,19 @@ class TanggalSewaViewController: BaseViewController {
     var finishBuffer: Int = 1
     var startDateOpenDayRange: Int = 30
     
+    var thisScreen: String!
+    
+    //from product detail for checkout
+    var productID = ""
+    var sellerId = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.termAgreementLabel.colorString(text: "Saya setuju untuk mengembalikan barang pada akhir masa sewa sesuai dengan Syarat dan Ketentuan Prelo", coloredText: "Syarat dan Ketentuan Prelo")
         self.setupCalendar()
+        
+        self.thisScreen = PageName.TanggalSewa
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,7 +60,18 @@ class TanggalSewaViewController: BaseViewController {
             if !isCheckboxAgreed {
                 Constant.showDialog("Perhatian", message: "Anda belum menyetujui syarat dan ketentuan Prelo")
             } else {
-                self.performSegue(withIdentifier: "performSegueBarangSaya", sender: self)
+                let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
+                formatter.dateFormat = "yyyy-MM-dd"
+                checkout2VC.isSewaProduct = true
+                checkout2VC.start_date = formatter.string(from: startDate!)
+                checkout2VC.end_date = formatter.string(from: finishDate!)
+                checkout2VC.buffer_start_date = formatter.string(from: (startDate?.dateByAddingDays(-startBuffer))!)
+                checkout2VC.buffer_end_date = formatter.string(from: (finishDate?.dateByAddingDays(finishBuffer))!)
+                checkout2VC.seller_id = sellerId
+                checkout2VC.product_id = productID
+                checkout2VC.previousController = self
+                checkout2VC.previousScreen = thisScreen
+                self.navigationController?.pushViewController(checkout2VC, animated: true)
             }
         }
     }
@@ -267,7 +286,7 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
                     startDate = selectedDate
                     finishDate = nil
                 }
-
+                
             } else if selectedDate.isSameDay(startDate!) {
                 isStartSelected = true
                 isFinishSelected = false
@@ -307,7 +326,7 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
         }
         self.calendarView.reloadData()
     }
-
+    
     // This sets the height of your header
     func calendarSizeForMonths(_ calendar: JTAppleCalendarView?) -> MonthSize? {
         return MonthSize(defaultSize: 32)

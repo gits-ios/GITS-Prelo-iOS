@@ -13,6 +13,19 @@ import DropDown
 
 // MARK: - Class
 class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+    //for sewa checkout
+    var product_id = ""
+    var seller_id = ""
+    //for sewa from selectDate
+    var start_date = ""
+    var end_date = ""
+    var buffer_start_date = ""
+    var buffer_end_date = ""
+    var isSewaProduct = false
+    
+    var isChangeCourierSewa = false
+    var deposit: Int64 = 0
+    
     // MARK: - Properties
     
     //-------------
@@ -159,6 +172,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         let Checkout2PaymentSummaryTotalCell = UINib(nibName: "Checkout2PaymentSummaryTotalCell", bundle: nil)
         tableView.register(Checkout2PaymentSummaryTotalCell, forCellReuseIdentifier: "Checkout2PaymentSummaryTotalCell")
         
+        //for sewa checkout
+        tableView.register(UINib(nibName: "CheckoutSewaDescriptionCell", bundle: nil), forCellReuseIdentifier: "CheckoutSewaDescriptionCell")
+        
         // Belum ada barang dalam keranjang belanja
         tableView.register(ProvinceCell.self, forCellReuseIdentifier: "cell")
         
@@ -250,7 +266,21 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         if self.isFirst {
             //self.showLoading()
             
-            self.getCart()
+            if !isSewaProduct {
+                self.getCart()
+            } else {
+                // init default shipping
+                let userProfile = CDUserProfile.getOne()
+                self.selectedAddress.provinceId = userProfile?.provinceID ?? ""
+                self.selectedAddress.regionId = userProfile?.regionID ?? ""
+                self.selectedAddress.subdistrictId = userProfile?.subdistrictID ?? ""
+                self.selectedAddress.subdistrictName = userProfile?.subdistrictName ?? ""
+                
+                self.selectedAddress.coordinate = userProfile?.coordinate ?? ""
+                self.selectedAddress.coordinateAddress = userProfile?.coordinateAddress ?? ""
+                
+                self.getCartSewa()
+            }
         }
         
         // Handling keyboard animation
@@ -422,6 +452,148 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         }
     }
     
+    //for sewa checkout
+    func getCartSewa() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let notifListener = appDelegate.preloNotifListener
+        
+        self.showLoading()
+        self.isLoading = true
+        
+        let a = "{\"coordinate\": \"" + selectedAddress.coordinate + "\", \"address\": \"alamat\", \"province_id\": \"" + selectedAddress.provinceId + "\", \"region_id\": \"" + selectedAddress.regionId + "\", \"subdistrict_id\": \"" + selectedAddress.subdistrictId + "\", \"postal_code\": \"\"}"
+        
+        var bufferstart = buffer_start_date
+        var bufferend = buffer_end_date
+        
+        if !isFirst {
+            if (self.cartResult.cartDetails[0].shippingPackages[self.selectedOngkirIndexes[0]].isMeetup){
+                bufferstart = ""
+                bufferend = ""
+            }
+        }
+        let _ = request(APICartRent.addCartRent(seller_id: seller_id, product_id: product_id, start_date: start_date, end_date: end_date, buffer_start_date: bufferstart, buffer_end_date: bufferend, shipping_address: a, voucher_serial: self.voucherSerial)).responseJSON { (response) in
+            if (PreloV2Endpoints.validate(true, dataResp: response, reqAlias: "Keranjang Sewa")) {
+                // Json
+                let json = JSON(response.result.value!)
+                let data = json["_data"]
+                self.cartResult = CartV2ResultItem.instance(data)
+                
+                if self.cartResult.cartDetails.count == 0 {
+                    self.backToPreviousScreen()
+                }
+                
+                // Show modal text if any
+                if let modalText = self.cartResult.modalVerifyText {
+                    if (!modalText.isEmpty) {
+                        Constant.showDialog("Perhatian", message: modalText)
+                    }
+                }
+                
+                
+                if self.isFirst {
+                    self.shippingPackageIds = []
+                    self.ongkirs = []
+                    self.isFreeOngkirs = []
+                    self.selectedOngkirIndexes = []
+                    self.isNeedLocations = []
+                    
+                    for sp in self.cartResult.cartDetails {
+                        
+                        // reset to 0
+                        self.shippingPackageIds.append(sp.shippingPackages[0].id)
+                        self.ongkirs.append(sp.shippingPackages[0].price)
+                        self.isFreeOngkirs.append(sp.shippingPackages[0].name.lowercased() == "free ongkir" && sp.shippingPackages[0].price == 0)
+                        self.selectedOngkirIndexes.append(0)
+                        self.isNeedLocations.append(sp.shippingPackages[0].isNeedLocation && sp.shippingPackages[0].price != 0)
+                    }
+                    
+                    if self.cartResult.addressBook.count > 0 {
+                        for i in 0...self.cartResult.addressBook.count-1 {
+                            if self.cartResult.addressBook[i].isMainAddress {
+                                self.selectedIndex = i
+                                
+                                // default address
+                                self.selectedAddress.addressId = self.cartResult.addressBook[i].id
+                                self.selectedAddress.isDefault = true
+                                
+                                self.selectedAddress.name = self.cartResult.addressBook[i].recipientName
+                                self.selectedAddress.phone = self.cartResult.addressBook[i].phone
+                                self.selectedAddress.provinceId = self.cartResult.addressBook[i].provinceId
+                                self.selectedAddress.regionId = self.cartResult.addressBook[i].regionId
+                                self.selectedAddress.subdistrictId = self.cartResult.addressBook[i].subdisrictId
+                                self.selectedAddress.subdistrictName = self.cartResult.addressBook[i].subdisrictName
+                                self.selectedAddress.address = self.cartResult.addressBook[i].address
+                                self.selectedAddress.postalCode = self.cartResult.addressBook[i].postalCode
+                                self.selectedAddress.coordinate = self.cartResult.addressBook[i].coordinate
+                                self.selectedAddress.coordinateAddress = self.cartResult.addressBook[i].coordinateAddress
+                                
+                                if self.selectedAddress.address == "" || self.selectedAddress.postalCode == "" || self.selectedAddress.subdistrictName == "" {
+                                    self.isNeedSetup = true
+                                    
+                                    self.selectedAddress.isSave = true
+                                }
+                                
+                                break
+                            }
+                        }
+                    }
+                    
+                    self.isFirst = false
+                    self.setupDropdownAddress()
+                }
+                
+                self.deposit = self.cartResult.cartDetails[0].products[0].price_deposit
+                
+                // update troli
+                self.setupOption(self.cartResult.nTransactionUnpaid)
+                let count = CartManager.sharedInstance.getSize() + self.cartResult.nTransactionUnpaid
+                notifListener?.setCartCount(count)
+                
+                // check payment, bonus & voucher
+                self.setupPaymentAndDiscount()
+                
+                // reset - cart
+                self.isEnableToCheckout = true
+                
+                self.tableView.reloadData()
+                
+                if self.isNeedScrollToTop { // when change address
+                    self.isNeedScrollToTop = false
+                    self.scrollToTop()
+                } else if self.isNeedScrollToBottom { // after update voucher
+                    self.isNeedScrollToBottom = false
+                    self.scrollToSummary()
+                }
+                
+                
+                //for sewa when change courier
+                if (self.isChangeCourierSewa) {
+                    self.isChangeCourierSewa = false
+                    if (self.cartResult.cartDetails[0].shippingPackages[self.selectedOngkirIndexes[0]].isMeetup){
+                        let view = CheckoutSewaPopupView.instantiateFromNib()
+                        view.dateStartLabel.text = self.cartResult.cartDetails[0].products[0].start_date_no_buffer_text
+                        view.dateEndLabel.text = self.cartResult.cartDetails[0].products[0].end_date_no_buffer_text
+                        view.descriptionLabel.text = "* Durasi sewa kamu sudah bertambah untuk durasi pengiriman dan pengembalian barang\n* Bonus, Balance, dan Voucher berlaku jika kamu memilih pengiriman menggunakan kurir"
+                        view.create(self.view)
+                    } else {
+                        let view = CheckoutSewaPopupView.instantiateFromNib()
+                        view.dateStartLabel.text = self.cartResult.cartDetails[0].products[0].start_date_buffer_text
+                        view.dateEndLabel.text = self.cartResult.cartDetails[0].products[0].end_date_buffer_text
+                        view.descriptionLabel.text = "* Durasi pengiriman dan pengembalian sudah dihapuskan\n* Bonus, Balance, dan Voucher tidak berlaku jika kamu memilih Bertemu Langsung"
+                        view.create(self.view)
+                    }
+                }
+                
+                self.isLoading = false
+                self.hideLoading()
+            } else {
+                self.isLoading = false
+                self.hideLoading()
+                
+            }
+        }
+    }
+    
     // Refresh data cart dan seluruh tampilan
     func synchCart() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -548,6 +720,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         
         self.totalAmount = totalWithOngkir
         // count total
+        
+        //for sewa sub total
+        if (isSewaProduct) {
+            self.totalAmount = totalWithOngkir + deposit
+        }
     }
     
     func setupPaymentAndDiscount() {
@@ -885,7 +1062,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 }
             } else if idx.section == cartResult.cartDetails.count + 1 {
                 if idx.row == 0 {
-                    return 40.0 //Checkout2TotalBuyingCell.heightFor()
+                    if !isSewaProduct {
+                        return 40.0 //Checkout2TotalBuyingCell.heightFor()
+                    } else {
+                        return 303.0
+                    }
                 } else {
                     return Checkout2SplitCell.heightFor()
                 }
@@ -964,10 +1145,20 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         
                         CartManager.sharedInstance.updateShippingPackageId(sellerId, shippingPackageId: courierId)
                         
-                        //self.countSubTotal()
-                        self.setupPaymentAndDiscount() // update bonus
-                        
-                        self.tableView.reloadData()
+                        //for sewa when meetup
+                        if (self.isSewaProduct) {
+                            self.getCartSewa()
+                            self.isChangeCourierSewa = true
+                            self.isLoading = true
+                            self.showLoading()
+                        } else {
+                            //selain sewa
+                            
+                            //self.countSubTotal()
+                            self.setupPaymentAndDiscount() // update bonus
+                            
+                            self.tableView.reloadData()
+                        }
                     }
                     
                     cell.dismissKeyborad = {
@@ -988,6 +1179,12 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     
                     if product.errorMessage != nil {
                         self.isEnableToCheckout = false
+                    }
+                    
+                    if isSewaProduct {
+                        cell.deleteImage.isHidden = true
+                    } else {
+                        cell.deleteImage.isHidden = false
                     }
                     
                     cell.remove = { pid in
@@ -1096,7 +1293,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             self.selectedAddress.subdistrictId = subdistrictId
                             self.selectedAddress.subdistrictName = subdistrictName
                             
-                            self.synchCart()
+                            if !self.isSewaProduct {
+                                self.synchCart()
+                            } else {
+                                self.getCartSewa()
+                            }
                         }
                         
                         cell.saveAddress = {
@@ -1158,20 +1359,34 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             } else if idx.section == cartResult.cartDetails.count + 1 {
                 // MARK: - Subtotal Sections
                 if idx.row == 0 {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2TotalBuyingCell") as! Checkout2TotalBuyingCell
+                    if !isSewaProduct {
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2TotalBuyingCell") as! Checkout2TotalBuyingCell
+                        
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        
+                        cell.btnContinue.isHidden = true
+                        cell.lbtitle.text = "Subtotal Belanja"
+                        cell.adapt(self.totalAmount.asPrice)
+                        
+                        cell.continueToPayment = {
+                            // do nothing
+                        }
                     
-                    cell.selectionStyle = .none
-                    cell.clipsToBounds = true
-                    
-                    cell.btnContinue.isHidden = true
-                    cell.lbtitle.text = "Subtotal Belanja"
-                    cell.adapt(self.totalAmount.asPrice)
-                    
-                    cell.continueToPayment = {
-                        // do nothing
+                        return cell
+                    } else {
+                        //for sewa product description
+                        let cell = tableView.dequeueReusableCell(withIdentifier: "CheckoutSewaDescriptionCell") as! CheckoutSewaDescriptionCell
+                        cell.selectionStyle = .none
+                        cell.clipsToBounds = true
+                        cell.subtotalLabel.text = self.totalAmount.asPrice
+                        cell.durasiSewaLabel.text = cartResult.cartDetails[idx.section-2].products[0].rent_duration_text
+                        cell.tanggalKembaliLabel.text = cartResult.cartDetails[idx.section-2].products[0].end_rent_text
+                        cell.hargaSewaLabel.text = cartResult.cartDetails[idx.section-2].products[0].total_rent_price.asPrice
+                        cell.ongkosLabel.text = cartResult.cartDetails[idx.section-2].shippingPackages[self.selectedOngkirIndexes[idx.section-2]].price.asPrice
+                        cell.depositLabel.text = cartResult.cartDetails[idx.section-2].products[0].price_deposit.asPrice
+                        return cell
                     }
-                    
-                    return cell
                 } else {
                     let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2SplitCell") as! Checkout2SplitCell
                     
@@ -1359,7 +1574,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     cell.voucherApply = { voucherSerial in
                         self.voucherSerial = voucherSerial
                         
-                        self.synchCart()
+                        if !self.isSewaProduct {
+                            self.synchCart()
+                        } else {
+                            self.getCartSewa()
+                        }
                         self.isNeedScrollToBottom = true
                     }
                     
@@ -1647,287 +1866,313 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     
     // MARK: - Checkout
     func performCheckout() {
-        
-        let p = CartManager.sharedInstance.getCartJsonString()
-        let d = [
-            "coordinate": self.selectedAddress.coordinate,
-            "coordinate_address": self.selectedAddress.coordinateAddress,
-            "address": self.selectedAddress.address,
-            "province_id": self.selectedAddress.provinceId,
-            "province_name": CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? "",
-            "region_id": self.selectedAddress.regionId,
-            "region_name": CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? "",
-            "subdistrict_id": self.selectedAddress.subdistrictId,
-            "subdistrict_name": self.selectedAddress.subdistrictName,
-            "postal_code": self.selectedAddress.postalCode,
-            "recipient_name": self.selectedAddress.name,
-            "recipient_phone": self.selectedAddress.phone,
-            "email": User.EmailOrEmptyString
-        ]
-        let a = AppToolsObjC.jsonString(from: d)
-        
-        let _ = request(APIV2Cart.checkout(cart: p, address: a!, voucher: (self.isVoucherUsed ? self.voucherSerial! : ""), payment: self.paymentMethods[self.selectedPaymentIndex].methodDetail.value, usedPreloBalance: (self.isBalanceUsed ? self.preloBalanceUsed : 0), usedReferralBonus: self.preloBonusUsed, kodeTransfer: self.paymentMethods[0].charge, targetBank: (self.isDropdownMode ? self.targetBank : ""))).responseJSON { resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
-                let json = JSON(resp.result.value!)
-                self.checkoutResult = json["_data"]
-                
-                // Error handling
-                if (json["_data"]["_have_error"].intValue == 1) {
-                    let m = json["_data"]["_message"].stringValue
-                    Constant.showDialog("Perhatian", message: m)
-                    self.hideLoading()
-                    return
-                }
-                
-                if (self.checkoutResult == nil) {
-                    Constant.showDialog("Perhatian", message: "Terdapat kesalahan saat melakukan checkout")
-                    self.hideLoading()
-                    return
-                }
-                
-                // Send tracking data before navigate
-                if (self.checkoutResult != nil) {
+        if !isSewaProduct {
+            let p = CartManager.sharedInstance.getCartJsonString()
+            let d = [
+                "coordinate": self.selectedAddress.coordinate,
+                "coordinate_address": self.selectedAddress.coordinateAddress,
+                "address": self.selectedAddress.address,
+                "province_id": self.selectedAddress.provinceId,
+                "province_name": CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? "",
+                "region_id": self.selectedAddress.regionId,
+                "region_name": CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? "",
+                "subdistrict_id": self.selectedAddress.subdistrictId,
+                "subdistrict_name": self.selectedAddress.subdistrictName,
+                "postal_code": self.selectedAddress.postalCode,
+                "recipient_name": self.selectedAddress.name,
+                "recipient_phone": self.selectedAddress.phone,
+                "email": User.EmailOrEmptyString
+            ]
+            let a = AppToolsObjC.jsonString(from: d)
+            
+            let _ = request(APIV2Cart.checkout(cart: p, address: a!, voucher: (self.isVoucherUsed ? self.voucherSerial! : ""), payment: self.paymentMethods[self.selectedPaymentIndex].methodDetail.value, usedPreloBalance: (self.isBalanceUsed ? self.preloBalanceUsed : 0), usedReferralBonus: self.preloBonusUsed, kodeTransfer: self.paymentMethods[0].charge, targetBank: (self.isDropdownMode ? self.targetBank : ""))).responseJSON { resp in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
+                    let json = JSON(resp.result.value!)
+                    self.checkoutResult = json["_data"]
                     
-                    // insert new address if needed
-                    if !self.selectedAddress.isDefault && self.selectedAddress.isSave {
-                        self.insertNewAddress()
-                    } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
-                        self.setupProfile()
-                        //self.updateDefaultAddress() // name & phone
+                    // Error handling
+                    if (json["_data"]["_have_error"].intValue == 1) {
+                        let m = json["_data"]["_message"].stringValue
+                        Constant.showDialog("Perhatian", message: m)
+                        self.hideLoading()
+                        return
                     }
                     
-                    var pName : String? = ""
-                    var rName : String? = ""
-                    if let u = CDUser.getOne()
-                    {
-                        pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
-                        if (pName == nil) {
-                            pName = ""
-                        }
-                        rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
-                        if (rName == nil) {
-                            rName = ""
-                        }
+                    if (self.checkoutResult == nil) {
+                        Constant.showDialog("Perhatian", message: "Terdapat kesalahan saat melakukan checkout")
+                        self.hideLoading()
+                        return
                     }
                     
-                    // Prelo Analytic - Checkout - Item Data
-                    var itemsObject : Array<[String : Any]> = []
-                    
-                    var items : [String] = []
-                    var itemsId : [String] = []
-                    var itemsCategory : [String] = []
-                    var itemsSeller : [String] = []
-                    var itemsPrice : [Int64] = []
-                    var itemsCommissionPercentage : [Int64] = []
-                    var itemsCommissionPrice : [Int64] = []
-                    var totalCommissionPrice : Int64 = 0
-                    var totalPrice : Int64 = 0
-                    
-                    for c in self.cartResult.cartDetails {
-                        for p in c.products {
-                            items.append(p.name)
-                            itemsId.append(p.productId)
-                            if let cName = CDCategory.getCategoryNameWithID(p.categoryId) {
-                                itemsCategory.append(cName)
-                            } else {
-                                itemsCategory.append("")
+                    // Send tracking data before navigate
+                    if (self.checkoutResult != nil) {
+                        
+                        // insert new address if needed
+                        if !self.selectedAddress.isDefault && self.selectedAddress.isSave {
+                            self.insertNewAddress()
+                        } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
+                            self.setupProfile()
+                            //self.updateDefaultAddress() // name & phone
+                        }
+                        
+                        var pName : String? = ""
+                        var rName : String? = ""
+                        if let u = CDUser.getOne()
+                        {
+                            pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
+                            if (pName == nil) {
+                                pName = ""
                             }
-                            itemsSeller.append(p.sellerUsername)
-                            itemsPrice.append(p.price)
-                            itemsCommissionPercentage.append(p.commission)
-                            let cPrice = p.price * p.commission / 100
-                            itemsCommissionPrice.append(cPrice)
-                            totalCommissionPrice += cPrice
-                            
-                            // Prelo Analytic - Checkout - Item Data
-                            let curItem : [String : Any] = [
-                                "Product ID" : p.productId,
-                                "Seller Username" : p.sellerUsername,
-                                "Price" : p.price,
-                                "Commission Percentage" : p.commission,
-                                "Commission Price" : cPrice,
-                                "Free Shipping" : p.isFreeOngkir,
-                                "Category ID" : p.categoryId
-                            ]
-                            itemsObject.append(curItem)
-                            
-                            // AppsFlyer
-                            let afPdata: [String : Any] = [
-                                AFEventParamRevenue     : (p.price).string,
-                                AFEventParamContentType : p.categoryId,
-                                AFEventParamContentId   : p.productId,
-                                AFEventParamCurrency    : "IDR",
-                                "prelo_order_id"        : self.checkoutResult!["order_id"].stringValue
-                            ]
-                            AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
-                        }
-                    }
-                    
-                    let orderId = self.checkoutResult!["order_id"].stringValue
-                    let paymentMethod = self.checkoutResult!["payment_method"].stringValue
-                    
-                    totalPrice = self.checkoutResult!["total_price"].int64Value
-                    
-                    // FB Analytics - initiated Checkout
-                    if AppTools.IsPreloProduction {
-                        do {
-                            //Convert to Data
-                            let jsonData = try! JSONSerialization.data(withJSONObject: itemsId, options: JSONSerialization.WritingOptions.prettyPrinted)
-                            
-                            //Convert back to string. Usually only do this for debugging
-                            if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
-                                print(JSONString)
-                                let productIdsString = JSONString.replaceRegex(Regex.init(pattern: "\n| ") , template: "")
-                                print(productIdsString)
-                                
-                                let fbPdata: [String : Any] = [
-                                    FBSDKAppEventParameterNameContentType          : "product",
-                                    FBSDKAppEventParameterNameContentID            : productIdsString,
-                                    FBSDKAppEventParameterNameNumItems             : itemsId.count.string,
-                                    FBSDKAppEventParameterNameCurrency             : "IDR"
-                                ]
-                                FBSDKAppEvents.logEvent(FBSDKAppEventNameInitiatedCheckout, valueToSum: Double(totalPrice), parameters: fbPdata)
+                            rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
+                            if (rName == nil) {
+                                rName = ""
                             }
                         }
-                    }
-                    
-                    /*
-                     // MixPanel
-                     let pt = [
-                     "Order ID" : orderId,
-                     "Items" : items,
-                     "Items Category" : itemsCategory,
-                     "Items Seller" : itemsSeller,
-                     "Items Price" : itemsPrice,
-                     "Items Commission Percentage" : itemsCommissionPercentage,
-                     "Items Commission Price" : itemsCommissionPrice,
-                     "Total Commission Price" : totalCommissionPrice,
-                     "Shipping Price" : self.totalOngkir,
-                     "Total Price" : totalPrice,
-                     "Shipping Region" : rName!,
-                     "Shipping Province" : pName!,
-                     "Bonus Used" : 0,
-                     "Balance Used" : 0
-                     ] as [String : Any]
-                     Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
-                     */
-                    
-                    // Prelo Analytic - Checkout
-                    let loginMethod = User.LoginMethod ?? ""
-                    let localId = User.CartLocalId ?? ""
-                    let province = CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? ""
-                    let region = CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? ""
-                    let subdistrict = self.selectedAddress.subdistrictName
-                    
-                    let address = [
-                        "Province" : province,
-                        "Region" : region,
-                        "Subdistrict" : subdistrict
-                        ] as [String : Any]
-                    
-                    var pdata = [
-                        "Local ID" : localId,
-                        "Order ID" : orderId,
-                        "Items" : itemsObject,
-                        "Total Price" : totalPrice,
-                        "Address" : address,
-                        "Payment Method" : paymentMethod,
-                        "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false),
-                        "Type" : "Single Page"
-                        ] as [String : Any]
-                    
-                    if (self.checkoutResult!["voucher_serial"].stringValue != "") {
-                        pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
-                    }
-                    
-                    AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
-                    
-                    // reset localid
-                    User.SetCartLocalId("")
-                    
-                    // Answers
-                    if (AppTools.IsPreloProduction) {
-                        Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int64), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
-                        for j in 0...items.count-1 {
-                            Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int64), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
-                        }
-                    }
-                    
-                    // Google Analytics Ecommerce Tracking
-                    if (AppTools.IsPreloProduction) {
-                        let gaTracker = GAI.sharedInstance().defaultTracker
-                        let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice as NSNumber!, tax: totalCommissionPrice as NSNumber!, shipping: (self.totalAmount - self.cartResult.totalPrice) as NSNumber!, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
-                        gaTracker?.send(trxDict)
+                        
+                        // Prelo Analytic - Checkout - Item Data
+                        var itemsObject : Array<[String : Any]> = []
+                        
+                        var items : [String] = []
+                        var itemsId : [String] = []
+                        var itemsCategory : [String] = []
+                        var itemsSeller : [String] = []
+                        var itemsPrice : [Int64] = []
+                        var itemsCommissionPercentage : [Int64] = []
+                        var itemsCommissionPrice : [Int64] = []
+                        var totalCommissionPrice : Int64 = 0
+                        var totalPrice : Int64 = 0
                         
                         for c in self.cartResult.cartDetails {
                             for p in c.products {
-                                var cName = CDCategory.getCategoryNameWithID(p.categoryId)
-                                if cName == nil {
-                                    cName = p.categoryId
+                                items.append(p.name)
+                                itemsId.append(p.productId)
+                                if let cName = CDCategory.getCategoryNameWithID(p.categoryId) {
+                                    itemsCategory.append(cName)
+                                } else {
+                                    itemsCategory.append("")
                                 }
+                                itemsSeller.append(p.sellerUsername)
+                                itemsPrice.append(p.price)
+                                itemsCommissionPercentage.append(p.commission)
+                                let cPrice = p.price * p.commission / 100
+                                itemsCommissionPrice.append(cPrice)
+                                totalCommissionPrice += cPrice
                                 
-                                let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: p.name, sku: p.productId, category: cName, price: p.price as NSNumber!, quantity: 1, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
-                                gaTracker?.send(trxItemDict)
+                                // Prelo Analytic - Checkout - Item Data
+                                let curItem : [String : Any] = [
+                                    "Product ID" : p.productId,
+                                    "Seller Username" : p.sellerUsername,
+                                    "Price" : p.price,
+                                    "Commission Percentage" : p.commission,
+                                    "Commission Price" : cPrice,
+                                    "Free Shipping" : p.isFreeOngkir,
+                                    "Category ID" : p.categoryId
+                                ]
+                                itemsObject.append(curItem)
+                                
+                                // AppsFlyer
+                                let afPdata: [String : Any] = [
+                                    AFEventParamRevenue     : (p.price).string,
+                                    AFEventParamContentType : p.categoryId,
+                                    AFEventParamContentId   : p.productId,
+                                    AFEventParamCurrency    : "IDR",
+                                    "prelo_order_id"        : self.checkoutResult!["order_id"].stringValue
+                                ]
+                                AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
                             }
                         }
                         
+                        let orderId = self.checkoutResult!["order_id"].stringValue
+                        let paymentMethod = self.checkoutResult!["payment_method"].stringValue
+                        
+                        totalPrice = self.checkoutResult!["total_price"].int64Value
+                        
+                        // FB Analytics - initiated Checkout
+                        if AppTools.IsPreloProduction {
+                            do {
+                                //Convert to Data
+                                let jsonData = try! JSONSerialization.data(withJSONObject: itemsId, options: JSONSerialization.WritingOptions.prettyPrinted)
+                                
+                                //Convert back to string. Usually only do this for debugging
+                                if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                                    print(JSONString)
+                                    let productIdsString = JSONString.replaceRegex(Regex.init(pattern: "\n| ") , template: "")
+                                    print(productIdsString)
+                                    
+                                    let fbPdata: [String : Any] = [
+                                        FBSDKAppEventParameterNameContentType          : "product",
+                                        FBSDKAppEventParameterNameContentID            : productIdsString,
+                                        FBSDKAppEventParameterNameNumItems             : itemsId.count.string,
+                                        FBSDKAppEventParameterNameCurrency             : "IDR"
+                                    ]
+                                    FBSDKAppEvents.logEvent(FBSDKAppEventNameInitiatedCheckout, valueToSum: Double(totalPrice), parameters: fbPdata)
+                                }
+                            }
+                        }
+                        
+                        /*
+                         // MixPanel
+                         let pt = [
+                         "Order ID" : orderId,
+                         "Items" : items,
+                         "Items Category" : itemsCategory,
+                         "Items Seller" : itemsSeller,
+                         "Items Price" : itemsPrice,
+                         "Items Commission Percentage" : itemsCommissionPercentage,
+                         "Items Commission Price" : itemsCommissionPrice,
+                         "Total Commission Price" : totalCommissionPrice,
+                         "Shipping Price" : self.totalOngkir,
+                         "Total Price" : totalPrice,
+                         "Shipping Region" : rName!,
+                         "Shipping Province" : pName!,
+                         "Bonus Used" : 0,
+                         "Balance Used" : 0
+                         ] as [String : Any]
+                         Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
+                         */
+                        
+                        // Prelo Analytic - Checkout
+                        let loginMethod = User.LoginMethod ?? ""
+                        let localId = User.CartLocalId ?? ""
+                        let province = CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? ""
+                        let region = CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? ""
+                        let subdistrict = self.selectedAddress.subdistrictName
+                        
+                        let address = [
+                            "Province" : province,
+                            "Region" : region,
+                            "Subdistrict" : subdistrict
+                            ] as [String : Any]
+                        
+                        var pdata = [
+                            "Local ID" : localId,
+                            "Order ID" : orderId,
+                            "Items" : itemsObject,
+                            "Total Price" : totalPrice,
+                            "Address" : address,
+                            "Payment Method" : paymentMethod,
+                            "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false),
+                            "Type" : "Single Page"
+                            ] as [String : Any]
+                        
+                        if (self.checkoutResult!["voucher_serial"].stringValue != "") {
+                            pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
+                        }
+                        
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        
+                        // reset localid
+                        User.SetCartLocalId("")
+                        
+                        // Answers
+                        if (AppTools.IsPreloProduction) {
+                            Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int64), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
+                            for j in 0...items.count-1 {
+                                Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int64), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                            }
+                        }
+                        
+                        // Google Analytics Ecommerce Tracking
+                        if (AppTools.IsPreloProduction) {
+                            let gaTracker = GAI.sharedInstance().defaultTracker
+                            let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice as NSNumber!, tax: totalCommissionPrice as NSNumber!, shipping: (self.totalAmount - self.cartResult.totalPrice) as NSNumber!, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                            gaTracker?.send(trxDict)
+                            
+                            for c in self.cartResult.cartDetails {
+                                for p in c.products {
+                                    var cName = CDCategory.getCategoryNameWithID(p.categoryId)
+                                    if cName == nil {
+                                        cName = p.categoryId
+                                    }
+                                    
+                                    let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: p.name, sku: p.productId, category: cName, price: p.price as NSNumber!, quantity: 1, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                                    gaTracker?.send(trxItemDict)
+                                }
+                            }
+                            
+                        }
+                        
+                        // MoEngage
+                        let moeDict = NSMutableDictionary()
+                        moeDict.setObject(orderId, forKey: "Order ID" as NSCopying)
+                        moeDict.setObject(items, forKey: "Items" as NSCopying)
+                        moeDict.setObject(itemsCategory, forKey: "Items Category" as NSCopying)
+                        moeDict.setObject(itemsSeller, forKey: "Items Seller" as NSCopying)
+                        moeDict.setObject(itemsPrice, forKey: "Items Price" as NSCopying)
+                        moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage" as NSCopying)
+                        moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price" as NSCopying)
+                        moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price" as NSCopying)
+                        moeDict.setObject((self.totalAmount - self.cartResult.totalPrice), forKey: "Shipping Price" as NSCopying)
+                        moeDict.setObject(totalPrice, forKey: "Total Price" as NSCopying)
+                        moeDict.setObject(rName!, forKey: "Shipping Region" as NSCopying)
+                        moeDict.setObject(pName!, forKey: "Shipping Province" as NSCopying)
+                        let moeEventTracker = MOPayloadBuilder.init(dictionary: moeDict)
+                        moeEventTracker?.setTimeStamp(Date.timeIntervalSinceReferenceDate, forKey: "startTime")
+                        moeEventTracker?.setDate(Date(), forKey: "startDate")
+                        let locManager = CLLocationManager()
+                        locManager.requestWhenInUseAuthorization()
+                        var currentLocation : CLLocation!
+                        var currentLat : Double = 0
+                        var currentLng : Double = 0
+                        if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
+                            currentLocation = locManager.location
+                            currentLat = currentLocation.coordinate.latitude
+                            currentLng = currentLocation.coordinate.longitude
+                        }
+                        moeEventTracker?.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
+                        MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
                     }
                     
-                    // MoEngage
-                    let moeDict = NSMutableDictionary()
-                    moeDict.setObject(orderId, forKey: "Order ID" as NSCopying)
-                    moeDict.setObject(items, forKey: "Items" as NSCopying)
-                    moeDict.setObject(itemsCategory, forKey: "Items Category" as NSCopying)
-                    moeDict.setObject(itemsSeller, forKey: "Items Seller" as NSCopying)
-                    moeDict.setObject(itemsPrice, forKey: "Items Price" as NSCopying)
-                    moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage" as NSCopying)
-                    moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price" as NSCopying)
-                    moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price" as NSCopying)
-                    moeDict.setObject((self.totalAmount - self.cartResult.totalPrice), forKey: "Shipping Price" as NSCopying)
-                    moeDict.setObject(totalPrice, forKey: "Total Price" as NSCopying)
-                    moeDict.setObject(rName!, forKey: "Shipping Region" as NSCopying)
-                    moeDict.setObject(pName!, forKey: "Shipping Province" as NSCopying)
-                    let moeEventTracker = MOPayloadBuilder.init(dictionary: moeDict)
-                    moeEventTracker?.setTimeStamp(Date.timeIntervalSinceReferenceDate, forKey: "startTime")
-                    moeEventTracker?.setDate(Date(), forKey: "startDate")
-                    let locManager = CLLocationManager()
-                    locManager.requestWhenInUseAuthorization()
-                    var currentLocation : CLLocation!
-                    var currentLat : Double = 0
-                    var currentLng : Double = 0
-                    if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
-                        currentLocation = locManager.location
-                        currentLat = currentLocation.coordinate.latitude
-                        currentLng = currentLocation.coordinate.longitude
-                    }
-                    moeEventTracker?.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
-                    MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
-                }
-                
-                self.hideLoading()
-                
-                // update troli badge count
-                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                let notifListener = appDelegate.preloNotifListener
-                notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
-                
-                // cleaning cart - if exist
-                CartProduct.deleteAll()
-                CartManager.sharedInstance.deleteAll()
-                
-                // Prepare to navigate to next page
-                if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
-                    self.navigateToOrderConfirmVC(false)
+                    self.hideLoading()
                     
-                } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .veritrans) { // Credit card, indomaret
-                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
-                    webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
-                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
-                    webVC.creditCardMode = true
-                    webVC.ccPaymentSucceed = {
-                        // virtual account
-                        if self.paymentMethods[self.selectedPaymentIndex].methodDetail.value == "Permata VA" {
+                    // update troli badge count
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
+                    
+                    // cleaning cart - if exist
+                    CartProduct.deleteAll()
+                    CartManager.sharedInstance.deleteAll()
+                    
+                    // Prepare to navigate to next page
+                    if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
+                        self.navigateToOrderConfirmVC(false)
+                        
+                    } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .veritrans) { // Credit card, indomaret
+                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                        webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
+                        webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
+                        webVC.creditCardMode = true
+                        webVC.ccPaymentSucceed = {
+                            // virtual account
+                            if self.paymentMethods[self.selectedPaymentIndex].methodDetail.value == "Permata VA" {
+                                // back & push
+                                if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                    let navController = self.navigationController!
+                                    var controllers = navController.viewControllers
+                                    controllers.removeLast()
+                                    
+                                    navController.setViewControllers(controllers, animated: false)
+                                    
+                                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                    myPurchaseVC.previousScreen = PageName.Checkout
+                                    
+                                    navController.pushViewController(myPurchaseVC, animated: true)
+                                }
+                            } else {
+                                self.navigateToOrderConfirmVC(true)
+                            }
+                        }
+                        webVC.ccPaymentUnfinished = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
+                            
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
                                 let navController = self.navigationController!
@@ -1941,122 +2186,512 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                                 
                                 navController.pushViewController(myPurchaseVC, animated: true)
                             }
-                        } else {
+                        }
+                        webVC.ccPaymentFailed = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
+                            
+                            // back & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
+                        }
+                        let baseNavC = BaseNavigationController()
+                        baseNavC.setViewControllers([webVC], animated: false)
+                        self.present(baseNavC, animated: true, completion: nil)
+                        
+                    } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .kredivo) { // Kredivo
+                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                        webVC.url = self.checkoutResult!["kredivo_redirect_url"].stringValue
+                        webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
+                        webVC.creditCardMode = true
+                        webVC.ccPaymentSucceed = {
                             self.navigateToOrderConfirmVC(true)
                         }
-                    }
-                    webVC.ccPaymentUnfinished = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
-                        /*
-                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
-                        notifPageVC.previousScreen = PageName.Checkout
-                        self.navigateToVC(notifPageVC)
-                        */
-                        
-                        // back & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                            let navController = self.navigationController!
-                            var controllers = navController.viewControllers
-                            controllers.removeLast()
+                        webVC.ccPaymentUnfinished = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
                             
-                            navController.setViewControllers(controllers, animated: false)
-                            
-                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
-                            myPurchaseVC.previousScreen = PageName.Checkout
-                            
-                            navController.pushViewController(myPurchaseVC, animated: true)
+                            // back & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
                         }
-                    }
-                    webVC.ccPaymentFailed = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
-                        /*
-                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
-                        notifPageVC.previousScreen = PageName.Checkout
-                        self.navigateToVC(notifPageVC)
-                        */
-                        
-                        // back & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                            let navController = self.navigationController!
-                            var controllers = navController.viewControllers
-                            controllers.removeLast()
+                        webVC.ccPaymentFailed = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
                             
-                            navController.setViewControllers(controllers, animated: false)
-                            
-                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
-                            myPurchaseVC.previousScreen = PageName.Checkout
-                            
-                            navController.pushViewController(myPurchaseVC, animated: true)
+                            // back & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
                         }
+                        let baseNavC = BaseNavigationController()
+                        baseNavC.setViewControllers([webVC], animated: false)
+                        self.present(baseNavC, animated: true, completion: nil)
                     }
-                    let baseNavC = BaseNavigationController()
-                    baseNavC.setViewControllers([webVC], animated: false)
-                    self.present(baseNavC, animated: true, completion: nil)
-                    
-                } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .kredivo) { // Kredivo
-                    let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-                    let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
-                    webVC.url = self.checkoutResult!["kredivo_redirect_url"].stringValue
-                    webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
-                    webVC.creditCardMode = true
-                    webVC.ccPaymentSucceed = {
-                        self.navigateToOrderConfirmVC(true)
-                    }
-                    webVC.ccPaymentUnfinished = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
-                        /*
-                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
-                        notifPageVC.previousScreen = PageName.Checkout
-                        self.navigateToVC(notifPageVC)
-                        */
-                        
-                        // back & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                            let navController = self.navigationController!
-                            var controllers = navController.viewControllers
-                            controllers.removeLast()
-                            
-                            navController.setViewControllers(controllers, animated: false)
-                            
-                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
-                            myPurchaseVC.previousScreen = PageName.Checkout
-                            
-                            navController.pushViewController(myPurchaseVC, animated: true)
-                        }
-                    }
-                    webVC.ccPaymentFailed = {
-                        Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
-                        /*
-                        let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                        notifPageVC.isBackTwice = true
-                        notifPageVC.previousScreen = PageName.Checkout
-                        self.navigateToVC(notifPageVC)
-                        */
-                        
-                        // back & push
-                        if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                            let navController = self.navigationController!
-                            var controllers = navController.viewControllers
-                            controllers.removeLast()
-                            
-                            navController.setViewControllers(controllers, animated: false)
-                            
-                            let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
-                            myPurchaseVC.previousScreen = PageName.Checkout
-                            
-                            navController.pushViewController(myPurchaseVC, animated: true)
-                        }
-                    }
-                    let baseNavC = BaseNavigationController()
-                    baseNavC.setViewControllers([webVC], animated: false)
-                    self.present(baseNavC, animated: true, completion: nil)
                 }
+                
+                self.loadingPanel.isHidden = true
+            }
+        } else {
+            //for sewa checkout api
+            let d = [
+                "coordinate": self.selectedAddress.coordinate,
+                "coordinate_address": self.selectedAddress.coordinateAddress,
+                "address": self.selectedAddress.address,
+                "province_id": self.selectedAddress.provinceId,
+                "province_name": CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? "",
+                "region_id": self.selectedAddress.regionId,
+                "region_name": CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? "",
+                "subdistrict_id": self.selectedAddress.subdistrictId,
+                "subdistrict_name": self.selectedAddress.subdistrictName,
+                "postal_code": self.selectedAddress.postalCode,
+                "recipient_name": self.selectedAddress.name,
+                "recipient_phone": self.selectedAddress.phone,
+                "email": User.EmailOrEmptyString
+            ]
+            let a = AppToolsObjC.jsonString(from: d)
+            
+            var bufferstart = buffer_start_date
+            var bufferend = buffer_end_date
+           
+            if (self.cartResult.cartDetails[0].shippingPackages[self.selectedOngkirIndexes[0]].isMeetup){
+                    bufferstart = ""
+                    bufferend = ""
             }
             
-            self.loadingPanel.isHidden = true
+            let _ = request(APICartRent.checkoutRent(seller_id: seller_id, product_id: product_id, shipping_package_id: self.cartResult.cartDetails[0].shippingPackages[self.selectedOngkirIndexes[0]].id, start_date: start_date, end_date: end_date, buffer_start_date: bufferstart, buffer_end_date: bufferend, shipping_address: a!, voucher_serial: (self.isVoucherUsed ? self.voucherSerial! : ""), payment_method: self.paymentMethods[self.selectedPaymentIndex].methodDetail.value, prelobalance_used: (self.isBalanceUsed ? self.preloBalanceUsed : 0), bonus_used: self.preloBonusUsed, banktransfer_digit: self.paymentMethods[0].charge, platform_sent_from: "ios", target_bank: (self.isDropdownMode ? self.targetBank : ""))).responseJSON(completionHandler: { (resp) in
+                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Checkout")) {
+                    let json = JSON(resp.result.value!)
+                    self.checkoutResult = json["_data"]
+                    
+                    // Error handling
+                    if (json["_data"]["_have_error"].intValue == 1) {
+                        let m = json["_data"]["_message"].stringValue
+                        Constant.showDialog("Perhatian", message: m)
+                        self.hideLoading()
+                        return
+                    }
+                    
+                    if (self.checkoutResult == nil) {
+                        Constant.showDialog("Perhatian", message: "Terdapat kesalahan saat melakukan checkout")
+                        self.hideLoading()
+                        return
+                    }
+                    
+                    // Send tracking data before navigate
+                    if (self.checkoutResult != nil) {
+                        
+                        // insert new address if needed
+                        if !self.selectedAddress.isDefault && self.selectedAddress.isSave {
+                            self.insertNewAddress()
+                        } else if self.selectedAddress.isDefault && self.selectedAddress.isSave {
+                            self.setupProfile()
+                            //self.updateDefaultAddress() // name & phone
+                        }
+                        
+                        var pName : String? = ""
+                        var rName : String? = ""
+                        if let u = CDUser.getOne()
+                        {
+                            pName = CDProvince.getProvinceNameWithID(u.profiles.provinceID)
+                            if (pName == nil) {
+                                pName = ""
+                            }
+                            rName = CDRegion.getRegionNameWithID(u.profiles.regionID)
+                            if (rName == nil) {
+                                rName = ""
+                            }
+                        }
+                        
+                        // Prelo Analytic - Checkout - Item Data
+                        var itemsObject : Array<[String : Any]> = []
+                        
+                        var items : [String] = []
+                        var itemsId : [String] = []
+                        var itemsCategory : [String] = []
+                        var itemsSeller : [String] = []
+                        var itemsPrice : [Int64] = []
+                        var itemsCommissionPercentage : [Int64] = []
+                        var itemsCommissionPrice : [Int64] = []
+                        var totalCommissionPrice : Int64 = 0
+                        var totalPrice : Int64 = 0
+                        
+                        for c in self.cartResult.cartDetails {
+                            for p in c.products {
+                                items.append(p.name)
+                                itemsId.append(p.productId)
+                                if let cName = CDCategory.getCategoryNameWithID(p.categoryId) {
+                                    itemsCategory.append(cName)
+                                } else {
+                                    itemsCategory.append("")
+                                }
+                                itemsSeller.append(p.sellerUsername)
+                                itemsPrice.append(p.price)
+                                itemsCommissionPercentage.append(p.commission)
+                                let cPrice = p.price * p.commission / 100
+                                itemsCommissionPrice.append(cPrice)
+                                totalCommissionPrice += cPrice
+                                
+                                // Prelo Analytic - Checkout - Item Data
+                                let curItem : [String : Any] = [
+                                    "Product ID" : p.productId,
+                                    "Seller Username" : p.sellerUsername,
+                                    "Price" : p.price,
+                                    "Commission Percentage" : p.commission,
+                                    "Commission Price" : cPrice,
+                                    "Free Shipping" : p.isFreeOngkir,
+                                    "Category ID" : p.categoryId
+                                ]
+                                itemsObject.append(curItem)
+                                
+                                // AppsFlyer
+                                let afPdata: [String : Any] = [
+                                    AFEventParamRevenue     : (p.price).string,
+                                    AFEventParamContentType : p.categoryId,
+                                    AFEventParamContentId   : p.productId,
+                                    AFEventParamCurrency    : "IDR",
+                                    "prelo_order_id"        : self.checkoutResult!["order_id"].stringValue
+                                ]
+                                AppsFlyerTracker.shared().trackEvent(AFEventInitiatedCheckout, withValues: afPdata)
+                            }
+                        }
+                        
+                        let orderId = self.checkoutResult!["order_id"].stringValue
+                        let paymentMethod = self.checkoutResult!["payment_method"].stringValue
+                        
+                        totalPrice = self.checkoutResult!["total_price"].int64Value
+                        
+                        // FB Analytics - initiated Checkout
+                        if AppTools.IsPreloProduction {
+                            do {
+                                //Convert to Data
+                                let jsonData = try! JSONSerialization.data(withJSONObject: itemsId, options: JSONSerialization.WritingOptions.prettyPrinted)
+                                
+                                //Convert back to string. Usually only do this for debugging
+                                if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                                    print(JSONString)
+                                    let productIdsString = JSONString.replaceRegex(Regex.init(pattern: "\n| ") , template: "")
+                                    print(productIdsString)
+                                    
+                                    let fbPdata: [String : Any] = [
+                                        FBSDKAppEventParameterNameContentType          : "product",
+                                        FBSDKAppEventParameterNameContentID            : productIdsString,
+                                        FBSDKAppEventParameterNameNumItems             : itemsId.count.string,
+                                        FBSDKAppEventParameterNameCurrency             : "IDR"
+                                    ]
+                                    FBSDKAppEvents.logEvent(FBSDKAppEventNameInitiatedCheckout, valueToSum: Double(totalPrice), parameters: fbPdata)
+                                }
+                            }
+                        }
+                        
+                        /*
+                         // MixPanel
+                         let pt = [
+                         "Order ID" : orderId,
+                         "Items" : items,
+                         "Items Category" : itemsCategory,
+                         "Items Seller" : itemsSeller,
+                         "Items Price" : itemsPrice,
+                         "Items Commission Percentage" : itemsCommissionPercentage,
+                         "Items Commission Price" : itemsCommissionPrice,
+                         "Total Commission Price" : totalCommissionPrice,
+                         "Shipping Price" : self.totalOngkir,
+                         "Total Price" : totalPrice,
+                         "Shipping Region" : rName!,
+                         "Shipping Province" : pName!,
+                         "Bonus Used" : 0,
+                         "Balance Used" : 0
+                         ] as [String : Any]
+                         Mixpanel.trackEvent(MixpanelEvent.Checkout, properties: pt as [AnyHashable: Any])
+                         */
+                        
+                        // Prelo Analytic - Checkout
+                        let loginMethod = User.LoginMethod ?? ""
+                        let localId = User.CartLocalId ?? ""
+                        let province = CDProvince.getProvinceNameWithID(self.selectedAddress.provinceId) ?? ""
+                        let region = CDRegion.getRegionNameWithID(self.selectedAddress.regionId) ?? ""
+                        let subdistrict = self.selectedAddress.subdistrictName
+                        
+                        let address = [
+                            "Province" : province,
+                            "Region" : region,
+                            "Subdistrict" : subdistrict
+                            ] as [String : Any]
+                        
+                        var pdata = [
+                            "Local ID" : localId,
+                            "Order ID" : orderId,
+                            "Items" : itemsObject,
+                            "Total Price" : totalPrice,
+                            "Address" : address,
+                            "Payment Method" : paymentMethod,
+                            "Prelo Balance Used" : (self.checkoutResult!["prelobalance_used"].int64Value != 0 ? true : false),
+                            "Type" : "Single Page"
+                            ] as [String : Any]
+                        
+                        if (self.checkoutResult!["voucher_serial"].stringValue != "") {
+                            pdata["Voucher Used"] = self.checkoutResult!["voucher_serial"].stringValue
+                        }
+                        
+                        AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.Checkout, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+                        
+                        // reset localid
+                        User.SetCartLocalId("")
+                        
+                        // Answers
+                        if (AppTools.IsPreloProduction) {
+                            Answers.logStartCheckout(withPrice: NSDecimalNumber(value: totalPrice as Int64), currency: "IDR", itemCount: NSNumber(value: items.count as Int), customAttributes: nil)
+                            for j in 0...items.count-1 {
+                                Answers.logPurchase(withPrice: NSDecimalNumber(value: itemsPrice[j] as Int64), currency: "IDR", success: true, itemName: items[j], itemType: itemsCategory[j], itemId: itemsId[j], customAttributes: nil)
+                            }
+                        }
+                        
+                        // Google Analytics Ecommerce Tracking
+                        if (AppTools.IsPreloProduction) {
+                            let gaTracker = GAI.sharedInstance().defaultTracker
+                            let trxDict = GAIDictionaryBuilder.createTransaction(withId: orderId, affiliation: "iOS Checkout", revenue: totalPrice as NSNumber!, tax: totalCommissionPrice as NSNumber!, shipping: (self.totalAmount - self.cartResult.totalPrice) as NSNumber!, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                            gaTracker?.send(trxDict)
+                            
+                            for c in self.cartResult.cartDetails {
+                                for p in c.products {
+                                    var cName = CDCategory.getCategoryNameWithID(p.categoryId)
+                                    if cName == nil {
+                                        cName = p.categoryId
+                                    }
+                                    
+                                    let trxItemDict = GAIDictionaryBuilder.createItem(withTransactionId: orderId, name: p.name, sku: p.productId, category: cName, price: p.price as NSNumber!, quantity: 1, currencyCode: "IDR").build() as NSDictionary? as? [AnyHashable: Any]
+                                    gaTracker?.send(trxItemDict)
+                                }
+                            }
+                            
+                        }
+                        
+                        // MoEngage
+                        let moeDict = NSMutableDictionary()
+                        moeDict.setObject(orderId, forKey: "Order ID" as NSCopying)
+                        moeDict.setObject(items, forKey: "Items" as NSCopying)
+                        moeDict.setObject(itemsCategory, forKey: "Items Category" as NSCopying)
+                        moeDict.setObject(itemsSeller, forKey: "Items Seller" as NSCopying)
+                        moeDict.setObject(itemsPrice, forKey: "Items Price" as NSCopying)
+                        moeDict.setObject(itemsCommissionPercentage, forKey: "Items Commission Percentage" as NSCopying)
+                        moeDict.setObject(itemsCommissionPrice, forKey: "Items Commission Price" as NSCopying)
+                        moeDict.setObject(totalCommissionPrice, forKey: "Total Commission Price" as NSCopying)
+                        moeDict.setObject((self.totalAmount - self.cartResult.totalPrice), forKey: "Shipping Price" as NSCopying)
+                        moeDict.setObject(totalPrice, forKey: "Total Price" as NSCopying)
+                        moeDict.setObject(rName!, forKey: "Shipping Region" as NSCopying)
+                        moeDict.setObject(pName!, forKey: "Shipping Province" as NSCopying)
+                        let moeEventTracker = MOPayloadBuilder.init(dictionary: moeDict)
+                        moeEventTracker?.setTimeStamp(Date.timeIntervalSinceReferenceDate, forKey: "startTime")
+                        moeEventTracker?.setDate(Date(), forKey: "startDate")
+                        let locManager = CLLocationManager()
+                        locManager.requestWhenInUseAuthorization()
+                        var currentLocation : CLLocation!
+                        var currentLat : Double = 0
+                        var currentLng : Double = 0
+                        if (CLLocationManager.authorizationStatus() == .authorizedWhenInUse || CLLocationManager.authorizationStatus() == .authorizedAlways) {
+                            currentLocation = locManager.location
+                            currentLat = currentLocation.coordinate.latitude
+                            currentLng = currentLocation.coordinate.longitude
+                        }
+                        moeEventTracker?.setLocationLat(currentLat, lng: currentLng, forKey: "startingLocation")
+                        MoEngage.sharedInstance().trackEvent(MixpanelEvent.Checkout, builderPayload: moeEventTracker)
+                    }
+                    
+                    self.hideLoading()
+                    
+                    // update troli badge count
+                    let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                    let notifListener = appDelegate.preloNotifListener
+                    notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
+                    
+                    // Prepare to navigate to next page
+                    if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
+                        self.navigateToOrderConfirmVC(false)
+                        
+                    } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .veritrans) { // Credit card, indomaret
+                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                        webVC.url = self.checkoutResult!["veritrans_redirect_url"].stringValue
+                        webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
+                        webVC.creditCardMode = true
+                        webVC.ccPaymentSucceed = {
+                            // virtual account
+                            if self.paymentMethods[self.selectedPaymentIndex].methodDetail.value == "Permata VA" {
+                                // back & push
+                                if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                    let navController = self.navigationController!
+                                    var controllers = navController.viewControllers
+                                    controllers.removeLast()
+                                    
+                                    navController.setViewControllers(controllers, animated: false)
+                                    
+                                    let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                    myPurchaseVC.previousScreen = PageName.Checkout
+                                    
+                                    navController.pushViewController(myPurchaseVC, animated: true)
+                                }
+                            } else {
+                                self.navigateToOrderConfirmVC(true)
+                            }
+                        }
+                        webVC.ccPaymentUnfinished = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
+                            
+                            // back & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
+                        }
+                        webVC.ccPaymentFailed = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
+                            
+                            // back & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
+                        }
+                        let baseNavC = BaseNavigationController()
+                        baseNavC.setViewControllers([webVC], animated: false)
+                        self.present(baseNavC, animated: true, completion: nil)
+                        
+                    } else if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .kredivo) { // Kredivo
+                        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+                        let webVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+                        webVC.url = self.checkoutResult!["kredivo_redirect_url"].stringValue
+                        webVC.titleString = "Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)"
+                        webVC.creditCardMode = true
+                        webVC.ccPaymentSucceed = {
+                            self.navigateToOrderConfirmVC(true)
+                        }
+                        webVC.ccPaymentUnfinished = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran tertunda")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
+                            
+                            // back & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
+                        }
+                        webVC.ccPaymentFailed = {
+                            Constant.showDialog("Pembayaran \(self.paymentMethods[self.selectedPaymentIndex].methodDetail.title)", message: "Pembayaran gagal, silahkan coba beberapa saat lagi")
+                            /*
+                             let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+                             notifPageVC.isBackTwice = true
+                             notifPageVC.previousScreen = PageName.Checkout
+                             self.navigateToVC(notifPageVC)
+                             */
+                            
+                            // back & push
+                            if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                let navController = self.navigationController!
+                                var controllers = navController.viewControllers
+                                controllers.removeLast()
+                                
+                                navController.setViewControllers(controllers, animated: false)
+                                
+                                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+                                myPurchaseVC.previousScreen = PageName.Checkout
+                                
+                                navController.pushViewController(myPurchaseVC, animated: true)
+                            }
+                        }
+                        let baseNavC = BaseNavigationController()
+                        baseNavC.setViewControllers([webVC], animated: false)
+                        self.present(baseNavC, animated: true, completion: nil)
+                    }
+                }
+                
+                self.loadingPanel.isHidden = true
+            })
         }
     }
     
@@ -2208,7 +2843,11 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     }
                     
                     self.isNeedScrollToTop = true
-                    self.synchCart()
+                    if !self.isSewaProduct {
+                        self.synchCart()
+                    } else {
+                        self.getCartSewa()
+                    }
                 } else {
                     self.isNeedSetup = true
                     self.selectedIndex = count

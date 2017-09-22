@@ -192,3 +192,56 @@ enum APIV2Cart : URLRequestConvertible {
         return p
     }
 }
+
+enum APICartRent: URLRequestConvertible {
+    case addCartRent(seller_id: String, product_id: String, start_date: String, end_date: String, buffer_start_date: String, buffer_end_date: String, shipping_address: String, voucher_serial: String?)
+    case checkoutRent(seller_id: String, product_id: String, shipping_package_id: String, start_date: String, end_date: String, buffer_start_date: String, buffer_end_date: String, shipping_address: String, voucher_serial: String?, payment_method: String, prelobalance_used: Int64, bonus_used: Int64, banktransfer_digit: Int64, platform_sent_from: String, target_bank: String)
+    
+    var method : HTTPMethod {
+        switch self {
+        case .addCartRent:
+            return .post
+        case .checkoutRent:
+            return .post
+        }
+    }
+    
+    var path : String {
+        switch self {
+        case .addCartRent:
+            return "rent/cart"
+        case .checkoutRent:
+            return "rent/checkout"
+        }
+    }
+    
+    var param : [String : Any] {
+        switch self {
+        case .addCartRent(let seller_id, let product_id, let start_date, let end_date, let buffer_start_date, let buffer_end_date, let shipping_address, let voucher_serial):
+            return ["seller_id": seller_id, "product_id": product_id, "start_date": start_date, "end_date": end_date, "buffer_start_date": buffer_start_date, "buffer_end_date": buffer_end_date, "shipping_address": shipping_address, "voucher_serial": (voucher_serial == nil) ? "" : voucher_serial!, "platform_sent_from": "ios"]
+        case .checkoutRent(let seller_id, let product_id, let shipping_package_id, let start_date, let end_date, let buffer_start_date, let buffer_end_date, let shipping_address, let voucher_serial, let payment_method, let prelobalance_used, let bonus_used, let banktransfer_digit, let platform_sent_from, let target_bank):
+            var p: [String: Any] = ["seller_id": seller_id, "product_id": product_id, "shipping_package_id": shipping_package_id, "start_date": start_date, "end_date": end_date, "buffer_start_date": buffer_start_date, "buffer_end_date": buffer_end_date, "shipping_address": shipping_address, "voucher_serial": (voucher_serial == nil) ? "" : voucher_serial!, "payment_method": payment_method, "prelobalance_used": prelobalance_used, "bonus_used": bonus_used, "banktransfer_digit": NSNumber(value: 1 as Int), "platform_sent_from": platform_sent_from, "target_bank": target_bank]
+            if prelobalance_used != 0 {
+                p["prelobalance_used"] = NSNumber(value: prelobalance_used as Int64)
+            }
+            if banktransfer_digit != 0 {
+                p["banktransfer_digit"] = NSNumber(value: banktransfer_digit as Int64)
+            }
+            if bonus_used != 0 {
+                p["bonus_used"] = NSNumber(value: bonus_used as Int64)
+            }
+            return p
+        }
+    }
+    
+    func asURLRequest() throws -> URLRequest {
+        let basePath = ""
+        let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
+        var urlRequest = URLRequest(url: url).defaultURLRequest()
+        urlRequest.httpMethod = method.rawValue
+        let encodedURLRequest = try URLEncoding.queryString.encode(urlRequest, with: PreloEndpoints.ProcessParam(param))
+        print("===Param===")
+        print(param)
+        return encodedURLRequest
+    }
+}

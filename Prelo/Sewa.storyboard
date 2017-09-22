@@ -443,20 +443,11 @@
                         <outlet property="startDayLabel" destination="Ee2-AO-yUZ" id="c0Z-5b-jdI"/>
                         <outlet property="termAgreementLabel" destination="FV8-DY-Kbt" id="jr2-d7-c0M"/>
                         <outlet property="totalDayLabel" destination="sec-FA-krN" id="b85-uY-Qju"/>
-                        <segue destination="KIb-cP-zZn" kind="show" identifier="performSegueBarangSaya" id="bm7-9h-WiL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Udy-AJ-vIr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="509.60000000000002" y="-98.50074962518741"/>
-        </scene>
-        <!--BarangSaya-->
-        <scene sceneID="g3B-rB-WiY">
-            <objects>
-                <viewControllerPlaceholder storyboardName="BarangSaya" id="KIb-cP-zZn" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2An-cJ-NKt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1196" y="-99"/>
         </scene>
     </scenes>
     <resources>
