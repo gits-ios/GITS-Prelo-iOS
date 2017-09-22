@@ -622,6 +622,7 @@
 		58F8C1541F289E2900B24BD7 /* TopUpMethodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C1531F289E2900B24BD7 /* TopUpMethodCell.xib */; };
 		58F8C1561F289EA400B24BD7 /* TopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F8C1551F289EA400B24BD7 /* TopUpViewController.swift */; };
 		58FE766F1D34FB9B00D90F27 /* banner_featured.png in Resources */ = {isa = PBXBuildFile; fileRef = 58FE766E1D34FB9B00D90F27 /* banner_featured.png */; };
+		A901380B1F74BC9B0046C423 /* TawarSewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A901380A1F74BC9A0046C423 /* TawarSewa.storyboard */; };
 		A906AE6D1F6ABC5C00299796 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */; };
 		A90D84781F6912080085ABAD /* BarangSaya.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90D84771F6912080085ABAD /* BarangSaya.storyboard */; };
 		A90D84A01F691EB70085ABAD /* BarangSayaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90D849F1F691EB70085ABAD /* BarangSayaViewController.swift */; };
@@ -1870,6 +1871,7 @@
 		989E86DAB969B99020D918F2 /* Pods_PreloUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A660744DD20315E091D19C0B /* Pods-PreloUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PreloUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-PreloUITests/Pods-PreloUITests.release.xcconfig"; sourceTree = "<group>"; };
 		A8C1D147A44BD6A34E6D2D06 /* Pods_PreloTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PreloTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A901380A1F74BC9A0046C423 /* TawarSewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TawarSewa.storyboard; sourceTree = "<group>"; };
 		A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		A90D84771F6912080085ABAD /* BarangSaya.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarangSaya.storyboard; sourceTree = "<group>"; };
 		A90D849F1F691EB70085ABAD /* BarangSayaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarangSayaViewController.swift; sourceTree = "<group>"; };
@@ -2386,6 +2388,7 @@
 				2115E6D41B4A27E500509D2A /* Main.storyboard */,
 				A992FA711F67E49F007EBF12 /* Sewa.storyboard */,
 				A90D84771F6912080085ABAD /* BarangSaya.storyboard */,
+				A901380A1F74BC9A0046C423 /* TawarSewa.storyboard */,
 				B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */,
 				21AE67B41B4A61C600D2CF63 /* Resource */,
 				2115E6CB1B4A27E500509D2A /* Supporting Files */,
@@ -4268,6 +4271,7 @@
 				TargetAttributes = {
 					2115E6C71B4A27E500509D2A = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = A72B22UTXM;
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -4486,6 +4490,7 @@
 				21156ED01B8F5DBC001D7842 /* ic_socmed_twitter.png in Resources */,
 				585887541DBEDC0E006EC6D5 /* ShippingCell.xib in Resources */,
 				B2932DEC1E85324400782C78 /* FeedbackPopup.xib in Resources */,
+				A901380B1F74BC9B0046C423 /* TawarSewa.storyboard in Resources */,
 				589CC1D01DF54E2500C5FD02 /* ic_indomaret.png in Resources */,
 				21E7A7651B9FF2BC00FC9B38 /* LKActivity-Flat@2x.png in Resources */,
 				440AF6691BE1090800074CBC /* ic_round_path.png in Resources */,
@@ -5775,7 +5780,7 @@
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Audi CF (B9MKF2525V)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -5824,7 +5829,7 @@
 				CODE_SIGN_ENTITLEMENTS = Prelo/Prelo.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Audi CF (B9MKF2525V)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = A72B22UTXM;
 				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
