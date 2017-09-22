@@ -433,11 +433,7 @@
                             <constraint firstItem="5gH-XA-3g1" firstAttribute="leading" secondItem="zya-rJ-L23" secondAttribute="leading" id="yfr-gO-6xs"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Tanggal Sewa" id="jSf-ud-9CF">
-                        <barButtonItem key="rightBarButtonItem" image="iconChecked" id="cva-1h-ejq">
-                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Tanggal Sewa" id="jSf-ud-9CF"/>
                     <connections>
                         <outlet property="calendarView" destination="1oA-B0-gGG" id="YSb-Xb-fQo"/>
                         <outlet property="checkboxButton" destination="FlH-Vy-tpl" id="ILb-du-vzq"/>
@@ -464,7 +460,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="iconChecked" width="13" height="11"/>
         <image name="uncheckedbox" width="24" height="24"/>
     </resources>
 </document>

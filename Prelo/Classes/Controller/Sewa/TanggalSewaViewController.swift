@@ -9,7 +9,7 @@
 import UIKit
 import JTAppleCalendar
 
-class TanggalSewaViewController: UIViewController {
+class TanggalSewaViewController: BaseViewController {
     @IBOutlet var startDayLabel: UILabel!
     @IBOutlet var startDateLabel: UILabel!
     @IBOutlet var finishDayLabel: UILabel!
@@ -269,7 +269,10 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
                 }
 
             } else if selectedDate.isSameDay(startDate!) {
-                //do nothing
+                isStartSelected = true
+                isFinishSelected = false
+                startDate = selectedDate
+                finishDate = nil
             } else {
                 //selected finish date
                 isFinishSelected = true
