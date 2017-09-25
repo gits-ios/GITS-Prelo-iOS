@@ -42,13 +42,13 @@
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxH-0j-ueI">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nxH-0j-ueI">
                                 <rect key="frame" x="338" y="7" width="21" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="ipP-RH-dDb"/>
                                     <constraint firstAttribute="width" constant="21" id="yD5-ce-6X6"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.65490196079999996" blue="0.61568627450000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -61,6 +61,9 @@
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xhg-gK-ffK">
                                 <rect key="frame" x="0.0" y="0.0" width="359" height="37"/>
+                                <connections>
+                                    <action selector="pickLocationPressed:" destination="DVq-tv-P28" eventType="touchUpInside" id="eeK-2p-nn6"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -111,12 +114,23 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o9n-Fr-3Ef">
                         <rect key="frame" x="8" y="98" width="359" height="38"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Catatan (optional)" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9uy-9j-WaK">
-                                <rect key="frame" x="0.0" y="0.0" width="359" height="37"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W08-T5-96j" customClass="SZTextView">
+                                <rect key="frame" x="0.0" y="0.0" width="359" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="wGV-sb-3Fi"/>
+                                </constraints>
+                                <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences" returnKeyType="done"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="placeholderColor">
+                                        <color key="value" red="0.72156862749999995" green="0.72156862749999995" blue="0.72156862749999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="fadeTime">
+                                        <real key="value" value="0.20000000000000001"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="placeholder" value="Catatan (Optional)"/>
+                                </userDefinedRuntimeAttributes>
                             </textView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="c6r-jm-c43">
                                 <rect key="frame" x="0.0" y="37" width="359" height="1"/>
@@ -129,12 +143,12 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="c6r-jm-c43" secondAttribute="bottom" id="0T2-av-dRB"/>
-                            <constraint firstItem="9uy-9j-WaK" firstAttribute="leading" secondItem="o9n-Fr-3Ef" secondAttribute="leading" id="FAa-0y-Z3H"/>
-                            <constraint firstItem="c6r-jm-c43" firstAttribute="top" secondItem="9uy-9j-WaK" secondAttribute="bottom" id="NuF-4m-XYw"/>
-                            <constraint firstItem="9uy-9j-WaK" firstAttribute="top" secondItem="o9n-Fr-3Ef" secondAttribute="top" id="OnM-uz-bEc"/>
+                            <constraint firstAttribute="trailing" secondItem="W08-T5-96j" secondAttribute="trailing" id="Bws-7P-lTP"/>
+                            <constraint firstItem="W08-T5-96j" firstAttribute="top" secondItem="o9n-Fr-3Ef" secondAttribute="top" id="Hr0-Q4-BBh"/>
+                            <constraint firstItem="W08-T5-96j" firstAttribute="leading" secondItem="o9n-Fr-3Ef" secondAttribute="leading" id="NgG-et-TXg"/>
                             <constraint firstAttribute="trailing" secondItem="c6r-jm-c43" secondAttribute="trailing" id="kK0-ed-ltG"/>
                             <constraint firstItem="c6r-jm-c43" firstAttribute="leading" secondItem="o9n-Fr-3Ef" secondAttribute="leading" id="n8C-tC-1Ya"/>
-                            <constraint firstAttribute="trailing" secondItem="9uy-9j-WaK" secondAttribute="trailing" id="nAB-0S-OFq"/>
+                            <constraint firstAttribute="bottom" secondItem="W08-T5-96j" secondAttribute="bottom" id="zxB-0m-Ach"/>
                         </constraints>
                     </view>
                 </subviews>
@@ -152,8 +166,11 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="consHeightOptional" destination="wGV-sb-3Fi" id="caE-E5-2l8"/>
                 <outlet property="lblCity" destination="uKj-B4-bQA" id="j4W-Mj-fb7"/>
+                <outlet property="pickLocation" destination="xhg-gK-ffK" id="wmA-HA-sZI"/>
                 <outlet property="txtLocation" destination="d8F-Pf-8UX" id="h9O-wa-Jnf"/>
+                <outlet property="txtVwOptional" destination="W08-T5-96j" id="bb4-h4-5zw"/>
             </connections>
             <point key="canvasLocation" x="-54.5" y="143.5"/>
         </tableViewCell>

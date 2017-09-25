@@ -58,8 +58,8 @@ enum AddProduct3SectionType {
              .postalFee,
              .rentPeriod       : return 2
         case .rentSellOnOff,
-             .price,
-             .meetUp           : return 3
+             .price            : return 3
+        case .meetUp           : return 5
         }
     }
     
@@ -217,6 +217,14 @@ struct SelectedProductItem {
     
     // Charge Cell
     var commision = "0%(Free) - 10%"
+    
+    // Shipping
+    var meetUp = true
+    var kurir = true
+    
+    // Meet Up
+    var meetUpLocation = ""
+    var meetUpDetails = ""
 }
 
 // MARK: - Class
@@ -1176,25 +1184,29 @@ class AddProductViewController3: BaseViewController {
     
     func setupParam() -> [String:String] {
         var param: [String:String] = [
-            "name"                 : self.product.name,
-            "category_id"          : self.product.categoryId,
-            "price"                : self.product.hargaJual,
-            "price_original"       : self.product.hargaBeli,
-            "weight"               : self.product.weight,
-            "free_ongkir"          : self.product.isFreeOngkir,
-            "product_condition_id" : self.product.conditionId,
-            "defect_description"   : self.product.cacat,
-            "size"                 : self.product.size,
-            "is_luxury"            : self.product.isLuxuryMerk ? "1" : "0",
-            "style_name"           : self.product.styleName,
-            "serial_number"        : self.product.serialNumber,
-            "purchase_location"    : self.product.lokasiBeli,
-            "purchase_year"        : self.product.tahunBeli,
-            "platform_sent_from"   : "ios",
+            "name"                      : self.product.name,
+            "category_id"               : self.product.categoryId,
+            "price"                     : self.product.hargaJual,
+            "price_original"            : self.product.hargaBeli,
+            "weight"                    : self.product.weight,
+            "free_ongkir"               : self.product.isFreeOngkir,
+            "product_condition_id"      : self.product.conditionId,
+            "defect_description"        : self.product.cacat,
+            "size"                      : self.product.size,
+            "is_luxury"                 : self.product.isLuxuryMerk ? "1" : "0",
+            "style_name"                : self.product.styleName,
+            "serial_number"             : self.product.serialNumber,
+            "purchase_location"         : self.product.lokasiBeli,
+            "purchase_year"             : self.product.tahunBeli,
+            "platform_sent_from"        : "ios",
             
-            "rent_price"           : self.product.hargaSewa,
-            "rent_price_deposit"   : self.product.deposit,
-            "rent_period_type"     : self.product.modeSewa.rawValue.string
+            "rent_price"                : self.product.hargaSewa,
+            "rent_price_deposit"        : self.product.deposit,
+            "rent_period_type"          : self.product.modeSewa.rawValue.string,
+            
+            "rent_shipping_available"   : self.product.kurir ? "1" : "0",
+            "rent_intercity_shipping"   : "",
+            "rent_meetup_available"     : self.product.meetUp ? "1" : "0"
         ]
         
         if self.product.description != "" {
@@ -1220,6 +1232,11 @@ class AddProductViewController3: BaseViewController {
             param["listing_type"]   = "2"
         } else {
             param["listing_type"]   = self.product.addProductType.rawValue.string
+        }
+        
+        if self.product.meetUp {
+            param["rent_meetup_location"]      = self.product.meetUpLocation
+            param["rent_meetup_details"]       = self.product.meetUpDetails
         }
         
         return param
@@ -1591,8 +1608,14 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
         case .meetUp:
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
-            } else {
+            } else if row == 1 {
                 return AddProduct3CODSwitchCell.heightFor()
+            } else if row == 2 {
+                return AddProduct3MeetUpCell.heightFor()
+            } else if row == 3 {
+                return AddProduct3CODSwitchCell.heightFor()
+            } else {
+                return AddProduct3RentPeriodCell.heightFor()
             }
         case .rentSellOnOff:
             if row == 0 {
@@ -2079,7 +2102,22 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return cell
             } else if row == 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3CODSwitchCell") as! AddProduct3CODSwitchCell
+                cell.reloadSections = { _sections in
+                    var array: Array<Int> = []
+                    for i in _sections {
+                        array.append(self.findSectionFromType(i))
+                    }
+                    
+                    let indexSet = NSMutableIndexSet()
+                    array.forEach(indexSet.add)
+                    
+                    self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+                }
                 cell.reloadRows = { _rows, _section in
+                    print("ini dipanggil")
+//                    self.tableView.deleteRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
+                    
+                    
                     let sec = self.findSectionFromType(_section)
                     var indexPaths: Array<IndexPath> = []
                     
@@ -2091,9 +2129,34 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 }
                 cell.adapt(label: "Bertemu langsung")
                 return cell
-            } else {
+            } else if row == 2 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3MeetUpCell") as! AddProduct3MeetUpCell
+                cell.updateSize = {
+                    self.tableView.beginUpdates()
+                    self.tableView.endUpdates()
+                    
+                    self.product.isStartInput = true
+                    
+                    cell.txtVwOptional.becomeFirstResponder()
+                }
+                cell.pickLocation1 = {
+                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+                    p?.items = CDRegion.getRegionPickerItems("")
+                    
+                    p?.selectBlock = { string in
+                        cell.lblCity.text = PickerViewController.RevealHiddenString(string)
+                    }
+                    p?.title = "Kota"
+                    self.view.endEditing(true)
+                    self.navigationController?.pushViewController(p!, animated: true)
+                }
+                return cell
+            } else if row == 3 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3CODSwitchCell") as! AddProduct3CODSwitchCell
                 cell.adapt(label: "Menggunakan kurir ekspedisi")
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPostalFeeCell") as! AddProduct3RentPostalFeeCell
                 return cell
             }
         case .rentSellOnOff:
@@ -3707,6 +3770,16 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
 class AddProduct3MeetUpCell: UITableViewCell {
     @IBOutlet weak var lblCity: UILabel!
     @IBOutlet weak var txtLocation: UITextField!
+    @IBOutlet weak var txtVwOptional: UITextView!
+    @IBOutlet weak var consHeightOptional: NSLayoutConstraint!
+    
+    var updateSize: ()->() = {}
+    var pickLocation1: ()->() = {}
+    @IBOutlet weak var pickLocation: UIButton!
+    
+    @IBAction func pickLocationPressed(_ sender: Any) {
+        pickLocation1()
+    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -3721,6 +3794,19 @@ class AddProduct3MeetUpCell: UITableViewCell {
         return 150
     }
 }
+extension AddProduct3MeetUpCell: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        
+        let sizeThatShouldFitTheContent = txtVwOptional.sizeThatFits(txtVwOptional.frame.size)
+        
+        if self.consHeightOptional.constant != (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height) {
+            self.consHeightOptional.constant = (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height)
+            
+            self.updateSize()
+        }
+    }
+}
+
 
 // MARK: - COD switch cell
 class AddProduct3CODSwitchCell: UITableViewCell {
@@ -3728,11 +3814,11 @@ class AddProduct3CODSwitchCell: UITableViewCell {
     @IBOutlet weak var labelCOD: UILabel!
     @IBOutlet weak var switchButton: UISwitch!
     
-    var insertRows: (_ rows: Array<Int>, _ section: AddProduct3SectionType)->() = {_, _ in }
+    var reloadRows: (_ rows: Array<Int>, _ section: AddProduct3SectionType)->() = {_, _ in }
+    var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
     
     @IBAction func switchButtonPressed(_ sender: Any) {
-        self.insertRows([ 1 ], .price)
-        print("detect")
+//        reloadRows([1],.meetUp)
     }
     
     override func awakeFromNib() {
