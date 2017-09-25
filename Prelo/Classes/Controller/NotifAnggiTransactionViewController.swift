@@ -10,23 +10,23 @@ import Foundation
 import Alamofire
 
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l < r
+    case (nil, _?):
+        return true
+    default:
+        return false
+    }
 }
 
 fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l <= r
-  default:
-    return !(rhs < lhs)
-  }
+    switch (lhs, rhs) {
+    case let (l?, r?):
+        return l <= r
+    default:
+        return !(rhs < lhs)
+    }
 }
 
 
@@ -67,7 +67,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     var isAllItemLoaded : Bool = false
     
     var notifications : [NotificationObj]?
-
+    
     weak var delegate : NotifAnggiTransactionDelegate?
     
     var isToDelete : Bool = false
@@ -107,11 +107,11 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         bottomLoadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
         
-//        btnBatal.layer.borderWidth = 1
-//        btnBatal.layer.borderColor = UIColor.white.cgColor
-//        
-//        btnHapus.layer.borderWidth = 1
-//        btnHapus.layer.borderColor = UIColor.white.cgColor
+        //        btnBatal.layer.borderWidth = 1
+        //        btnBatal.layer.borderColor = UIColor.white.cgColor
+        //
+        //        btnHapus.layer.borderWidth = 1
+        //        btnHapus.layer.borderColor = UIColor.white.cgColor
         
         // Transparent panel
         self.backgroundOverlay.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.2)
@@ -374,7 +374,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         
         
         // messagebox --> inside success api
-//        Constant.showDialog("Hapus Pesan", message: "Pesan berhasil dihapus")
+        //        Constant.showDialog("Hapus Pesan", message: "Pesan berhasil dihapus")
     }
     
     // MARK: - Other functions
@@ -494,31 +494,31 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         
         // Check if user is seller or buyer
         /*// API Migrasi
-        let _ = request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON {resp in
-            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Transaksi")) {
-                let json = JSON(resp.result.value!)
-                let data = json["_data"]
-                let tpDetail = TransactionProductDetail.instance(data)
-                if let sellerId = tpDetail?.sellerId {
-                    if (sellerId == User.Id) { // User is seller
-                        // Goto MyProductDetail
-                        let myProductDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductDetail, owner: nil, options: nil).first as! MyProductDetailViewController
-                        myProductDetailVC.transactionId = notif.objectId
-                        self.navigationController?.pushViewController(myProductDetailVC, animated: true)
-                    } else { // User is buyer
-                        // Goto MyPurchaseDetail
-                        let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
-                        myPurchaseDetailVC.transactionId = notif.objectId
-                        self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
-                    }
-                } else {
-                    Constant.showDialog("Notifikasi - Transaksi", message: "Oops, ada masalah saat mengecek data barang")
-                }
-            } else {
-                self.hideLoading()
-                self.showContent()
-            }
-        }*/
+         let _ = request(APITransaction.TransactionDetail(id: notif.objectId)).responseJSON {resp in
+         if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Notifikasi - Transaksi")) {
+         let json = JSON(resp.result.value!)
+         let data = json["_data"]
+         let tpDetail = TransactionProductDetail.instance(data)
+         if let sellerId = tpDetail?.sellerId {
+         if (sellerId == User.Id) { // User is seller
+         // Goto MyProductDetail
+         let myProductDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyProductDetail, owner: nil, options: nil).first as! MyProductDetailViewController
+         myProductDetailVC.transactionId = notif.objectId
+         self.navigationController?.pushViewController(myProductDetailVC, animated: true)
+         } else { // User is buyer
+         // Goto MyPurchaseDetail
+         let myPurchaseDetailVC = NSBundle.mainBundle().loadNibNamed(Tags.XibNameMyPurchaseDetail, owner: nil, options: nil).first as! MyPurchaseDetailViewController
+         myPurchaseDetailVC.transactionId = notif.objectId
+         self.navigationController?.pushViewController(myPurchaseDetailVC, animated: true)
+         }
+         } else {
+         Constant.showDialog("Notifikasi - Transaksi", message: "Oops, ada masalah saat mengecek data barang")
+         }
+         } else {
+         self.hideLoading()
+         self.showContent()
+         }
+         }*/
     }
     
     // Prelo Analytic - Click Notification (in App)
@@ -537,7 +537,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         let pdata = [
             "Object ID" : targetId,
             "Type" : curType
-        ] as [String : Any]
+            ] as [String : Any]
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ClickNotificationInApp, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
     }
 }
@@ -582,11 +582,11 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     override func prepareForReuse() {
         self.contentView.backgroundColor = UIColor.white.withAlphaComponent(0)
-//        imgSingle.image = UIImage(named: "raisa.jpg")
+        //        imgSingle.image = UIImage(named: "raisa.jpg")
         vwSingleImage.isHidden = false
         vwDoubleImage.isHidden = true
         vwCaption.backgroundColor = Theme.GrayDark
-        lblTrxStatus.textColor = Theme.GrayDark
+        lblTrxStatus.textColor = Theme.PrimaryColor
         
         if imgSingle != nil {
             imgSingle.afCancelRequest()
@@ -598,7 +598,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
             imgDouble2.afCancelRequest()
         }
     }
-
+    
     func adapt(_ notif : NotificationObj, idx : Int) {
         // Set background color
         if (!notif.read && isDiffUnread) {
@@ -691,8 +691,15 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 return 4
             } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
                 return 1
-            } else { // Default
+            } else if (progress == TransactionDetailTools.ProgressNotReturned) {
                 return 6
+            } else { // Default
+                if (notif?.caption.lowercased() == "disewa" || notif?.caption.lowercased() == "sewa") {
+                    return 7
+                } else {
+                    // Default jual || beli
+                    return 6
+                }
             }
         }
         return 0
@@ -700,11 +707,11 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         // Create cell
-        let cell = collcTrxProgress.dequeueReusableCell(withReuseIdentifier: "collcTrxProgressCell", for: indexPath) 
+        let cell = collcTrxProgress.dequeueReusableCell(withReuseIdentifier: "collcTrxProgressCell", for: indexPath)
         
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-//        vwIcon.layer.cornerRadius = 12
+        //        vwIcon.layer.cornerRadius = 12
         
         // Set background color
         let idx = (indexPath as NSIndexPath).row + 1
@@ -739,14 +746,24 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
             }
         } else if (TransactionDetailTools.isRefundProgress(self.notif?.progress)) {
             if (idx - 1 <= (self.notif?.progress ?? 30) - 30) {
-                vwIcon.backgroundColor = Theme.ThemeRed
-            } else {
+                if self.notif?.progress != 34 {
+                    if (notif?.caption.lowercased() == "beli" || notif?.caption.lowercased() == "sewa") {
+                        vwIcon.backgroundColor = Theme.PrimaryColor
+                    } else {
+                        // untuk jual OR disewa
+                        vwIcon.backgroundColor = Theme.ThemeOrange
+                    }
+                } else {
+                    vwIcon.backgroundColor = Theme.ThemeRed
+                }
+            }
+            else {
                 vwIcon.backgroundColor = Theme.GrayLight
             }
         } else {
             if (self.notif?.progress < 0) {
                 let nItem = self.collectionView(collectionView, numberOfItemsInSection: 0)
-                if (nItem < 6) {
+                if (nItem < 7) {
                     if (idx < nItem) {
                         if (self.notif?.caption.lowercased() == "jual") {
                             vwIcon.backgroundColor = Theme.ThemeOrange
@@ -818,7 +835,12 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                     imgName = "ic_trx_exclamation"
                 } else if (progress == TransactionDetailTools.ProgressNotSent && idx == 4) { // Not sent
                     imgName = "ic_trx_canceled"
-                } else {
+                } else if (progress == TransactionDetailTools.ProgressNotReturned && idx == 6) { // Not returned by renter
+                    imgName = "ic_trx_canceled"
+                } else if (progress == TransactionDetailTools.ProgressReconciliation && idx == 7) { // Reconciliation
+                    imgName = "ic_trx_reconciliation"
+                }
+                else {
                     if (idx == 1) { // Not paid
                         imgName = "ic_trx_expired"
                     } else if (idx == 2) { // Claimed paid
@@ -829,7 +851,14 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                         imgName = "ic_trx_shipped"
                     } else if (idx == 5) { // Received
                         imgName = "ic_trx_received"
-                    } else if (idx == 6) { // Reviewed
+                    } else if (idx == 6) { // Returned OR Reviewed
+                        if (notif?.caption.lowercased() == "disewa" || notif?.caption.lowercased() == "sewa") {
+                            imgName = "ic_trx_returned"
+                        } else {
+                            // Reviewed jual || beli
+                            imgName = "ic_trx_done"
+                        }
+                    } else if (idx == 7) {
                         imgName = "ic_trx_done"
                     }
                 }

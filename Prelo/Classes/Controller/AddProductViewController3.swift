@@ -905,7 +905,7 @@ class AddProductViewController3: BaseViewController {
                 self.labels.append(contentsOf: self.toArray(cat.image_label_luxury!))
             }
         } else if self.product.categoryId != "" {
-            Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+            Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Barang Saya\"")
             
             if self.editProduct == nil {
                 self.saveDraft(false)
@@ -1409,7 +1409,7 @@ class AddProductViewController3: BaseViewController {
             } else {
                 isOke = false
                 DispatchQueue.main.async(execute: {
-                    Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+                    Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Barang Saya\"")
                     _ = self.navigationController?.popToRootViewController(animated: true)
                 })
             }

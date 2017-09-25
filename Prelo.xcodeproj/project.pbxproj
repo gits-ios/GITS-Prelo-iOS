@@ -643,6 +643,8 @@
 		A9A9F9451F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */; };
 		A9B2813B1F6BBEA900D0759F /* HeaderTanggalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */; };
 		A9B281521F6BBF3300D0759F /* HeaderTanggalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */; };
+		A9C353871F78E29E00C26681 /* ic_trx_reconciliation.png in Resources */ = {isa = PBXBuildFile; fileRef = A9C353851F78E29E00C26681 /* ic_trx_reconciliation.png */; };
+		A9C353881F78E29E00C26681 /* ic_trx_returned.png in Resources */ = {isa = PBXBuildFile; fileRef = A9C353861F78E29E00C26681 /* ic_trx_returned.png */; };
 		A9E327F71F68DB3C009382F5 /* TanggalSewaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */; };
 		A9E369EB1F6AED4B00DF69F1 /* TanggalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */; };
 		A9E369ED1F6AED7700DF69F1 /* TanggalViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */; };
@@ -1897,6 +1899,8 @@
 		A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifAnggiTransactionViewController.swift; sourceTree = "<group>"; };
 		A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTanggalView.xib; sourceTree = "<group>"; };
 		A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTanggalView.swift; sourceTree = "<group>"; };
+		A9C353851F78E29E00C26681 /* ic_trx_reconciliation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_reconciliation.png; sourceTree = "<group>"; };
+		A9C353861F78E29E00C26681 /* ic_trx_returned.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_returned.png; sourceTree = "<group>"; };
 		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalSewaViewController.swift; sourceTree = "<group>"; };
 		A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalViewCell.swift; sourceTree = "<group>"; };
 		A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TanggalViewCell.xib; sourceTree = "<group>"; };
@@ -2930,6 +2934,8 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A9C353851F78E29E00C26681 /* ic_trx_reconciliation.png */,
+				A9C353861F78E29E00C26681 /* ic_trx_returned.png */,
 				B2FCF6B41ED5694500A6D9E7 /* share */,
 				B2B688651EFA6C01005B5E8A /* checkout v2 */,
 				B2D39B641EB2F78200A44A1C /* location map */,
@@ -4714,6 +4720,7 @@
 				B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */,
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
 				B2D965E41E9E29A500B2C29C /* Checkout2PreloBalanceCell.xib in Resources */,
+				A9C353881F78E29E00C26681 /* ic_trx_returned.png in Resources */,
 				210702E41BE7A8F100DD9E52 /* cu_wasap@2x.png in Resources */,
 				589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */,
 				B2D965DF1E9E1F4000B2C29C /* Checkout2PaymentCreditCardCell.xib in Resources */,
@@ -4924,6 +4931,7 @@
 				210959B31B8DD088000F2939 /* ic_hanger@2x.png in Resources */,
 				B2ECB2F61EBC308800DB87E2 /* ic_pin_border.png in Resources */,
 				B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */,
+				A9C353871F78E29E00C26681 /* ic_trx_reconciliation.png in Resources */,
 				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,

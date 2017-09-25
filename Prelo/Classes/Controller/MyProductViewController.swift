@@ -44,7 +44,7 @@ class MyProductViewController: BaseViewController, CarbonTabSwipeDelegate, MyPro
         tabSwipe?.setSelectedColor(Theme.TabSelectedColor)
         
         // Set title
-        self.title = "Jualan Saya"
+        self.title = "Barang Saya"
         
         // Buat tombol jual menjadi bentuk bulat dan selalu di depan
         viewJualButton.layer.cornerRadius = (viewJualButton.frame.size.width) / 2

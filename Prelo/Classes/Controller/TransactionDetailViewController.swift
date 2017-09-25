@@ -3149,7 +3149,9 @@ class TransactionDetailTools : NSObject {
     static let ProgressReservationCancelled = -2
     static let ProgressRejectedBySeller = -3
     static let ProgressNotSent = -4
+    static let ProgressPaymentReject = -5
     static let ProgressFraudDetected = -6
+    
     static let ProgressNotPaid = 1
     static let ProgressClaimedPaid = 2
     static let ProgressConfirmedPaid = 3
@@ -3158,10 +3160,19 @@ class TransactionDetailTools : NSObject {
     static let ProgressReviewed = 6
     static let ProgressReserved = 7
     static let ProgressReserveDone = 8
+    
     static let ProgressRefundRequested = 30
     static let ProgressRefundVerified = 31
     static let ProgressRefundSent = 32
     static let ProgressRefundSuccess = 33
+    static let ProgressRefundReject = 34
+    
+    static let ProgressRentAccepted = 50
+    static let progressRentReturn = 51
+    static let ProgressReturnAccepted = 52
+    static let ProgressReturnReviewed = 53
+    static let ProgressNotReturned = 54
+    static let ProgressReconciliation = 55
     
     // Layouting
     static let Margin : CGFloat = 8.0

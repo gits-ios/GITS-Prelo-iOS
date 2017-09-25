@@ -2304,7 +2304,7 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
                     } else {
                         isOke = false
                         DispatchQueue.main.async(execute: {
-                            Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Jualan Saya\"")
+                            Constant.showDialog("Peringatan", message: "Lokal data kamu belum terupdate, harap lakukan \"Reload App Data\" pada menu \"About\". Dan ulangi upload barang kamu dari menu \"Barang Saya\"")
                             _ = self.navigationController?.popToRootViewController(animated: true)
                         })
                     }
@@ -2482,9 +2482,9 @@ class AddProductViewController2: BaseViewController, UIScrollViewDelegate, UITex
             ] as [String : Any]
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.SaveAsDraft, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
             
-//            Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.", badge: "info", view: self, isBack: isBack)
+//            Constant.showBadgeDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Barang Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Barang Saya.", badge: "info", view: self, isBack: isBack)
             
-            Constant.showDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Jualan Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Jualan Saya.")
+            Constant.showDialog("Berhasil", message: "Draft barang berhasil disimpan di menu Barang Saya. Jika belum muncul, mohon tunggu beberapa saat dan coba untuk memperbarui menu Barang Saya.")
             
             // gesture override
             self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true

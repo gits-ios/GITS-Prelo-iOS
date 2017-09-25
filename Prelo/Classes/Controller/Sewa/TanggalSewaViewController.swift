@@ -58,7 +58,7 @@ class TanggalSewaViewController: BaseViewController {
             Constant.showDialog("Perhatian", message: "Mohon pilih tanggal penyewaan terlebih dahulu")
         } else {
             if !isCheckboxAgreed {
-                Constant.showDialog("Perhatian", message: "Anda belum menyetujui syarat dan ketentuan Prelo")
+                Constant.showDialog("Perhatian", message: "Kamu belum menyetujui syarat dan ketentuan Prelo")
             } else {
                 let checkout2VC = Bundle.main.loadNibNamed(Tags.XibNameCheckout2, owner: nil, options: nil)?.first as! Checkout2ViewController
                 formatter.dateFormat = "yyyy-MM-dd"
@@ -258,13 +258,17 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         //override select & deselect cell function
         cell?.isSelected = false
-        handleCalendarDateCellClick(selectedDate: date)
+        if !date.isLessThanDate(Date()) {
+            handleCalendarDateCellClick(selectedDate: date)
+        }
     }
     
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         //override select & deselect cell function
         cell?.isSelected = false
-        handleCalendarDateCellClick(selectedDate: date)
+        if !date.isLessThanDate(Date()) {
+            handleCalendarDateCellClick(selectedDate: date)
+        }
     }
     
     func handleCalendarDateCellClick(selectedDate : Date) {

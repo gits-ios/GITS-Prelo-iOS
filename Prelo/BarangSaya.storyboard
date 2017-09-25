@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Jualan Saya-->
+        <!--Barang Saya-->
         <scene sceneID="lB6-1A-XBd">
             <objects>
                 <viewController id="jHc-wc-nbM" customClass="BarangSayaViewController" customModule="Prelo" customModuleProvider="target" sceneMemberID="viewController">
@@ -34,7 +34,7 @@
                             <constraint firstItem="ZOd-Y0-NES" firstAttribute="leading" secondItem="Yvg-iw-s8S" secondAttribute="leading" id="zSd-Ng-x0h"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Jualan Saya" id="2R4-3U-g8Q"/>
+                    <navigationItem key="navigationItem" title="Barang Saya" id="2R4-3U-g8Q"/>
                     <connections>
                         <outlet property="navTitle" destination="2R4-3U-g8Q" id="b1v-TU-buJ"/>
                         <outlet property="segmentedPager" destination="ZOd-Y0-NES" id="ScD-Sw-Xo0"/>

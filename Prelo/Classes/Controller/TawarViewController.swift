@@ -242,7 +242,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         
         // Buttons action setup
         self.btnTawar1.layer.borderWidth = 0.8
-        self.btnTawar1.layer.borderColor = UIColor.orange.cgColor
+        self.btnTawar1.layer.borderColor = Theme.ThemeOrange.cgColor
         btnTawar1.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
         btnEdit.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)
         btnTawar2.addTarget(self, action: #selector(TawarViewController.showTawar(_:)), for: UIControlEvents.touchUpInside)

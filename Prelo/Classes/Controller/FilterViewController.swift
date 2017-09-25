@@ -49,7 +49,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
     
     
     let jenisListing : [String] = ["Jual", "Sewa"]
-    var jenisListingChecked : [Bool] = [false, false]
+    var jenisListingChecked : [Bool] = [true, true]
     var selectedJenisListing : String = ""
     
     
@@ -268,7 +268,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         } else if (section == SectionKondisi) {
             return 36
         } else if (section == SectionJenis) {
-            return 27
+            return 36
         } else if (section == SectionOngkir) {
             return 44
         } else if (section == SectionUkuran) {
@@ -315,7 +315,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             return cell
         } else if (section == SectionJenis) {
             let cell : FilterChecklistCell = self.tableView.dequeueReusableCell(withIdentifier: IdFilterChecklistCell) as! FilterChecklistCell
-            if ((indexPath as NSIndexPath).row < productConditions.count) {
+            if ((indexPath as NSIndexPath).row < jenisListing.count) {
                 cell.adapt(jenisListing[(indexPath as NSIndexPath).row], isChecked: jenisListingChecked[(indexPath as NSIndexPath).row])
             }
             return cell
