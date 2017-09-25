@@ -292,6 +292,12 @@
 		5810269C1EEA81FE00C0D324 /* RekeningAdd.xib in Resources */ = {isa = PBXBuildFile; fileRef = 581026981EEA81FE00C0D324 /* RekeningAdd.xib */; };
 		581026B71EEA933800C0D324 /* RekeningList.xib in Resources */ = {isa = PBXBuildFile; fileRef = 581026B61EEA933800C0D324 /* RekeningList.xib */; };
 		581026B91EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */; };
+		5806A18E1EFA325E005B4CBE /* Pilih_Foto.png in Resources */ = {isa = PBXBuildFile; fileRef = 5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */; };
+		580A30E51DFFF29E00453AA0 /* ProductLovelistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */; };
+		580B07291DD5D99A0079C11C /* bday-splashscreen-2048x2048.png in Resources */ = {isa = PBXBuildFile; fileRef = 580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */; };
+		5811FCBF1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5811FCBC1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg */; };
+		5811FCC01F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5811FCBD1F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg */; };
+		5811FCC11F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 5811FCBE1F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg */; };
 		581430DB1DCB14DE00B67205 /* GrowingTextViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */; };
 		581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */; };
 		581E87B01CE08EE00055CCDD /* cover-shop-page.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */; };
@@ -339,6 +345,8 @@
 		58528C541D13A3D200074EC6 /* cchmrk_sold.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C511D13A3D200074EC6 /* cchmrk_sold.png */; };
 		58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 58528C521D13A3D200074EC6 /* cchmrk_up.png */; };
 		585373D01DF9388A00CEE663 /* InstagramSharePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */; };
+		5853C51A1EF92A1A003AEECC /* VerifikasiImagePreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5853C5191EF92A1A003AEECC /* VerifikasiImagePreview.xib */; };
+		5853C52E1EF92AC9003AEECC /* VerifikasiImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5853C52D1EF92AC9003AEECC /* VerifikasiImagePreview.swift */; };
 		5856875B1C6C97F4002A19CE /* ic_request.png in Resources */ = {isa = PBXBuildFile; fileRef = 5856875A1C6C97F4002A19CE /* ic_request.png */; };
 		585887271DBED974006EC6D5 /* PhoneVerification.xib in Resources */ = {isa = PBXBuildFile; fileRef = 21104ACF1BAA8F1200947E7F /* PhoneVerification.xib */; };
 		5858872F1DBED978006EC6D5 /* ProfileSetup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44BD691E1B957D3A00D036F0 /* ProfileSetup.xib */; };
@@ -459,6 +467,7 @@
 		5895E86C1C49315400752ACA /* chat-rp.png in Resources */ = {isa = PBXBuildFile; fileRef = 5895E86B1C49315400752ACA /* chat-rp.png */; };
 		58969E521F316C0500CBD064 /* TopUpConfirm.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58969E511F316C0400CBD064 /* TopUpConfirm.xib */; };
 		58969E641F31710100CBD064 /* TopUpConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58969E631F31710000CBD064 /* TopUpConfirmViewController.swift */; };
+		58969E3C1F3069D100CBD064 /* Exclamation_32px.png in Resources */ = {isa = PBXBuildFile; fileRef = 58969E3B1F3069D100CBD064 /* Exclamation_32px.png */; };
 		589A6FAE1D8C08F600654CDD /* ic_1_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */; };
 		589A6FAF1D8C08F600654CDD /* ic_1kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F8F1D8C08F600654CDD /* ic_1kg.png */; };
 		589A6FB01D8C08F600654CDD /* ic_2kg.png in Resources */ = {isa = PBXBuildFile; fileRef = 589A6F901D8C08F600654CDD /* ic_2kg.png */; };
@@ -618,6 +627,8 @@
 		58F78B601DFACEB3008744F7 /* ProductLovelist.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */; };
 		58F7DD511D73E90800EF43AC /* ic_free_ongkir_truck.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */; };
 		58F7DD531D74204B00EF43AC /* rsz_ic_bri@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */; };
+		58F823C01EF7C0BA001EDB2D /* VerifikasiIdentitas.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F823BF1EF7C0BA001EDB2D /* VerifikasiIdentitas.xib */; };
+		58F823D21EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58F823D11EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift */; };
 		58F89DC51D9A2359003A5378 /* login-background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 58F89DC41D9A2359003A5378 /* login-background.jpg */; };
 		58F8C0EA1F2197D500B24BD7 /* UploadSuggestionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C0E91F2197D500B24BD7 /* UploadSuggestionCell.xib */; };
 		58F8C13E1F28998200B24BD7 /* TopUp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 58F8C13D1F28998100B24BD7 /* TopUp.xib */; };
@@ -1624,6 +1635,12 @@
 		581026981EEA81FE00C0D324 /* RekeningAdd.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningAdd.xib; sourceTree = "<group>"; };
 		581026B61EEA933800C0D324 /* RekeningList.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RekeningList.xib; sourceTree = "<group>"; };
 		581026B81EEA949100C0D324 /* TarikTunaiwithSaveBankAccountController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TarikTunaiwithSaveBankAccountController.swift; sourceTree = "<group>"; };
+		5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Pilih_Foto.png; sourceTree = "<group>"; };
+		580A30E41DFFF29E00453AA0 /* ProductLovelistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelistCell.xib; sourceTree = "<group>"; };
+		580B07281DD5D99A0079C11C /* bday-splashscreen-2048x2048.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bday-splashscreen-2048x2048.png"; sourceTree = "<group>"; };
+		5811FCBC1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kampus.jpg"; sourceTree = "<group>"; };
+		5811FCBD1F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kantor.jpg"; sourceTree = "<group>"; };
+		5811FCBE1F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kelurahan.jpg"; sourceTree = "<group>"; };
 		581430DA1DCB14DE00B67205 /* GrowingTextViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrowingTextViewHandler.swift; sourceTree = "<group>"; };
 		581E87AD1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "ic_dashboard_cover@2x.jpg"; sourceTree = "<group>"; };
 		581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "cover-shop-page.jpg"; sourceTree = "<group>"; };
@@ -1636,6 +1653,8 @@
 		58528C511D13A3D200074EC6 /* cchmrk_sold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_sold.png; sourceTree = "<group>"; };
 		58528C521D13A3D200074EC6 /* cchmrk_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cchmrk_up.png; sourceTree = "<group>"; };
 		585373CF1DF9388A00CEE663 /* InstagramSharePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InstagramSharePreview.xib; sourceTree = "<group>"; };
+		5853C5191EF92A1A003AEECC /* VerifikasiImagePreview.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifikasiImagePreview.xib; sourceTree = "<group>"; };
+		5853C52D1EF92AC9003AEECC /* VerifikasiImagePreview.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifikasiImagePreview.swift; sourceTree = "<group>"; };
 		5856875A1C6C97F4002A19CE /* ic_request.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_request.png; sourceTree = "<group>"; };
 		5870CFBA1DC6F7E600E22EFF /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		588113241F0A0EB100AF17D7 /* ChangeShopStatus.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeShopStatus.xib; sourceTree = "<group>"; };
@@ -1662,6 +1681,7 @@
 		5895E86B1C49315400752ACA /* chat-rp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chat-rp.png"; sourceTree = "<group>"; };
 		58969E511F316C0400CBD064 /* TopUpConfirm.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TopUpConfirm.xib; sourceTree = "<group>"; };
 		58969E631F31710000CBD064 /* TopUpConfirmViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TopUpConfirmViewController.swift; sourceTree = "<group>"; };
+		58969E3B1F3069D100CBD064 /* Exclamation_32px.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Exclamation_32px.png; sourceTree = "<group>"; };
 		589A6F8E1D8C08F600654CDD /* ic_1_2kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_1_2kg.png; sourceTree = "<group>"; };
 		589A6F8F1D8C08F600654CDD /* ic_1kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_1kg.png; sourceTree = "<group>"; };
 		589A6F901D8C08F600654CDD /* ic_2kg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_2kg.png; sourceTree = "<group>"; };
@@ -1882,6 +1902,8 @@
 		58F78B5F1DFACEB3008744F7 /* ProductLovelist.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductLovelist.xib; sourceTree = "<group>"; };
 		58F7DD501D73E90800EF43AC /* ic_free_ongkir_truck.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_free_ongkir_truck.png; sourceTree = "<group>"; };
 		58F7DD521D74204B00EF43AC /* rsz_ic_bri@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rsz_ic_bri@2x.png"; sourceTree = "<group>"; };
+		58F823BF1EF7C0BA001EDB2D /* VerifikasiIdentitas.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VerifikasiIdentitas.xib; sourceTree = "<group>"; };
+		58F823D11EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VerifikasiIdentitasViewController.swift; sourceTree = "<group>"; };
 		58F89DC21D9A1A0C003A5378 /* LoginFransiska.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginFransiska.xib; sourceTree = "<group>"; };
 		58F89DC41D9A2359003A5378 /* login-background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "login-background.jpg"; sourceTree = "<group>"; };
 		58F8C0E91F2197D500B24BD7 /* UploadSuggestionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UploadSuggestionCell.xib; sourceTree = "<group>"; };
@@ -2841,6 +2863,8 @@
 				B2B948F01F4B2E0D00A69321 /* ProductDetailViewController2.swift */,
 				B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */,
 				B228560D1F42B89E001F26AA /* AddProduct3ListImagesViewController.swift */,
+				58F823D11EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift */,
+				5853C52D1EF92AC9003AEECC /* VerifikasiImagePreview.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2929,6 +2953,10 @@
 				B2EE39C91E76903C00113E03 /* paid push */,
 				B2BEBC7D1E4C30C9009982F9 /* placeholder */,
 				B2BE47861F60F20A008252D3 /* Rekening_Utama_32px.png */,
+				5811FCBC1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg */,
+				5811FCBD1F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg */,
+				5811FCBE1F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg */,
+				58969E3B1F3069D100CBD064 /* Exclamation_32px.png */,
 				2109BCAB1BDE2489004F36C5 /* checkout_tour_1.jpg */,
 				581E87AF1CE08EE00055CCDD /* cover-shop-page.jpg */,
 				21AE67B71B4A61C600D2CF63 /* dummy@2x.jpg */,
@@ -3508,6 +3536,8 @@
 				B28349341F4FE75000C916A8 /* ShopReview2.xib */,
 				B28349351F4FE75000C916A8 /* ShopReview2Average.xib */,
 				B2BE47981F6655FF008252D3 /* TopUpVerification.xib */,
+				58F823BF1EF7C0BA001EDB2D /* VerifikasiIdentitas.xib */,
+				5853C5191EF92A1A003AEECC /* VerifikasiImagePreview.xib */,
 			);
 			path = XIB;
 			sourceTree = "<group>";
@@ -3887,6 +3917,7 @@
 			children = (
 				B26792F81F4DB50200601F84 /* ic_default@2x.png */,
 				B26792F91F4DB50200601F84 /* ic_default@3x.png */,
+				5806A18D1EFA325E005B4CBE /* Pilih_Foto.png */,
 				B2F0EFE41EEECAEB00A678F8 /* ic_christmas@2x.png */,
 				B2F0EFE51EEECAEB00A678F8 /* ic_christmas@3x.png */,
 				B2F0EFE61EEECAEB00A678F8 /* ic_ramadhan@2x.png */,
@@ -4492,6 +4523,7 @@
 				B271A6AC1EE0ACA900C6A973 /* placeholder-transparent-lightgray.png in Resources */,
 				B2C9F6E01EE923C600833E27 /* Checkout2.xib in Resources */,
 				58A223CA1C898CB600619518 /* ic_trx_shipped.png in Resources */,
+				58969E3C1F3069D100CBD064 /* Exclamation_32px.png in Resources */,
 				B2D119901E290BF80064045B /* banner_notif.png in Resources */,
 				B2BE2DF01E29EBBD006B6903 /* StorePageTabBar.xib in Resources */,
 				585887511DBEDBD5006EC6D5 /* PhoneReverification.xib in Resources */,
@@ -4511,6 +4543,7 @@
 				58D125381CDC4D1F002BC78A /* LICENSE in Resources */,
 				B2569B401F4D5B9400FFD2E4 /* ShopReviewAverageCell.xib in Resources */,
 				B2D965EC1E9E36EA00B2C29C /* Checkout2PaymentSummaryTotalCell.xib in Resources */,
+				58F823C01EF7C0BA001EDB2D /* VerifikasiIdentitas.xib in Resources */,
 				B2F0EFEA1EEECAEB00A678F8 /* ic_ramadhan@2x.png in Resources */,
 				B2B948E91F4B207000A69321 /* ProductDetail2DescriptionRentCell.xib in Resources */,
 				58E368161DA4E40700C6FFE3 /* ic_share2.png in Resources */,
@@ -4588,10 +4621,12 @@
 				B204104D1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib in Resources */,
 				589A6FC61D8C08F600654CDD /* ic_luxury.png in Resources */,
 				B240F4D31E24BBD500DCAFF7 /* Achievement.xib in Resources */,
+				5811FCBF1F4AD08500E0A3BB /* Verifikasi Sewa - Kampus.jpg in Resources */,
 				21D386AA1B6B93CD00D0FA90 /* Default.png in Resources */,
 				B2EE82651EC96D4F00529482 /* AddToCartPopup.xib in Resources */,
 				585887521DBEDBF4006EC6D5 /* ReferralPage.xib in Resources */,
 				212007BE1B6A0BB400D9C84B /* basic_purple@2x.png in Resources */,
+				5806A18E1EFA325E005B4CBE /* Pilih_Foto.png in Resources */,
 				440AF66B1BE1090800074CBC /* ic_round_twitter.png in Resources */,
 				B21416551ECAAB49008A19AE /* ic_dev.png in Resources */,
 				5804CBD61EEE6A8900B7D032 /* RekeningListNewCell.xib in Resources */,
@@ -4717,6 +4752,7 @@
 				B271A6821EDED6D900C6A973 /* placeholder-transparent.png in Resources */,
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
 				B2D965CD1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib in Resources */,
+				5811FCC11F4AD08500E0A3BB /* Verifikasi Sewa - Kelurahan.jpg in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
 				B2D965C71E9DC3D100B2C29C /* Checkout2SellerCell.xib in Resources */,
 				B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */,
@@ -4729,6 +4765,7 @@
 				589F5EC11D70456000ACEB4E /* ic_free_ongkir.png in Resources */,
 				585887471DBEDB50006EC6D5 /* MyPurchaseProcessing.xib in Resources */,
 				585887331DBED9FC006EC6D5 /* CategoryPreferencesCell.xib in Resources */,
+				5811FCC01F4AD08500E0A3BB /* Verifikasi Sewa - Kantor.jpg in Resources */,
 				210702DF1BE7A8F100DD9E52 /* cu_bbm@2x.png in Resources */,
 				2115E6DB1B4A27E500509D2A /* LaunchScreen.xib in Resources */,
 				58BED8E61DA62CB20063E11E /* ic_cart_white.png in Resources */,
@@ -4874,6 +4911,7 @@
 				B2F0EFEB1EEECAEB00A678F8 /* ic_ramadhan@3x.png in Resources */,
 				58A0F4D41D9BA00E00CD693F /* ic_freeongkir.png in Resources */,
 				58A223C91C898CB600619518 /* ic_trx_received.png in Resources */,
+				5853C51A1EF92A1A003AEECC /* VerifikasiImagePreview.xib in Resources */,
 				58C23B601C9DC86300E4C929 /* ic_share.png in Resources */,
 				58F0A41C1C7C634A002A488F /* cchmrk_imgzoom.png in Resources */,
 				21156ECA1B8F5DBC001D7842 /* btn_checkbox_purple_checked.png in Resources */,
@@ -5207,6 +5245,7 @@
 				5858876C1DBEF170006EC6D5 /* InstagramLoginViewController.swift in Sources */,
 				5858876E1DBEF416006EC6D5 /* MyProductViewController.swift in Sources */,
 				21C658971B8EF25E0037F85F /* ActionSheetDistancePicker.m in Sources */,
+				58F823D21EF7C9C3001EDB2D /* VerifikasiIdentitasViewController.swift in Sources */,
 				216345011CC3A855005CBA37 /* MKImageView.swift in Sources */,
 				5847E1921DBDFCDB00C1B2BA /* LoginFransiskaViewController.swift in Sources */,
 				5847E18E1DBDFAF700C1B2BA /* PathLoginViewController.swift in Sources */,
@@ -5225,6 +5264,7 @@
 				58A99A431C6D864E00E3E7D7 /* BranchLogoutRequest.m in Sources */,
 				5858879A1DBF337B006EC6D5 /* PaymentConfirmationViewController.swift in Sources */,
 				5858876D1DBEF1B1006EC6D5 /* PhoneReverificationViewController.swift in Sources */,
+				5853C52E1EF92AC9003AEECC /* VerifikasiImagePreview.swift in Sources */,
 				21679A4A1B901C5300F18F90 /* MPUIControlBinding.m in Sources */,
 				21679A321B901C5300F18F90 /* MPNotification.m in Sources */,
 				B2099F961E1D1A3C00EBB57F /* CDDraftProduct.swift in Sources */,

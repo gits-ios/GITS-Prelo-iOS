@@ -1001,6 +1001,9 @@ class Tags : NSObject {
     static let XibNameAddProduct3 = "AddProduct3"
     static let XibNameMultipleImagePicker = "AddProduct3ListImages"
     static let XibNameProductDetail2 = "ProductDetail2"
+    
+    static let XibNameVerifikasiIdentitas = "VerifikasiIdentitas"
+    static let XibNameVerifikasiImagePreview = "VerifikasiImagePreview"
 }
 
 class OrderStatus : NSObject {
@@ -1081,6 +1084,9 @@ class PageName {
     static let RekeningAdd = "Add Rekening"
     static let ChangeShopStatus = "Change Shop Status"
     static let BalanceMutation = "Balance Mutation"
+    
+    static let VerifikasiIdentitas = "Verifikasi Identitas"
+    static let VerifikasiImagePreview = "Verifikasi Image Preview"
 }
 
 extension Mixpanel {
