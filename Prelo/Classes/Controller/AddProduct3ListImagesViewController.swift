@@ -16,6 +16,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
     @IBOutlet weak var vwLabels: UIView!
     @IBOutlet weak var consHeightVwLabels: NSLayoutConstraint!
     @IBOutlet weak var btnAddImages: UIButton!
+    @IBOutlet weak var loadingPanel: UIView!
     
     var previewImages: Array<PreviewImage> = []
     var index: Array<Int> = []
@@ -47,6 +48,9 @@ class AddProduct3ListImagesViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.loadingPanel.backgroundColor = UIColor.colorWithColor(UIColor.white, alpha: 0.5)
+        self.hideLoading()
         
         let AddProduct3ListImagesCell = UINib(nibName: "AddProduct3ListImagesCell", bundle: nil)
         tableView.register(AddProduct3ListImagesCell, forCellReuseIdentifier: "AddProduct3ListImagesCell")
@@ -96,6 +100,8 @@ class AddProduct3ListImagesViewController: BaseViewController {
     }
     
     @IBAction func btnAddImagesPressed(_ sender: Any) {
+        self.showLoading()
+        
         if self.maxImages - self.previewImages.count > 0 {
             let pickerController = DKImagePickerController()
             
@@ -111,10 +117,18 @@ class AddProduct3ListImagesViewController: BaseViewController {
                         let uniqueId = uniqueCode.description
                         let imageName = "prelo-image-" + self.localId + "-" + uniqueId
                         
-                        // save image to temporary
-                        let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
-                        if (pathToSavedImage == nil) {
-                            print("Failed to save image")
+                        let backgroundQueue = DispatchQueue(label: "com.prelo.ios.Prelo.temporer-image",
+                                                            qos: .background,
+                                                            attributes: .concurrent,
+                                                            target: nil)
+                        backgroundQueue.async {
+                            //print("Work on background queue")
+                            
+                            // save image to temporary
+                            let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
+                            if (pathToSavedImage == nil) {
+                                print("Failed to save image")
+                            }
                         }
                         
                         self.previewImages.append(PreviewImage(image: img, url: imageName, label: "", orientation: img?.imageOrientation.rawValue))
@@ -129,6 +143,8 @@ class AddProduct3ListImagesViewController: BaseViewController {
                                 self.previewImages[self.index[lastIndex]].label = "Lainnya"
                             }
                         }
+                        
+                        self.hideLoading()
                     })
                 }
                 
@@ -343,6 +359,15 @@ class AddProduct3ListImagesViewController: BaseViewController {
             
             self.tableView.reloadData()
         }
+    }
+    
+    // MARK: - Other
+    func showLoading() {
+        self.loadingPanel.isHidden = false
+    }
+    
+    func hideLoading() {
+        self.loadingPanel.isHidden = true
     }
 }
 

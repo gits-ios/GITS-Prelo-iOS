@@ -20,6 +20,7 @@ enum imageFilterMode {
     case circleWithBadgePlaceHolder
     case fitWithPreloPlaceHolder
     case fillWithPreloMessagePlaceHolder
+    case fillWithoutPlaceHolder
     case fitWithPreloMessagePlaceHolder
     case fitWithStandarPlaceHolder
 }
@@ -780,6 +781,26 @@ extension UIImageView {
                 })
             }
                 
+            else if withFilter == .fillWithoutPlaceHolder { // cover product detail v2
+                self.contentMode = .scaleAspectFill // placeholder
+                
+                let filter = AspectScaledToFillSizeFilter(
+                    size: self.frame.size
+                )
+                
+                DispatchQueue.main.async(execute: {
+                    self.af_setImage(
+                        withURL: withURL,
+                        filter: filter,
+                        imageTransition: imageTransition,
+                        completion: { res in
+                            if res.result.isSuccess {
+                                self.image?.afInflate()
+                            }
+                    })
+                })
+            }
+                
             else if withFilter == .fitWithStandarPlaceHolder { // featured, segment, sub-category
                 let filter = AspectScaledToFitSizeFilter(
                     size: self.frame.size
@@ -979,6 +1000,7 @@ class Tags : NSObject {
     static let XibNameTopUpVerification = "TopUpVerification"
     static let XibNameAddProduct3 = "AddProduct3"
     static let XibNameMultipleImagePicker = "AddProduct3ListImages"
+    static let XibNameProductDetail2 = "ProductDetail2"
 }
 
 class OrderStatus : NSObject {
