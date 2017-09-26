@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="DNG-yA-EC5" id="zQ8-SH-ku8">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="73.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eVQ-YP-ZUd">
@@ -148,7 +148,7 @@
                                     <constraint firstAttribute="width" constant="118" id="u2z-ZD-6WI"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                <color key="textColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.52156862749999999" green="0.52156862749999999" blue="0.52156862749999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="hT4-ZC-EwU">
@@ -236,7 +236,7 @@
                 <outlet property="vwOverlay" destination="asX-fV-PV4" id="hj7-lO-hnP"/>
                 <outlet property="vwSingleImage" destination="9py-E7-tK4" id="FLS-fc-OIM"/>
             </connections>
-            <point key="canvasLocation" x="215" y="262.5"/>
+            <point key="canvasLocation" x="215" y="262"/>
         </tableViewCell>
     </objects>
     <resources>

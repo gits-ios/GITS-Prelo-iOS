@@ -474,7 +474,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
         } else if !jenisListingChecked[0] && jenisListingChecked[1] { // ~0 $ 1
             fltrProdKind = "1"
         } else if jenisListingChecked[0] && jenisListingChecked[1] { // 0 & 1
-            fltrProdKind = String(jenisListingChecked.count)
+            fltrProdKind = "2"
         }
 //        fltrProdKind = Int64(fltrProdKind)
         print (fltrProdKind)
@@ -510,6 +510,7 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             l.currentMode = .filter
             l.fltrCategId = self.categoryId
             l.isBackToFltrSearch = true
+            l.fltrProdKind = fltrProdKind
             l.fltrProdCondIds = fltrProdCondIds
             l.fltrPriceMin = fltrPriceMin
             l.fltrPriceMax = fltrPriceMax

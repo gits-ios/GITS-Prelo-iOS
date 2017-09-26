@@ -211,7 +211,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             cell.backgroundColor = UIColor.white
             
             if let n = notifications?[(indexPath as NSIndexPath).item] {
-                cell.adapt(n, idx: (indexPath as NSIndexPath).item)
+                cell.adapt(n, idx: (indexPath as NSIndexPath).item, isPriceHidden: true)
                 cell.delegate = self
                 
                 if isToDelete {
@@ -586,7 +586,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         vwSingleImage.isHidden = false
         vwDoubleImage.isHidden = true
         vwCaption.backgroundColor = Theme.GrayDark
-        lblTrxStatus.textColor = Theme.PrimaryColor
+        lblTrxStatus.textColor = Theme.GrayDark
         
         if imgSingle != nil {
             imgSingle.afCancelRequest()
@@ -599,7 +599,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         }
     }
     
-    func adapt(_ notif : NotificationObj, idx : Int) {
+    func adapt(_ notif : NotificationObj, idx : Int, isPriceHidden : Bool) {
         // Set background color
         if (!notif.read && isDiffUnread) {
             self.contentView.backgroundColor = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
@@ -624,7 +624,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         } else if (notif.caption.lowercased() == "beli") {
             vwCaption.backgroundColor = Theme.PrimaryColor
         } else if (notif.caption.lowercased() == "disewa") {
-            vwCaption.backgroundColor = Theme.ThemeOrage
+            vwCaption.backgroundColor = Theme.ThemeOrange
         } else if (notif.caption.lowercased() == "sewa") {
             vwCaption.backgroundColor = Theme.PrimaryColor
         }
@@ -634,6 +634,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         lblTrxStatus.text = notif.statusText
         lblPrice.text = notif.shortPreview
         lblTime.text = notif.time
+        lblPrice.isHidden = isPriceHidden
         
         // Set trx status text color
         if (notif.progress < 0) {
@@ -722,7 +723,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 } else if (self.notif?.caption.lowercased() == "beli") {
                     vwIcon.backgroundColor = Theme.PrimaryColor
                 } else if (self.notif?.caption.lowercased() == "disewa") {
-                    vwCaption.backgroundColor = Theme.ThemeOrage
+                    vwCaption.backgroundColor = Theme.ThemeOrange
                 } else if (self.notif?.caption.lowercased() == "sewa") {
                     vwCaption.backgroundColor = Theme.PrimaryColor
                 }
@@ -736,7 +737,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                     } else if (self.notif?.caption.lowercased() == "beli") {
                         vwIcon.backgroundColor = Theme.PrimaryColor
                     } else if (self.notif?.caption.lowercased() == "disewa") {
-                        vwCaption.backgroundColor = Theme.ThemeOrage
+                        vwCaption.backgroundColor = Theme.ThemeOrange
                     } else if (self.notif?.caption.lowercased() == "sewa") {
                         vwCaption.backgroundColor = Theme.PrimaryColor
                     }
@@ -770,7 +771,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                         } else if (self.notif?.caption.lowercased() == "beli") {
                             vwIcon.backgroundColor = Theme.PrimaryColor
                         } else if (self.notif?.caption.lowercased() == "disewa") {
-                            vwCaption.backgroundColor = Theme.ThemeOrage
+                            vwCaption.backgroundColor = Theme.ThemeOrange
                         } else if (self.notif?.caption.lowercased() == "sewa") {
                             vwCaption.backgroundColor = Theme.PrimaryColor
                         }
@@ -792,7 +793,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 }
             } else if (self.notif?.caption.lowercased() == "disewa") {
                 if (idx <= self.notif?.progress) {
-                    vwIcon.backgroundColor = Theme.ThemeOrage
+                    vwIcon.backgroundColor = Theme.ThemeOrange
                 } else {
                     vwIcon.backgroundColor = Theme.GrayLight
                 }

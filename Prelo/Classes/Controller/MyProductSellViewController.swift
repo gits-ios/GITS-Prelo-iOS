@@ -432,11 +432,27 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 //Validation of rent
                 if price != nil {
                     if price != 0 && (rent != nil && rent["price"].int != 0) {
+                        var stringRentPriceValue: String = (rent["price"].int?.asPrice)!
+                        if  rent["period_type"].int == 0 {
+                            stringRentPriceValue = stringRentPriceValue + " / hari"
+                        } else if rent["period_type"].int == 1 {
+                            stringRentPriceValue = stringRentPriceValue + " / minggu"
+                        } else {
+                            stringRentPriceValue = stringRentPriceValue + " / bulan"
+                        }
                         cell.showHideInfoProdTransCell(state: 0)
-                        cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
+                        cell.lblRentPrice.text = stringRentPriceValue
                     }else if rent != nil {
+                        var stringRentPriceValue: String = (rent["price"].int?.asPrice)!
+                        if  rent["period_type"].int == 0 {
+                            stringRentPriceValue = stringRentPriceValue + " / hari"
+                        } else if rent["period_type"].int == 1 {
+                            stringRentPriceValue = stringRentPriceValue + " / minggu"
+                        } else {
+                            stringRentPriceValue = stringRentPriceValue + " / bulan"
+                        }
                         cell.showHideInfoProdTransCell(state: 2)
-                        cell.lblRentPrice.text = (rent["price"].int?.asPrice)! + " / hari"
+                        cell.lblRentPrice.text = stringRentPriceValue
                     }else {
                         cell.showHideInfoProdTransCell(state: 1)
                     }

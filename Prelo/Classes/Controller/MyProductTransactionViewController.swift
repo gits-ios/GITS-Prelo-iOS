@@ -162,7 +162,7 @@ class MyProductTransactionViewController: BaseViewController, UITableViewDataSou
                 cell.isDiffUnread = false
                 
                 let p = userProducts[(indexPath as NSIndexPath).item]
-                cell.adapt(p, idx: (indexPath as NSIndexPath).item)
+                cell.adapt(p, idx: (indexPath as NSIndexPath).item, isPriceHidden: false)
                 
                 return cell
             }

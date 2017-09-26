@@ -348,11 +348,17 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Saya setuju untuk mengembalikan barang pada akhir masa sewa sesuai dengan Syarat dan Ketentuan Prelo" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FV8-DY-Kbt">
-                                        <rect key="frame" x="28" y="96.5" width="307" height="21.5"/>
+                                        <rect key="frame" x="28" y="92.5" width="307" height="30"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="9"/>
                                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pT1-zJ-u8t" userLabel="Term Agreement Button">
+                                        <rect key="frame" x="28" y="92.5" width="307" height="30"/>
+                                        <connections>
+                                            <action selector="termAgreementClickAction:" destination="65a-wQ-iYO" eventType="touchUpInside" id="WQp-sG-xFx"/>
+                                        </connections>
+                                    </button>
                                     <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FlH-Vy-tpl" userLabel="CheckboxButton">
                                         <rect key="frame" x="0.0" y="97.5" width="20" height="20"/>
                                         <constraints>
@@ -369,17 +375,21 @@
                                 <constraints>
                                     <constraint firstItem="lKk-Ds-wNR" firstAttribute="centerY" secondItem="Uub-Jj-YID" secondAttribute="centerY" id="1gf-yC-hKF"/>
                                     <constraint firstItem="FV8-DY-Kbt" firstAttribute="leading" secondItem="FlH-Vy-tpl" secondAttribute="trailing" constant="8" id="3ki-Oo-j7F"/>
+                                    <constraint firstItem="pT1-zJ-u8t" firstAttribute="centerX" secondItem="FV8-DY-Kbt" secondAttribute="centerX" id="60B-TI-eFP"/>
                                     <constraint firstItem="FV8-DY-Kbt" firstAttribute="centerY" secondItem="FlH-Vy-tpl" secondAttribute="centerY" id="6ug-ch-DlA"/>
                                     <constraint firstItem="lKk-Ds-wNR" firstAttribute="leading" secondItem="kGZ-pK-pUw" secondAttribute="trailing" constant="8" id="7Cy-P0-fWh"/>
                                     <constraint firstAttribute="trailing" secondItem="FV8-DY-Kbt" secondAttribute="trailing" id="Cpd-Qd-goO"/>
                                     <constraint firstItem="MYN-pv-MoR" firstAttribute="centerY" secondItem="EhU-v3-axv" secondAttribute="centerY" id="DCo-4c-lhG"/>
                                     <constraint firstAttribute="trailing" secondItem="IEz-Tb-f6p" secondAttribute="trailing" id="E6a-2g-02i"/>
                                     <constraint firstItem="FlH-Vy-tpl" firstAttribute="leading" secondItem="Tzy-bW-sOs" secondAttribute="leading" id="GR1-3p-ba0"/>
+                                    <constraint firstItem="pT1-zJ-u8t" firstAttribute="centerY" secondItem="FV8-DY-Kbt" secondAttribute="centerY" id="LI1-76-U79"/>
                                     <constraint firstItem="Uub-Jj-YID" firstAttribute="top" secondItem="EhU-v3-axv" secondAttribute="bottom" constant="8" id="Lae-2S-gZ3"/>
+                                    <constraint firstItem="pT1-zJ-u8t" firstAttribute="width" secondItem="FV8-DY-Kbt" secondAttribute="width" id="MEB-FT-Snm"/>
                                     <constraint firstItem="Qgh-34-Vqc" firstAttribute="leading" secondItem="lKk-Ds-wNR" secondAttribute="trailing" constant="8" id="NAM-n0-2s3"/>
                                     <constraint firstAttribute="trailing" secondItem="RJ0-yp-mDJ" secondAttribute="trailing" id="NoU-q6-MJJ"/>
                                     <constraint firstItem="kGZ-pK-pUw" firstAttribute="centerY" secondItem="Uub-Jj-YID" secondAttribute="centerY" id="TVh-m4-NSh"/>
                                     <constraint firstItem="Qgh-34-Vqc" firstAttribute="centerY" secondItem="Uub-Jj-YID" secondAttribute="centerY" id="Ti6-My-1b5"/>
+                                    <constraint firstItem="pT1-zJ-u8t" firstAttribute="height" secondItem="FV8-DY-Kbt" secondAttribute="height" id="UqZ-qh-csG"/>
                                     <constraint firstItem="IEz-Tb-f6p" firstAttribute="top" secondItem="MFk-M7-DiR" secondAttribute="bottom" id="W2g-yD-rkO"/>
                                     <constraint firstItem="kGZ-pK-pUw" firstAttribute="leading" secondItem="Uub-Jj-YID" secondAttribute="trailing" constant="8" id="XBh-Nl-JOZ"/>
                                     <constraint firstItem="RJ0-yp-mDJ" firstAttribute="centerY" secondItem="EhU-v3-axv" secondAttribute="centerY" id="YB1-8J-q9j"/>

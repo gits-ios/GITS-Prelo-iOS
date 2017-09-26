@@ -859,7 +859,7 @@ class Theme : NSObject {
     static var ThemePurpleDark = UIColor(hexString: "#00A79D")
     
     static var ThemeOrage = UIColor(hexString: "#F88218")
-    static var ThemeOrange = UIColor(hexString: "#FFA800")
+    static var ThemeOrange = UIColor(hexString: "#FD9809")
     static var ThemeOrangeDark = UIColor(hexString: "#996600")
     
     static var ThemePink = UIColor(hexString: "#F1E3F2")

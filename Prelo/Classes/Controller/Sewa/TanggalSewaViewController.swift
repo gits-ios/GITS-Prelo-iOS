@@ -53,6 +53,20 @@ class TanggalSewaViewController: BaseViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    @IBAction func termAgreementClickAction(_ sender: UIButton) {
+        // Open web view
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+        
+        helpVC.url = "https://prelo.co.id/syarat-ketentuan"
+        helpVC.titleString = title ?? "Syarat dan Ketentuan"
+        helpVC.contactPreloMode = true
+        let baseNavC = BaseNavigationController()
+        baseNavC.setViewControllers([helpVC], animated: false)
+        
+        self.present(baseNavC, animated: true, completion: nil)
+    }
+    
     @IBAction func lanjutClickAction(_ sender: Any) {
         if !isStartSelected && !isFinishSelected {
             Constant.showDialog("Perhatian", message: "Mohon pilih tanggal penyewaan terlebih dahulu")
@@ -97,7 +111,7 @@ class TanggalSewaViewController: BaseViewController {
         self.calendarView.isRangeSelectionUsed = true
         self.calendarView.allowsDateCellStretching = true
         self.calendarView.scrollDirection = .vertical
-        self.calendarView.scrollingMode = ScrollingMode.stopAtEachSection
+        self.calendarView.scrollingMode = ScrollingMode.none
         
         calendarView.register(UINib(nibName: "HeaderTanggalView", bundle: Bundle.main),
                               forSupplementaryViewOfKind: UICollectionElementKindSectionHeader,
@@ -164,7 +178,11 @@ class TanggalSewaViewController: BaseViewController {
         //customize view each date cell
         myCustomCell.dayLabel.text = cellState.text
         if cellState.dateBelongsTo == .thisMonth {
-            myCustomCell.dayLabel.textColor = UIColor.darkGray
+            if cellState.date.isLessThanDate(Date()) {
+                myCustomCell.dayLabel.textColor = UIColor.lightGray
+            } else {
+                myCustomCell.dayLabel.textColor = UIColor.darkGray
+            }
         } else {
             //leftover date at beginning or end of the calendar's month section
             myCustomCell.dayLabel.textColor = UIColor.lightGray
@@ -260,6 +278,8 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
         cell?.isSelected = false
         if !date.isLessThanDate(Date()) {
             handleCalendarDateCellClick(selectedDate: date)
+        } else {
+            Constant.showDialog("Perhatian", message: "Tidak dapat memulai penyewaan sebelum tanggal hari ini")
         }
     }
     
@@ -268,6 +288,8 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
         cell?.isSelected = false
         if !date.isLessThanDate(Date()) {
             handleCalendarDateCellClick(selectedDate: date)
+        } else {
+            Constant.showDialog("Perhatian", message: "Tidak dapat memulai penyewaan sebelum tanggal hari ini")
         }
     }
     
