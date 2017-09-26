@@ -53,25 +53,44 @@
                             <constraint firstAttribute="height" constant="56" id="zEV-vo-5pz"/>
                         </constraints>
                     </view>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gKv-hJ-Gq9" userLabel="loadingPanel">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <subviews>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="J4n-dS-Z9c" userLabel="loading">
+                                <rect key="frame" x="178" y="95" width="20" height="20"/>
+                                <color key="color" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="J4n-dS-Z9c" secondAttribute="centerX" id="STm-xP-udu"/>
+                            <constraint firstItem="J4n-dS-Z9c" firstAttribute="top" secondItem="gKv-hJ-Gq9" secondAttribute="top" constant="95" id="gZl-7j-Kl4"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="ica-P8-Tly" secondAttribute="trailing" id="16E-ph-kVp"/>
+                    <constraint firstAttribute="trailing" secondItem="gKv-hJ-Gq9" secondAttribute="trailing" id="1YN-zu-0di"/>
                     <constraint firstItem="tbn-UQ-0Ut" firstAttribute="leading" secondItem="hus-1q-A3H" secondAttribute="leading" id="7jA-3U-mc7"/>
                     <constraint firstItem="zZ7-vx-0mP" firstAttribute="leading" secondItem="hus-1q-A3H" secondAttribute="leading" id="FIu-T4-DYS"/>
                     <constraint firstItem="bKj-hC-VjR" firstAttribute="top" secondItem="tbn-UQ-0Ut" secondAttribute="bottom" id="IC4-3B-LaX"/>
                     <constraint firstItem="zZ7-vx-0mP" firstAttribute="top" secondItem="ica-P8-Tly" secondAttribute="bottom" id="JSA-Xv-7cQ"/>
                     <constraint firstItem="ica-P8-Tly" firstAttribute="leading" secondItem="hus-1q-A3H" secondAttribute="leading" id="LPN-P4-39i"/>
+                    <constraint firstAttribute="bottom" secondItem="gKv-hJ-Gq9" secondAttribute="bottom" id="Qog-GL-91t"/>
                     <constraint firstAttribute="trailing" secondItem="zZ7-vx-0mP" secondAttribute="trailing" id="S0a-49-Byy"/>
                     <constraint firstItem="ica-P8-Tly" firstAttribute="top" secondItem="tck-us-w0x" secondAttribute="bottom" id="YPC-2P-X1d"/>
                     <constraint firstItem="tbn-UQ-0Ut" firstAttribute="top" secondItem="zZ7-vx-0mP" secondAttribute="bottom" id="eQQ-4v-hv7"/>
                     <constraint firstAttribute="trailing" secondItem="tbn-UQ-0Ut" secondAttribute="trailing" id="kEZ-4i-OHy"/>
+                    <constraint firstItem="gKv-hJ-Gq9" firstAttribute="top" secondItem="hus-1q-A3H" secondAttribute="top" id="twB-T1-IU2"/>
+                    <constraint firstItem="gKv-hJ-Gq9" firstAttribute="leading" secondItem="hus-1q-A3H" secondAttribute="leading" id="xAF-aD-M8D"/>
                 </constraints>
             </view>
             <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
             <connections>
                 <outlet property="btnAddImages" destination="cR9-Rf-ZeA" id="bkt-5J-xT4"/>
                 <outlet property="consHeightVwLabels" destination="JzK-5a-cDh" id="h4e-GI-GJT"/>
+                <outlet property="loadingPanel" destination="gKv-hJ-Gq9" id="0Xp-Kn-Zaa"/>
                 <outlet property="tableView" destination="zZ7-vx-0mP" id="0wH-Bm-kcy"/>
                 <outlet property="vwLabels" destination="ica-P8-Tly" id="J9e-Pk-15S"/>
             </connections>

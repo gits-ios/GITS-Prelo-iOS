@@ -53,6 +53,14 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     
     let FldTentangShopPlaceholder = "Barang kamu terpercaya? Deskripsikan shop kamu di sini."
     
+    // verifikasi identitas
+    @IBOutlet weak var checkKTP: UILabel!
+    @IBOutlet weak var checkKK: UILabel!
+    @IBOutlet weak var checkInstitusi: UILabel!
+    
+    @IBOutlet weak var imgWarning: UIImageView!
+    
+    
     // address
     @IBOutlet weak var lblAddressName: UILabel!
     @IBOutlet weak var lblRecipientName: UILabel!
@@ -75,6 +83,7 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
     @IBOutlet weak var fieldTentangShopTop: NSLayoutConstraint!
     @IBOutlet weak var lblOpenClose: UILabel!
     @IBOutlet weak var lblClose: UILabel!
+    // verifikasi data
     
     
     var isNeedReload = false
@@ -115,6 +124,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
             getRekening()
         }
         isFirst = false
+        // get user verified data
+        getUserRentData()
         
         // Google Analytics
         GAI.trackPageVisit(PageName.EditProfile)
@@ -134,9 +145,38 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
                 
         }, completion: nil)
         
-        
         loadingPanel.isHidden = true
         loading.stopAnimating()
+    }
+    func getUserRentData(){
+        self.showLoading()
+        let _ = request(APIMe.getUserRentData).responseJSON {resp in
+            if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Rent Data")) {
+                let json = JSON(resp.result.value!)
+                let data = json["_data"]
+                if(data.isEmpty){
+                    
+                } else {
+                    if(data["verification_status"] == 0) {
+                        self.checkKTP.isHidden = false
+                        self.checkKK.isHidden = false
+                        self.checkInstitusi.isHidden = false
+                        self.imgWarning.isHidden = true
+                    } else if (data["verification_status"] == 1) {
+                        self.checkKTP.isHidden = true
+                        self.checkKK.isHidden = true
+                        self.checkInstitusi.isHidden = true
+                        self.imgWarning.isHidden = false
+                    } else if (data["verification_status"] == 2) {
+                        self.checkKTP.isHidden = false
+                        self.checkKK.isHidden = false
+                        self.checkInstitusi.isHidden = false
+                        self.imgWarning.isHidden = true
+                    }
+                    self.viewDidLoad()
+                }
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -1026,4 +1066,8 @@ class UserProfileViewController2 : BaseViewController, PickerViewDelegate, UINav
         
     }
 
+    @IBAction func verifikasiIdentitasPressed(_ sender: Any) {
+        let verifikasiIdentitasVC = Bundle.main.loadNibNamed(Tags.XibNameVerifikasiIdentitas, owner: nil, options: nil)?.first as! VerifikasiIdentitasViewController
+        self.navigationController?.pushViewController(verifikasiIdentitasVC, animated: true)
+    }
 }

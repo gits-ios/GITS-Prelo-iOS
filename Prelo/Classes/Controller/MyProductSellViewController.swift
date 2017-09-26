@@ -517,6 +517,7 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                 return
             }
             
+            /*
             let d:ProductDetailViewController = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
             d.product = selectedProduct!
             
@@ -525,6 +526,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
             d.previousScreen = PageName.MyProducts
             
             self.previousController?.navigationController?.pushViewController(d, animated: true)
+            */
+            
+            let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+            productDetail2VC.product = selectedProduct!
+            productDetail2VC.delegate = self.delegate
+            productDetail2VC.previousScreen = PageName.MyProducts
+            self.navigationController?.pushViewController(productDetail2VC, animated: true)
         }
     }
     

@@ -190,6 +190,49 @@ static UIDocumentInteractionController *staticDocController = NULL;
     }];
 }
 
++ (void)sendMultipart:(NSDictionary *)param imagesDict:(NSDictionary *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
+{
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    [manager.requestSerializer setValue:[NSString stringWithFormat:@"Token %@", token] forHTTPHeaderField:@"Authorization"];
+    [manager.requestSerializer setValue:userAgent forHTTPHeaderField:@"User-Agent"];
+    
+    manager.requestSerializer.timeoutInterval = 600;
+    
+    printf("ini isi json image");
+    for(NSString *key in [images allKeys]) {
+        NSLog(@"%@",key);
+        NSLog(@"%@",[images objectForKey:key]);
+    }
+    
+    [manager POST:url parameters:param constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+        for(NSString *key in [images allKeys]) {
+            NSString *name = [NSString stringWithFormat:@"%@", key];
+            if ([[images objectForKey:key] isKindOfClass:[UIImage class]])
+            {
+                //                    long int lc = [[images objectAtIndex:i] imageOrientation];
+                //                    NSLog(@"orientation %ld", lc);
+                NSData *data = UIImageJPEGRepresentation([images objectForKey:key], 0.3);
+                //                    NSData *newData = [self dataByRemovingExif:data];
+                [formData appendPartWithFileData:data name:name fileName:[NSString stringWithFormat:@"%@.jpeg", key] mimeType:@"image/jpeg"];
+            }
+
+            NSLog(@"%@",key);
+            NSLog(@"%@",[images objectForKey:key]);
+        }
+        for (int i = 0; i < images.count; i++)
+        {
+                    }
+    } success:^(AFHTTPRequestOperation *op, id res) {
+        success(op, res);
+    } failure:^(AFHTTPRequestOperation *op, NSError *err) {
+        NSLog(@"REQUEST %@", op.responseString);
+        NSLog(@"ERROR : %@", err);
+        failure(op, err);
+    }];
+    
+}
+
 + (AFHTTPRequestOperationManager *)sendMultipart2:(NSDictionary *)param images:(NSArray *)images withToken:(NSString *)token andUserAgent:(NSString *)userAgent to:(NSString *)url success:(void (^)(AFHTTPRequestOperation *, id))success failure:(void (^)(AFHTTPRequestOperation *, NSError *))failure
 {
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];

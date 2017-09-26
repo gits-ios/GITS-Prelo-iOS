@@ -598,6 +598,10 @@ enum APIMe : URLRequestConvertible {
     case closeUsersShop(start_date: String, end_date: String, reason: Int, custom_reason: String)
     case openUsersShop
     
+    case getUserRentData
+    case setUserRentData(institution_type: Int, institution_name: String, image1: UIImage, image2: UIImage, image3: UIImage)
+    case getUserVerifiedRentData
+    
     public func asURLRequest() throws -> URLRequest {
         let basePath = "me/"
         let url = URL(string: preloHost)!.appendingPathComponent(basePath).appendingPathComponent(path)
@@ -647,6 +651,10 @@ enum APIMe : URLRequestConvertible {
         case .closeUsersShop(_, _, _, _) : return .post
         case .openUsersShop : return .post
         case .getTopUps(_, _) : return .get
+            
+        case .getUserRentData : return .get
+        case .setUserRentData(_, _, _, _, _): return.post
+        case .getUserVerifiedRentData : return .get
         }
     }
     
@@ -691,6 +699,9 @@ enum APIMe : URLRequestConvertible {
         case .getUsersShopData(_) : return "shop_data"
         case .closeUsersShop(_, _, _, _) : return "close_shop"
         case .openUsersShop : return "open_shop"
+        case .getUserRentData : return "rent_data"
+        case .setUserRentData(_, _, _, _, _) : return "set_rent_data"
+        case .getUserVerifiedRentData : return "verified_rent_data"
         }
     }
     

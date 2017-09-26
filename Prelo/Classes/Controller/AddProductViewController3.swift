@@ -43,6 +43,7 @@ enum AddProduct3SectionType {
     case weight           // 2
     case postalFee        // 2
     case rentPeriod       // 2
+    case meetUp           // 2
     case rentSellOnOff    // 3
     case price            // 3
     
@@ -58,6 +59,7 @@ enum AddProduct3SectionType {
              .rentPeriod       : return 2
         case .rentSellOnOff,
              .price            : return 3
+        case .meetUp           : return 5
         }
     }
     
@@ -71,6 +73,7 @@ enum AddProduct3SectionType {
         case .weight           : return "ic_berat"
         case .postalFee        : return "ic_ongkir"
         case .rentPeriod       : return "placeholder-circle"
+        case .meetUp           : return "ic_ongkir"
         case .rentSellOnOff    : return "placeholder-circle"
         case .price            : return "ic_harga"
         }
@@ -86,6 +89,7 @@ enum AddProduct3SectionType {
         case .weight           : return "BERAT"
         case .postalFee        : return "ONGKOS KIRIM"
         case .rentPeriod       : return "PERIODE SEWA"
+        case .meetUp           : return "PENGIRIMAN SEWAAN"
         case .rentSellOnOff    : return "SEWA" // "SEWA" | "JUAL" // override
         case .price            : return "HARGA"
         }
@@ -213,6 +217,14 @@ struct SelectedProductItem {
     
     // Charge Cell
     var commision = "0%(Free) - 10%"
+    
+    // Shipping
+    var meetUp = true
+    var kurir = true
+    
+    // Meet Up
+    var meetUpLocation = ""
+    var meetUpDetails = ""
 }
 
 // MARK: - Class
@@ -225,6 +237,7 @@ class AddProductViewController3: BaseViewController {
     // data
     var product = SelectedProductItem()
     var chargeLabel: String? = AddProduct3Helper.defaultChargeLabel
+    var tempCategory = ""
     
     var sizes: Array<String> = []
     var sizesTitle: String = ""
@@ -313,6 +326,13 @@ class AddProductViewController3: BaseViewController {
         
         let AddProduct3RentPostalFeeCell = UINib(nibName: "AddProduct3RentPostalFeeCell", bundle: nil)
         tableView.register(AddProduct3RentPostalFeeCell, forCellReuseIdentifier: "AddProduct3RentPostalFeeCell")
+        
+        let AddProduct3MeetUpCell = UINib(nibName: "AddProduct3MeetUpCell", bundle: nil)
+        tableView.register(AddProduct3MeetUpCell, forCellReuseIdentifier: "AddProduct3MeetUpCell")
+        
+        let AddProduct3CODSwitchCell = UINib(nibName: "AddProduct3CODSwitchCell", bundle: nil)
+        tableView.register(AddProduct3CODSwitchCell, forCellReuseIdentifier: "AddProduct3CODSwitchCell")
+        
         
         // hack commisions
         let comTwitter = UserDefaults.standard.integer(forKey: UserDefaultsKey.ComTwitter)
@@ -427,18 +447,21 @@ class AddProductViewController3: BaseViewController {
             self.listSections.append(.imagesPreview)
             self.listSections.append(.productDetail)
             self.listSections.append(.weight)
-            self.listSections.append(.postalFee)
+            // self.listSections.append(.postalFee)
             self.listSections.append(.rentSellOnOff)
             self.listSections.append(.price)
             
             // setup table view
             if self.product.addProductType == .sell { // JUAL
+                let idx = self.findSectionFromType(.weight)
+                self.listSections.insert(.postalFee, at: idx+1)
                 if self.product.isRent { // SEWA
                     
                 }
             } else { // SEWA
-                let idx = self.findSectionFromType(.postalFee)
-                self.listSections.insert(.rentPeriod, at: idx+1)
+                let idx = self.findSectionFromType(.weight)
+                self.listSections.insert(.meetUp, at: idx+1)
+                self.listSections.insert(.rentPeriod, at: idx+2)
                 
                 if self.product.isSell { // JUAL
                     
@@ -553,8 +576,8 @@ class AddProductViewController3: BaseViewController {
         // Price Cell
         self.product.hargaBeli = product.json["_data"]["price_original"].int64Value.string
         self.product.hargaJual = product.json["_data"]["price"].int64Value.string
-        let hargaSewa = product.json["_data"]["rent_price"].int64Value.string
-        let deposit = product.json["_data"]["rent_price_deposit"].int64Value.string
+        let hargaSewa = product.json["_data"]["rent"]["price"].int64Value.string
+        let deposit = product.json["_data"]["rent"]["price_deposit"].int64Value.string
         
         self.product.hargaSewa = hargaSewa != "0" ? hargaSewa : ""
         self.product.deposit = deposit != "0" ? deposit : ""
@@ -572,7 +595,7 @@ class AddProductViewController3: BaseViewController {
             self.product.isRent = true
         }
         
-        self.product.modeSewa = AddProduct3RentPeriodType(rawValue: product.json["_data"]["rent_period_type"].stringValue.int)!
+        self.product.modeSewa = AddProduct3RentPeriodType(rawValue: product.json["_data"]["rent"]["period_type"].stringValue.int)!
         
         self.setupTopBanner()
     }
@@ -892,10 +915,75 @@ class AddProductViewController3: BaseViewController {
         }
         
         self.labels.append(contentsOf: ["Cacat (Opsional)"])
+        print(self.product.isWomenMenCategory)
+        
+        if((self.tempCategory == "Sepatu & Sandal Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Sepatu & Sandal Pria" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Alas Kaki"])
+            self.labels.append(contentsOf: ["Sol"])
+            self.labels.append(contentsOf: ["Inner Tag"])
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        if((self.tempCategory == "Sepatu & Sandal Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Sepatu & Sandal Pria" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Alas Kaki"])
+            self.labels.append(contentsOf: ["Sol"])
+            self.labels.append(contentsOf: ["Inner Tag"])
+        }
+        
+        if((self.tempCategory == "Atasan Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Bawahan Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Terusan Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Atasan Pria" && self.product.segment == "luxury") || (self.tempCategory == "Bawahan Pria" && self.product.segment == "luxury") || (self.tempCategory == "Pakaian Bayi & Anak" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Laundry Tag"])
+        }
+        if((self.tempCategory == "Atasan Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Bawahan Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Terusan Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Atasan Pria" && self.product.segment == "everyday") || (self.tempCategory == "Bawahan Pria" && self.product.segment == "everyday") || (self.tempCategory == "Pakaian Bayi & Anak" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Laundry Tag"])
+        }
+        
+        if((self.tempCategory == "Tas & Dompet Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Tas & Dompet Pria" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        if((self.tempCategory == "Tas & Dompet Wanita" && self.product.segment == "everyday") || (self.tempCategory == "Tas & Dompet Pria" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+        }
+        
+        if((self.tempCategory == "Aksesoris Wanita" && self.product.segment == "luxury") || (self.tempCategory == "Aksesoris Pria" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        
+        if((self.tempCategory == "Riasan Mata" && self.product.segment == "luxury") || (self.tempCategory == "Riasan Bibir" && self.product.segment == "luxury") || (self.tempCategory == "Riasan Wajah" && self.product.segment == "luxury") || (self.tempCategory == "Perawatan Wajah" && self.product.segment == "everyday") || (self.tempCategory == "Perawatan Tubuh" && self.product.segment == "luxury") || (self.tempCategory == "Rambut" && self.product.segment == "luxury") || (self.tempCategory == "Kuku" && self.product.segment == "luxury") || (self.tempCategory == "Grooming" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Kemasan Bagian Belakang"])
+        }
+        if((self.tempCategory == "Riasan Mata" && self.product.segment == "everyday") || (self.tempCategory == "Riasan Bibir" && self.product.segment == "everyday") || (self.tempCategory == "Riasan Wajah" && self.product.segment == "everyday") || (self.tempCategory == "Perawatan Wajah" && self.product.segment == "everyday") || (self.tempCategory == "Perawatan Tubuh" && self.product.segment == "everyday") || (self.tempCategory == "Rambut" && self.product.segment == "everyday") || (self.tempCategory == "Kuku" && self.product.segment == "everyday") || (self.tempCategory == "Grooming" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Kemasan Bagian Belakang"])
+        }
+        
+        if((self.tempCategory == "Parfum") && self.product.segment == "luxury"){
+            self.labels.append(contentsOf: ["Botol Bagian Bawah"])
+        }
+        if((self.tempCategory == "Parfum") && self.product.segment == "everyday"){
+            self.labels.append(contentsOf: ["Botol Bagian Bawah"])
+        }
+        
+        if((self.tempCategory == "Sport" && self.product.segment == "luxury")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+            self.labels.append(contentsOf: ["Original Box"])
+            self.labels.append(contentsOf: ["Original Dustbag"])
+            self.labels.append(contentsOf: ["Receipt"])
+            self.labels.append(contentsOf: ["Authenticity Card"])
+        }
+        
+        if((self.tempCategory == "Sport" && self.product.segment == "everyday")){
+            self.labels.append(contentsOf: ["Inner Tag"])
+        }
         
         if let cat = CDCategory.getCategoryWithID(self.product.categoryId) {
-            
-            //print(cat.debugDescription)
             
             if self.product.segment == "budget" && cat.image_label_budget != nil {
                 self.labels.append(contentsOf: self.toArray(cat.image_label_budget!))
@@ -1096,25 +1184,29 @@ class AddProductViewController3: BaseViewController {
     
     func setupParam() -> [String:String] {
         var param: [String:String] = [
-            "name"                 : self.product.name,
-            "category_id"          : self.product.categoryId,
-            "price"                : self.product.hargaJual,
-            "price_original"       : self.product.hargaBeli,
-            "weight"               : self.product.weight,
-            "free_ongkir"          : self.product.isFreeOngkir,
-            "product_condition_id" : self.product.conditionId,
-            "defect_description"   : self.product.cacat,
-            "size"                 : self.product.size,
-            "is_luxury"            : self.product.isLuxuryMerk ? "1" : "0",
-            "style_name"           : self.product.styleName,
-            "serial_number"        : self.product.serialNumber,
-            "purchase_location"    : self.product.lokasiBeli,
-            "purchase_year"        : self.product.tahunBeli,
-            "platform_sent_from"   : "ios",
+            "name"                      : self.product.name,
+            "category_id"               : self.product.categoryId,
+            "price"                     : self.product.hargaJual,
+            "price_original"            : self.product.hargaBeli,
+            "weight"                    : self.product.weight,
+            "free_ongkir"               : self.product.isFreeOngkir,
+            "product_condition_id"      : self.product.conditionId,
+            "defect_description"        : self.product.cacat,
+            "size"                      : self.product.size,
+            "is_luxury"                 : self.product.isLuxuryMerk ? "1" : "0",
+            "style_name"                : self.product.styleName,
+            "serial_number"             : self.product.serialNumber,
+            "purchase_location"         : self.product.lokasiBeli,
+            "purchase_year"             : self.product.tahunBeli,
+            "platform_sent_from"        : "ios",
             
-            "rent_price"           : self.product.hargaSewa,
-            "rent_price_deposit"   : self.product.deposit,
-            "rent_period_type"     : self.product.modeSewa.rawValue.string
+            "rent_price"                : self.product.hargaSewa,
+            "rent_price_deposit"        : self.product.deposit,
+            "rent_period_type"          : self.product.modeSewa.rawValue.string,
+            
+            "rent_shipping_available"   : self.product.kurir ? "1" : "0",
+            "rent_intercity_shipping"   : "",
+            "rent_meetup_available"     : self.product.meetUp ? "1" : "0"
         ]
         
         if self.product.description != "" {
@@ -1140,6 +1232,11 @@ class AddProductViewController3: BaseViewController {
             param["listing_type"]   = "2"
         } else {
             param["listing_type"]   = self.product.addProductType.rawValue.string
+        }
+        
+        if self.product.meetUp {
+            param["rent_meetup_location"]      = self.product.meetUpLocation
+            param["rent_meetup_details"]       = self.product.meetUpDetails
         }
         
         return param
@@ -1508,6 +1605,18 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             } else {
                 return AddProduct3RentPeriodCell.heightFor()
             }
+        case .meetUp:
+            if row == 0 {
+                return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
+            } else if row == 1 {
+                return AddProduct3CODSwitchCell.heightFor()
+            } else if row == 2 {
+                return AddProduct3MeetUpCell.heightFor()
+            } else if row == 3 {
+                return AddProduct3CODSwitchCell.heightFor()
+            } else {
+                return AddProduct3RentPeriodCell.heightFor()
+            }
         case .rentSellOnOff:
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle)
@@ -1610,7 +1719,6 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     
                     p.blockDone = { data in
                         let children = JSON(data["child"]!)
-                        
                         if let id = children["_id"].string
                         {
                             self.product.categoryId = id
@@ -1670,6 +1778,8 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                             self.removeSection(.authVerification)
                         }
                         
+                        self.tempCategory = data["category_level2_name"]! as! String
+                        
                         self.getLabels(true)
                         
                         self.product.isStartInput = true
@@ -1679,7 +1789,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         self.hideLoading()
                     }
                     p.root = self
-                    
+                
                     // gesture override
                     self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     
@@ -1983,6 +2093,70 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                     self.tableView.reloadRows(at: indexPaths, with: .fade)
                 }
                 
+                return cell
+            }
+        case .meetUp:
+            if row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
+                cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
+                return cell
+            } else if row == 1 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3CODSwitchCell") as! AddProduct3CODSwitchCell
+                cell.reloadSections = { _sections in
+                    var array: Array<Int> = []
+                    for i in _sections {
+                        array.append(self.findSectionFromType(i))
+                    }
+                    
+                    let indexSet = NSMutableIndexSet()
+                    array.forEach(indexSet.add)
+                    
+                    self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
+                }
+                cell.reloadRows = { _rows, _section in
+                    print("ini dipanggil")
+//                    self.tableView.deleteRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
+                    
+                    
+                    let sec = self.findSectionFromType(_section)
+                    var indexPaths: Array<IndexPath> = []
+                    
+                    for i in _rows {
+                        indexPaths.append(IndexPath.init(row: i, section: sec))
+                    }
+                    
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
+                }
+                cell.adapt(label: "Bertemu langsung")
+                return cell
+            } else if row == 2 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3MeetUpCell") as! AddProduct3MeetUpCell
+                cell.updateSize = {
+                    self.tableView.beginUpdates()
+                    self.tableView.endUpdates()
+                    
+                    self.product.isStartInput = true
+                    
+                    cell.txtVwOptional.becomeFirstResponder()
+                }
+                cell.pickLocation1 = {
+                    let p = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdPicker) as? PickerViewController
+                    p?.items = CDRegion.getRegionPickerItems("")
+                    
+                    p?.selectBlock = { string in
+                        cell.lblCity.text = PickerViewController.RevealHiddenString(string)
+                    }
+                    p?.title = "Kota"
+                    self.view.endEditing(true)
+                    self.navigationController?.pushViewController(p!, animated: true)
+                }
+                return cell
+            } else if row == 3 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3CODSwitchCell") as! AddProduct3CODSwitchCell
+                cell.adapt(label: "Menggunakan kurir ekspedisi")
+                return cell
+            } else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPostalFeeCell") as! AddProduct3RentPostalFeeCell
                 return cell
             }
         case .rentSellOnOff:
@@ -2455,6 +2629,22 @@ class AddProduct3DetailProductCell: UITableViewCell {
         self.alpha = 1.0
         self.backgroundColor = UIColor.white
         self.clipsToBounds = true
+        
+        self.txtDescription.returnKeyType = UIReturnKeyType.default
+        
+        let ViewForDoneButtonOnKeyboard = UIToolbar()
+        ViewForDoneButtonOnKeyboard.sizeToFit()
+        let flex = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
+        ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
+        self.txtDescription.inputAccessoryView = ViewForDoneButtonOnKeyboard
+    }
+    
+    func doneBtnfromKeyboardClicked() {
+        self.parent.product.description = self.txtDescription.text!
+        self.txtDescription.resignFirstResponder()
+        self.parent.product.isStartInput = true
+        self.reloadThisRow()
     }
     
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
@@ -2532,16 +2722,16 @@ extension AddProduct3DetailProductCell: UITextViewDelegate {
         }
     }
     
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        
-        if text == "\n" {
-            textView.resignFirstResponder()
-            self.parent.product.isStartInput = true
-            return false
-        }
-        
-        return true
-    }
+    //    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+    //
+    //        if text == "\n" {
+    //            textView.resignFirstResponder()
+    //            self.parent.product.isStartInput = true
+    //            return false
+    //        }
+    //
+    //        return true
+    //    }
 }
 
 // MARK: - Weight Cell (Sell)
@@ -3573,5 +3763,78 @@ class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
         
         return attributes
+    }
+}
+
+// MARK: - Meet Up Cell
+class AddProduct3MeetUpCell: UITableViewCell {
+    @IBOutlet weak var lblCity: UILabel!
+    @IBOutlet weak var txtLocation: UITextField!
+    @IBOutlet weak var txtVwOptional: UITextView!
+    @IBOutlet weak var consHeightOptional: NSLayoutConstraint!
+    
+    var updateSize: ()->() = {}
+    var pickLocation1: ()->() = {}
+    @IBOutlet weak var pickLocation: UIButton!
+    
+    @IBAction func pickLocationPressed(_ sender: Any) {
+        pickLocation1()
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
+    static func heightFor() -> CGFloat {
+        return 150
+    }
+}
+extension AddProduct3MeetUpCell: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        
+        let sizeThatShouldFitTheContent = txtVwOptional.sizeThatFits(txtVwOptional.frame.size)
+        
+        if self.consHeightOptional.constant != (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height) {
+            self.consHeightOptional.constant = (sizeThatShouldFitTheContent.height < 49.5 ? 49.5 : sizeThatShouldFitTheContent.height)
+            
+            self.updateSize()
+        }
+    }
+}
+
+
+// MARK: - COD switch cell
+class AddProduct3CODSwitchCell: UITableViewCell {
+    
+    @IBOutlet weak var labelCOD: UILabel!
+    @IBOutlet weak var switchButton: UISwitch!
+    
+    var reloadRows: (_ rows: Array<Int>, _ section: AddProduct3SectionType)->() = {_, _ in }
+    var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
+    
+    @IBAction func switchButtonPressed(_ sender: Any) {
+//        reloadRows([1],.meetUp)
+    }
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.selectionStyle = .none
+        self.alpha = 1.0
+        self.backgroundColor = UIColor.white
+        self.clipsToBounds = true
+    }
+    
+    func adapt(label:String) {
+        self.labelCOD.text = label
+    }
+    
+    static func heightFor() -> CGFloat {
+        return 44
     }
 }

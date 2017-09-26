@@ -58,5 +58,6 @@
 #import "AHKNavigationController.h"
 #import <GoogleSignIn/GIDSignIn.h>
 //#import "KYCircleMenu.h"
+#import "iCarousel.h"
 
 #endif

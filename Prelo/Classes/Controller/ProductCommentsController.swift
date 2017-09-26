@@ -54,6 +54,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
     
     var comments : [ProductDiscussion] = []
     
+    var sendComment: ()->() = {} // blockdone for refresh product detail
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -183,6 +185,8 @@ class ProductCommentsController: BaseViewController, UITextViewDelegate, UIScrol
                 self.txtMessage.isEditable = true
                 self.btnSend.isHidden = false
                 self.getComments()
+                
+                self.sendComment()
                 
                 // Prelo Analytic - Comment on Product
                 let loginMethod = User.LoginMethod ?? ""
