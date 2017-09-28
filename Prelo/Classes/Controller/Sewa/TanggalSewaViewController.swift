@@ -24,6 +24,7 @@ class TanggalSewaViewController: BaseViewController {
     var testCalendar = Calendar.current
     var isCheckboxAgreed: Bool = false
     var isStartSelected: Bool = false
+    var isStartFinishAtSameDay: Bool = false
     var isFinishSelected: Bool = false
     var systemStartDate: Date?
     var systemFinishDate: Date?
@@ -68,9 +69,7 @@ class TanggalSewaViewController: BaseViewController {
     }
     
     @IBAction func lanjutClickAction(_ sender: Any) {
-        if !isStartSelected && !isFinishSelected {
-            Constant.showDialog("Perhatian", message: "Mohon pilih tanggal penyewaan terlebih dahulu")
-        } else {
+        if isStartFinishAtSameDay || isFinishSelected {
             if !isCheckboxAgreed {
                 Constant.showDialog("Perhatian", message: "Kamu belum menyetujui syarat dan ketentuan Prelo")
             } else {
@@ -78,15 +77,22 @@ class TanggalSewaViewController: BaseViewController {
                 formatter.dateFormat = "yyyy-MM-dd"
                 checkout2VC.isSewaProduct = true
                 checkout2VC.start_date = formatter.string(from: startDate!)
-                checkout2VC.end_date = formatter.string(from: finishDate!)
                 checkout2VC.buffer_start_date = formatter.string(from: (startDate?.dateByAddingDays(-startBuffer))!)
-                checkout2VC.buffer_end_date = formatter.string(from: (finishDate?.dateByAddingDays(finishBuffer))!)
+                if isStartFinishAtSameDay {
+                    checkout2VC.end_date = formatter.string(from: startDate!)
+                    checkout2VC.buffer_end_date = formatter.string(from: (startDate?.dateByAddingDays(finishBuffer))!)
+                } else {
+                    checkout2VC.end_date = formatter.string(from: finishDate!)
+                    checkout2VC.buffer_end_date = formatter.string(from: (finishDate?.dateByAddingDays(finishBuffer))!)
+                }
                 checkout2VC.seller_id = sellerId
                 checkout2VC.product_id = productID
                 checkout2VC.previousController = self
                 checkout2VC.previousScreen = thisScreen
                 self.navigationController?.pushViewController(checkout2VC, animated: true)
             }
+        } else {
+            Constant.showDialog("Perhatian", message: "Mohon pilih tanggal penyewaan terlebih dahulu")
         }
     }
     
@@ -151,7 +157,12 @@ class TanggalSewaViewController: BaseViewController {
             self.startDateLabel.textColor = UIColor.gray
         }
         
-        if isFinishSelected {
+        if isStartFinishAtSameDay {
+            self.finishDayLabel.text = convertDayNameEnglishToIndonesia(date: startDate!)
+            self.finishDayLabel.textColor = UIColor.darkGray
+            self.finishDateLabel.text = formatter.string(from: startDate!).uppercased()
+            self.finishDateLabel.textColor = UIColor.darkGray
+        } else if isFinishSelected {
             self.finishDayLabel.text = convertDayNameEnglishToIndonesia(date: finishDate!)
             self.finishDayLabel.textColor = UIColor.darkGray
             self.finishDateLabel.text = formatter.string(from: finishDate!).uppercased()
@@ -197,42 +208,53 @@ class TanggalSewaViewController: BaseViewController {
         myCustomCell.isSelected = false
         myCustomCell.configureDefaultView()
         let checkStartDateBuffer = startDate?.dateByAddingDays(-startBuffer)
+        let checkSameStartFinishDateBuffer = startDate?.dateByAddingDays(finishBuffer)
         let checkFinishDateBuffer = finishDate?.dateByAddingDays(finishBuffer)
         
-        if isStartSelected {
-            //configure buffer start date cell
-            if cellDate.isSameDay(checkStartDateBuffer!) {
-                myCustomCell.configureStartBufferView(isAtEndOfBuffer: true)
-            }
-                //configure cell range from buffer start cell to selected start date
-            else if cellDate.isGreaterThanDate(checkStartDateBuffer!) &&
-                cellDate.isLessThanDate(startDate!) {
-                myCustomCell.configureStartBufferView(isAtEndOfBuffer: false)
-            }
-                //configure selected start date cell
-            else if cellDate.isSameDay(startDate!) {
-                myCustomCell.isSelected = true
-                myCustomCell.configureStartView()
-            } else {
-                if isFinishSelected {
-                    //configure cell range from selected start date to finish
-                    if cellDate.isGreaterThanDate(startDate!) &&
-                        cellDate.isLessThanDate(finishDate!) {
-                        myCustomCell.configureRangeView()
-                    }
-                        //selected finish date cell
-                    else if cellDate.isSameDay(finishDate!) {
-                        myCustomCell.isSelected = true
-                        myCustomCell.configureFinishView()
-                    }
-                        //configure cell range from selected finish date to buffer finish cell
-                    else if cellDate.isGreaterThanDate(finishDate!) &&
-                        cellDate.isLessThanDate(checkFinishDateBuffer!) {
-                        myCustomCell.configureFinishBufferView(isAtEndOfBuffer: false)
-                    }
-                        //configure buffer finish date cell
-                    else if cellDate.isSameDay(checkFinishDateBuffer!) {
-                        myCustomCell.configureFinishBufferView(isAtEndOfBuffer: true)
+        if cellState.dateBelongsTo == .thisMonth {
+            if isStartSelected {
+                if cellDate.isSameDay(checkStartDateBuffer!) {
+                    //configure buffer start date cell
+                    myCustomCell.configureStartBufferView(isAtEndOfBuffer: true)
+                }
+                else if cellDate.isGreaterThanDate(checkStartDateBuffer!) &&
+                    cellDate.isLessThanDate(startDate!) {
+                    //configure cell range from buffer start cell to selected start date
+                    myCustomCell.configureStartBufferView(isAtEndOfBuffer: false)
+                }
+                else if cellDate.isSameDay(startDate!) {
+                    //configure selected start date cell
+                    myCustomCell.isSelected = true
+                    myCustomCell.configureStartView()
+                } else {
+                    if isStartFinishAtSameDay {
+                        if cellDate.isGreaterThanDate(startDate!) && cellDate.isLessThanDate(checkSameStartFinishDateBuffer!) {
+                            //configure cell range from selected finish date to buffer finish cell
+                            myCustomCell.configureFinishBufferView(isAtEndOfBuffer: false)
+                        } else if cellDate.isSameDay(checkSameStartFinishDateBuffer!) {
+                            //configure buffer finish date cell
+                            myCustomCell.configureFinishBufferView(isAtEndOfBuffer: true)
+                        }
+                    } else if isFinishSelected {
+                        if cellDate.isGreaterThanDate(startDate!) &&
+                            //configure cell range from selected start date to finish
+                            cellDate.isLessThanDate(finishDate!) {
+                            myCustomCell.configureRangeView()
+                        }
+                        else if cellDate.isSameDay(finishDate!) {
+                            //selected finish date cell
+                            myCustomCell.isSelected = true
+                            myCustomCell.configureFinishView()
+                        }
+                        else if cellDate.isGreaterThanDate(finishDate!) &&
+                            //configure cell range from selected finish date to buffer finish cell
+                            cellDate.isLessThanDate(checkFinishDateBuffer!) {
+                            myCustomCell.configureFinishBufferView(isAtEndOfBuffer: false)
+                        }
+                        else if cellDate.isSameDay(checkFinishDateBuffer!) {
+                            //configure buffer finish date cell
+                            myCustomCell.configureFinishBufferView(isAtEndOfBuffer: true)
+                        }
                     }
                 }
             }
@@ -304,11 +326,13 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
                     Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
                     isStartSelected = false
                     isFinishSelected = false
+                    isStartFinishAtSameDay = false
                     startDate = nil
                     finishDate = nil
                 } else {
                     isStartSelected = true
                     isFinishSelected = false
+                    isStartFinishAtSameDay = true
                     startDate = selectedDate
                     finishDate = nil
                 }
@@ -316,11 +340,13 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
             } else if selectedDate.isSameDay(startDate!) {
                 isStartSelected = true
                 isFinishSelected = false
+                isStartFinishAtSameDay = true
                 startDate = selectedDate
                 finishDate = nil
             } else {
                 //selected finish date
                 isFinishSelected = true
+                isStartFinishAtSameDay = false
                 finishDate = selectedDate
             }
         } else {
@@ -333,11 +359,13 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
                     Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
                     isStartSelected = false
                     isFinishSelected = false
+                    isStartFinishAtSameDay = false
                     startDate = nil
                     finishDate = nil
                 } else {
                     isStartSelected = true
                     isFinishSelected = false
+                    isStartFinishAtSameDay = true
                     startDate = selectedDate
                     finishDate = nil
                 }
@@ -346,6 +374,7 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
                 Constant.showDialog("Perhatian", message: "Tidak dapat memulai tanggal penyewaan lebih dari " + startDateOpenDayRange.string + " hari dari sekarang")
                 isStartSelected = false
                 isFinishSelected = false
+                isStartFinishAtSameDay = false
                 startDate = nil
                 finishDate = nil
             }

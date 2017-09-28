@@ -473,9 +473,10 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             fltrProdKind = "0"
         } else if !jenisListingChecked[0] && jenisListingChecked[1] { // ~0 $ 1
             fltrProdKind = "1"
-        } else if jenisListingChecked[0] && jenisListingChecked[1] { // 0 & 1
+        } else {
             fltrProdKind = "2"
         }
+        
 //        fltrProdKind = Int64(fltrProdKind)
         print (fltrProdKind)
         
