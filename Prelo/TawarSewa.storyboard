@@ -151,41 +151,46 @@
                                                     <action selector="gotoShopPage:" destination="gsY-Oa-fds" eventType="touchUpInside" id="IF6-Cj-VOB"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dEa-OS-ngx">
-                                                <rect key="frame" x="8" y="80" width="120" height="30"/>
-                                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
-                                                <state key="normal" title=" TAWAR">
-                                                    <color key="titleColor" red="0.99215686270000003" green="0.59607843140000005" blue="0.035294117649999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RjZ-KS-OTr">
-                                                <rect key="frame" x="132.5" y="80" width="120" height="30"/>
-                                                <color key="backgroundColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
-                                                <state key="normal" title=" SEWA">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="sewaAction:" destination="gsY-Oa-fds" eventType="touchUpInside" id="AnU-hk-Oue"/>
-                                                </connections>
-                                            </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jsq-hN-eTC">
-                                                <rect key="frame" x="256" y="80" width="120" height="30"/>
-                                                <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
-                                                <state key="normal" title=" BELI">
-                                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                </state>
-                                                <connections>
-                                                    <action selector="beli:" destination="gsY-Oa-fds" eventType="touchUpInside" id="jwc-MP-xtf"/>
-                                                </connections>
-                                            </button>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="ubU-jW-1ab">
+                                                <rect key="frame" x="8" y="80" width="368" height="27"/>
+                                                <subviews>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dEa-OS-ngx">
+                                                        <rect key="frame" x="0.0" y="0.0" width="118.5" height="27"/>
+                                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
+                                                        <state key="normal" title=" TAWAR">
+                                                            <color key="titleColor" red="0.99215686270000003" green="0.59607843140000005" blue="0.035294117649999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </state>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RjZ-KS-OTr">
+                                                        <rect key="frame" x="124.5" y="0.0" width="119" height="27"/>
+                                                        <color key="backgroundColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
+                                                        <state key="normal" title=" SEWA">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="sewaAction:" destination="gsY-Oa-fds" eventType="touchUpInside" id="AnU-hk-Oue"/>
+                                                        </connections>
+                                                    </button>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jsq-hN-eTC">
+                                                        <rect key="frame" x="249.5" y="0.0" width="118.5" height="27"/>
+                                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
+                                                        <state key="normal" title=" BELI">
+                                                            <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                        </state>
+                                                        <connections>
+                                                            <action selector="beli:" destination="gsY-Oa-fds" eventType="touchUpInside" id="jwc-MP-xtf"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f5w-yP-dng" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="80" width="180" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="180" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" TOLAK">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -207,7 +212,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UJa-Kt-w4m">
-                                                <rect key="frame" x="196" y="80" width="180" height="30"/>
+                                                <rect key="frame" x="196" y="80" width="180" height="27"/>
                                                 <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" TERIMA">
@@ -216,7 +221,7 @@
                                                 </state>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iry-T6-IBT">
-                                                <rect key="frame" x="8" y="80" width="368" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="368" height="27"/>
                                                 <color key="backgroundColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BERIKAN PENAWARAN">
@@ -225,7 +230,7 @@
                                                 </state>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0ny-Ex-RfZ" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="196" y="80" width="180" height="30"/>
+                                                <rect key="frame" x="196" y="80" width="180" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BATAL">
                                                     <color key="titleColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -247,7 +252,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QYJ-qm-D5R" userLabel="Btn Edit">
-                                                <rect key="frame" x="8" y="80" width="180" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="180" height="27"/>
                                                 <color key="backgroundColor" red="0.99215686270000003" green="0.59607843140000005" blue="0.035294117649999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" EDIT">
@@ -256,7 +261,7 @@
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LGf-cM-bPu">
-                                                <rect key="frame" x="8" y="80" width="368" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="368" height="27"/>
                                                 <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BELI">
@@ -268,10 +273,10 @@
                                                 </connections>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="luB-J3-2Dk">
-                                                <rect key="frame" x="8" y="118" width="368" height="27"/>
+                                                <rect key="frame" x="8" y="115" width="368" height="28"/>
                                                 <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="27" id="n8e-Te-Szj"/>
+                                                    <constraint firstAttribute="height" constant="28" id="n8e-Te-Szj"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="15"/>
                                                 <state key="normal" title=" MARK AS SOLD">
@@ -280,7 +285,7 @@
                                                 </state>
                                             </button>
                                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dda-Mc-jkn" customClass="BorderedButton" customModule="Prelo" customModuleProvider="target">
-                                                <rect key="frame" x="8" y="80" width="368" height="30"/>
+                                                <rect key="frame" x="8" y="80" width="368" height="27"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" BATAL">
                                                     <color key="titleColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -302,7 +307,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="odW-nc-362">
-                                                <rect key="frame" x="8" y="80.5" width="368" height="30"/>
+                                                <rect key="frame" x="8" y="80.5" width="368" height="27"/>
                                                 <color key="backgroundColor" red="0.99215686270000003" green="0.59607843140000005" blue="0.035294117649999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <fontDescription key="fontDescription" name="PreloAwesome" family="PreloAwesome" pointSize="15"/>
                                                 <state key="normal" title=" SEWA">
@@ -322,10 +327,9 @@
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="odW-nc-362" firstAttribute="trailing" secondItem="jsq-hN-eTC" secondAttribute="trailing" id="000-R3-eFe"/>
-                                            <constraint firstItem="dEa-OS-ngx" firstAttribute="width" secondItem="IPt-mG-3Xa" secondAttribute="width" multiplier="1/3" constant="-8" id="2YY-aV-pWU"/>
+                                            <constraint firstItem="ubU-jW-1ab" firstAttribute="leading" secondItem="IPt-mG-3Xa" secondAttribute="leading" constant="8" id="2rp-Ij-a7a"/>
+                                            <constraint firstItem="ubU-jW-1ab" firstAttribute="top" secondItem="NHF-Zd-H1v" secondAttribute="bottom" constant="8" id="4Ts-wP-HdR"/>
                                             <constraint firstItem="0ny-Ex-RfZ" firstAttribute="top" secondItem="yI5-mk-Tvg" secondAttribute="bottom" constant="8" id="5pN-OB-lN3"/>
-                                            <constraint firstItem="jsq-hN-eTC" firstAttribute="width" secondItem="dEa-OS-ngx" secondAttribute="width" id="5sO-Ox-pAD"/>
                                             <constraint firstAttribute="trailing" secondItem="JEf-wI-q2g" secondAttribute="trailing" constant="8" id="6kV-XL-huw"/>
                                             <constraint firstItem="NaP-Iv-vos" firstAttribute="centerY" secondItem="dIG-HO-BMm" secondAttribute="centerY" id="7Ua-aO-3ql"/>
                                             <constraint firstAttribute="trailing" secondItem="Iry-T6-IBT" secondAttribute="trailing" constant="8" id="7hs-p5-QXl"/>
@@ -333,32 +337,31 @@
                                             <constraint firstItem="2WC-xZ-ywF" firstAttribute="centerX" secondItem="lXM-aa-Eai" secondAttribute="centerX" id="AIM-y1-PYa"/>
                                             <constraint firstItem="yI5-mk-Tvg" firstAttribute="leading" secondItem="IPt-mG-3Xa" secondAttribute="leading" constant="8" id="EsF-HW-DKC"/>
                                             <constraint firstItem="NHF-Zd-H1v" firstAttribute="width" secondItem="JEf-wI-q2g" secondAttribute="width" id="F7l-LA-o6Q"/>
-                                            <constraint firstItem="dEa-OS-ngx" firstAttribute="top" secondItem="jsq-hN-eTC" secondAttribute="top" id="FcG-fr-teV"/>
                                             <constraint firstItem="Iry-T6-IBT" firstAttribute="top" secondItem="UJa-Kt-w4m" secondAttribute="top" id="Ifv-g6-E8r"/>
                                             <constraint firstAttribute="trailing" secondItem="Mnq-vY-pY6" secondAttribute="trailing" constant="8" id="M4f-Du-G8c"/>
                                             <constraint firstItem="JEf-wI-q2g" firstAttribute="bottom" secondItem="dIG-HO-BMm" secondAttribute="bottom" id="Nh3-5V-EcO"/>
                                             <constraint firstAttribute="trailing" secondItem="UJa-Kt-w4m" secondAttribute="trailing" constant="8" id="O9I-Ki-XQy"/>
                                             <constraint firstAttribute="trailing" secondItem="Dda-Mc-jkn" secondAttribute="trailing" constant="8" id="PiQ-Ai-9O9"/>
                                             <constraint firstAttribute="trailing" secondItem="yI5-mk-Tvg" secondAttribute="trailing" constant="8" id="Q9H-At-Voh"/>
+                                            <constraint firstAttribute="trailing" secondItem="odW-nc-362" secondAttribute="trailing" constant="8" id="QBi-3v-ORx"/>
                                             <constraint firstItem="dIG-HO-BMm" firstAttribute="top" secondItem="IPt-mG-3Xa" secondAttribute="top" constant="8" id="QLD-rd-odT"/>
                                             <constraint firstItem="NHF-Zd-H1v" firstAttribute="bottom" secondItem="dIG-HO-BMm" secondAttribute="bottom" id="QOt-v4-kqo"/>
                                             <constraint firstItem="luB-J3-2Dk" firstAttribute="top" secondItem="Dda-Mc-jkn" secondAttribute="bottom" constant="8" id="Qw1-mb-teB"/>
-                                            <constraint firstAttribute="trailing" secondItem="jsq-hN-eTC" secondAttribute="trailing" constant="8" id="RGq-zu-ZY8"/>
                                             <constraint firstItem="0ny-Ex-RfZ" firstAttribute="width" secondItem="IPt-mG-3Xa" secondAttribute="width" multiplier="1/2" constant="-12" id="SQp-W1-eTj"/>
-                                            <constraint firstItem="RjZ-KS-OTr" firstAttribute="top" secondItem="dEa-OS-ngx" secondAttribute="top" id="Tdd-9c-0UH"/>
                                             <constraint firstItem="f5w-yP-dng" firstAttribute="width" secondItem="UJa-Kt-w4m" secondAttribute="width" id="ULy-IC-rES"/>
                                             <constraint firstItem="JEf-wI-q2g" firstAttribute="leading" secondItem="dIG-HO-BMm" secondAttribute="trailing" constant="8" id="UPU-sw-SAx"/>
                                             <constraint firstItem="QYJ-qm-D5R" firstAttribute="centerY" secondItem="0ny-Ex-RfZ" secondAttribute="centerY" id="VBq-FM-af5"/>
+                                            <constraint firstAttribute="trailing" secondItem="ubU-jW-1ab" secondAttribute="trailing" constant="8" id="VKw-69-7yX"/>
                                             <constraint firstItem="dIG-HO-BMm" firstAttribute="leading" secondItem="IPt-mG-3Xa" secondAttribute="leading" constant="8" id="Y6V-FV-PI8"/>
-                                            <constraint firstItem="RjZ-KS-OTr" firstAttribute="centerX" secondItem="IPt-mG-3Xa" secondAttribute="centerX" id="YIj-aP-KzZ"/>
                                             <constraint firstItem="f5w-yP-dng" firstAttribute="top" secondItem="yI5-mk-Tvg" secondAttribute="bottom" constant="8" id="YPt-5h-b9Q"/>
                                             <constraint firstItem="2WC-xZ-ywF" firstAttribute="width" secondItem="lXM-aa-Eai" secondAttribute="width" id="an3-PW-oCb"/>
+                                            <constraint firstItem="odW-nc-362" firstAttribute="leading" secondItem="IPt-mG-3Xa" secondAttribute="leading" constant="8" id="bQe-KF-fHe"/>
                                             <constraint firstItem="wza-T4-3CY" firstAttribute="leading" secondItem="QYJ-qm-D5R" secondAttribute="leading" id="cN4-F3-sQF"/>
                                             <constraint firstItem="Dda-Mc-jkn" firstAttribute="leading" secondItem="IPt-mG-3Xa" secondAttribute="leading" constant="8" id="dIk-mO-l6H"/>
                                             <constraint firstItem="2WC-xZ-ywF" firstAttribute="centerY" secondItem="lXM-aa-Eai" secondAttribute="centerY" id="fH1-55-ndt"/>
                                             <constraint firstItem="UJa-Kt-w4m" firstAttribute="top" secondItem="f5w-yP-dng" secondAttribute="top" id="fHb-O8-LOx"/>
+                                            <constraint firstItem="odW-nc-362" firstAttribute="top" secondItem="NHF-Zd-H1v" secondAttribute="bottom" constant="8" id="gHu-OY-hMJ"/>
                                             <constraint firstItem="QYJ-qm-D5R" firstAttribute="width" secondItem="0ny-Ex-RfZ" secondAttribute="width" id="gO1-D6-mYg"/>
-                                            <constraint firstItem="dEa-OS-ngx" firstAttribute="top" secondItem="yI5-mk-Tvg" secondAttribute="bottom" constant="8" id="h3z-91-4hV"/>
                                             <constraint firstItem="NHF-Zd-H1v" firstAttribute="leading" secondItem="dIG-HO-BMm" secondAttribute="trailing" constant="8" id="iN4-rQ-MjY"/>
                                             <constraint firstItem="LGf-cM-bPu" firstAttribute="top" secondItem="QYJ-qm-D5R" secondAttribute="top" id="kQy-lo-DkS"/>
                                             <constraint firstItem="Dda-Mc-jkn" firstAttribute="top" secondItem="QYJ-qm-D5R" secondAttribute="top" id="kYG-2u-GLP"/>
@@ -373,12 +376,8 @@
                                             <constraint firstItem="Mnq-vY-pY6" firstAttribute="leading" secondItem="dIG-HO-BMm" secondAttribute="trailing" constant="8" id="qLL-PE-jQz"/>
                                             <constraint firstAttribute="trailing" secondItem="luB-J3-2Dk" secondAttribute="trailing" constant="8" id="rHa-iq-4Ra"/>
                                             <constraint firstItem="wza-T4-3CY" firstAttribute="trailing" secondItem="UJa-Kt-w4m" secondAttribute="trailing" id="rLh-ZX-N14"/>
-                                            <constraint firstItem="odW-nc-362" firstAttribute="leading" secondItem="dEa-OS-ngx" secondAttribute="leading" id="t8R-rD-VKQ"/>
-                                            <constraint firstItem="dEa-OS-ngx" firstAttribute="leading" secondItem="IPt-mG-3Xa" secondAttribute="leading" constant="8" id="tD8-fG-JQT"/>
-                                            <constraint firstItem="odW-nc-362" firstAttribute="centerY" secondItem="RjZ-KS-OTr" secondAttribute="centerY" id="tKQ-8y-x3W"/>
                                             <constraint firstItem="UJa-Kt-w4m" firstAttribute="width" secondItem="Dda-Mc-jkn" secondAttribute="width" multiplier="1/2" constant="-4" id="v0E-h0-yzW"/>
                                             <constraint firstItem="NHF-Zd-H1v" firstAttribute="height" secondItem="JEf-wI-q2g" secondAttribute="height" id="v6K-Ou-OFs"/>
-                                            <constraint firstItem="RjZ-KS-OTr" firstAttribute="width" secondItem="dEa-OS-ngx" secondAttribute="width" id="wVY-K2-6Ux"/>
                                             <constraint firstItem="yI5-mk-Tvg" firstAttribute="top" secondItem="IPt-mG-3Xa" secondAttribute="top" constant="8" id="xCc-Hc-VYX"/>
                                             <constraint firstItem="wza-T4-3CY" firstAttribute="top" relation="greaterThanOrEqual" secondItem="dIG-HO-BMm" secondAttribute="bottom" constant="4" id="xEb-Ix-qri"/>
                                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NaP-Iv-vos" secondAttribute="trailing" constant="8" id="xHl-oB-gq9"/>
@@ -1313,7 +1312,6 @@
                         <outlet property="conMarginBottom" destination="coV-Es-BX8" id="1AD-qA-9w0"/>
                         <outlet property="conMarginBottomSectionTawar" destination="LJP-kI-dge" id="E2E-Fk-fhr"/>
                         <outlet property="conMarginHeightOptions" destination="mAH-NQ-avz" id="t39-J9-RPb"/>
-                        <outlet property="consRentButton" destination="2YY-aV-pWU" id="Qo8-fm-cEj"/>
                         <outlet property="header" destination="IPt-mG-3Xa" id="XFf-5t-KAq"/>
                         <outlet property="imgUploadGbr" destination="Byc-c6-aUZ" id="Nc8-BV-HTH"/>
                         <outlet property="loadingPanel" destination="7J4-cB-1rZ" id="28z-86-h00"/>

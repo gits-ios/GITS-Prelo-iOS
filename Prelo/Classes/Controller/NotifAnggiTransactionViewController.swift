@@ -702,8 +702,9 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                     return 6
                 }
             }
+        } else {
+            return 0
         }
-        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -712,164 +713,157 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         
         // Create icon view
         let vwIcon : UIView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
-        //        vwIcon.layer.cornerRadius = 12
-        
-        // Set background color
-        let idx = (indexPath as NSIndexPath).row + 1
-        if (TransactionDetailTools.isReservationProgress(self.notif?.progress)) {
-            if (idx == 1) {
-                if (self.notif?.caption.lowercased() == "jual") {
-                    vwIcon.backgroundColor = Theme.ThemeOrange
-                } else if (self.notif?.caption.lowercased() == "beli") {
-                    vwIcon.backgroundColor = Theme.PrimaryColor
-                } else if (self.notif?.caption.lowercased() == "disewa") {
-                    vwCaption.backgroundColor = Theme.ThemeOrange
-                } else if (self.notif?.caption.lowercased() == "sewa") {
-                    vwCaption.backgroundColor = Theme.PrimaryColor
-                }
-            } else {
-                let progress = self.notif!.progress
-                if (progress == 7) {
-                    vwIcon.backgroundColor = Theme.GrayLight
-                } else if (progress == 8) {
-                    if (self.notif?.caption.lowercased() == "jual") {
-                        vwIcon.backgroundColor = Theme.ThemeOrange
-                    } else if (self.notif?.caption.lowercased() == "beli") {
-                        vwIcon.backgroundColor = Theme.PrimaryColor
-                    } else if (self.notif?.caption.lowercased() == "disewa") {
-                        vwCaption.backgroundColor = Theme.ThemeOrange
-                    } else if (self.notif?.caption.lowercased() == "sewa") {
-                        vwCaption.backgroundColor = Theme.PrimaryColor
-                    }
-                } else if (progress == -2) {
-                    vwIcon.backgroundColor = Theme.ThemeRed
-                }
-            }
-        } else if (TransactionDetailTools.isRefundProgress(self.notif?.progress)) {
-            if (idx - 1 <= (self.notif?.progress ?? 30) - 30) {
-                if self.notif?.progress != 34 {
-                    if (notif?.caption.lowercased() == "beli" || notif?.caption.lowercased() == "sewa") {
-                        vwIcon.backgroundColor = Theme.PrimaryColor
-                    } else {
-                        // untuk jual OR disewa
-                        vwIcon.backgroundColor = Theme.ThemeOrange
-                    }
-                } else {
-                    vwIcon.backgroundColor = Theme.ThemeRed
-                }
-            }
-            else {
-                vwIcon.backgroundColor = Theme.GrayLight
-            }
-        } else {
-            if (self.notif?.progress < 0) {
-                let nItem = self.collectionView(collectionView, numberOfItemsInSection: 0)
-                if (nItem < 7) {
-                    if (idx < nItem) {
-                        if (self.notif?.caption.lowercased() == "jual") {
-                            vwIcon.backgroundColor = Theme.ThemeOrange
-                        } else if (self.notif?.caption.lowercased() == "beli") {
-                            vwIcon.backgroundColor = Theme.PrimaryColor
-                        } else if (self.notif?.caption.lowercased() == "disewa") {
-                            vwCaption.backgroundColor = Theme.ThemeOrange
-                        } else if (self.notif?.caption.lowercased() == "sewa") {
-                            vwCaption.backgroundColor = Theme.PrimaryColor
-                        }
-                    } else {
-                        vwIcon.backgroundColor = Theme.ThemeRed
-                    }
-                }
-            } else if (self.notif?.caption.lowercased() == "jual") {
-                if (idx <= self.notif?.progress) {
-                    vwIcon.backgroundColor = Theme.ThemeOrange
-                } else {
-                    vwIcon.backgroundColor = Theme.GrayLight
-                }
-            } else if (self.notif?.caption.lowercased() == "beli") {
-                if (idx <= self.notif?.progress) {
-                    vwIcon.backgroundColor = Theme.PrimaryColor
-                } else {
-                    vwIcon.backgroundColor = Theme.GrayLight
-                }
-            } else if (self.notif?.caption.lowercased() == "disewa") {
-                if (idx <= self.notif?.progress) {
-                    vwIcon.backgroundColor = Theme.ThemeOrange
-                } else {
-                    vwIcon.backgroundColor = Theme.GrayLight
-                }
-            } else if (self.notif?.caption.lowercased() == "sewa") {
-                if (idx <= self.notif?.progress) {
-                    vwIcon.backgroundColor = Theme.PrimaryColor
-                } else {
-                    vwIcon.backgroundColor = Theme.GrayLight
-                }
-            }
-        }
-        
-        // Create icon image
+        vwIcon.backgroundColor = Theme.GrayLight // Default color
         var imgName : String?
         if let progress = self.notif?.progress {
-            if (TransactionDetailTools.isReservationProgress(progress)) {
-                if (idx == 1) { // Reserved
+            switch indexPath.row {
+            case 0:
+                if TransactionDetailTools.isReservationProgress(progress) {
                     imgName = "ic_trx_reserved"
-                } else {
-                    if (progress == TransactionDetailTools.ProgressReserved || progress == TransactionDetailTools.ProgressReserveDone) { // Done
-                        imgName = "ic_trx_reservation_done"
-                    } else if (progress == TransactionDetailTools.ProgressReservationCancelled) { // Reservation cancelled
-                        imgName = "ic_trx_reservation_cancelled"
-                    }
-                }
-            } else if (TransactionDetailTools.isRefundProgress(progress)) {
-                if (idx == 1) {
+                    vwIcon.backgroundColor = activeColorType()
+                } else if TransactionDetailTools.isRefundProgress(progress){
                     imgName = "ic_trx_refund1"
-                } else if (idx == 2) {
-                    imgName = "ic_trx_refund2"
-                } else if (idx == 3) {
-                    imgName = "ic_trx_refund3"
-                } else if (idx == 4) {
-                    imgName = "ic_trx_refund4"
-                }
-            } else {
-                if ((progress == TransactionDetailTools.ProgressExpired || progress == TransactionDetailTools.ProgressFraudDetected) && idx == 1) { // Expired
+                    if indexPath.row < (progress - 29) {
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                } else { // Normal transaction
                     imgName = "ic_trx_expired"
-                } else if (progress == TransactionDetailTools.ProgressRejectedBySeller && idx == 4) { // Rejected by seller
-                    imgName = "ic_trx_exclamation"
-                } else if (progress == TransactionDetailTools.ProgressNotSent && idx == 4) { // Not sent
-                    imgName = "ic_trx_canceled"
-                } else if (progress == TransactionDetailTools.ProgressNotReturned && idx == 6) { // Not returned by renter
-                    imgName = "ic_trx_canceled"
-                } else if (progress == TransactionDetailTools.ProgressReconciliation && idx == 7) { // Reconciliation
-                    imgName = "ic_trx_reconciliation"
-                }
-                else {
-                    if (idx == 1) { // Not paid
-                        imgName = "ic_trx_expired"
-                    } else if (idx == 2) { // Claimed paid
-                        imgName = "ic_trx_wait"
-                    } else if (idx == 3) { // Confirmed paid
-                        imgName = "ic_trx_paid"
-                    } else if (idx == 4) { // Sent
-                        imgName = "ic_trx_shipped"
-                    } else if (idx == 5) { // Received
-                        imgName = "ic_trx_received"
-                    } else if (idx == 6) { // Returned OR Reviewed
-                        if (notif?.caption.lowercased() == "disewa" || notif?.caption.lowercased() == "sewa") {
-                            imgName = "ic_trx_returned"
+                    if TransactionDetailTools.isNegativeProgress(progress) {
+                        if progress == TransactionDetailTools.ProgressExpired || progress == TransactionDetailTools.ProgressFraudDetected {
+                            vwIcon.backgroundColor = Theme.ThemeRed
                         } else {
-                            // Reviewed jual || beli
-                            imgName = "ic_trx_done"
+                            vwIcon.backgroundColor = activeColorType()
                         }
-                    } else if (idx == 7) {
-                        imgName = "ic_trx_done"
+                    } else {
+                        if indexPath.row < progress {
+                            vwIcon.backgroundColor = activeColorType()
+                        }
                     }
                 }
+            case 1:
+                if TransactionDetailTools.isReservationProgress(progress) {
+                    if progress == TransactionDetailTools.ProgressReserved {
+                        imgName = "ic_trx_reservation_done"
+                    } else if progress == TransactionDetailTools.ProgressReserveDone {
+                        imgName = "ic_trx_reservation_done"
+                        vwIcon.backgroundColor = activeColorType()
+                    } else if progress == TransactionDetailTools.ProgressReservationCancelled {
+                        imgName = "ic_trx_reservation_cancelled"
+                        vwIcon.backgroundColor = Theme.ThemeRed
+                    }
+                } else if TransactionDetailTools.isRefundProgress(progress){
+                    imgName = "ic_trx_refund2"
+                    if indexPath.row < (progress - 29) {
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                } else { // Normal transaction
+                    imgName = "ic_trx_wait"
+                    if TransactionDetailTools.isNegativeProgress(progress) {
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                    else {
+                        if indexPath.row < progress {
+                            vwIcon.backgroundColor = activeColorType()
+                        }
+                    }
+                }
+            case 2:
+                if TransactionDetailTools.isRefundProgress(progress) {
+                    imgName = "ic_trx_refund3"
+                    if indexPath.row < (progress - 29) {
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                } else { // Normal transaction
+                    imgName = "ic_trx_paid"
+                    if TransactionDetailTools.isNegativeProgress(progress) {
+                        vwIcon.backgroundColor = activeColorType()
+                    } else {
+                        if indexPath.row < progress {
+                            vwIcon.backgroundColor = activeColorType()
+                        }
+                    }
+                }
+            case 3:
+                if TransactionDetailTools.isRefundProgress(progress) {
+                    imgName = "ic_trx_refund4"
+                    if progress == 34 {
+                        vwIcon.backgroundColor = Theme.ThemeRed
+                    }
+                } else { // Normal Transaction
+                    if TransactionDetailTools.isNegativeProgress(progress) {
+                        if progress == TransactionDetailTools.ProgressRejectedBySeller {
+                            imgName = "ic_trx_exclamation"
+                            vwIcon.backgroundColor = Theme.ThemeRed
+                        } else if progress == TransactionDetailTools.ProgressNotSent{
+                            imgName = "ic_trx_canceled"
+                            vwIcon.backgroundColor = Theme.ThemeRed
+                        }
+                    }else {
+                        imgName = "ic_trx_shipped"
+                        if progress >= 50 {
+                            if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
+                                vwIcon.backgroundColor = activeColorType()
+                            }
+                        } else {
+                            if indexPath.row < progress {
+                                vwIcon.backgroundColor = activeColorType()
+                            }
+                        }
+                    }
+                }
+            case 4:
+                imgName = "ic_trx_received"
+                if progress >= 50 {
+                    if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                } else {
+                    if indexPath.row < progress {
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                }
+            case 5:
+                if progress == TransactionDetailTools.ProgressNotReturned {
+                    imgName = "ic_trx_canceled"
+                    vwIcon.backgroundColor = Theme.ThemeRed
+                } else if progress >= 50 { // Rent transaction code 
+                    imgName = "ic_trx_returned"
+                    if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                } else {
+                    imgName = "ic_trx_done"
+                    if indexPath.row < progress {
+                        vwIcon.backgroundColor = activeColorType()
+                    }
+                }
+
+            case 6:
+                if progress == TransactionDetailTools.ProgressReconciliation {
+                    imgName = "ic_trx_reconciliation"
+                    vwIcon.backgroundColor = Theme.ThemeRed
+                } else {
+                    imgName = "ic_trx_done"
+                    if progress >= 50 {
+                        if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
+                            vwIcon.backgroundColor = activeColorType()
+                        }
+                    } else {
+                        if indexPath.row < progress {
+                            vwIcon.backgroundColor = activeColorType()
+                        }
+                    }
+                }
+            default :
+                break
             }
         }
+        
         if (imgName != nil) {
-            if let imgIcon = UIImage(named: imgName!) {
-                let imgVwIcon : UIImageView = UIImageView(frame: CGRect(x: 4, y: 4, width: 16, height: 16), image: imgIcon)
-                vwIcon.addSubview(imgVwIcon)
-            }
+            let imgIcon = UIImage(named: imgName!)
+            let imgVwIcon : UIImageView = UIImageView(frame: CGRect(x: 4, y: 4, width: 16, height: 16), image: imgIcon!)
+            vwIcon.removeAllSubviews()
+            vwIcon.addSubview(imgVwIcon)
         }
         
         // Add view to cell
@@ -877,6 +871,20 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         cell.addSubview(vwIcon)
         
         return cell
+    }
+    
+    func activeColorType() -> UIColor{
+        if (self.notif?.caption.lowercased() == "jual") {
+            return Theme.ThemeOrange
+        } else if (self.notif?.caption.lowercased() == "beli") {
+            return Theme.PrimaryColor
+        } else if (self.notif?.caption.lowercased() == "disewa") {
+            return Theme.ThemeOrange
+        } else if (self.notif?.caption.lowercased() == "sewa") {
+            return Theme.PrimaryColor
+        } else {
+            return Theme.GrayGranite
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize {

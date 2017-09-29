@@ -3145,32 +3145,35 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
 
 class TransactionDetailTools : NSObject {
     // Progress number
-    static let ProgressExpired = -1
+    // Reservation
     static let ProgressReservationCancelled = -2
+    static let ProgressReserved = 7
+    static let ProgressReserveDone = 8
+    // Refund
+    static let ProgressRefundRequested = 30
+    static let ProgressRefundVerified = 31
+    static let ProgressRefundSent = 32
+    static let ProgressRefundSuccess = 33
+    static let ProgressRefundReject = 34
+    // Negative case progress
+    static let ProgressExpired = -1
     static let ProgressRejectedBySeller = -3
     static let ProgressNotSent = -4
     static let ProgressPaymentReject = -5
     static let ProgressFraudDetected = -6
-    
+    // Normal buy
     static let ProgressNotPaid = 1
     static let ProgressClaimedPaid = 2
     static let ProgressConfirmedPaid = 3
     static let ProgressSent = 4
     static let ProgressReceived = 5
     static let ProgressReviewed = 6
-    static let ProgressReserved = 7
-    static let ProgressReserveDone = 8
-    
-    static let ProgressRefundRequested = 30
-    static let ProgressRefundVerified = 31
-    static let ProgressRefundSent = 32
-    static let ProgressRefundSuccess = 33
-    static let ProgressRefundReject = 34
-    
+    // Normal rent
     static let ProgressRentAccepted = 50
     static let progressRentReturn = 51
     static let ProgressReturnAccepted = 52
     static let ProgressReturnReviewed = 53
+    // Negative case rent
     static let ProgressNotReturned = 54
     static let ProgressReconciliation = 55
     
@@ -3308,9 +3311,13 @@ class TransactionDetailTools : NSObject {
     }
     
     static func isRefundProgress(_ progress : Int?) -> Bool {
-        return (progress == 30 || progress == 31 || progress == 32 || progress == 33)
+        return (progress == 30 || progress == 31 || progress == 32 || progress == 33 || progress == 34)
     }
     
+    static func isNegativeProgress(_ progress : Int?) -> Bool {
+        return (progress == -1 || progress == -3 || progress == -4 || progress == -5 || progress == -6 || progress == -55 || progress == -56)
+    }
+
     static func setAffiliateName(_ affiliateName: String) {
         _AffiliateName = affiliateName
     }

@@ -174,7 +174,12 @@ class TanggalSewaViewController: BaseViewController {
             self.finishDateLabel.textColor = UIColor.gray
         }
         
-        if isStartSelected && isFinishSelected {
+        if isStartFinishAtSameDay {
+            let totalBuffer: String = String(finishBuffer + startBuffer)
+            let totalDay: String = "1 + " + totalBuffer
+            self.totalDayLabel.text = totalDay + " hari"
+        }
+        else if isFinishSelected {
             let totalBuffer: String = String(finishBuffer + startBuffer)
             let totalDay: String = String(finishDate!.daysBetweenDate(startDate!)) + " + " + totalBuffer
             self.totalDayLabel.text = totalDay + " hari"
