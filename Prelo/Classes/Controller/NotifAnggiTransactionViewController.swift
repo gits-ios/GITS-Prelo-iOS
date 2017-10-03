@@ -586,7 +586,13 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         vwSingleImage.isHidden = false
         vwDoubleImage.isHidden = true
         vwCaption.backgroundColor = Theme.GrayDark
-        lblTrxStatus.textColor = Theme.GrayDark
+        
+        // Set trx status text color
+        if (notif?.progress < 0 || notif?.progress == 34 || TransactionDetailTools.isNegativeProgress(notif?.progress)) {
+            lblTrxStatus.textColor = Theme.ThemeRed
+        } else {
+            lblTrxStatus.textColor = Theme.GrayDark
+        }
         
         if imgSingle != nil {
             imgSingle.afCancelRequest()
@@ -637,8 +643,10 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         lblPrice.isHidden = isPriceHidden
         
         // Set trx status text color
-        if (notif.progress < 0) {
+        if (notif.progress < 0 || notif.progress == 34 || TransactionDetailTools.isNegativeProgress(notif.progress)) {
             lblTrxStatus.textColor = Theme.ThemeRed
+        } else {
+            lblTrxStatus.textColor = Theme.GrayDark
         }
         
         // Set trx status text width
@@ -724,7 +732,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 } else if TransactionDetailTools.isRefundProgress(progress){
                     imgName = "ic_trx_refund1"
                     if indexPath.row < (progress - 29) {
-                        vwIcon.backgroundColor = activeColorType()
+                        vwIcon.backgroundColor = Theme.ThemeRed
                     }
                 } else { // Normal transaction
                     imgName = "ic_trx_expired"
@@ -754,7 +762,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 } else if TransactionDetailTools.isRefundProgress(progress){
                     imgName = "ic_trx_refund2"
                     if indexPath.row < (progress - 29) {
-                        vwIcon.backgroundColor = activeColorType()
+                        vwIcon.backgroundColor = Theme.ThemeRed
                     }
                 } else { // Normal transaction
                     imgName = "ic_trx_wait"
@@ -771,7 +779,7 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 if TransactionDetailTools.isRefundProgress(progress) {
                     imgName = "ic_trx_refund3"
                     if indexPath.row < (progress - 29) {
-                        vwIcon.backgroundColor = activeColorType()
+                        vwIcon.backgroundColor = Theme.ThemeRed
                     }
                 } else { // Normal transaction
                     imgName = "ic_trx_paid"
@@ -797,10 +805,14 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                         } else if progress == TransactionDetailTools.ProgressNotSent{
                             imgName = "ic_trx_canceled"
                             vwIcon.backgroundColor = Theme.ThemeRed
+                        } else {
+                            imgName = "ic_trx_shipped"
+                            vwIcon.backgroundColor = activeColorType()
                         }
-                    }else {
+                    } else {
                         imgName = "ic_trx_shipped"
-                        if progress >= 50 {
+                        if (self.notif?.caption.lowercased() == "disewa" || self.notif?.caption.lowercased() == "sewa") {
+                            // Rent transaction code
                             if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
                                 vwIcon.backgroundColor = activeColorType()
                             }
@@ -813,7 +825,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 }
             case 4:
                 imgName = "ic_trx_received"
-                if progress >= 50 {
+                if (self.notif?.caption.lowercased() == "disewa" || self.notif?.caption.lowercased() == "sewa") {
+                    // Rent transaction code
                     if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
                         vwIcon.backgroundColor = activeColorType()
                     }
@@ -826,7 +839,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                 if progress == TransactionDetailTools.ProgressNotReturned {
                     imgName = "ic_trx_canceled"
                     vwIcon.backgroundColor = Theme.ThemeRed
-                } else if progress >= 50 { // Rent transaction code 
+                } else if (self.notif?.caption.lowercased() == "disewa" || self.notif?.caption.lowercased() == "sewa") {
+                    // Rent transaction code
                     imgName = "ic_trx_returned"
                     if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
                         vwIcon.backgroundColor = activeColorType()
@@ -837,14 +851,15 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                         vwIcon.backgroundColor = activeColorType()
                     }
                 }
-
+                
             case 6:
                 if progress == TransactionDetailTools.ProgressReconciliation {
                     imgName = "ic_trx_reconciliation"
                     vwIcon.backgroundColor = Theme.ThemeRed
                 } else {
                     imgName = "ic_trx_done"
-                    if progress >= 50 {
+                    if (self.notif?.caption.lowercased() == "disewa" || self.notif?.caption.lowercased() == "sewa") {
+                        // Rent transaction code
                         if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
                             vwIcon.backgroundColor = activeColorType()
                         }

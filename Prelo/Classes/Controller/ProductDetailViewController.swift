@@ -1632,8 +1632,18 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         }
         else if (segue.identifier == "performSegueSewa") {
             let vc = segue.destination as! TanggalSewaViewController
-            vc.productID = detail!.productID
             let seller_id = detail?.json["_data"]["seller"]["_id"].stringValue
+            if detail?.json["_data"]["rent"]["period_type"].int == 0 {
+                //harian
+                vc.periodeType = 1
+            } else if detail?.json["_data"]["rent"]["period_type"].int == 1 {
+                //mingguan
+                vc.periodeType = 7
+            } else if detail?.json["_data"]["rent"]["period_type"].int == 2 {
+                //bulanan
+                vc.periodeType = 30
+            }
+            vc.productID = detail!.productID
             vc.sellerId = seller_id!
         }
         else

@@ -24,7 +24,6 @@ class TanggalSewaViewController: BaseViewController {
     var testCalendar = Calendar.current
     var isCheckboxAgreed: Bool = false
     var isStartSelected: Bool = false
-    var isStartFinishAtSameDay: Bool = false
     var isFinishSelected: Bool = false
     var systemStartDate: Date?
     var systemFinishDate: Date?
@@ -33,6 +32,7 @@ class TanggalSewaViewController: BaseViewController {
     var startBuffer: Int = 1
     var finishBuffer: Int = 1
     var startDateOpenDayRange: Int = 30
+    var periodeType: Int = 1 // 1 = harian, 7 = mingguan, 30 = bulanan
     
     var thisScreen: String!
     
@@ -40,7 +40,6 @@ class TanggalSewaViewController: BaseViewController {
     var productID = ""
     var sellerId = ""
     
-    var tempe: Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,7 +69,7 @@ class TanggalSewaViewController: BaseViewController {
     }
     
     @IBAction func lanjutClickAction(_ sender: Any) {
-        if isStartFinishAtSameDay || isFinishSelected {
+        if isStartSelected{
             if !isCheckboxAgreed {
                 Constant.showDialog("Perhatian", message: "Kamu belum menyetujui syarat dan ketentuan Prelo")
             } else {
@@ -79,13 +78,8 @@ class TanggalSewaViewController: BaseViewController {
                 checkout2VC.isSewaProduct = true
                 checkout2VC.start_date = formatter.string(from: startDate!)
                 checkout2VC.buffer_start_date = formatter.string(from: (startDate?.dateByAddingDays(-startBuffer))!)
-                if isStartFinishAtSameDay {
-                    checkout2VC.end_date = formatter.string(from: startDate!)
-                    checkout2VC.buffer_end_date = formatter.string(from: (startDate?.dateByAddingDays(finishBuffer))!)
-                } else {
-                    checkout2VC.end_date = formatter.string(from: finishDate!)
-                    checkout2VC.buffer_end_date = formatter.string(from: (finishDate?.dateByAddingDays(finishBuffer))!)
-                }
+                checkout2VC.end_date = formatter.string(from: finishDate!)
+                checkout2VC.buffer_end_date = formatter.string(from: (finishDate?.dateByAddingDays(finishBuffer))!)
                 checkout2VC.seller_id = sellerId
                 checkout2VC.product_id = productID
                 checkout2VC.previousController = self
@@ -151,6 +145,22 @@ class TanggalSewaViewController: BaseViewController {
             self.startDayLabel.textColor = UIColor.darkGray
             self.startDateLabel.text = formatter.string(from: startDate!).uppercased()
             self.startDateLabel.textColor = UIColor.darkGray
+            if finishDate != nil {
+                self.finishDayLabel.text = convertDayNameEnglishToIndonesia(date: finishDate!)
+                self.finishDayLabel.textColor = UIColor.darkGray
+                self.finishDateLabel.text = formatter.string(from: finishDate!).uppercased()
+                self.finishDateLabel.textColor = UIColor.darkGray
+            } else {
+                self.finishDayLabel.text = "TANGGAL"
+                self.finishDayLabel.textColor = UIColor.gray
+                self.finishDateLabel.text = "SELESAI"
+                self.finishDateLabel.textColor = UIColor.gray
+            }
+        } else if !isFinishSelected {
+            self.finishDayLabel.text = "TANGGAL"
+            self.finishDayLabel.textColor = UIColor.gray
+            self.finishDateLabel.text = "SELESAI"
+            self.finishDateLabel.textColor = UIColor.gray
         } else {
             self.startDayLabel.text = "TANGGAL"
             self.startDayLabel.textColor = UIColor.gray
@@ -158,32 +168,14 @@ class TanggalSewaViewController: BaseViewController {
             self.startDateLabel.textColor = UIColor.gray
         }
         
-        if isStartFinishAtSameDay {
-            self.finishDayLabel.text = convertDayNameEnglishToIndonesia(date: startDate!)
-            self.finishDayLabel.textColor = UIColor.darkGray
-            self.finishDateLabel.text = formatter.string(from: startDate!).uppercased()
-            self.finishDateLabel.textColor = UIColor.darkGray
-        } else if isFinishSelected {
-            self.finishDayLabel.text = convertDayNameEnglishToIndonesia(date: finishDate!)
-            self.finishDayLabel.textColor = UIColor.darkGray
-            self.finishDateLabel.text = formatter.string(from: finishDate!).uppercased()
-            self.finishDateLabel.textColor = UIColor.darkGray
-        } else {
-            self.finishDayLabel.text = "TANGGAL"
-            self.finishDayLabel.textColor = UIColor.gray
-            self.finishDateLabel.text = "SELESAI"
-            self.finishDateLabel.textColor = UIColor.gray
-        }
-        
-        if isStartFinishAtSameDay {
+        if isStartSelected && finishDate != nil {
             let totalBuffer: String = String(finishBuffer + startBuffer)
-            let totalDay: String = "1 + " + totalBuffer
-            self.totalDayLabel.text = totalDay + " hari"
-        }
-        else if isFinishSelected {
-            let totalBuffer: String = String(finishBuffer + startBuffer)
-            let totalDay: String = String(finishDate!.daysBetweenDate(startDate!)) + " + " + totalBuffer
-            self.totalDayLabel.text = totalDay + " hari"
+            if startDate == finishDate {
+                self.totalDayLabel.text = "1 + " + totalBuffer + " hari"
+            } else {
+                let totalDay: String = String(finishDate!.daysBetweenDate(startDate!) + 1) + " + " + totalBuffer
+                self.totalDayLabel.text = totalDay + " hari"
+            }
         } else {
             self.totalDayLabel.text = "0 hari"
         }
@@ -211,10 +203,8 @@ class TanggalSewaViewController: BaseViewController {
         }
         
         //handle cell selection view status based on date selection status
-        myCustomCell.isSelected = false
         myCustomCell.configureDefaultView()
         let checkStartDateBuffer = startDate?.dateByAddingDays(-startBuffer)
-        let checkSameStartFinishDateBuffer = startDate?.dateByAddingDays(finishBuffer)
         let checkFinishDateBuffer = finishDate?.dateByAddingDays(finishBuffer)
         
         if cellState.dateBelongsTo == .thisMonth {
@@ -230,26 +220,16 @@ class TanggalSewaViewController: BaseViewController {
                 }
                 else if cellDate.isSameDay(startDate!) {
                     //configure selected start date cell
-                    myCustomCell.isSelected = true
                     myCustomCell.configureStartView()
                 } else {
-                    if isStartFinishAtSameDay {
-                        if cellDate.isGreaterThanDate(startDate!) && cellDate.isLessThanDate(checkSameStartFinishDateBuffer!) {
-                            //configure cell range from selected finish date to buffer finish cell
-                            myCustomCell.configureFinishBufferView(isAtEndOfBuffer: false)
-                        } else if cellDate.isSameDay(checkSameStartFinishDateBuffer!) {
-                            //configure buffer finish date cell
-                            myCustomCell.configureFinishBufferView(isAtEndOfBuffer: true)
-                        }
-                    } else if isFinishSelected {
+                    if finishDate != nil {
                         if cellDate.isGreaterThanDate(startDate!) &&
                             //configure cell range from selected start date to finish
                             cellDate.isLessThanDate(finishDate!) {
                             myCustomCell.configureRangeView()
                         }
-                        else if cellDate.isSameDay(finishDate!) {
+                        else if startDate != finishDate && cellDate.isSameDay(finishDate!) {
                             //selected finish date cell
-                            myCustomCell.isSelected = true
                             myCustomCell.configureFinishView()
                         }
                         else if cellDate.isGreaterThanDate(finishDate!) &&
@@ -303,111 +283,157 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
     
     func calendar(_ calendar: JTAppleCalendarView, didSelectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         //override select & deselect cell function
-        cell?.isSelected = false
-        if !date.isLessThanDate(Date()) {
-            handleCalendarDateCellClick(selectedDate: date)
+        if date.isLessThanDate(Date()) {
+            Constant.showDialog("Perhatian", message: "Tidak dapat memilih tanggal penyewaan sebelum hari ini")
         } else {
-            Constant.showDialog("Perhatian", message: "Tidak dapat memulai penyewaan sebelum tanggal hari ini")
+            handleCalendarDateSelection(selectedDate: date)
         }
     }
+
     
     func calendar(_ calendar: JTAppleCalendarView, didDeselectDate date: Date, cell: JTAppleCell?, cellState: CellState) {
         //override select & deselect cell function
-        cell?.isSelected = false
-        if !date.isLessThanDate(Date()) {
-            handleCalendarDateCellClick(selectedDate: date)
+        if date.isLessThanDate(Date()) {
+            Constant.showDialog("Perhatian", message: "Tidak dapat memilih tanggal penyewaan sebelum hari ini")
         } else {
-            Constant.showDialog("Perhatian", message: "Tidak dapat memulai penyewaan sebelum tanggal hari ini")
+            handleCalendarDateSelection(selectedDate: date)
         }
     }
     
-    func handleWaw(selectedDate : Date)  {
-        if !isStartSelected {
-            isStartSelected = true
-            isFinishSelected = false
-            startDate = selectedDate
-            finishDate = selectedDate.dateByAddingDays(tempe)
-        } else {
-            if selectedDate.isLessThanDate(startDate!) || selectedDate.isSameDay(startDate!) || selectedDate.isLessThanDate(finishDate!) || selectedDate.isSameDay(finishDate!){
-                //reset
-                isStartSelected = true
-                isFinishSelected = false
-                startDate = selectedDate
-                finishDate = selectedDate.dateByAddingDays(tempe)
-            } else {
-                isFinishSelected = true
-                finishDate = selectedDate
-            }
-        }
-    }
-    
-    
-    func handleCalendarDateCellClick(selectedDate : Date) {
-        //override select & deselect cell function
-        if isStartSelected && !isFinishSelected {
-            if selectedDate.isLessThanDate(startDate!){
-                //selected date earlier than start date means reset start date
-                //check if start buffer date's day is sunday
-                if selectedDate.dateByAddingDays(-startBuffer).dayFromWeekday() == "Sunday" {
-                    //show dialog that cannot send item on sunday
-                    Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
-                    isStartSelected = false
-                    isFinishSelected = false
-                    isStartFinishAtSameDay = false
-                    startDate = nil
-                    finishDate = nil
-                } else {
-                    isStartSelected = true
-                    isFinishSelected = false
-                    isStartFinishAtSameDay = true
-                    startDate = selectedDate
-                    finishDate = nil
-                }
-                
-            } else if selectedDate.isSameDay(startDate!) {
-                isStartSelected = true
-                isFinishSelected = false
-                isStartFinishAtSameDay = true
-                startDate = selectedDate
-                finishDate = nil
-            } else {
-                //selected finish date
-                isFinishSelected = true
-                isStartFinishAtSameDay = false
-                finishDate = selectedDate
-            }
-        } else {
-            let checkMaximumOpenDate = systemStartDate?.dateByAddingDays(startDateOpenDayRange)
-            if selectedDate.isLessThanDate(checkMaximumOpenDate!) || selectedDate.isSameDay(checkMaximumOpenDate!) {
-                //select start date OR reset start date if start and finish date already selected
-                //check if start buffer date's day is sunday
-                if selectedDate.dateByAddingDays(-startBuffer).dayFromWeekday() == "Sunday" {
-                    //show dialog that cannot send item on sunday
-                    Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
-                    isStartSelected = false
-                    isFinishSelected = false
-                    isStartFinishAtSameDay = false
-                    startDate = nil
-                    finishDate = nil
-                } else {
-                    isStartSelected = true
-                    isFinishSelected = false
-                    isStartFinishAtSameDay = true
-                    startDate = selectedDate
-                    finishDate = nil
-                }
-            } else {
+    func handleCalendarDateSelection(selectedDate : Date)  {
+        if !isStartSelected  || isFinishSelected{
+            //set start date
+            if selectedDate.dateByAddingDays(-startBuffer).dayFromWeekday() == "Sunday" {
+                //show dialog that cannot start send item on sunday
+                Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
+            } else if selectedDate.isGreaterThanDate(Date().dateByAddingDays(startDateOpenDayRange)) {
                 //selected start date not available because more than open date limit
                 Constant.showDialog("Perhatian", message: "Tidak dapat memulai tanggal penyewaan lebih dari " + startDateOpenDayRange.string + " hari dari sekarang")
-                isStartSelected = false
+            } else {
+                isStartSelected = true
                 isFinishSelected = false
-                isStartFinishAtSameDay = false
-                startDate = nil
-                finishDate = nil
+                startDate = selectedDate
+                if periodeType == 1 {
+                    finishDate = selectedDate
+                } else {
+                    finishDate = selectedDate.dateByAddingDays(periodeType - 1) //subtract date range by 1 to match finish date
+                }
+            }
+        } else {
+            if selectedDate.isLessThanDate(startDate!) || selectedDate.isSameDay(startDate!) || selectedDate.isLessThanDate(finishDate!) || selectedDate.isSameDay(finishDate!){
+                //reset start date
+                if selectedDate.dateByAddingDays(-startBuffer).dayFromWeekday() == "Sunday" {
+                    //show dialog that cannot start send item on sunday
+                    Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
+                } else if selectedDate.isGreaterThanDate(Date().dateByAddingDays(startDateOpenDayRange)) {
+                    //selected start date not available because more than open date limit
+                    Constant.showDialog("Perhatian", message: "Tidak dapat memulai tanggal penyewaan lebih dari " + startDateOpenDayRange.string + " hari dari sekarang")
+                } else {
+                    isStartSelected = true
+                    isFinishSelected = false
+                    startDate = selectedDate
+                    if periodeType == 1 {
+                        finishDate = selectedDate
+                    } else {
+                        finishDate = selectedDate.dateByAddingDays(periodeType - 1) //subtract date range by 1 to match finish date
+                    }
+                }
+            } else {
+                //set finish date
+                isFinishSelected = true
+                switch periodeType {
+                case 1:
+                    //harian
+                    finishDate = selectedDate
+                case 7:
+                    //mingguan
+                    var tempSelectedDate: Int = (finishDate?.daysBetweenDate(selectedDate))!
+                    while tempSelectedDate > 0 {
+                        tempSelectedDate -= periodeType
+                        finishDate = finishDate?.dateByAddingDays(periodeType)
+                    }
+                case 30:
+                    //bulanan
+                    var tempSelectedDate: Int = (finishDate?.daysBetweenDate(selectedDate))!
+                    while tempSelectedDate > 0 {
+                        tempSelectedDate -= periodeType
+                        finishDate = finishDate?.dateByAddingDays(periodeType)
+                    }
+                default:
+                    break
+                }
             }
         }
         self.calendarView.reloadData()
     }
+    
+    
+    //    func handleCalendarDateCellClick(selectedDate : Date) {
+    //        //override select & deselect cell function
+    //        if isStartSelected && !isFinishSelected {
+    //            if selectedDate.isLessThanDate(startDate!){
+    //                //selected date earlier than start date means reset start date
+    //                //check if start buffer date's day is sunday
+    //                if selectedDate.dateByAddingDays(-startBuffer).dayFromWeekday() == "Sunday" {
+    //                    //show dialog that cannot send item on sunday
+    //                    Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
+    //                    isStartSelected = false
+    //                    isFinishSelected = false
+    //                    isStartFinishAtSameDay = false
+    //                    startDate = nil
+    //                    finishDate = nil
+    //                } else {
+    //                    isStartSelected = true
+    //                    isFinishSelected = false
+    //                    isStartFinishAtSameDay = true
+    //                    startDate = selectedDate
+    //                    finishDate = nil
+    //                }
+    //
+    //            } else if selectedDate.isSameDay(startDate!) {
+    //                isStartSelected = true
+    //                isFinishSelected = false
+    //                isStartFinishAtSameDay = true
+    //                startDate = selectedDate
+    //                finishDate = nil
+    //            } else {
+    //                //selected finish date
+    //                isFinishSelected = true
+    //                isStartFinishAtSameDay = false
+    //                finishDate = selectedDate
+    //            }
+    //        } else {
+    //            let checkMaximumOpenDate = systemStartDate?.dateByAddingDays(startDateOpenDayRange)
+    //            if selectedDate.isLessThanDate(checkMaximumOpenDate!) || selectedDate.isSameDay(checkMaximumOpenDate!) {
+    //                //select start date OR reset start date if start and finish date already selected
+    //                //check if start buffer date's day is sunday
+    //                if selectedDate.dateByAddingDays(-startBuffer).dayFromWeekday() == "Sunday" {
+    //                    //show dialog that cannot send item on sunday
+    //                    Constant.showDialog("Perhatian", message: "Pengiriman barang sewa tidak dapat dilakukan pada hari minggu")
+    //                    isStartSelected = false
+    //                    isFinishSelected = false
+    //                    isStartFinishAtSameDay = false
+    //                    startDate = nil
+    //                    finishDate = nil
+    //                } else {
+    //                    isStartSelected = true
+    //                    isFinishSelected = false
+    //                    isStartFinishAtSameDay = true
+    //                    startDate = selectedDate
+    //                    finishDate = nil
+    //                }
+    //            } else {
+    //                //selected start date not available because more than open date limit
+    //                Constant.showDialog("Perhatian", message: "Tidak dapat memulai tanggal penyewaan lebih dari " + startDateOpenDayRange.string + " hari dari sekarang")
+    //                isStartSelected = false
+    //                isFinishSelected = false
+    //                isStartFinishAtSameDay = false
+    //                startDate = nil
+    //                finishDate = nil
+    //            }
+    //        }
+    //        self.calendarView.reloadData()
+    //    }
     
     // This sets the height of your header
     func calendarSizeForMonths(_ calendar: JTAppleCalendarView?) -> MonthSize? {

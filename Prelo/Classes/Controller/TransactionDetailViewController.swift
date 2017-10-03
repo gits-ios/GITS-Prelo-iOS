@@ -3315,7 +3315,7 @@ class TransactionDetailTools : NSObject {
     }
     
     static func isNegativeProgress(_ progress : Int?) -> Bool {
-        return (progress == -1 || progress == -3 || progress == -4 || progress == -5 || progress == -6 || progress == -55 || progress == -56)
+        return (progress == -1 || progress == -3 || progress == -4 || progress == -5 || progress == -6 || progress == 54 || progress == 55)
     }
 
     static func setAffiliateName(_ affiliateName: String) {

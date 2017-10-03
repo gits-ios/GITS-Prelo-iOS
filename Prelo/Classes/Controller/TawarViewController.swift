@@ -335,10 +335,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.header.labelRent.isHidden = true
             
             self.btnRent.isHidden = true
-            //let newConstraint = self.consRentButton.constraintWithMultiplier(1.46/3)
-            //self.view!.removeConstraint(self.consRentButton)
-            //self.view!.addConstraint(newConstraint)
-            //self.view!.layoutIfNeeded()
         }
     }
     

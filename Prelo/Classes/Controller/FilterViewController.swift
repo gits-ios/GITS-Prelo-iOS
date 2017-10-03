@@ -516,7 +516,6 @@ class FilterViewController : BaseViewController, UITableViewDelegate, UITableVie
             l.fltrPriceMin = fltrPriceMin
             l.fltrPriceMax = fltrPriceMax
             l.fltrIsFreeOngkir = self.isFreeOngkir
-            l.fltrProdKind = fltrProdKind
             l.fltrSizes = fltrSizes
             l.fltrSortBy = self.SortByDataValue[self.selectedIdxSortBy]
             l.fltrLocation = [self.locationName, self.locationId, self.locationType.string, self.locationParentIDs]

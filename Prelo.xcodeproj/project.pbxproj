@@ -652,11 +652,11 @@
 		A9A9F9451F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */; };
 		A9B2813B1F6BBEA900D0759F /* HeaderTanggalView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */; };
 		A9B281521F6BBF3300D0759F /* HeaderTanggalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */; };
-		A9DBCDA31F7CC8BC0038A3B7 /* ic_trx_reconciliation.png in Resources */ = {isa = PBXBuildFile; fileRef = A9DBCDA11F7CC8BC0038A3B7 /* ic_trx_reconciliation.png */; };
-		A9DBCDA41F7CC8BC0038A3B7 /* ic_trx_returned.png in Resources */ = {isa = PBXBuildFile; fileRef = A9DBCDA21F7CC8BC0038A3B7 /* ic_trx_returned.png */; };
 		A9E327F71F68DB3C009382F5 /* TanggalSewaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */; };
 		A9E369EB1F6AED4B00DF69F1 /* TanggalViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */; };
 		A9E369ED1F6AED7700DF69F1 /* TanggalViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */; };
+		A9E8E86D1F8381F900D8478B /* ic_trx_reconciliation.png in Resources */ = {isa = PBXBuildFile; fileRef = A9E8E86B1F8381F900D8478B /* ic_trx_reconciliation.png */; };
+		A9E8E86E1F8381F900D8478B /* ic_trx_returned.png in Resources */ = {isa = PBXBuildFile; fileRef = A9E8E86C1F8381F900D8478B /* ic_trx_returned.png */; };
 		B204104B1F4A8C8C00CCE4B1 /* ProductDetail2.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */; };
 		B204104D1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */; };
 		B204104F1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B204104E1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib */; };
@@ -1932,11 +1932,11 @@
 		A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifAnggiTransactionViewController.swift; sourceTree = "<group>"; };
 		A9B2813A1F6BBEA900D0759F /* HeaderTanggalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = HeaderTanggalView.xib; sourceTree = "<group>"; };
 		A9B281511F6BBF3300D0759F /* HeaderTanggalView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderTanggalView.swift; sourceTree = "<group>"; };
-		A9DBCDA11F7CC8BC0038A3B7 /* ic_trx_reconciliation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_reconciliation.png; sourceTree = "<group>"; };
-		A9DBCDA21F7CC8BC0038A3B7 /* ic_trx_returned.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_returned.png; sourceTree = "<group>"; };
 		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalSewaViewController.swift; sourceTree = "<group>"; };
 		A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalViewCell.swift; sourceTree = "<group>"; };
 		A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TanggalViewCell.xib; sourceTree = "<group>"; };
+		A9E8E86B1F8381F900D8478B /* ic_trx_reconciliation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_reconciliation.png; sourceTree = "<group>"; };
+		A9E8E86C1F8381F900D8478B /* ic_trx_returned.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_returned.png; sourceTree = "<group>"; };
 		B204104A1F4A8C8C00CCE4B1 /* ProductDetail2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2.xib; sourceTree = "<group>"; };
 		B204104C1F4A8DB900CCE4B1 /* ProductDetail2CoverCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2CoverCell.xib; sourceTree = "<group>"; };
 		B204104E1F4A909F00CCE4B1 /* ProductDetail2TitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductDetail2TitleCell.xib; sourceTree = "<group>"; };
@@ -2988,8 +2988,8 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				A9DBCDA11F7CC8BC0038A3B7 /* ic_trx_reconciliation.png */,
-				A9DBCDA21F7CC8BC0038A3B7 /* ic_trx_returned.png */,
+				A9E8E86B1F8381F900D8478B /* ic_trx_reconciliation.png */,
+				A9E8E86C1F8381F900D8478B /* ic_trx_returned.png */,
 				B2FCF6B41ED5694500A6D9E7 /* share */,
 				B2B688651EFA6C01005B5E8A /* checkout v2 */,
 				B2D39B641EB2F78200A44A1C /* location map */,
@@ -4652,7 +4652,7 @@
 				585887511DBEDBD5006EC6D5 /* PhoneReverification.xib in Resources */,
 				581026B71EEA933800C0D324 /* RekeningList.xib in Resources */,
 				21156ECB1B8F5DBC001D7842 /* btn_checkbox_purple_empty.png in Resources */,
-				A9DBCDA31F7CC8BC0038A3B7 /* ic_trx_reconciliation.png in Resources */,
+				A9E8E86D1F8381F900D8478B /* ic_trx_reconciliation.png in Resources */,
 				5827E9611E03F844007F0833 /* ic_trx_refund4.png in Resources */,
 				21679A541B901C5300F18F90 /* test_variant.json in Resources */,
 				B2B948EF1F4B26CB00A69321 /* ProductDetail2AddCommentCell.xib in Resources */,
@@ -4815,7 +4815,7 @@
 				58A9AE981CA9320000DF30C8 /* tour_5.jpg in Resources */,
 				585887341DBEDA08006EC6D5 /* ConfirmShipping.xib in Resources */,
 				5858874C1DBEDB9B006EC6D5 /* NotifAnggiTransaction.xib in Resources */,
-				A9DBCDA41F7CC8BC0038A3B7 /* ic_trx_returned.png in Resources */,
+				A9E8E86E1F8381F900D8478B /* ic_trx_returned.png in Resources */,
 				B229F4D81F38222D00A2F60B /* AddProduct3ChargeCell.xib in Resources */,
 				B2D965EA1E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib in Resources */,
 				B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */,

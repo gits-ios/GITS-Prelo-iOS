@@ -566,6 +566,14 @@ open class ProductDetail : NSObject, TawarItem
         return "http://dev.kleora.com/images/products/" + productID + "/" + modifiedImageName
     }
     
+    //for sewa product item
+    var rent : RentItem? {
+        if let j = RentItem.instance(json["rent"]) {
+            return j
+        }
+        return nil
+    }
+    
     var rentPrice: Int {
         let rent = json["rent"]
         if rent != nil {

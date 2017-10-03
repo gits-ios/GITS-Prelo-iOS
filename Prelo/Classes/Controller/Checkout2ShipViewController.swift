@@ -1233,11 +1233,11 @@ class Checkout2ProductCell: UITableViewCell {
  
         if isSewaProduct {
             var durationText = " "
-            if productDetail.rent?.periodType == 1 {
+            if productDetail.rent?.periodType == 0 {
                 durationText = " / hari"
-            } else if productDetail.rent?.periodType == 2 {
+            } else if productDetail.rent?.periodType == 1 {
                 durationText = " / minggu"
-            } else if productDetail.rent?.periodType == 3 {
+            } else if productDetail.rent?.periodType == 2 {
                 durationText = " / bulan"
             }
             
