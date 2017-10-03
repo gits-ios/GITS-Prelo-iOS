@@ -596,7 +596,11 @@ class Checkout2ShipViewController: BaseViewController, UITableViewDataSource, UI
                     
                     let product = self.cartResult.cartDetails[idx.section].products[idx.row-1]
                     
-                    cell.adapt(product)
+                    if product.total_rent_price != 0 {
+                        cell.adapt(product, isSewaProduct: true)
+                    } else {
+                        cell.adapt(product, isSewaProduct: false)
+                    }
                     
                     if product.errorMessage != nil {
                         self.isEnableToCheckout = false
@@ -1219,14 +1223,28 @@ class Checkout2ProductCell: UITableViewCell {
     
     var remove: (String)->() = {_ in }
     
-    func adapt(_ productDetail: ProductItem) {
+    func adapt(_ productDetail: ProductItem, isSewaProduct: Bool) {
         self.consWidthBtn.constant = 40.0
         
         self.productDetail = productDetail
         
         self.imgProduct.afSetImage(withURL: productDetail.displayPicts[0], withFilter: .fill)
         self.lbProductName.text = productDetail.name
-        self.lbProductPrice.text = productDetail.price.asPrice
+ 
+        if isSewaProduct {
+            var durationText = " "
+            if productDetail.rent?.periodType == 1 {
+                durationText = " / hari"
+            } else if productDetail.rent?.periodType == 2 {
+                durationText = " / minggu"
+            } else if productDetail.rent?.periodType == 3 {
+                durationText = " / bulan"
+            }
+            
+            self.lbProductPrice.text = productDetail.price.asPrice + durationText
+        } else {
+            self.lbProductPrice.text = productDetail.price.asPrice
+        }
         
         let region = CDRegion.getRegionNameWithID(productDetail.sellerRegionId) ?? "<region not found>"
         self.lbSellerRegion.text = region

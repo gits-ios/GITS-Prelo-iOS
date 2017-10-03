@@ -40,6 +40,7 @@ class TanggalSewaViewController: BaseViewController {
     var productID = ""
     var sellerId = ""
     
+    var tempe: Int = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -319,6 +320,27 @@ extension TanggalSewaViewController: JTAppleCalendarViewDataSource, JTAppleCalen
             Constant.showDialog("Perhatian", message: "Tidak dapat memulai penyewaan sebelum tanggal hari ini")
         }
     }
+    
+    func handleWaw(selectedDate : Date)  {
+        if !isStartSelected {
+            isStartSelected = true
+            isFinishSelected = false
+            startDate = selectedDate
+            finishDate = selectedDate.dateByAddingDays(tempe)
+        } else {
+            if selectedDate.isLessThanDate(startDate!) || selectedDate.isSameDay(startDate!) || selectedDate.isLessThanDate(finishDate!) || selectedDate.isSameDay(finishDate!){
+                //reset
+                isStartSelected = true
+                isFinishSelected = false
+                startDate = selectedDate
+                finishDate = selectedDate.dateByAddingDays(tempe)
+            } else {
+                isFinishSelected = true
+                finishDate = selectedDate
+            }
+        }
+    }
+    
     
     func handleCalendarDateCellClick(selectedDate : Date) {
         //override select & deselect cell function

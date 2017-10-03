@@ -5386,6 +5386,14 @@ class ProductItem : NSObject {
     
     
     //for sewa product
+    var rent : RentItem? {
+        if let j = RentItem.instance(json["rent"]) {
+            return j
+        }
+        return nil
+    }
+    
+    
     var rent_duration_text : String {
         if let j = json["rent_duration_text"].string {
             return j
@@ -5649,5 +5657,28 @@ class RekeningItem : NSObject {
             return j
         }
         return ""
+    }
+}
+
+// MARK: - RENT ITEM DETAIL
+// rent
+class RentItem : NSObject {
+    var json : JSON!
+    
+    static func instance(_ json : JSON?) -> RentItem? {
+        if (json == nil) {
+            return nil
+        } else {
+            let u = RentItem()
+            u.json = json!
+            return u
+        }
+    }
+    
+    var periodType : Int {
+        if let j = json["period_type"].int {
+            return j
+        }
+        return 0
     }
 }

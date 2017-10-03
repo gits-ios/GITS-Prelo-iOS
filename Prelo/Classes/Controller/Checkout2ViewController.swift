@@ -12,7 +12,7 @@ import Alamofire
 import DropDown
 
 // MARK: - Class
-class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate {
+class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITableViewDelegate, CheckoutSewaDescriptionDelegate {
     //for sewa checkout
     var product_id = ""
     var seller_id = ""
@@ -1174,8 +1174,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     
                     let product = self.cartResult.cartDetails[idx.section-1].products[idx.row-1]
                     
-                    //cell.vwLine1px.isHidden = true
-                    cell.adapt(product)
+                    cell.adapt(product, isSewaProduct: isSewaProduct)
                     
                     if product.errorMessage != nil {
                         self.isEnableToCheckout = false
@@ -1377,6 +1376,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     } else {
                         //for sewa product description
                         let cell = tableView.dequeueReusableCell(withIdentifier: "CheckoutSewaDescriptionCell") as! CheckoutSewaDescriptionCell
+                        cell.delegate = self
                         cell.selectionStyle = .none
                         cell.clipsToBounds = true
                         cell.subtotalLabel.text = self.totalAmount.asPrice
@@ -3014,5 +3014,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         } else {
             self.navigationController?.pushViewController(vc, animated: true)
         }
+    }
+    
+    func durasiSewaClick() {
+//        self.dismiss(animated: true, completion: nil)
     }
 }
