@@ -468,6 +468,7 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                         // Goto inbox
                         let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                         t.tawarItem = inboxData
+                        t.listingType = inboxData.listingType
                         t.previousScreen = PageName.Notification
                         t.isSellerNotActive = data["shop_closed"].bool ?? false
                         //t.phoneNumber = data["seller_phone"].string ?? ""

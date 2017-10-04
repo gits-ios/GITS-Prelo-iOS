@@ -568,14 +568,14 @@ open class ProductDetail : NSObject, TawarItem
     
     //for sewa product item
     var rent : RentItem? {
-        if let j = RentItem.instance(json["rent"]) {
+        if let j = RentItem.instance(json["_data"]["rent"]) {
             return j
         }
         return nil
     }
     
     var rentPrice: Int {
-        let rent = json["rent"]
+        let rent = json["_data"]["rent"]
         if rent != nil {
             if let rentPrice = rent["price"].int{
                 return rentPrice
@@ -586,12 +586,12 @@ open class ProductDetail : NSObject, TawarItem
         }
     }
     
-    /*var listingType: Int {
+    var listingType: Int {
         if let listingType = json["listing_type"].int {
             return listingType
         }
         return 0
-    }*/
+    }
     
     var isActive : Bool {
         return json["_data"]["status"].boolValue
@@ -3092,12 +3092,12 @@ class Inbox : NSObject, TawarItem
         }
     }
     
-    /*var listingType: Int {
+    var listingType: Int {
         if let listingType = json["listing_type"].int {
             return listingType
         }
         return 0
-    }*/
+    }
     
     var id : String
     {
@@ -5681,6 +5681,13 @@ class RentItem : NSObject {
             u.json = json!
             return u
         }
+    }
+    
+    var price : Int {
+        if let j = json["price"].int {
+            return j
+        }
+        return 0
     }
     
     var periodType : Int {

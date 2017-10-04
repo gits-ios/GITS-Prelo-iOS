@@ -58,7 +58,7 @@ protocol  TawarItem {
     func setFinalPrice(_ price : Int64)
     //Rent
     var rentPrice : Int {get}
-    //var listingType : Int {get}
+    var listingType : Int {get}
     
 }
 
@@ -137,6 +137,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     var loadInboxFirst = false // True when inboxId is not defined yet
     var fromSeller = false // True when seller starts the conversation
     var toId = "" // Opposite's user ID, used for fromSeller mode
+    var listingType = 0
     
     // Data container
     var inboxMessages : [InboxMessage] = []
@@ -299,8 +300,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
         self.header.viewIconSell.layer.cornerRadius = self.header.viewIconSell.height/2
         
         //Validation of rent
-        self.btnRentOnly.isHidden = true
-        if self.tawarItem.rentPrice != 0 && self.tawarItem.price != "Rp0" {
+        if self.listingType == 2 {
             //jual & sewa
             self.header.viewIconSell.isHidden = false
             self.header.iconJual.isHidden = false
@@ -310,7 +310,9 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.header.iconRent.isHidden = false
             self.header.labelRent.isHidden = false
             self.header.labelRent.text = self.tawarItem.rentPrice.asPrice
-        }else if self.tawarItem.rentPrice != 0 {
+            
+            self.btnRentOnly.isHidden = true
+        }else if self.listingType == 1 {
             //sewa only
             self.header.viewIconSell.isHidden = true
             self.header.iconJual.isHidden = true
@@ -321,10 +323,18 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.header.labelRent.isHidden = false
             self.header.labelRent.text = self.tawarItem.rentPrice.asPrice
             
-            
             self.hideButtonHeader()
-            self.btnRentOnly.isHidden = false
-        }else if self.tawarItem.price != "Rp0" {
+            if self.tawarItem.opIsMe {
+                // As a buyer
+                self.btnRentOnly.isHidden = false
+            } else {
+                // As a seller
+                self.btnRentOnly.isHidden = true
+                self.btnTawar2.isHidden = true
+                self.btnSold.isHidden = true
+            }
+            
+        }else if self.listingType == 0 {
             //jual only
             self.header.viewIconSell.isHidden = false
             self.header.iconJual.isHidden = false
@@ -334,6 +344,7 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             self.header.iconRent.isHidden = true
             self.header.labelRent.isHidden = true
             
+            self.btnRentOnly.isHidden = true
             self.btnRent.isHidden = true
         }
     }
@@ -649,8 +660,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
             header.oldPriceStrikethroughView.isHidden = true
             captionTawarHargaOri.text = "Harga asli " + tawarItem.price
         }
-        
-        self.validateHeaderButtonAndPrice()
     }
     
     // MARK: - Textview functions

@@ -1324,6 +1324,7 @@ class ProductDetailViewController: BaseViewController, UITableViewDataSource, UI
         {
             let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
             t.tawarItem = d
+            t.listingType = d.listing_type
             t.loadInboxFirst = true
             t.prodId = d.productID
             t.previousScreen = thisScreen
