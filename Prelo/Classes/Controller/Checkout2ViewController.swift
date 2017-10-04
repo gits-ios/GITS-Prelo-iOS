@@ -315,46 +315,46 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     // MARK: - Option Button
     
     /* // Disable
-    func createUnpaidButton(_ num : Int)->UIButton {
-        return createButtonWithIconAndNumber(UIImage(named: "ic_wjp_exclamation.png")!, num: num)
-    }
-    
-    func setupOption(_ count: Int) {
-        if count > 0 {
-            self.unpaid = count
-            let troli = createUnpaidButton(count)
-            
-            troli.addTarget(self, action: #selector(Checkout2ShipViewController.launchUnpaid), for: UIControlEvents.touchUpInside)
-            
-            let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.launchUnpaid))
-            troli.viewWithTag(100)?.addGestureRecognizer(troliRecognizer)
-            
-            self.navigationItem.rightBarButtonItems = [troli.toBarButton()]
-        } else {
-            self.navigationItem.rightBarButtonItems = []
-        }
-    }
-    
-    func launchUnpaid() {
-        if self.unpaid > 0 {
-            let alertView = SCLAlertView(appearance: Constant.appearance)
-            alertView.addButton("Bayar") {
-                /*
-                let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
-                notifPageVC.previousScreen = PageName.Checkout
-                */
-                
-                let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
-                myPurchaseVC.previousScreen = PageName.Checkout
-                self.navigationController?.pushViewController(myPurchaseVC, animated: true)
-            }
-            alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
-            alertView.showCustom("Transaksi", subTitle: "Hi, masih ada \(unpaid) transaksi yang belum kamu bayar loh! Bayar sekarang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
-        } else {
-            Constant.showDialog("Transaksi", message: "Kamu sedang tidak memiliki transaksi aktif")
-        }
-    }
-    */
+     func createUnpaidButton(_ num : Int)->UIButton {
+     return createButtonWithIconAndNumber(UIImage(named: "ic_wjp_exclamation.png")!, num: num)
+     }
+     
+     func setupOption(_ count: Int) {
+     if count > 0 {
+     self.unpaid = count
+     let troli = createUnpaidButton(count)
+     
+     troli.addTarget(self, action: #selector(Checkout2ShipViewController.launchUnpaid), for: UIControlEvents.touchUpInside)
+     
+     let troliRecognizer = UITapGestureRecognizer(target: self, action: #selector(Checkout2ShipViewController.launchUnpaid))
+     troli.viewWithTag(100)?.addGestureRecognizer(troliRecognizer)
+     
+     self.navigationItem.rightBarButtonItems = [troli.toBarButton()]
+     } else {
+     self.navigationItem.rightBarButtonItems = []
+     }
+     }
+     
+     func launchUnpaid() {
+     if self.unpaid > 0 {
+     let alertView = SCLAlertView(appearance: Constant.appearance)
+     alertView.addButton("Bayar") {
+     /*
+     let notifPageVC = Bundle.main.loadNibNamed(Tags.XibNameNotifAnggiTabBar, owner: nil, options: nil)?.first as! NotifAnggiTabBarViewController
+     notifPageVC.previousScreen = PageName.Checkout
+     */
+     
+     let myPurchaseVC = Bundle.main.loadNibNamed(Tags.XibNameMyPurchaseTransaction, owner: nil, options: nil)?.first as! MyPurchaseTransactionViewController
+     myPurchaseVC.previousScreen = PageName.Checkout
+     self.navigationController?.pushViewController(myPurchaseVC, animated: true)
+     }
+     alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
+     alertView.showCustom("Transaksi", subTitle: "Hi, masih ada \(unpaid) transaksi yang belum kamu bayar loh! Bayar sekarang?", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
+     } else {
+     Constant.showDialog("Transaksi", message: "Kamu sedang tidak memiliki transaksi aktif")
+     }
+     }
+     */
     
     func setupOption(_ count: Int) {
         if count > 0 {
@@ -983,9 +983,9 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
         }
         
         /*
-        self.tableView.reloadData()
-        
-        self.hideLoading()
+         self.tableView.reloadData()
+         
+         self.hideLoading()
          */
     }
     
@@ -1034,8 +1034,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                 if idx.row == 0 {
                     return Checkout2PaymentMethodCell.heightFor()
                 } /*else {
-                    return 1.0 //Checkout2BlackWhiteCell.heightFor()
-                }*/
+                 return 1.0 //Checkout2BlackWhiteCell.heightFor()
+                 }*/
             } else if idx.section <= cartResult.cartDetails.count {
                 if idx.row == 0 {
                     return Checkout2CourierCell.heightFor()
@@ -1116,15 +1116,15 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     
                     return cell
                 } /*else if idx.row == 1 {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2BlackWhiteCell") as! Checkout2BlackWhiteCell
-                    
-                    cell.selectionStyle = .none
-                    cell.clipsToBounds = true
-                    
-                    cell.consHeightVwLine1px.constant = 2.0
-                    
-                    return cell
-                }*/
+                 let cell = tableView.dequeueReusableCell(withIdentifier: "Checkout2BlackWhiteCell") as! Checkout2BlackWhiteCell
+                 
+                 cell.selectionStyle = .none
+                 cell.clipsToBounds = true
+                 
+                 cell.consHeightVwLine1px.constant = 2.0
+                 
+                 return cell
+                 }*/
             } else if ((indexPath as NSIndexPath).section <= cartResult.cartDetails.count) {
                 // MARK: - Product Sections
                 if idx.row == 0 {
@@ -1371,7 +1371,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                         cell.continueToPayment = {
                             // do nothing
                         }
-                    
+                        
                         return cell
                     } else {
                         //for sewa product description
@@ -1628,7 +1628,7 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                         } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .mandiriClickpay {
                             let mandiriClickpayCharge = (self.cartResult.veritransCharge?.mandiriClickpay)!
-                        
+                            
                             self.paymentMethods[self.selectedPaymentIndex].charge = mandiriClickpayCharge
                             
                         } else if self.paymentMethods[self.selectedPaymentIndex].methodDetail == .mandiriEcash {
@@ -2298,10 +2298,10 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
             
             var bufferstart = buffer_start_date
             var bufferend = buffer_end_date
-           
+            
             if (self.cartResult.cartDetails[0].shippingPackages[self.selectedOngkirIndexes[0]].isMeetup){
-                    bufferstart = ""
-                    bufferend = ""
+                bufferstart = ""
+                bufferend = ""
             }
             
             let _ = request(APICartRent.checkoutRent(seller_id: seller_id, product_id: product_id, shipping_package_id: self.cartResult.cartDetails[0].shippingPackages[self.selectedOngkirIndexes[0]].id, start_date: start_date, end_date: end_date, buffer_start_date: bufferstart, buffer_end_date: bufferend, shipping_address: a!, voucher_serial: (self.isVoucherUsed ? self.voucherSerial! : ""), payment_method: self.paymentMethods[self.selectedPaymentIndex].methodDetail.value, prelobalance_used: (self.isBalanceUsed ? self.preloBalanceUsed : 0), bonus_used: self.preloBonusUsed, banktransfer_digit: self.paymentMethods[0].charge, platform_sent_from: "ios", target_bank: (self.isDropdownMode ? self.targetBank : ""))).responseJSON(completionHandler: { (resp) in
@@ -2564,6 +2564,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             if self.paymentMethods[self.selectedPaymentIndex].methodDetail.value == "Permata VA" {
                                 // back & push
                                 if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                    self.removeCalendarView()
+                                    
                                     let navController = self.navigationController!
                                     var controllers = navController.viewControllers
                                     controllers.removeLast()
@@ -2590,6 +2592,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                self.removeCalendarView()
+                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -2613,6 +2617,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                self.removeCalendarView()
+                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -2649,6 +2655,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                self.removeCalendarView()
+                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -2672,6 +2680,8 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
+                                self.removeCalendarView()
+                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -3017,6 +3027,13 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     }
     
     func durasiSewaClick() {
-//        self.dismiss(animated: true, completion: nil)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    func removeCalendarView() {
+        // remove view calendar picker
+        var navCon: [UIViewController] = (self.navigationController?.viewControllers)!
+        navCon.remove(at: (navCon.count - 2))
+        self.navigationController?.viewControllers = navCon
     }
 }

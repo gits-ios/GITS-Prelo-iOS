@@ -42,7 +42,7 @@
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/MyProductTransactionViewController.swift"
-                  timestampString = "528714620.288036"
+                  timestampString = "528783709.629699"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "156"
@@ -57,7 +57,7 @@
                   moduleName = "Prelo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/MyProductTransactionViewController.swift"
-                  timestampString = "528714620.297961"
+                  timestampString = "528783709.632934"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "156"
@@ -129,38 +129,6 @@
             endingLineNumber = "1391"
             landmarkName = "beli(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Prelo.TawarViewController.beli (Swift.Optional&lt;__ObjC.UIView&gt;) -&gt; ()"
-                  moduleName = "Prelo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/TawarViewController.swift"
-                  timestampString = "528714620.332654"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1391"
-                  endingLineNumber = "1391"
-                  offsetFromSymbolStart = "8038">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Prelo.TawarViewController.beli (Swift.Optional&lt;__ObjC.UIView&gt;) -&gt; ()"
-                  moduleName = "Prelo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/TawarViewController.swift"
-                  timestampString = "528714620.335877"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1391"
-                  endingLineNumber = "1391"
-                  offsetFromSymbolStart = "8879">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -209,38 +177,6 @@
             endingLineNumber = "1343"
             landmarkName = "gotoShopPage(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Prelo.TawarViewController.gotoShopPage (Swift.AnyObject) -&gt; ()"
-                  moduleName = "Prelo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/TawarViewController.swift"
-                  timestampString = "528714620.386546"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1343"
-                  endingLineNumber = "1343"
-                  offsetFromSymbolStart = "2008">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Prelo.TawarViewController.gotoShopPage (Swift.AnyObject) -&gt; ()"
-                  moduleName = "Prelo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/TawarViewController.swift"
-                  timestampString = "528714620.396586"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1343"
-                  endingLineNumber = "1343"
-                  offsetFromSymbolStart = "3838">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -273,38 +209,6 @@
             endingLineNumber = "1337"
             landmarkName = "gotoShopPage(_:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Prelo.TawarViewController.gotoShopPage (Swift.AnyObject) -&gt; ()"
-                  moduleName = "Prelo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/TawarViewController.swift"
-                  timestampString = "528714620.432185"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1337"
-                  endingLineNumber = "1337"
-                  offsetFromSymbolStart = "800">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Prelo.TawarViewController.gotoShopPage (Swift.AnyObject) -&gt; ()"
-                  moduleName = "Prelo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/gitsindonesia/ios_prelo/Prelo/Classes/Controller/TawarViewController.swift"
-                  timestampString = "528714620.437493"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "1337"
-                  endingLineNumber = "1337"
-                  offsetFromSymbolStart = "3830">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -319,8 +223,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1345"
             endingLineNumber = "1345"
-            landmarkName = "gotoShopPage(_:)"
-            landmarkType = "7">
+            landmarkName = "TawarViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -522,44 +426,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Prelo/Classes/Controller/Checkout2ShipViewController.swift"
-            timestampString = "528712223.01713"
+            timestampString = "528780178.618544"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1238"
-            endingLineNumber = "1238"
-            landmarkName = "adapt(_:isSewaProduct:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Prelo/Classes/Controller/Checkout2ShipViewController.swift"
-            timestampString = "528712223.375036"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1236"
-            endingLineNumber = "1236"
-            landmarkName = "adapt(_:isSewaProduct:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Prelo/Classes/Controller/Checkout2ShipViewController.swift"
-            timestampString = "528712224.299019"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1240"
-            endingLineNumber = "1240"
-            landmarkName = "adapt(_:isSewaProduct:)"
+            startingLineNumber = "836"
+            endingLineNumber = "836"
+            landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
