@@ -13,6 +13,7 @@ class ItemListCell: UITableViewCell {
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet var imgFreeOngkir: UIImageView!
     @IBOutlet weak var lblProductName: UILabel!
+    @IBOutlet var lblDraft: UILabel!
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet var iconPrice: UIImageView!
     @IBOutlet var lblRentPrice: UILabel!
@@ -37,6 +38,7 @@ class ItemListCell: UITableViewCell {
         
         imgFreeOngkir.isHidden = true
         vwShareStatus.isHidden = true
+        lblDraft.isHidden = true
         lblInstagram.textColor = UIColor.lightGray
         lblFacebook.textColor = UIColor.lightGray
         lblTwitter.textColor = UIColor.lightGray

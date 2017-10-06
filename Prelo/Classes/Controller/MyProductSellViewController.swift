@@ -333,6 +333,13 @@ class MyProductSellViewController: BaseViewController, UITableViewDataSource, UI
                     cell.lblPrice.text = p.price.int.asPrice
                 }
                 
+                // Show draft status if item is not uploaded
+                if p.isUploading != true {
+                    cell.lblDraft.isHidden = false
+                } else {
+                    cell.lblDraft.isHidden = true
+                }
+                
                 if p.priceRent.int != 0 {
                     cell.lblRentPrice.text = p.priceRent.int.asPrice
                 }

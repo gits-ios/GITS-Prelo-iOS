@@ -89,7 +89,7 @@ enum AddProduct3SectionType {
         case .weight           : return "BERAT"
         case .postalFee        : return "ONGKOS KIRIM"
         case .rentPeriod       : return "PERIODE SEWA"
-        case .meetUp           : return "PENGIRIMAN SEWAAN"
+        case .meetUp           : return "PENGIRIMAN BARANG SEWA"
         case .rentSellOnOff    : return "SEWA" // "SEWA" | "JUAL" // override
         case .price            : return "HARGA"
         }
@@ -427,9 +427,9 @@ class AddProductViewController3: BaseViewController {
             
             // init title
             if self.product.addProductType == .sell {
-                self.title = "Jual"
+                self.title = "Jual Barang"
             } else {
-                self.title = "Sewa"
+                self.title = "Sewa Barang"
             }
             
             if self.product.isEditMode {
@@ -614,12 +614,13 @@ class AddProductViewController3: BaseViewController {
                 self.product.imagesIndex.append(i)
                 // load images
                 
-                let image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)
+                var image = TemporaryImageManager.sharedInstance.loadImageFromDocumentsDirectory(imageName: imgs[i]["url"].stringValue)
                 if image == nil {
                     print ("Failed to load image")
+                    image = UIImage.init(named: "raisa.jpg")
                 }
                 let orientation = UIImageOrientation.init(rawValue: imgs[i]["orientation"].stringValue.int)
-                
+ 
                 let img = UIImage(cgImage: (image?.cgImage)!, scale: 1, orientation: orientation!)
                 
                 self.product.imagesDetail.append(PreviewImage.init(image: img, url: imgs[i]["url"].stringValue, label: imgs[i]["label"].stringValue, orientation: imgs[i]["orientation"].stringValue.int))
@@ -703,6 +704,19 @@ class AddProductViewController3: BaseViewController {
     }
     
     func openWebView(_ urlPathString: String, title: String?) {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
+        
+        helpVC.url = "https://prelo.co.id/" + urlPathString + "?ref=preloapp"
+        helpVC.titleString = title ?? "Bantuan"
+        helpVC.contactPreloMode = true
+        let baseNavC = BaseNavigationController()
+        baseNavC.setViewControllers([helpVC], animated: false)
+        
+        self.present(baseNavC, animated: true, completion: nil)
+    }
+    
+    func openWebViewSyaratDanKetentuan(_ urlPathString: String, title: String?) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         
@@ -1684,6 +1698,40 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 self.navigationController?.pushViewController(imagePicker, animated: true)
             }
             
+            cell.openAddNewImagePicker = {
+                let imagePicker = Bundle.main.loadNibNamed(Tags.XibNameMultipleImagePicker, owner: nil, options: nil)?.first as! AddProduct3ListImagesViewController
+                
+                imagePicker.previewImages = self.product.imagesDetail
+                imagePicker.index = self.product.imagesIndex
+                imagePicker.labels = self.labels
+                imagePicker.maxImages = self.maxImages
+                imagePicker.localId = self.product.localId
+                
+                imagePicker.blockDone = { previewImages, index in
+                    self.product.imagesDetail = previewImages
+                    self.product.imagesIndex = index
+                    
+                    var indexPaths: Array<IndexPath> = []
+                    indexPaths.append(indexPath)
+                    
+                    let idx = self.findSectionFromType(.checklist)
+                    if idx > -1 {
+                        indexPaths.append(IndexPath.init(row: 1, section: idx))
+                    }
+                    
+                    self.product.isStartInput = true
+                    
+                    self.tableView.reloadRows(at: indexPaths, with: .fade)
+                }
+                
+                // gesture override
+                self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+                
+                self.navigationController?.pushViewController(imagePicker, animated: true)
+                
+                imagePicker.btnAddImagesPressed(self)
+            }
+            
             return cell
         case .productDetail:
             if row == 0 {
@@ -2267,7 +2315,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 cell.adapt(self, product: self.product)
                 
                 cell.openWebView = { urlString in
-                    self.openWebView(urlString, title: nil)
+                    self.openWebView("syarat-ketentuan", title: "Syarat dan Ketentuan")
                 }
                 
                 return cell
@@ -2448,6 +2496,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     var url: String = ""
     var openWebView: (_ url: String)->() = {_ in }
     var openImagePicker: ()->() = {}
+    var openAddNewImagePicker: ()->() = {}
     
     var maxImages = 10
     
@@ -2481,8 +2530,8 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
         layout.itemSize = CGSize(width: 82, height: 82)
-        layout.minimumInteritemSpacing = 4
-        layout.minimumLineSpacing = 4
+        layout.minimumInteritemSpacing = 8
+        layout.minimumLineSpacing = 8
         layout.scrollDirection = .horizontal
         self.collectionView.collectionViewLayout = layout
         
@@ -2538,8 +2587,13 @@ extension AddProduct3ImagesPreviewCell: UICollectionViewDelegate, UICollectionVi
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // open image picker
-        self.openImagePicker()
+        if self.images.count < maxImages && indexPath.row == self.images.count {
+            // open image picker and add new image simultaneously
+            self.openAddNewImagePicker()
+        } else {
+            // open image picker
+            self.openImagePicker()
+        }
     }
 }
 

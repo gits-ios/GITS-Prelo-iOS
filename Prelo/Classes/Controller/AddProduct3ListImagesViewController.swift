@@ -83,7 +83,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
         self.view.addSubview(vwLeft)
         self.view.bringSubview(toFront: vwLeft)
         
-        self.title = "Pilih Gambar"
+        self.title = "Edit Gambar"
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -167,7 +167,9 @@ class AddProduct3ListImagesViewController: BaseViewController {
             self.present(pickerController, animated: true) {}
         } else {
             Constant.showDialog("Ambil Gambar", message: "Gambar sudah maksimal")
+            self.hideLoading()
         }
+        self.hideLoading()
     }
     
     func gotoBack() {
@@ -450,11 +452,11 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
             
             // one image only
             /*
-            c.labels = [ self.previewImages[index].label ]
-            c.images = [ self.previewImages[index].url ]
-            c.imagesOrientation = [ self.previewImages[index].orientation ?? 0 ]
-            c.index = 0
-            */
+             c.labels = [ self.previewImages[index].label ]
+             c.images = [ self.previewImages[index].url ]
+             c.imagesOrientation = [ self.previewImages[index].orientation ?? 0 ]
+             c.index = 0
+             */
             
             // all image will present
             self.imagesPreviewSplit(&c.images, labels: &c.labels, orientation: &c.imagesOrientation)
@@ -469,37 +471,37 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
     func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
         // disabled
         /*
-        // buggy
-        /*
-        if let cell = tableView.cellForRow(at: indexPath) {
-            if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
-                return false
-            } else {
-                return true
-            }
-        }
-        */
-        if indexPath.row == 0 {
-            return false
-        }
-        */
+         // buggy
+         /*
+         if let cell = tableView.cellForRow(at: indexPath) {
+         if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
+         return false
+         } else {
+         return true
+         }
+         }
+         */
+         if indexPath.row == 0 {
+         return false
+         }
+         */
         return true
     }
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         // disabled
         /*
-        if destinationIndexPath.row == 0 {
-            Constant.showDialog("Pindah Gambar", message: "Selain \"Gambar Utama\" tidak dapat dipasang sebagai gambar pertama")
-            //self.tableView.isEditing = false
-            self.tableView.reloadData()
-            // buggy
-            /*
-            self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
-            */
-            return
-        }
-        */
+         if destinationIndexPath.row == 0 {
+         Constant.showDialog("Pindah Gambar", message: "Selain \"Gambar Utama\" tidak dapat dipasang sebagai gambar pertama")
+         //self.tableView.isEditing = false
+         self.tableView.reloadData()
+         // buggy
+         /*
+         self.tableView.reloadSections(IndexSet.init(integer: 0), with: .fade)
+         */
+         return
+         }
+         */
         
         let itemToMove = self.index[sourceIndexPath.row]
         self.index.remove(at: sourceIndexPath.row)
@@ -507,12 +509,12 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         
         // buggy
         /*
-        let labelsrc = self.previewImages[self.index[sourceIndexPath.row]].label
-        let labeldes = self.previewImages[self.index[destinationIndexPath.row]].label
-        
-        self.previewImages[self.index[sourceIndexPath.row]].label = labeldes
-        self.previewImages[self.index[destinationIndexPath.row]].label = labelsrc
-        */
+         let labelsrc = self.previewImages[self.index[sourceIndexPath.row]].label
+         let labeldes = self.previewImages[self.index[destinationIndexPath.row]].label
+         
+         self.previewImages[self.index[sourceIndexPath.row]].label = labeldes
+         self.previewImages[self.index[destinationIndexPath.row]].label = labelsrc
+         */
         
         self.tableView.reloadData()
         
@@ -539,20 +541,20 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         if self.tableView.isEditing {
             // disabled
             /*
-            // buggy
-            /*
-            if let cell = tableView.cellForRow(at: indexPath) {
-                if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
-                    return false
-                } else {
-                    return true
-                }
-            }
-            */
-            if indexPath.row == 0 {
-                return false
-            }
-            */
+             // buggy
+             /*
+             if let cell = tableView.cellForRow(at: indexPath) {
+             if (cell as! AddProduct3ListImagesCell).lblLabel.text == "Gambar Utama" {
+             return false
+             } else {
+             return true
+             }
+             }
+             */
+             if indexPath.row == 0 {
+             return false
+             }
+             */
             return true
         }
         return false
