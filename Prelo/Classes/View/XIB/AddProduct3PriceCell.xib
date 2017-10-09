@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XO4-js-Ph6" userLabel="Field Harga Ketika Beli">
-                        <rect key="frame" x="12" y="4" width="351" height="40"/>
+                        <rect key="frame" x="12" y="0.0" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Ketika Beli" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pcH-H6-zXo">
                                 <rect key="frame" x="0.0" y="0.0" width="248" height="40"/>
@@ -71,7 +71,7 @@
                         </constraints>
                     </view>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Edt-aT-uny" userLabel="Field Harga Jual di Prelo">
-                        <rect key="frame" x="12" y="44" width="351" height="40"/>
+                        <rect key="frame" x="12" y="40" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Jual di Prelo" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gl-LP-uNf">
                                 <rect key="frame" x="0.0" y="0.0" width="248" height="40"/>
@@ -122,7 +122,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vzt-b0-oYa" userLabel="Field Harga Sewa">
-                        <rect key="frame" x="12" y="84" width="351" height="40"/>
+                        <rect key="frame" x="12" y="80" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P3h-uh-Eh6">
                                 <rect key="frame" x="0.0" y="0.0" width="265.5" height="40"/>
@@ -206,7 +206,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UmS-gN-ATB" userLabel="Field Harga Deposit Sewa">
-                        <rect key="frame" x="12" y="124" width="351" height="40"/>
+                        <rect key="frame" x="12" y="120" width="351" height="40"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Harga Deposit Sewa" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Jc5-iQ-HUk">
                                 <rect key="frame" x="0.0" y="0.0" width="248" height="40"/>
@@ -257,7 +257,7 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hkj-rK-FyU">
-                        <rect key="frame" x="12" y="172" width="351" height="76"/>
+                        <rect key="frame" x="12" y="168" width="351" height="80"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-standar-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="EhD-oJ-QCu">
                                 <rect key="frame" x="8" y="8" width="37" height="37"/>
@@ -326,7 +326,7 @@
                             <constraint firstAttribute="trailing" secondItem="yAU-B0-gZm" secondAttribute="trailing" constant="8" id="4bb-Jh-dRz"/>
                             <constraint firstItem="eEe-fb-XEr" firstAttribute="leading" secondItem="yAU-B0-gZm" secondAttribute="leading" id="Ajs-B1-C9e"/>
                             <constraint firstAttribute="trailing" secondItem="0py-yc-zw8" secondAttribute="trailing" constant="8" id="K5M-0R-KCg"/>
-                            <constraint firstAttribute="bottom" secondItem="yAU-B0-gZm" secondAttribute="bottom" constant="8" id="SZS-Xy-eMp"/>
+                            <constraint firstAttribute="bottom" secondItem="yAU-B0-gZm" secondAttribute="bottom" constant="12" id="SZS-Xy-eMp"/>
                             <constraint firstItem="0py-yc-zw8" firstAttribute="leading" secondItem="EhD-oJ-QCu" secondAttribute="trailing" constant="8" id="Wmc-st-kcg"/>
                             <constraint firstItem="yAU-B0-gZm" firstAttribute="top" secondItem="0py-yc-zw8" secondAttribute="bottom" id="gIK-BC-qOS"/>
                             <constraint firstItem="0py-yc-zw8" firstAttribute="top" secondItem="Hkj-rK-FyU" secondAttribute="top" constant="8" id="kUM-F3-q0f"/>
@@ -340,7 +340,7 @@
                     <constraint firstAttribute="trailingMargin" secondItem="XO4-js-Ph6" secondAttribute="trailing" constant="4" id="20d-kK-gDl"/>
                     <constraint firstItem="Edt-aT-uny" firstAttribute="leading" secondItem="XO4-js-Ph6" secondAttribute="leading" id="3mf-PV-DVS"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Hkj-rK-FyU" secondAttribute="trailing" constant="4" id="AOE-B1-c7z"/>
-                    <constraint firstItem="XO4-js-Ph6" firstAttribute="top" secondItem="O7q-xs-J4Z" secondAttribute="topMargin" constant="-4" id="Fu9-u3-JjN"/>
+                    <constraint firstItem="XO4-js-Ph6" firstAttribute="top" secondItem="O7q-xs-J4Z" secondAttribute="topMargin" constant="-8" id="Fu9-u3-JjN"/>
                     <constraint firstItem="vzt-b0-oYa" firstAttribute="leading" secondItem="Edt-aT-uny" secondAttribute="leading" id="IiJ-CZ-cgG"/>
                     <constraint firstItem="Edt-aT-uny" firstAttribute="top" secondItem="XO4-js-Ph6" secondAttribute="bottom" id="LyE-zN-KQf"/>
                     <constraint firstItem="UmS-gN-ATB" firstAttribute="trailing" secondItem="vzt-b0-oYa" secondAttribute="trailing" id="Uul-WM-EHC"/>

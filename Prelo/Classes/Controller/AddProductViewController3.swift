@@ -72,9 +72,9 @@ enum AddProduct3SectionType {
         case .checklist        : return "ic_box"
         case .weight           : return "ic_berat"
         case .postalFee        : return "ic_ongkir"
-        case .rentPeriod       : return "placeholder-circle"
+        case .rentPeriod       : return "ic-rent-white"
         case .meetUp           : return "ic_ongkir"
-        case .rentSellOnOff    : return "placeholder-circle"
+        case .rentSellOnOff    : return "ic_ongkir"
         case .price            : return "ic_harga"
         }
     }
@@ -1074,7 +1074,7 @@ class AddProductViewController3: BaseViewController {
         for label in self.labels {
             isOke = false
             for img in self.product.imagesDetail {
-                if label == img.label {
+                if label == img.label || label == "Cacat (Opsional)"{
                     isOke = true
                     break
                 }
@@ -2681,7 +2681,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
         ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
         self.txtDescription.inputAccessoryView = ViewForDoneButtonOnKeyboard
     }
-
+    
     func doneBtnfromKeyboardClicked() {
         self.parent.product.description = self.txtDescription.text!
         self.txtDescription.resignFirstResponder()
@@ -3140,18 +3140,18 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
 }
 
 extension AddProduct3ProductAuthVerificationCell: UITextFieldDelegate {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        self.parent.product.isStartInput = true
-//        if textField == self.txtStyleName {
-//            self.parent.product.styleName = self.txtStyleName.text!
-//        } else if textField == self.txtSerialNumber {
-//            self.parent.product.serialNumber = self.txtSerialNumber.text!
-//        } else if textField == self.txtLokasiBeli {
-//            self.parent.product.lokasiBeli = self.txtLokasiBeli.text!
-//        }
-//        return true
-//    }
+    //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    //        textField.resignFirstResponder()
+    //        self.parent.product.isStartInput = true
+    //        if textField == self.txtStyleName {
+    //            self.parent.product.styleName = self.txtStyleName.text!
+    //        } else if textField == self.txtSerialNumber {
+    //            self.parent.product.serialNumber = self.txtSerialNumber.text!
+    //        } else if textField == self.txtLokasiBeli {
+    //            self.parent.product.lokasiBeli = self.txtLokasiBeli.text!
+    //        }
+    //        return true
+    //    }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.parent.product.isStartInput = true
         self.parent.product.styleName = self.txtStyleName.text!
@@ -3489,7 +3489,7 @@ class AddProduct3PriceCell: UITableViewCell {
         } else if isSell {
             return 88
         }
-        return 176 + t.height // count subtitle height
+        return 180 + t.height // count subtitle height
     }
     
     @IBAction func btnFAQPressed(_ sender: Any) {
@@ -3548,7 +3548,7 @@ class AddProduct3ChargeCell: UITableViewCell {
             self.lblCharge.text = sub // AddProduct3 VC:chargeLabel
         }
         
-        self.consTopBtnSubmit.constant = h
+//        self.consTopBtnSubmit.constant = h
     }
     
     // 162, count teks, hide unhide button hapus
@@ -3558,7 +3558,7 @@ class AddProduct3ChargeCell: UITableViewCell {
             let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
             h = t.height
         }
-        return 104 + (isEditDraftMode ? 48.0 : 0) + h // count subtitle height
+        return 104 + (isEditDraftMode ? 80.0 : 0) + h // count subtitle height
     }
     
     @IBAction func btnSubmitPressed(_ sender: Any) {
@@ -3863,7 +3863,18 @@ extension AddProduct3SizeCell: AKPickerViewDelegate, AKPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: AKPickerView!, titleForItem item: Int) -> String! {
-        return sizes[item]
+        // Fix for MOFO AGE not shown
+        var itemSizeTitle = sizes[item]
+        itemSizeTitle = itemSizeTitle.replacingOccurrences(of: "\n", with: "/")
+        if (String(itemSizeTitle.characters.suffix(1)) == "/") {
+            itemSizeTitle = String(itemSizeTitle.characters.dropLast())
+            if (String(itemSizeTitle.characters.suffix(1)) == "/") {
+                itemSizeTitle = String(itemSizeTitle.characters.dropLast())
+            }
+            return itemSizeTitle
+        } else {
+            return sizes[item]
+        }
     }
     
     func pickerView(_ pickerView: AKPickerView!, didSelectItem item: Int) {
@@ -3871,6 +3882,9 @@ extension AddProduct3SizeCell: AKPickerViewDelegate, AKPickerViewDataSource {
         s = s.replacingOccurrences(of: "\n", with: "/")
         if (String(s.characters.suffix(1)) == "/") {
             s = String(s.characters.dropLast())
+            if (String(s.characters.suffix(1)) == "/") {
+                s = String(s.characters.dropLast())
+            }
         }
         self.txtSize.text = s
         self.parent.product.size = s
@@ -3878,14 +3892,14 @@ extension AddProduct3SizeCell: AKPickerViewDelegate, AKPickerViewDataSource {
 }
 
 extension AddProduct3SizeCell: UITextFieldDelegate {
-//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-//        textField.resignFirstResponder()
-//        self.parent.product.isStartInput = true
-//        if textField == self.txtSize {
-//            self.parent.product.size = self.txtSize.text!
-//        }
-//        return true
-//    }
+    //    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+    //        textField.resignFirstResponder()
+    //        self.parent.product.isStartInput = true
+    //        if textField == self.txtSize {
+    //            self.parent.product.size = self.txtSize.text!
+    //        }
+    //        return true
+    //    }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.parent.product.isStartInput = true
         self.parent.product.size = self.txtSize.text!

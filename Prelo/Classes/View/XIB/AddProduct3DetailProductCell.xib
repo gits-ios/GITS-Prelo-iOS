@@ -349,7 +349,7 @@
                                 <color key="textColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(optional) mis: Hadiah mantan" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qAr-qb-E9o">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="(opsional) mis: Hadiah mantan" textAlignment="right" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qAr-qb-E9o">
                                 <rect key="frame" x="93.5" y="0.0" width="257.5" height="40"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="40" id="w6W-ob-RKG"/>

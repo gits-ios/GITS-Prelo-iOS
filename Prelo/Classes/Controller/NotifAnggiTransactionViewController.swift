@@ -640,7 +640,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
         lblTrxStatus.text = notif.statusText
         lblPrice.text = notif.shortPreview
         lblTime.text = notif.time
-        lblPrice.isHidden = isPriceHidden
+        lblPrice.isHidden = true
+//        lblPrice.isHidden = isPriceHidden
         
         // Set trx status text color
         if (notif.progress < 0 || notif.progress == 34 || TransactionDetailTools.isNegativeProgress(notif.progress)) {

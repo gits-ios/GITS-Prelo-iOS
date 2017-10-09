@@ -13,6 +13,7 @@ typealias BlockImagesSelected = (_ images: Array<PreviewImage>, _ index: Array<I
 
 class AddProduct3ListImagesViewController: BaseViewController {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var viewLabelChipBackground: UIView!
     @IBOutlet weak var vwLabels: UIView!
     @IBOutlet weak var consHeightVwLabels: NSLayoutConstraint!
     @IBOutlet weak var btnAddImages: UIButton!
@@ -101,8 +102,6 @@ class AddProduct3ListImagesViewController: BaseViewController {
     }
     
     @IBAction func btnAddImagesPressed(_ sender: Any) {
-        self.showLoading()
-        
         if self.maxImages - self.previewImages.count > 0 {
             let pickerController = DKImagePickerController()
             
@@ -111,6 +110,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
                 //print(assets)
                 
                 for asset in assets {
+                    self.showLoading()
                     asset.fetchOriginalImage(true, completeBlock: { img, info in
                         
                         // set init id
@@ -127,8 +127,10 @@ class AddProduct3ListImagesViewController: BaseViewController {
                             
                             // save image to temporary
                             let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
+                                self.hideLoading()
                             if (pathToSavedImage == nil) {
                                 print("Failed to save image")
+                                self.hideLoading()
                             }
                         }
                         
@@ -144,8 +146,6 @@ class AddProduct3ListImagesViewController: BaseViewController {
                                 self.previewImages[self.index[lastIndex]].label = "Lainnya"
                             }
                         }
-                        
-                        self.hideLoading()
                     })
                 }
                 
@@ -170,7 +170,6 @@ class AddProduct3ListImagesViewController: BaseViewController {
             Constant.showDialog("Ambil Gambar", message: "Gambar sudah maksimal")
             self.hideLoading()
         }
-        self.hideLoading()
     }
     
     func gotoBack() {
@@ -261,6 +260,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
     
     func setupLabels() {
         // Remove all first
+        self.viewLabelChipBackground.isHidden = true
         self.consHeightVwLabels.constant = 0
         let arrx = vwLabels.subviews
         for v in arrx {
@@ -276,6 +276,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
             var curMaxY : CGFloat = 8.0
             for s in arr {
                 if !self.isLabelExist(s) {
+                    self.viewLabelChipBackground.isHidden = false
                     let tag = SearchTag.instance(s)
                     tag.x = x
                     tag.y = y
@@ -295,6 +296,8 @@ class AddProduct3ListImagesViewController: BaseViewController {
                     tag.addGestureRecognizer(tap)
                     tag.isUserInteractionEnabled = true
                     tag.captionTitle.isUserInteractionEnabled = true
+                    tag.captionTitle.textColor = UIColor.white
+                    tag.backgroundColor = Theme.PrimaryColor
                     
                     self.vwLabels.addSubview(tag)
                     self.consHeightVwLabels.constant = tag.maxY
@@ -306,7 +309,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
                 self.consHeightVwLabels.constant += 9.0
                 
                 let line1px = UIView(frame: CGRect(x: 0, y: self.consHeightVwLabels.constant - 1, width: self.vwLabels.width, height: 1))
-                line1px.backgroundColor = UIColor.darkGray
+                line1px.backgroundColor = UIColor.white
                 self.vwLabels.addSubview(line1px)
             }
         }
