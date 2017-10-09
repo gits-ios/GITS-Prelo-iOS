@@ -23,6 +23,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
     var maxImages = 10
     
     var labels: Array<String> = []
+    var completeLabels: Array<String> = []
     
     var isFirst = true
     

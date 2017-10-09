@@ -620,7 +620,7 @@ class AddProductViewController3: BaseViewController {
                     image = UIImage.init(named: "raisa.jpg")
                 }
                 let orientation = UIImageOrientation.init(rawValue: imgs[i]["orientation"].stringValue.int)
- 
+                
                 let img = UIImage(cgImage: (image?.cgImage)!, scale: 1, orientation: orientation!)
                 
                 self.product.imagesDetail.append(PreviewImage.init(image: img, url: imgs[i]["url"].stringValue, label: imgs[i]["label"].stringValue, orientation: imgs[i]["orientation"].stringValue.int))
@@ -704,19 +704,6 @@ class AddProductViewController3: BaseViewController {
     }
     
     func openWebView(_ urlPathString: String, title: String?) {
-        let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
-        
-        helpVC.url = "https://prelo.co.id/" + urlPathString + "?ref=preloapp"
-        helpVC.titleString = title ?? "Bantuan"
-        helpVC.contactPreloMode = true
-        let baseNavC = BaseNavigationController()
-        baseNavC.setViewControllers([helpVC], animated: false)
-        
-        self.present(baseNavC, animated: true, completion: nil)
-    }
-    
-    func openWebViewSyaratDanKetentuan(_ urlPathString: String, title: String?) {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let helpVC = mainStoryboard.instantiateViewController(withIdentifier: "preloweb") as! PreloWebViewController
         
@@ -1073,9 +1060,9 @@ class AddProductViewController3: BaseViewController {
                 topLabel.numberOfLines = 0
                 topBanner.addSubview(topLabel)
                 //if (self.product.status == 5) {
-                    topLabel.text = tbText
-                    self.vwNotification.addSubview(topBanner)
-                    self.consHeightVwNotification.constant = topBannerHeight
+                topLabel.text = tbText
+                self.vwNotification.addSubview(topBanner)
+                self.consHeightVwNotification.constant = topBannerHeight
                 //}
             }
         }
@@ -1178,7 +1165,7 @@ class AddProductViewController3: BaseViewController {
         if self.product.isCategoryContainSize && !self.validateString(self.product.size, message: "Silahkan pilih ukuran") {
             return false
         }
-
+        
         var isOke = true
         for i in 0..<self.product.imagesDetail.count {
             if let img = self.product.imagesDetail[self.product.imagesIndex[i]].image {
@@ -1391,7 +1378,7 @@ class AddProductViewController3: BaseViewController {
             }
         }
     }
-
+    
     // MARK: - Navigation
     func handleBackPressedOrSwipe() {
         let title = self.product.isEditMode ? "Edit" : (self.product.addProductType == .sell ? "Jual" : "Sewa")
@@ -1481,7 +1468,7 @@ class AddProductViewController3: BaseViewController {
                 "ID"       : self.product.merkId,
                 "Name"     : self.product.merk,
                 "Verified" : (self.product.merkId != "" ? true : false)
-            ] as [String : Any]
+                ] as [String : Any]
             
             var pdata = [
                 "Local ID"       : self.product.localId,
@@ -1492,7 +1479,7 @@ class AddProductViewController3: BaseViewController {
                 "Weight"         : self.product.weight,
                 "Price Original" : self.product.hargaBeli,
                 "Price"          : self.product.hargaJual
-            ] as [String : Any]
+                ] as [String : Any]
             
             var isOke = true
             if let c = CDCategory.getCategoryWithID(self.product.categoryId) {
@@ -1548,7 +1535,7 @@ class AddProductViewController3: BaseViewController {
         let loginMethod = User.LoginMethod ?? ""
         let pdata = [
             "Product ID": self.product.localId
-        ] as [String : Any]
+            ] as [String : Any]
         
         AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.EraseProduct, data: pdata, previousScreen: self.screenBeforeAddProduct, loginMethod: loginMethod)
     }
@@ -1663,7 +1650,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             cell.adapt(self.product, maxImages: self.maxImages)
             
             cell.openWebView = { urlString in
-                self.openWebView(urlString, title: nil)
+                self.openWebView("tips-foto-jual-barang", title: "Tips Foto")
             }
             
             cell.openImagePicker = {
@@ -1672,6 +1659,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 imagePicker.previewImages = self.product.imagesDetail
                 imagePicker.index = self.product.imagesIndex
                 imagePicker.labels = self.labels
+                imagePicker.completeLabels = self.labels
                 imagePicker.maxImages = self.maxImages
                 imagePicker.localId = self.product.localId
                 
@@ -1779,38 +1767,38 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         
                         let dataJson = JSON(data)
                         /*
-                        if let imgName = dataJson["category_image_name"].string
-                        {
-                            if let imgUrl = URL(string: imgName) {
-                                self.ivImage.afSetImage(withURL: imgUrl)
-                            }
-                        }
-                        */
+                         if let imgName = dataJson["category_image_name"].string
+                         {
+                         if let imgUrl = URL(string: imgName) {
+                         self.ivImage.afSetImage(withURL: imgUrl)
+                         }
+                         }
+                         */
                         
                         self.getSizes()
                         
                         /*
-                        if let catLv2Name = dataJson["category_level2_name"].string {
-                            // Set placeholder for item name and description
-                            guard let filePath = Bundle.main.path(forResource: "AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
-                                //print("Couldn't load .plist as a dictionary")
-                                return
-                            }
-                            ////print("placehodlersDict = \(placeholdersDict)")
-                            
-                            let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercased())")
-                            let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluate(with: $0) }
-                            if let placeholderDict = placeholdersDict.dictionaryWithValues(forKeys: matchingKeys as! [String]).first?.1 {
-                                ////print("placehodlerDict = \(placeholderDict)")
-                                if let itemNamePlaceholder = (placeholderDict as AnyObject).object(forKey: "name") {
-                                    self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
-                                }
-                                if let descPlaceholder = (placeholderDict as AnyObject).object(forKey: "desc") {
-                                    self.txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: \(descPlaceholder)"
-                                }
-                            }
-                        }
-                        */
+                         if let catLv2Name = dataJson["category_level2_name"].string {
+                         // Set placeholder for item name and description
+                         guard let filePath = Bundle.main.path(forResource: "AddProductPlaceholder", ofType: "plist"), let placeholdersDict = NSDictionary(contentsOfFile: filePath) else {
+                         //print("Couldn't load .plist as a dictionary")
+                         return
+                         }
+                         ////print("placehodlersDict = \(placeholdersDict)")
+                         
+                         let predicate = NSPredicate(format: "SELF CONTAINS[cd] %@", "\(catLv2Name.lowercased())")
+                         let matchingKeys = placeholdersDict.allKeys.filter { predicate.evaluate(with: $0) }
+                         if let placeholderDict = placeholdersDict.dictionaryWithValues(forKeys: matchingKeys as! [String]).first?.1 {
+                         ////print("placehodlerDict = \(placeholderDict)")
+                         if let itemNamePlaceholder = (placeholderDict as AnyObject).object(forKey: "name") {
+                         self.txtName.placeholder = "mis: \(itemNamePlaceholder)"
+                         }
+                         if let descPlaceholder = (placeholderDict as AnyObject).object(forKey: "desc") {
+                         self.txtDescription.placeholder = "Spesifikasi barang (Opsional)\nmis: \(descPlaceholder)"
+                         }
+                         }
+                         }
+                         */
                         if let catLv1Id = dataJson["category_level1_id"].string {
                             if (catLv1Id == "55de6dbc5f6522562a2c73ef" || catLv1Id == "55de6dbc5f6522562a2c73f0") {
                                 self.product.isWomenMenCategory = true
@@ -1837,7 +1825,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                         self.hideLoading()
                     }
                     p.root = self
-                
+                    
                     // gesture override
                     self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
                     
@@ -1918,15 +1906,15 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                                     self.getLabels(true)
                                     
                                     /*
-                                    // Show submit label
-                                    if (self.editMode) {
-                                        if ((self.editProduct?.isFakeApprove)! || (self.editProduct?.isFakeApproveV2)!) {
-                                            self.lblSubmit.isHidden = true
-                                        } else {
-                                            self.lblSubmit.isHidden = false
-                                        }
-                                    }
-                                    */
+                                     // Show submit label
+                                     if (self.editMode) {
+                                     if ((self.editProduct?.isFakeApprove)! || (self.editProduct?.isFakeApproveV2)!) {
+                                     self.lblSubmit.isHidden = true
+                                     } else {
+                                     self.lblSubmit.isHidden = false
+                                     }
+                                     }
+                                     */
                                     
                                     self.product.isStartInput = true
                                     
@@ -2013,7 +2001,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 cell.adapt(listSections[section].icon, title: listSections[section].title, subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
                 
                 cell.openWebView = { urlString in
-                    self.openWebView(urlString, title: "Kelengkapan")
+                    self.openWebView("kelengkapan-jual-barang", title: "Kelengkapan")
                 }
                 
                 return cell
@@ -2163,7 +2151,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 }
                 cell.reloadRows = { _rows, _section in
                     print("ini dipanggil")
-//                    self.tableView.deleteRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
+                    //                    self.tableView.deleteRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
                     
                     
                     let sec = self.findSectionFromType(_section)
@@ -2551,7 +2539,7 @@ class AddProduct3ImagesPreviewCell: UITableViewCell {
     
     // 158 , (42) count teks height
     static func heightFor() -> CGFloat {
-        let sub = "Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada). Lihat tips barang Editor's Pick."
+        let sub = "Foto yang sebaiknya kamu upload adalah tampak depan, foto label/merek, tampak belakang, dan cacat (jika ada). Lihat tips foto barang Prelo."
         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
         return 108 + t.height // count subtitle height
     }
@@ -2693,7 +2681,7 @@ class AddProduct3DetailProductCell: UITableViewCell {
         ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
         self.txtDescription.inputAccessoryView = ViewForDoneButtonOnKeyboard
     }
-    
+
     func doneBtnfromKeyboardClicked() {
         self.parent.product.description = self.txtDescription.text!
         self.txtDescription.resignFirstResponder()
@@ -2746,24 +2734,32 @@ class AddProduct3DetailProductCell: UITableViewCell {
     }
 }
 
-extension AddProduct3DetailProductCell: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        self.parent.product.isStartInput = true
-        if textField == self.txtProductName {
-            self.parent.product.name = self.txtProductName.text!
-        } else if textField == self.txtCacat {
-            self.parent.product.cacat = self.txtCacat.text!
-        } else if textField == self.txtSpecialStory {
-            self.parent.product.specialStory = self.txtSpecialStory.text!
-        } else if textField == self.txtAlasanJual {
-            self.parent.product.alasanJual = self.txtAlasanJual.text!
-        }
-        return true
-    }
-}
+//extension AddProduct3DetailProductCell: UITextFieldDelegate {
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        self.parent.product.isStartInput = true
+//        if textField == self.txtProductName {
+//            self.parent.product.name = self.txtProductName.text!
+//        } else if textField == self.txtCacat {
+//            self.parent.product.cacat = self.txtCacat.text!
+//        } else if textField == self.txtSpecialStory {
+//            self.parent.product.specialStory = self.txtSpecialStory.text!
+//        } else if textField == self.txtAlasanJual {
+//            self.parent.product.alasanJual = self.txtAlasanJual.text!
+//        }
+//        return true
+//    }
+//}
 
-extension AddProduct3DetailProductCell: UITextViewDelegate {
+extension AddProduct3DetailProductCell: UITextViewDelegate, UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        self.parent.product.isStartInput = true
+        self.parent.product.name = self.txtProductName.text!
+        self.parent.product.cacat = self.txtCacat.text!
+        self.parent.product.specialStory = self.txtSpecialStory.text!
+        self.parent.product.alasanJual = self.txtAlasanJual.text!
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         self.parent.product.description = textView.text
         
@@ -2818,6 +2814,7 @@ class AddProduct3WeightCell: UITableViewCell {
         let btnDoneOnKeyboard = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.doneBtnfromKeyboardClicked))
         ViewForDoneButtonOnKeyboard.items = [flex, btnDoneOnKeyboard, UIBarButtonItem()]
         self.txtWeight.inputAccessoryView = ViewForDoneButtonOnKeyboard
+        self.txtWeight.addTarget(self, action: #selector(textWeightEndChange(_:)), for: .editingDidEndOnExit)
         
         self.img1kg.tint = true
         self.img12kg.tint = true
@@ -2836,10 +2833,18 @@ class AddProduct3WeightCell: UITableViewCell {
     }
     
     func doneBtnfromKeyboardClicked() {
-        self.parent.product.weight = self.txtWeight.text!
         self.txtWeight.resignFirstResponder()
         self.parent.product.isStartInput = true
         self.reloadThisRow()
+    }
+    
+    func textWeightEndChange(_ textField: UITextField) {
+        if (self.txtWeight.text?.int)! < 1 {
+            self.txtWeight.text = ""
+            Constant.showDialog("Peringatan", message: "Mohon isi data berat barang anda dengan tepat")
+        } else {
+            self.parent.product.weight = self.txtWeight.text!
+        }
     }
     
     func adapt(_ parent: AddProductViewController3, weight: String) {
@@ -3003,8 +3008,8 @@ class AddProduct3PostalFeeCell: UITableViewCell {
         self.parent = parent
         // asuransi & lokal free ongkir disable
         /*
-        self.btnSwitch.isOn = (product.isInsurance == "1")
-        */
+         self.btnSwitch.isOn = (product.isInsurance == "1")
+         */
         
         if product.isFreeOngkir == "1" {
             self.vwFreeOngkir.borderColor = Theme.PrimaryColor
@@ -3026,24 +3031,24 @@ class AddProduct3PostalFeeCell: UITableViewCell {
         
         // asuransi & lokal free ongkir disable
         /*
-        if product.freeOngkirRegions.count > 0 {
-            var region = ""
-            for i in product.freeOngkirRegions {
-                region += i.name + ", "
-            }
-            self.lblRegion.text = region.trimmingCharacters(in: CharacterSet.init(charactersIn: ", "))
-        }
-        */
+         if product.freeOngkirRegions.count > 0 {
+         var region = ""
+         for i in product.freeOngkirRegions {
+         region += i.name + ", "
+         }
+         self.lblRegion.text = region.trimmingCharacters(in: CharacterSet.init(charactersIn: ", "))
+         }
+         */
     }
     
     // 206, count teks height
     static func heightFor() -> CGFloat {
         // asuransi & lokal free ongkir disable
         /*
-        let sub = "Barang yang biasanya butuh asuransi kurir: handphone, laptop, dll. Ongkos kirim barang jualan kamu akan sesuai dengan kurir yang tersimpan di sistem. Lihat Syarat dan Ketentuan."
-        let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
-        return 164 + t.height // count subtitle height
-        */
+         let sub = "Barang yang biasanya butuh asuransi kurir: handphone, laptop, dll. Ongkos kirim barang jualan kamu akan sesuai dengan kurir yang tersimpan di sistem. Lihat Syarat dan Ketentuan."
+         let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
+         return 164 + t.height // count subtitle height
+         */
         
         return 72
     }
@@ -3051,8 +3056,8 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     @IBAction func btnFAQPressed(_ sender: Any) {
         // asuransi & lokal free ongkir disable
         /*
-        self.openWebView(self.url)
-        */
+         self.openWebView(self.url)
+         */
     }
     
     @IBAction func btnFreeOngkirPressed(_ sender: Any) {
@@ -3115,7 +3120,6 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
     }
     
     func doneBtnfromKeyboardClicked() {
-        self.parent.product.tahunBeli = self.txtTahunBeli.text!
         self.txtTahunBeli.resignFirstResponder()
         self.parent.product.isStartInput = true
     }
@@ -3136,17 +3140,24 @@ class AddProduct3ProductAuthVerificationCell: UITableViewCell {
 }
 
 extension AddProduct3ProductAuthVerificationCell: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        self.parent.product.isStartInput = true
+//        if textField == self.txtStyleName {
+//            self.parent.product.styleName = self.txtStyleName.text!
+//        } else if textField == self.txtSerialNumber {
+//            self.parent.product.serialNumber = self.txtSerialNumber.text!
+//        } else if textField == self.txtLokasiBeli {
+//            self.parent.product.lokasiBeli = self.txtLokasiBeli.text!
+//        }
+//        return true
+//    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
         self.parent.product.isStartInput = true
-        if textField == self.txtStyleName {
-            self.parent.product.styleName = self.txtStyleName.text!
-        } else if textField == self.txtSerialNumber {
-            self.parent.product.serialNumber = self.txtSerialNumber.text!
-        } else if textField == self.txtLokasiBeli {
-            self.parent.product.lokasiBeli = self.txtLokasiBeli.text!
-        }
-        return true
+        self.parent.product.styleName = self.txtStyleName.text!
+        self.parent.product.serialNumber = self.txtSerialNumber.text!
+        self.parent.product.lokasiBeli = self.txtLokasiBeli.text!
+        self.parent.product.tahunBeli = self.txtTahunBeli.text!
     }
 }
 
@@ -3310,6 +3321,11 @@ class AddProduct3PriceCell: UITableViewCell {
     @IBOutlet weak var txtHargaSewa: UITextField!
     @IBOutlet weak var txtDeposit: UITextField!
     
+    @IBOutlet var labelHargaBeli: UILabel!
+    @IBOutlet var labelHargaJual: UILabel!
+    @IBOutlet var labelHargaSewa: UILabel!
+    @IBOutlet var labelHargaDeposit: UILabel!
+    
     @IBOutlet weak var vwHargaJual: UIView! // sell: unhide, rent: hide
     
     @IBOutlet weak var vwHargaSewa: UIView! // sell: hide, rent: unhide
@@ -3338,23 +3354,98 @@ class AddProduct3PriceCell: UITableViewCell {
         self.txtHargaSewa.inputAccessoryView = ViewForDoneButtonOnKeyboard
         self.txtDeposit.inputAccessoryView = ViewForDoneButtonOnKeyboard
         
+        self.txtHargaBeli.addTarget(self, action: #selector(textPriceEditStart(_:)), for: .editingDidBegin)
+        self.txtHargaJual.addTarget(self, action: #selector(textPriceEditStart(_:)), for: .editingDidBegin)
+        self.txtHargaSewa.addTarget(self, action: #selector(textPriceEditStart(_:)), for: .editingDidBegin)
+        self.txtDeposit.addTarget(self, action: #selector(textPriceEditStart(_:)), for: .editingDidBegin)
+        self.txtHargaBeli.addTarget(self, action: #selector(textPriceEditEnd(_:)), for: .editingDidEnd)
+        self.txtHargaJual.addTarget(self, action: #selector(textPriceEditEnd(_:)), for: .editingDidEnd)
+        self.txtHargaSewa.addTarget(self, action: #selector(textPriceEditEnd(_:)), for: .editingDidEnd)
+        self.txtDeposit.addTarget(self, action: #selector(textPriceEditEnd(_:)), for: .editingDidEnd)
+        
+        labelHargaBeli.isUserInteractionEnabled = true
+        labelHargaJual.isUserInteractionEnabled = true
+        labelHargaSewa.isUserInteractionEnabled = true
+        labelHargaDeposit.isUserInteractionEnabled = true
+        labelHargaBeli.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AddProduct3PriceCell.handleTapBeli)))
+        labelHargaJual.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AddProduct3PriceCell.handleTapJual(gestureRecognizer:))))
+        labelHargaSewa.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AddProduct3PriceCell.handleTapSewa(gestureRecognizer:))))
+        labelHargaDeposit.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(AddProduct3PriceCell.handleTapDeposit(gestureRecognizer:))))
+        
         self.selectionStyle = .none
         self.alpha = 1.0
         self.backgroundColor = UIColor.white
         self.clipsToBounds = true
     }
     
+    func handleTapBeli(gestureRecognizer: UIGestureRecognizer) {
+        self.txtHargaBeli.becomeFirstResponder()
+    }
+    func handleTapJual(gestureRecognizer: UIGestureRecognizer) {
+        self.txtHargaJual.becomeFirstResponder()
+    }
+    func handleTapSewa(gestureRecognizer: UIGestureRecognizer) {
+        self.txtHargaSewa.becomeFirstResponder()
+    }
+    func handleTapDeposit(gestureRecognizer: UIGestureRecognizer) {
+        self.txtDeposit.becomeFirstResponder()
+    }
+    
     func doneBtnfromKeyboardClicked() {
-        self.parent.product.hargaBeli = self.txtHargaBeli.text!
-        self.parent.product.hargaJual = self.txtHargaJual.text!
-        self.parent.product.hargaSewa = self.txtHargaSewa.text!
-        self.parent.product.deposit = self.txtDeposit.text!
         self.txtHargaBeli.resignFirstResponder()
         self.txtHargaJual.resignFirstResponder()
         self.txtHargaSewa.resignFirstResponder()
         self.txtDeposit.resignFirstResponder()
-        self.parent.product.isStartInput = true
     }
+    
+    func textPriceEditStart(_ textField: UITextField) {
+        self.parent.product.isStartInput = true
+        self.parent.product.hargaBeli = self.txtHargaBeli.text!
+        self.parent.product.hargaJual = self.txtHargaJual.text!
+        self.parent.product.hargaSewa = self.txtHargaSewa.text!
+        self.parent.product.deposit = self.txtDeposit.text!
+        if textField == self.txtHargaBeli {
+            self.labelHargaBeli.isHidden = true
+            self.txtHargaBeli.isHidden = false
+        }
+        if textField == self.txtHargaJual {
+            self.labelHargaJual.isHidden = true
+            self.txtHargaJual.isHidden = false
+        }
+        if textField == self.txtHargaSewa {
+            self.labelHargaSewa.isHidden = true
+            self.txtHargaSewa.isHidden = false
+        }
+        if textField == self.txtDeposit {
+            self.labelHargaDeposit.isHidden = true
+            self.txtDeposit.isHidden = false
+        }
+    }
+    
+    func textPriceEditEnd(_ textField: UITextField) {
+        if self.txtHargaBeli.text != "" {
+            self.labelHargaBeli.text = txtHargaBeli.text?.int.asPrice
+            self.labelHargaBeli.isHidden = false
+            self.txtHargaBeli.isHidden = true
+        }
+        if self.txtHargaJual.text != "" {
+            self.labelHargaJual.text = txtHargaJual.text?.int.asPrice
+            self.labelHargaJual.isHidden = false
+            self.txtHargaJual.isHidden = true
+        }
+        if self.txtHargaSewa.text != "" {
+            self.labelHargaSewa.text = txtHargaSewa.text?.int.asPrice
+            self.labelHargaSewa.isHidden = false
+            self.txtHargaSewa.isHidden = true
+        }
+        if self.txtDeposit.text != "" {
+            self.labelHargaDeposit.text = txtDeposit.text?.int.asPrice
+            self.labelHargaDeposit.isHidden = false
+            self.txtDeposit.isHidden = true
+        }
+    }
+    
+    
     
     func adapt(_ parent: AddProductViewController3, product: SelectedProductItem) {
         self.parent = parent
@@ -3787,13 +3878,17 @@ extension AddProduct3SizeCell: AKPickerViewDelegate, AKPickerViewDataSource {
 }
 
 extension AddProduct3SizeCell: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+//    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+//        textField.resignFirstResponder()
+//        self.parent.product.isStartInput = true
+//        if textField == self.txtSize {
+//            self.parent.product.size = self.txtSize.text!
+//        }
+//        return true
+//    }
+    func textFieldDidEndEditing(_ textField: UITextField) {
         self.parent.product.isStartInput = true
-        if textField == self.txtSize {
-            self.parent.product.size = self.txtSize.text!
-        }
-        return true
+        self.parent.product.size = self.txtSize.text!
     }
 }
 
@@ -3872,7 +3967,7 @@ class AddProduct3CODSwitchCell: UITableViewCell {
     var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
     
     @IBAction func switchButtonPressed(_ sender: Any) {
-//        reloadRows([1],.meetUp)
+        //        reloadRows([1],.meetUp)
     }
     
     override func awakeFromNib() {

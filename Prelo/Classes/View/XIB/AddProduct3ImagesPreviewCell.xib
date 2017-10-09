@@ -57,7 +57,7 @@
                                     <color key="NSStrokeColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </attributes>
                             </fragment>
-                            <fragment content="Lihat tips barang Editor's Pick.">
+                            <fragment content="Lihat tips foto barang Prelo.">
                                 <attributes>
                                     <color key="NSColor" red="0.0" green="0.70587999999999995" blue="0.67842999999999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <font key="NSFont" size="12" name="HelveticaNeue"/>
