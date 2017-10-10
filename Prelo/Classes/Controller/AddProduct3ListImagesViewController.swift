@@ -123,15 +123,17 @@ class AddProduct3ListImagesViewController: BaseViewController {
                                                             attributes: .concurrent,
                                                             target: nil)
                         backgroundQueue.async {
+                            self.showLoading()
                             //print("Work on background queue")
                             
                             // save image to temporary
                             let pathToSavedImage = TemporaryImageManager.sharedInstance.saveImageToDocumentsDirectory(image: img!, withName: imageName)
-                                self.hideLoading()
+                            self.hideLoading()
                             if (pathToSavedImage == nil) {
                                 print("Failed to save image")
                                 self.hideLoading()
                             }
+                            self.hideLoading()
                         }
                         
                         self.previewImages.append(PreviewImage(image: img, url: imageName, label: "", orientation: img?.imageOrientation.rawValue))
@@ -147,6 +149,7 @@ class AddProduct3ListImagesViewController: BaseViewController {
                             }
                         }
                     })
+                    self.hideLoading()
                 }
                 
                 self.tableView.reloadData()
@@ -396,38 +399,51 @@ extension AddProduct3ListImagesViewController: UITableViewDelegate, UITableViewD
         cell.setupDropDown = {
             cell.dropDown.dataSource = []
             
-            if self.labels.count == 0 {
+            if self.completeLabels.count == 0 {
                 return
             }
             
-            var j = 0
-            for i in 0..<self.labels.count {
-                let label = self.labels[i]
-                if !self.isLabelExist(label) || self.previewImages[self.index[indexPath.row]].label == label {
-                    cell.dropDown.dataSource.append(label)
-                    if label == cell.lblLabel.text {
-                        cell.selectedIndex = j
-                    }
-                    j += 1
+            //            var j = 0
+            for i in 0..<self.completeLabels.count {
+                let label = self.completeLabels[i]
+                cell.dropDown.dataSource.append(label)
+                if label == cell.lblLabel.text {
+                    cell.selectedIndex = i
                 }
+                //                if !self.isLabelExist(label) || self.previewImages[self.index[indexPath.row]].label == label {
+                //                    if label == cell.lblLabel.text {
+                //                        cell.selectedIndex = j
+                //                    }
+                //                    j += 1
+                //                }
             }
             
             // lainnya
             cell.dropDown.dataSource.append("Lainnya")
             if "Lainnya" == cell.lblLabel.text {
-                cell.selectedIndex = j
+                cell.selectedIndex = cell.dropDown.dataSource.count-1
+                //                cell.selectedIndex = j
             }
             
             // Action triggered on selection
             cell.dropDown.selectionAction = { [unowned self] (index: Int, item: String) in
                 if index != cell.selectedIndex {
-                    cell.selectedIndex = index
-                    cell.lblLabel.text = item
-                    
-                    self.previewImages[self.index[indexPath.row]].label = item
-                    
-                    self.tableView.reloadData()
-                    self.setupLabels()
+                    if cell.dropDown.dataSource[index] == "Gambar Utama" {
+                        let itemToMove = self.index[indexPath.row]
+                        self.index.remove(at: indexPath.row)
+                        self.index.insert(itemToMove, at: 0)
+                        self.tableView.reloadData()
+                        self.resetFirstImageAsGambarUtama()
+                        self.setupLabels()
+                    } else {
+                        cell.selectedIndex = index
+                        cell.lblLabel.text = item
+                        
+                        self.previewImages[self.index[indexPath.row]].label = item
+                        
+                        self.tableView.reloadData()
+                        self.setupLabels()
+                    }
                 }
             }
             

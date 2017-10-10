@@ -1692,6 +1692,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 imagePicker.previewImages = self.product.imagesDetail
                 imagePicker.index = self.product.imagesIndex
                 imagePicker.labels = self.labels
+                imagePicker.completeLabels = self.labels
                 imagePicker.maxImages = self.maxImages
                 imagePicker.localId = self.product.localId
                 
