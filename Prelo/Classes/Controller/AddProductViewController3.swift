@@ -44,13 +44,14 @@ enum AddProduct3SectionType {
     case postalFee        // 2
     case rentPeriod       // 2
     case meetUp           // 2
-    case rentSellOnOff    // 3
+    case rentSellOnOff    // 1
     case price            // 2
     case button           // 1
     
     var numberOfCell: Int {
         switch(self) {
         case .imagesPreview,
+             .rentSellOnOff,
              .button            : return 1
         case .productDetail,
              .size,
@@ -60,7 +61,6 @@ enum AddProduct3SectionType {
              .postalFee,
              .price,
              .rentPeriod       : return 2
-        case .rentSellOnOff    : return 3
         case .meetUp           : return 5
         }
     }
@@ -76,7 +76,7 @@ enum AddProduct3SectionType {
         case .postalFee        : return "ic_ongkir"
         case .rentPeriod       : return "ic-rent-white"
         case .meetUp           : return "ic_ongkir"
-        case .rentSellOnOff    : return "ic_ongkir"
+        case .rentSellOnOff    : return ""
         case .price            : return "ic_harga"
         case .button           : return ""
         }
@@ -93,7 +93,7 @@ enum AddProduct3SectionType {
         case .postalFee        : return "ONGKOS KIRIM"
         case .rentPeriod       : return "PERIODE SEWA"
         case .meetUp           : return "PENGIRIMAN BARANG SEWA"
-        case .rentSellOnOff    : return "SEWA" // "SEWA" | "JUAL" // override
+        case .rentSellOnOff    : return "" // "SEWA" | "JUAL" // override
         case .price            : return "HARGA"
         case .button           : return ""
         }
@@ -325,8 +325,8 @@ class AddProductViewController3: BaseViewController {
         let AddProduct3PriceCell = UINib(nibName: "AddProduct3PriceCell", bundle: nil)
         tableView.register(AddProduct3PriceCell, forCellReuseIdentifier: "AddProduct3PriceCell")
         
-        let AddProduct3ChargeCell = UINib(nibName: "AddProduct3ChargeCell", bundle: nil)
-        tableView.register(AddProduct3ChargeCell, forCellReuseIdentifier: "AddProduct3ChargeCell")
+        let AddProduct3ButtonCell = UINib(nibName: "AddProduct3ButtonCell", bundle: nil)
+        tableView.register(AddProduct3ButtonCell, forCellReuseIdentifier: "AddProduct3ButtonCell")
         
         // rent
         let AddProduct3RentPeriodCell = UINib(nibName: "AddProduct3RentPeriodCell", bundle: nil)
@@ -458,27 +458,23 @@ class AddProductViewController3: BaseViewController {
             self.listSections.append(.imagesPreview)
             self.listSections.append(.productDetail)
             self.listSections.append(.weight)
-            // self.listSections.append(.postalFee)
+            if self.product.addProductType == .sell {
+                self.listSections.append(.postalFee)
+            } else {
+                self.listSections.append(.rentPeriod)
+                self.listSections.append(.meetUp)
+            }
             self.listSections.append(.rentSellOnOff)
+            if self.product.addProductType == .sell {
+                // enable product rent for sell type
+                self.listSections.append(.rentPeriod)
+                self.listSections.append(.meetUp)
+            } else {
+                // enable product sell for rent type
+                self.listSections.append(.postalFee)
+            }
             self.listSections.append(.price)
             self.listSections.append(.button)
-            
-            // setup table view
-            if self.product.addProductType == .sell { // JUAL
-                let idx = self.findSectionFromType(.weight)
-                self.listSections.insert(.postalFee, at: idx+1)
-                if self.product.isRent { // SEWA
-                    
-                }
-            } else { // SEWA
-                let idx = self.findSectionFromType(.weight)
-                self.listSections.insert(.rentPeriod, at: idx+1)
-                self.listSections.insert(.meetUp, at: idx+2)
-                
-                if self.product.isSell { // JUAL
-                    
-                }
-            }
             
             if self.product.isCategoryContainSize {
                 let idx = self.findSectionFromType(.productDetail)
@@ -1565,9 +1561,6 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if listSections[section] == .rentSellOnOff && !(self.product.isRent && self.product.isSell) {
-            return 2 // title only + switch
-        }
         return listSections[section].numberOfCell
     }
     
@@ -1609,45 +1602,49 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return isSectionHidden[section] == true ? 0 : AddProduct3WeightCell.heightFor(self.product.weight)
             }
         case .postalFee:
-            if row == 0 {
-                return AddProduct3ImageTitleCell.heightFor((self.product.addProductType == .sell ? listSections[section].subtitle : AddProduct3Helper.rentOngkirSubtitle), isSectionHidden[section])
+            if self.product.addProductType == .rent && !(self.product.isRent && self.product.isSell) {
+                // Hide if optional sell for rent product type not allowed
+                return 0
             } else {
-                if self.product.addProductType == .sell {
-                    return isSectionHidden[section] == true ? 0 :  AddProduct3PostalFeeCell.heightFor()
+                // Always show for sell product type OR allowed sell rent product type
+                if row == 0 {
+                    return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle, isSectionHidden[section])
                 } else {
-                    return isSectionHidden[section] == true ? 0 :  AddProduct3RentPostalFeeCell.heightFor()
+                    return isSectionHidden[section] == true ? 0 :  AddProduct3PostalFeeCell.heightFor()
                 }
             }
         case .rentPeriod:
-            if row == 0 {
-                return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle, isSectionHidden[section])
+            if self.product.addProductType == .sell && !(self.product.isRent && self.product.isSell) {
+                // Hide if optional rent for sell product type not allowed
+                return 0
             } else {
-                return isSectionHidden[section] == true ? 0 :  AddProduct3RentPeriodCell.heightFor()
-            }
-        case .meetUp:
-            if row == 0 {
-                return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle, isSectionHidden[section])
-            } else if row == 1 {
-                return isSectionHidden[section] == true ? 0 :  AddProduct3CODSwitchCell.heightFor()
-            } else if row == 2 {
-                return isSectionHidden[section] == true || !self.isCOD ? 0 :  AddProduct3MeetUpCell.heightFor()
-            } else if row == 3 {
-                return isSectionHidden[section] == true ? 0 :  AddProduct3CODSwitchCell.heightFor()
-            } else {
-                return isSectionHidden[section] == true || !self.isExpedition ? 0 :  AddProduct3RentPostalFeeCell.heightFor()
-            }
-        case .rentSellOnOff:
-            if row == 0 {
-                return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle, isSectionHidden[section])
-            } else if row == 1 {
-                return isSectionHidden[section] == true ? 0 :  AddProduct3SellRentSwitchCell.heightFor((self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isSell && self.product.isRent))
-            } else {
-                if self.product.addProductType == .sell {
-                    return isSectionHidden[section] == true ? 0 :  AddProduct3RentPeriodCell.heightFor()
+                // Always show for rent product type OR allowed rent sell product type
+                if row == 0 {
+                    return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle, isSectionHidden[section])
                 } else {
-                    return isSectionHidden[section] == true ? 0 :  AddProduct3PostalFeeCell.heightFor()
+                    return isSectionHidden[section] == true ? 0 :  AddProduct3RentPeriodCell.heightFor()
                 }
             }
+        case .meetUp:
+            if self.product.addProductType == .sell && !(self.product.isRent && self.product.isSell) {
+                // Hide if optional rent for sell product type not allowed
+                return 0
+            } else {
+                // Always show for rent product type OR allowed rent sell product type
+                if row == 0 {
+                    return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle, isSectionHidden[section])
+                } else if row == 1 {
+                    return isSectionHidden[section] == true ? 0 :  AddProduct3CODSwitchCell.heightFor()
+                } else if row == 2 {
+                    return isSectionHidden[section] == true || !self.isCOD ? 0 :  AddProduct3MeetUpCell.heightFor()
+                } else if row == 3 {
+                    return isSectionHidden[section] == true ? 0 :  AddProduct3CODSwitchCell.heightFor()
+                } else {
+                    return isSectionHidden[section] == true || !self.isExpedition ? 0 :  AddProduct3RentPostalFeeCell.heightFor()
+                }
+            }
+        case .rentSellOnOff:
+            return AddProduct3SellRentSwitchCell.heightFor()
         case .price:
             if row == 0 {
                 return AddProduct3ImageTitleCell.heightFor(listSections[section].subtitle, isSectionHidden[section])
@@ -1655,7 +1652,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return isSectionHidden[section] == true ? 0 :  AddProduct3PriceCell.heightFor(self.product.isSell, isRent: self.product.isRent)
             }
         case .button:
-            return AddProduct3ChargeCell.heightFor(isEditDraftMode: self.product.isEditMode || self.product.isDraftMode)
+            return AddProduct3ButtonCell.heightFor(isEditDraftMode: self.product.isEditMode || self.product.isDraftMode)
         }
     }
     
@@ -2084,24 +2081,14 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
             if row == 0 {
                 return titleTableCell(sectionIndex: section)
             } else {
-                if self.product.addProductType == .sell {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
-                    cell.adapt(self, product: self.product)
-                    
-                    cell.openWebView = { urlString in
-                        self.openWebView(urlString, title: nil)
-                    }
-                    
-                    return cell
-                } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPostalFeeCell") as! AddProduct3RentPostalFeeCell
-                    cell.adapt(self.isAgreeSendOutsideCity)
-                    cell.checkOutsideCityAgreement = {
-                        self.isAgreeSendOutsideCity = !self.isAgreeSendOutsideCity
-                        cell.adapt(self.isAgreeSendOutsideCity)
-                    }
-                    return cell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
+                cell.adapt(self, product: self.product)
+                
+                cell.openWebView = { urlString in
+                    self.openWebView(urlString, title: nil)
                 }
+                
+                return cell
             }
         case .rentPeriod:
             if row == 0 {
@@ -2188,107 +2175,23 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return cell
             }
         case .rentSellOnOff:
-            if row == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ImageTitleCell") as! AddProduct3ImageTitleCell
-                cell.adapt(isSectionHidden[section], image: listSections[section].icon, title: (self.product.addProductType == .sell ? listSections[section].title : "JUAL"), subtitle: listSections[section].subtitle, faqUrl: listSections[section].faq)
-                cell.hideUnhideContent = {
-                    self.isSectionHidden[section] = self.isSectionHidden[section] == true ? false : true
-                    self.tableView.reloadSections(NSIndexSet(index: section) as IndexSet, with: .fade)
-                }
-                return cell
-            } else if row == 1 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SellRentSwitchCell") as! AddProduct3SellRentSwitchCell
-                cell.adapt((self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), subtitle: (self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchSubtitleSewa + "\n" + AddProduct3Helper.rentOngkirSubtitle + "\n\n" + AddProduct3Helper.rentPeriodSubtitle : AddProduct3Helper.rentSwitchSubtitleJual), isOn: (self.product.isRent && self.product.isSell))
-                
-                cell.reloadSections = { _sections in
-                    // hack
-                    if self.product.addProductType == .sell {
-                        self.product.isRent = !self.product.isRent
-                    } else {
-                        self.product.isSell = !self.product.isSell
-                    }
-                    
-                    var array: Array<Int> = []
-                    for i in _sections {
-                        array.append(self.findSectionFromType(i))
-                    }
-                    
-                    let indexSet = NSMutableIndexSet()
-                    array.forEach(indexSet.add)
-                    
-                    self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
-                }
-                
-                cell.reloadRows = { _rows, _section in
-                    // hack
-                    var isAppend = true
-                    if self.product.addProductType == .sell {
-                        self.product.isRent = !self.product.isRent
-                        isAppend = self.product.isRent
-                    } else {
-                        self.product.isSell = !self.product.isSell
-                        isAppend = self.product.isSell
-                    }
-                    
-                    self.product.isStartInput = true
-                    
-                    if isAppend {
-                        self.tableView.insertRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
-                    } else {
-                        self.tableView.deleteRows(at: [IndexPath.init(row: 2, section: section)], with: .fade)
-                    }
-                    
-                    let sec = self.findSectionFromType(_section)
-                    var indexPaths: Array<IndexPath> = []
-                    
-                    for i in _rows {
-                        indexPaths.append(IndexPath.init(row: i, section: sec))
-                    }
-                    
-                    self.tableView.reloadRows(at: indexPaths, with: .fade)
-                }
-                
-                return cell
-            } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3SellRentSwitchCell") as! AddProduct3SellRentSwitchCell
+            cell.adapt((self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), isOn: (self.product.isRent && self.product.isSell))
+            cell.allowOptionalSellOrRent = {
+                // REAL HACK NOT A BODGE!! to show or hide optional sell or rent table cell
                 if self.product.addProductType == .sell {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3RentPeriodCell") as! AddProduct3RentPeriodCell
-                    cell.adapt(self, product: self.product)
-                    
-                    cell.reloadSections = { _sections in
-                        var array: Array<Int> = []
-                        for i in _sections {
-                            array.append(self.findSectionFromType(i))
-                        }
-                        
-                        let indexSet = NSMutableIndexSet()
-                        array.forEach(indexSet.add)
-                        
-                        self.tableView.reloadSections(indexSet as IndexSet, with: .fade)
-                    }
-                    
-                    cell.reloadRows = { _rows, _section in
-                        let sec = self.findSectionFromType(_section)
-                        var indexPaths: Array<IndexPath> = []
-                        
-                        for i in _rows {
-                            indexPaths.append(IndexPath.init(row: i, section: sec))
-                        }
-                        
-                        self.tableView.reloadRows(at: indexPaths, with: .fade)
-                    }
-                    
-                    return cell
+                    self.product.isRent = !self.product.isRent
+                    self.tableView.reloadSections(NSIndexSet(index: (section + 1)) as IndexSet, with: .fade) // reload cell row .rentPeriod
+                    self.tableView.reloadSections(NSIndexSet(index: (section + 2)) as IndexSet, with: .fade) // reload cell row .meetUp
+                    self.tableView.reloadSections(NSIndexSet(index: (section + 3)) as IndexSet, with: .fade) // reload cell row .price
                 } else {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3PostalFeeCell") as! AddProduct3PostalFeeCell
-                    cell.adapt(self, product: self.product)
-                    
-                    cell.openWebView = { urlString in
-                        self.openWebView(urlString, title: nil)
-                    }
-                    
-                    return cell
+                    self.product.isSell = !self.product.isSell
+                    self.tableView.reloadSections(NSIndexSet(index: (section + 1)) as IndexSet, with: .fade) // reload cell row .postalFee
+                    self.tableView.reloadSections(NSIndexSet(index: (section + 2)) as IndexSet, with: .fade) // reload cell row .price
                 }
+                cell.adapt((self.product.addProductType == .sell ? AddProduct3Helper.rentSwitchTitleSewa : AddProduct3Helper.rentSwitchTitleJual), isOn: (self.product.isRent && self.product.isSell))
             }
+            return cell
         case .price:
             if row == 0 {
                 return titleTableCell(sectionIndex: section)
@@ -2303,7 +2206,7 @@ extension AddProductViewController3: UITableViewDelegate, UITableViewDataSource 
                 return cell
             }
         case .button:
-            let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ChargeCell") as! AddProduct3ChargeCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "AddProduct3ButtonCell") as! AddProduct3ButtonCell
             cell.adapt(self.product)
             
             cell.submitPressed = {
@@ -3533,7 +3436,7 @@ class AddProduct3PriceCell: UITableViewCell {
 }
 
 // MARK: - Charge Cell
-class AddProduct3ChargeCell: UITableViewCell {
+class AddProduct3ButtonCell: UITableViewCell {
     @IBOutlet weak var btnSubmit: UIButton! // -> Loading
     @IBOutlet weak var btnRemove: BorderedButton! // hide
     
@@ -3701,11 +3604,9 @@ class AddProduct3RentPeriodCell: UITableViewCell {
 // MARK: - Sell Rent Switch Cell
 class AddProduct3SellRentSwitchCell: UITableViewCell {
     @IBOutlet weak var lblTitle: UILabel!
-    @IBOutlet weak var lblSubTitle: UILabel!
     @IBOutlet weak var btnSwitch: UISwitch!
     
-    var reloadRows: (_ rows: Array<Int>, _ section: AddProduct3SectionType)->() = {_, _ in }
-    var reloadSections: (_ sections: Array<AddProduct3SectionType>)->() = {_ in }
+    var allowOptionalSellOrRent: ()->() = {}
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -3716,56 +3617,17 @@ class AddProduct3SellRentSwitchCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ title: String, subtitle: String, isOn: Bool) {
+    func adapt(_ title: String, isOn: Bool) {
         self.lblTitle.text = title
-        //self.lblSubTitle.text = subtitle
-        
-        // hack
-        let mystr = subtitle
-        let searchstr = AddProduct3Helper.boldingText
-        let ranges: [NSRange]
-        
-        do {
-            // Create the regular expression.
-            let regex = try NSRegularExpression(pattern: searchstr, options: [])
-            
-            // Use the regular expression to get an array of NSTextCheckingResult.
-            // Use map to extract the range from each result.
-            ranges = regex.matches(in: mystr, options: [], range: NSMakeRange(0, mystr.characters.count)).map {$0.range}
-        }
-        catch {
-            // There was a problem creating the regular expression
-            ranges = []
-        }
-        
-        let attString : NSMutableAttributedString = NSMutableAttributedString(string: mystr)
-        if ranges.count > 0 {
-            for i in 0..<ranges.count {
-                attString.addAttributes([NSFontAttributeName:UIFont.boldSystemFont(ofSize: 12)], range: ranges[i])
-            }
-        }
-        
-        self.lblSubTitle.attributedText = attString
-        
         self.btnSwitch.isOn = isOn
     }
     
-    // 99 , (32) count teks
-    static func heightFor(_ substring: String?, isOn: Bool) -> CGFloat {
-        if isOn {
-            var h: CGFloat = 0
-            if let sub = substring {
-                let t = sub.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 12), width: AppTools.screenWidth - 24)
-                h = t.height
-            }
-            return 71 + h // count subtitle height
-        }
-        return 60
+    static func heightFor() -> CGFloat {
+        return 56
     }
     
     @IBAction func btnSwitchPressed(_ sender: Any) {
-        self.reloadRows([ 1 ], .price)
-        //self.reloadSections([ .rentSellOnOff, .price ])
+        self.allowOptionalSellOrRent()
     }
 }
 

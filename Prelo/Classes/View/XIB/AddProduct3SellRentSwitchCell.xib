@@ -6,30 +6,29 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="35" id="pLK-qq-3xG" customClass="AddProduct3SellRentSwitchCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="99"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="64" id="pLK-qq-3xG" customClass="AddProduct3SellRentSwitchCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pLK-qq-3xG" id="wzL-xf-xph">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="98.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="63.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WXf-en-IUk">
-                        <rect key="frame" x="12" y="4" width="351" height="47"/>
+                        <rect key="frame" x="6" y="11" width="363" height="42"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Barang ini juga dapat disewa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SAw-sq-hGA">
-                                <rect key="frame" x="8" y="15.5" width="278" height="17"/>
+                                <rect key="frame" x="6" y="12.5" width="294" height="17"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="m6f-uX-GDu">
-                                <rect key="frame" x="294" y="8" width="51" height="31"/>
+                                <rect key="frame" x="308" y="5.5" width="51" height="31"/>
                                 <color key="onTintColor" red="1" green="0.60056952720000001" blue="0.1883386718" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <connections>
                                     <action selector="btnSwitchPressed:" destination="pLK-qq-3xG" eventType="valueChanged" id="Ux4-io-nVq"/>
@@ -38,36 +37,26 @@
                         </subviews>
                         <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="m6f-uX-GDu" secondAttribute="trailing" constant="8" id="3gV-Gs-kUf"/>
-                            <constraint firstItem="SAw-sq-hGA" firstAttribute="centerY" secondItem="m6f-uX-GDu" secondAttribute="centerY" id="Gx5-Q2-LD2"/>
-                            <constraint firstItem="m6f-uX-GDu" firstAttribute="top" secondItem="WXf-en-IUk" secondAttribute="top" constant="8" id="Ti1-VM-iRJ"/>
+                            <constraint firstAttribute="trailing" secondItem="m6f-uX-GDu" secondAttribute="trailing" constant="6" id="3gV-Gs-kUf"/>
+                            <constraint firstAttribute="height" constant="42" id="7te-lk-VeA"/>
+                            <constraint firstItem="SAw-sq-hGA" firstAttribute="centerY" secondItem="WXf-en-IUk" secondAttribute="centerY" id="8iw-Kn-BWu"/>
                             <constraint firstItem="m6f-uX-GDu" firstAttribute="leading" secondItem="SAw-sq-hGA" secondAttribute="trailing" constant="8" id="Xqs-nm-kqh"/>
-                            <constraint firstAttribute="bottom" secondItem="m6f-uX-GDu" secondAttribute="bottom" constant="8" id="gxP-FI-kFX"/>
-                            <constraint firstItem="SAw-sq-hGA" firstAttribute="leading" secondItem="WXf-en-IUk" secondAttribute="leading" constant="8" id="r09-Jj-Rxx"/>
+                            <constraint firstItem="m6f-uX-GDu" firstAttribute="centerY" secondItem="WXf-en-IUk" secondAttribute="centerY" id="pWC-2l-kj0"/>
+                            <constraint firstItem="SAw-sq-hGA" firstAttribute="leading" secondItem="WXf-en-IUk" secondAttribute="leading" constant="6" id="r09-Jj-Rxx"/>
                         </constraints>
                     </view>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Untuk sewa ongkos kirim akan selalu Ditanggung Penyewa / Buyer" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Jx-Vg-8J6">
-                        <rect key="frame" x="12" y="59" width="351" height="29"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailingMargin" secondItem="4Jx-Vg-8J6" secondAttribute="trailing" constant="4" id="FJz-0I-6Ac"/>
-                    <constraint firstItem="4Jx-Vg-8J6" firstAttribute="top" secondItem="WXf-en-IUk" secondAttribute="bottom" constant="8" id="XkR-P9-fiK"/>
-                    <constraint firstItem="WXf-en-IUk" firstAttribute="leading" secondItem="wzL-xf-xph" secondAttribute="leadingMargin" constant="4" id="bxl-6A-DNj"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="WXf-en-IUk" secondAttribute="trailing" constant="4" id="ezJ-Lz-Ncb"/>
-                    <constraint firstItem="4Jx-Vg-8J6" firstAttribute="leading" secondItem="wzL-xf-xph" secondAttribute="leadingMargin" constant="4" id="lcd-Qh-qkE"/>
-                    <constraint firstItem="WXf-en-IUk" firstAttribute="top" secondItem="wzL-xf-xph" secondAttribute="topMargin" constant="-4" id="pru-K4-Ddt"/>
+                    <constraint firstAttribute="trailing" secondItem="WXf-en-IUk" secondAttribute="trailing" constant="6" id="00b-j6-LOq"/>
+                    <constraint firstItem="WXf-en-IUk" firstAttribute="centerY" secondItem="wzL-xf-xph" secondAttribute="centerY" id="1rd-Dc-6oq"/>
+                    <constraint firstItem="WXf-en-IUk" firstAttribute="leading" secondItem="wzL-xf-xph" secondAttribute="leading" constant="6" id="k9z-jU-aVa"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="btnSwitch" destination="m6f-uX-GDu" id="app-nS-LWO"/>
-                <outlet property="lblSubTitle" destination="4Jx-Vg-8J6" id="39t-Mr-FPB"/>
                 <outlet property="lblTitle" destination="SAw-sq-hGA" id="oFF-qq-hfC"/>
             </connections>
-            <point key="canvasLocation" x="-120.5" y="-41.5"/>
+            <point key="canvasLocation" x="-120.5" y="-63"/>
         </tableViewCell>
     </objects>
 </document>

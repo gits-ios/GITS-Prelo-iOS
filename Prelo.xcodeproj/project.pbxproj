@@ -715,7 +715,7 @@
 		B229F4D21F370B6800A2F60B /* AddProduct3.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D11F370B6800A2F60B /* AddProduct3.xib */; };
 		B229F4D41F370C0200A2F60B /* AddProductViewController3.swift in Sources */ = {isa = PBXBuildFile; fileRef = B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */; };
 		B229F4D61F381CEF00A2F60B /* AddProduct3PriceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D51F381CEF00A2F60B /* AddProduct3PriceCell.xib */; };
-		B229F4D81F38222D00A2F60B /* AddProduct3ChargeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D71F38222D00A2F60B /* AddProduct3ChargeCell.xib */; };
+		B229F4D81F38222D00A2F60B /* AddProduct3ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D71F38222D00A2F60B /* AddProduct3ButtonCell.xib */; };
 		B229F4DA1F38456400A2F60B /* AddProduct3RentPeriodCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */; };
 		B229F4DC1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */; };
 		B229F4DE1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */; };
@@ -1997,7 +1997,7 @@
 		B229F4D11F370B6800A2F60B /* AddProduct3.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3.xib; sourceTree = "<group>"; };
 		B229F4D31F370C0200A2F60B /* AddProductViewController3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddProductViewController3.swift; sourceTree = "<group>"; };
 		B229F4D51F381CEF00A2F60B /* AddProduct3PriceCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3PriceCell.xib; sourceTree = "<group>"; };
-		B229F4D71F38222D00A2F60B /* AddProduct3ChargeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ChargeCell.xib; sourceTree = "<group>"; };
+		B229F4D71F38222D00A2F60B /* AddProduct3ButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3ButtonCell.xib; sourceTree = "<group>"; };
 		B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3RentPeriodCell.xib; sourceTree = "<group>"; };
 		B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3SellRentSwitchCell.xib; sourceTree = "<group>"; };
 		B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddProduct3RentPostalFeeCell.xib; sourceTree = "<group>"; };
@@ -3912,7 +3912,7 @@
 				B229F4B91F37059600A2F60B /* AddProduct3ImagesChecklistCell.xib */,
 				B229F4CF1F3709A000A2F60B /* AddProduct3ImagesChecklistCellCollectionCell.xib */,
 				B229F4D51F381CEF00A2F60B /* AddProduct3PriceCell.xib */,
-				B229F4D71F38222D00A2F60B /* AddProduct3ChargeCell.xib */,
+				B229F4D71F38222D00A2F60B /* AddProduct3ButtonCell.xib */,
 				B229F4D91F38456400A2F60B /* AddProduct3RentPeriodCell.xib */,
 				B229F4DB1F38473100A2F60B /* AddProduct3SellRentSwitchCell.xib */,
 				B229F4DD1F38482700A2F60B /* AddProduct3RentPostalFeeCell.xib */,
@@ -4800,7 +4800,7 @@
 				585887341DBEDA08006EC6D5 /* ConfirmShipping.xib in Resources */,
 				5858874C1DBEDB9B006EC6D5 /* NotifAnggiTransaction.xib in Resources */,
 				A9E8E86E1F8381F900D8478B /* ic_trx_returned.png in Resources */,
-				B229F4D81F38222D00A2F60B /* AddProduct3ChargeCell.xib in Resources */,
+				B229F4D81F38222D00A2F60B /* AddProduct3ButtonCell.xib in Resources */,
 				B2D965EA1E9E2FD000B2C29C /* Checkout2PaymentSummaryCell.xib in Resources */,
 				B2C4EEBB1E8B5F37007E2F95 /* ReportTransaction.xib in Resources */,
 				581E87AE1CE08A210055CCDD /* ic_dashboard_cover@2x.jpg in Resources */,
