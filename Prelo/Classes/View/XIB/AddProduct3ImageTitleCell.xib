@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-standar-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="NlO-84-XPd" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-standar-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="NlO-84-XPd" customClass="TintedImageView" customModule="Prelo" customModuleProvider="target">
                         <rect key="frame" x="12" y="12" width="20" height="20"/>
                         <color key="tintColor" red="0.44705882349999998" green="0.44705882349999998" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -62,8 +62,32 @@
                             <constraint firstAttribute="bottom" secondItem="8uq-hz-vv1" secondAttribute="bottom" id="m5y-63-kiJ"/>
                         </constraints>
                     </view>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow_down.png" translatesAutoresizingMaskIntoConstraints="NO" id="Fc4-PC-KjZ">
+                        <rect key="frame" x="343" y="17" width="20" height="10"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="10" id="3k9-tD-pzy"/>
+                            <constraint firstAttribute="width" constant="20" id="A7U-4d-lPL"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="q22-TU-uhs">
+                        <rect key="frame" x="283" y="10" width="80" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="80" id="HVn-S5-0km"/>
+                            <constraint firstAttribute="height" constant="24" id="d49-mj-9fK"/>
+                        </constraints>
+                        <connections>
+                            <action selector="hideUnhideAction:" destination="k3g-QW-J79" eventType="touchUpInside" id="Tc3-aX-wUS"/>
+                        </connections>
+                    </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WY2-23-oLn" userLabel="line_1px">
+                        <rect key="frame" x="12" y="42" width="351" height="1"/>
+                        <color key="backgroundColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="LZY-YU-E61"/>
+                        </constraints>
+                    </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S5G-wa-57z">
-                        <rect key="frame" x="12" y="36.5" width="351" height="14"/>
+                        <rect key="frame" x="12" y="40.5" width="351" height="14"/>
                         <attributedString key="attributedText">
                             <fragment content="Subtitle, eg: Hanya dapat dilihat oleh admin prelo">
                                 <attributes>
@@ -81,28 +105,38 @@
                     </label>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="q22-TU-uhs" secondAttribute="trailing" constant="12" id="1Cp-SD-FY0"/>
+                    <constraint firstItem="WY2-23-oLn" firstAttribute="leading" secondItem="YUJ-AJ-6Wa" secondAttribute="leading" constant="12" id="1XR-7j-oBH"/>
                     <constraint firstItem="NlO-84-XPd" firstAttribute="leading" secondItem="YUJ-AJ-6Wa" secondAttribute="leadingMargin" constant="4" id="AfD-IG-9w9"/>
+                    <constraint firstAttribute="trailing" secondItem="WY2-23-oLn" secondAttribute="trailing" constant="12" id="CwX-HJ-flj"/>
+                    <constraint firstItem="q22-TU-uhs" firstAttribute="centerY" secondItem="Fc4-PC-KjZ" secondAttribute="centerY" id="Hqv-qP-Me2"/>
+                    <constraint firstItem="Fc4-PC-KjZ" firstAttribute="centerY" secondItem="NlO-84-XPd" secondAttribute="centerY" id="I6D-lA-x3X"/>
                     <constraint firstItem="NlO-84-XPd" firstAttribute="top" secondItem="YUJ-AJ-6Wa" secondAttribute="topMargin" constant="4" id="K2e-uZ-djS"/>
-                    <constraint firstItem="S5G-wa-57z" firstAttribute="top" secondItem="8KN-Ib-CuG" secondAttribute="bottom" constant="4" id="NEV-JW-Wbz"/>
+                    <constraint firstItem="S5G-wa-57z" firstAttribute="top" secondItem="8KN-Ib-CuG" secondAttribute="bottom" constant="8" id="NEV-JW-Wbz"/>
                     <constraint firstItem="8KN-Ib-CuG" firstAttribute="leading" secondItem="NlO-84-XPd" secondAttribute="trailing" constant="8" id="OwK-M8-GxE"/>
                     <constraint firstAttribute="trailingMargin" secondItem="S5G-wa-57z" secondAttribute="trailing" constant="4" id="PJ2-rx-X1m"/>
                     <constraint firstItem="YE5-5g-ah8" firstAttribute="leading" secondItem="8KN-Ib-CuG" secondAttribute="trailing" constant="8" id="PkS-m1-V9L"/>
+                    <constraint firstItem="WY2-23-oLn" firstAttribute="top" secondItem="YUJ-AJ-6Wa" secondAttribute="top" constant="42" id="VtR-Zf-GMY"/>
                     <constraint firstItem="YE5-5g-ah8" firstAttribute="top" secondItem="YUJ-AJ-6Wa" secondAttribute="topMargin" constant="4" id="WMo-eh-nQA"/>
                     <constraint firstItem="8KN-Ib-CuG" firstAttribute="centerY" secondItem="NlO-84-XPd" secondAttribute="centerY" id="plb-g1-n1G"/>
                     <constraint firstItem="S5G-wa-57z" firstAttribute="leading" secondItem="YUJ-AJ-6Wa" secondAttribute="leadingMargin" constant="4" id="uBs-Up-ilt"/>
                     <constraint firstAttribute="trailingMargin" relation="greaterThanOrEqual" secondItem="YE5-5g-ah8" secondAttribute="trailing" constant="4" id="uYO-kq-Jj7"/>
+                    <constraint firstAttribute="trailing" secondItem="Fc4-PC-KjZ" secondAttribute="trailing" constant="12" id="wOq-SD-K58"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="ArrowUpDownImage" destination="Fc4-PC-KjZ" id="wsQ-fr-y5P"/>
                 <outlet property="SectionFAQ" destination="YE5-5g-ah8" id="RCS-JS-P0x"/>
                 <outlet property="SectionImage" destination="NlO-84-XPd" id="Htr-7N-qbC"/>
                 <outlet property="SectionSubtitle" destination="S5G-wa-57z" id="vnT-lL-NgF"/>
                 <outlet property="SectionTitle" destination="8KN-Ib-CuG" id="3xe-8s-iho"/>
+                <outlet property="UnderlineSection" destination="WY2-23-oLn" id="JWE-lQ-exA"/>
             </connections>
-            <point key="canvasLocation" x="-18.5" y="-13.5"/>
+            <point key="canvasLocation" x="-18.5" y="-14"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="arrow_down.png" width="40" height="22"/>
         <image name="ic_faq.png" width="96" height="96"/>
         <image name="placeholder-standar-white.png" width="320" height="320"/>
     </resources>

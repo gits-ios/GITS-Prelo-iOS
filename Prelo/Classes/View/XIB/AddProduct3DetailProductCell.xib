@@ -423,9 +423,9 @@
                         <rect key="frame" x="12" y="284" width="351" height="50"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8yg-VW-apT" customClass="SZTextView">
-                                <rect key="frame" x="0.0" y="0.0" width="351" height="49.5"/>
+                                <rect key="frame" x="-4" y="0.0" width="355" height="49.5"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="49.5" id="1nT-cn-guo"/>
+                                    <constraint firstAttribute="height" constant="50" id="1nT-cn-guo"/>
                                 </constraints>
                                 <string key="text">Spesifikasi barang (optional) mis: 32 GB, dark blue, lightning charger Spesifikasi barang (optional) mis: 32 GB, dark blue, lightning charger Spesifikasi barang (optional) mis: 32 GB, dark blue, lightning charger</string>
                                 <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -453,7 +453,7 @@
                             <constraint firstItem="aEh-0t-7x5" firstAttribute="top" secondItem="8yg-VW-apT" secondAttribute="bottom" id="AbT-ny-TRA"/>
                             <constraint firstAttribute="bottom" secondItem="aEh-0t-7x5" secondAttribute="bottom" id="C7B-6o-fXd"/>
                             <constraint firstItem="8yg-VW-apT" firstAttribute="top" secondItem="mQs-UR-kvi" secondAttribute="top" id="VSf-zC-Iw9"/>
-                            <constraint firstItem="8yg-VW-apT" firstAttribute="leading" secondItem="mQs-UR-kvi" secondAttribute="leading" id="Xi5-71-Y33"/>
+                            <constraint firstItem="8yg-VW-apT" firstAttribute="leading" secondItem="mQs-UR-kvi" secondAttribute="leading" constant="-4" id="Xi5-71-Y33"/>
                             <constraint firstAttribute="trailing" secondItem="8yg-VW-apT" secondAttribute="trailing" id="a1i-8d-Xal"/>
                             <constraint firstItem="aEh-0t-7x5" firstAttribute="leading" secondItem="mQs-UR-kvi" secondAttribute="leading" id="c9S-JF-Nv6"/>
                             <constraint firstAttribute="trailing" secondItem="aEh-0t-7x5" secondAttribute="trailing" id="cTt-sF-cK8"/>

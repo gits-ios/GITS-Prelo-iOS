@@ -12,11 +12,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="264" id="ckS-jn-eIx" customClass="AddProduct3PriceCell" customModule="Prelo" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="258"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="336" id="ckS-jn-eIx" customClass="AddProduct3PriceCell" customModule="Prelo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="336"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ckS-jn-eIx" id="O7q-xs-J4Z">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="257.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="335.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XO4-js-Ph6" userLabel="Field Harga Ketika Beli">
@@ -257,9 +257,9 @@
                         </constraints>
                     </view>
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hkj-rK-FyU">
-                        <rect key="frame" x="12" y="168" width="351" height="80"/>
+                        <rect key="frame" x="12" y="168" width="351" height="96"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder-standar-white.png" translatesAutoresizingMaskIntoConstraints="NO" id="EhD-oJ-QCu">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_deposit_sewa.png" translatesAutoresizingMaskIntoConstraints="NO" id="EhD-oJ-QCu">
                                 <rect key="frame" x="8" y="8" width="37" height="37"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="37" id="HVi-jU-IzH"/>
@@ -313,6 +313,7 @@
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eEe-fb-XEr">
                                 <rect key="frame" x="53" y="26" width="290" height="42"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <connections>
                                     <action selector="btnFAQPressed:" destination="ckS-jn-eIx" eventType="touchUpInside" id="gI4-KK-kCv"/>
                                 </connections>
@@ -325,8 +326,8 @@
                             <constraint firstItem="yAU-B0-gZm" firstAttribute="leading" secondItem="EhD-oJ-QCu" secondAttribute="trailing" constant="8" id="2sO-UV-ZIY"/>
                             <constraint firstAttribute="trailing" secondItem="yAU-B0-gZm" secondAttribute="trailing" constant="8" id="4bb-Jh-dRz"/>
                             <constraint firstItem="eEe-fb-XEr" firstAttribute="leading" secondItem="yAU-B0-gZm" secondAttribute="leading" id="Ajs-B1-C9e"/>
+                            <constraint firstAttribute="height" constant="96" id="Igi-ux-f9H"/>
                             <constraint firstAttribute="trailing" secondItem="0py-yc-zw8" secondAttribute="trailing" constant="8" id="K5M-0R-KCg"/>
-                            <constraint firstAttribute="bottom" secondItem="yAU-B0-gZm" secondAttribute="bottom" constant="12" id="SZS-Xy-eMp"/>
                             <constraint firstItem="0py-yc-zw8" firstAttribute="leading" secondItem="EhD-oJ-QCu" secondAttribute="trailing" constant="8" id="Wmc-st-kcg"/>
                             <constraint firstItem="yAU-B0-gZm" firstAttribute="top" secondItem="0py-yc-zw8" secondAttribute="bottom" id="gIK-BC-qOS"/>
                             <constraint firstItem="0py-yc-zw8" firstAttribute="top" secondItem="Hkj-rK-FyU" secondAttribute="top" constant="8" id="kUM-F3-q0f"/>
@@ -335,11 +336,32 @@
                             <constraint firstItem="EhD-oJ-QCu" firstAttribute="leading" secondItem="Hkj-rK-FyU" secondAttribute="leading" constant="8" id="zUe-yj-EjR"/>
                         </constraints>
                     </view>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Charge Prelo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tsw-BM-5sG">
+                        <rect key="frame" x="12" y="276" width="89.5" height="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="0% (Free) - 10%" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="uG6-1f-N7E">
+                        <rect key="frame" x="255.5" y="276" width="107.5" height="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Klik LANJUTKAN untuk menentukan Charge Prelo yang kamu mau" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nxz-UC-e0I">
+                        <rect key="frame" x="12" y="301" width="351" height="13.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                        <color key="textColor" red="0.4468206763" green="0.44680723550000001" blue="0.44681483509999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="XO4-js-Ph6" secondAttribute="trailing" constant="4" id="20d-kK-gDl"/>
                     <constraint firstItem="Edt-aT-uny" firstAttribute="leading" secondItem="XO4-js-Ph6" secondAttribute="leading" id="3mf-PV-DVS"/>
+                    <constraint firstItem="Nxz-UC-e0I" firstAttribute="top" secondItem="uG6-1f-N7E" secondAttribute="bottom" constant="8" id="72x-Bz-roN"/>
                     <constraint firstAttribute="trailingMargin" secondItem="Hkj-rK-FyU" secondAttribute="trailing" constant="4" id="AOE-B1-c7z"/>
+                    <constraint firstItem="tsw-BM-5sG" firstAttribute="leading" secondItem="O7q-xs-J4Z" secondAttribute="leading" constant="12" id="DTe-zc-KTF"/>
+                    <constraint firstItem="Nxz-UC-e0I" firstAttribute="leading" secondItem="O7q-xs-J4Z" secondAttribute="leading" constant="12" id="FeJ-QD-m6U"/>
                     <constraint firstItem="XO4-js-Ph6" firstAttribute="top" secondItem="O7q-xs-J4Z" secondAttribute="topMargin" constant="-8" id="Fu9-u3-JjN"/>
                     <constraint firstItem="vzt-b0-oYa" firstAttribute="leading" secondItem="Edt-aT-uny" secondAttribute="leading" id="IiJ-CZ-cgG"/>
                     <constraint firstItem="Edt-aT-uny" firstAttribute="top" secondItem="XO4-js-Ph6" secondAttribute="bottom" id="LyE-zN-KQf"/>
@@ -351,12 +373,18 @@
                     <constraint firstItem="vzt-b0-oYa" firstAttribute="trailing" secondItem="Edt-aT-uny" secondAttribute="trailing" id="lya-c9-FPi"/>
                     <constraint firstItem="UmS-gN-ATB" firstAttribute="leading" secondItem="vzt-b0-oYa" secondAttribute="leading" id="q2Y-DU-XGR"/>
                     <constraint firstItem="XO4-js-Ph6" firstAttribute="leading" secondItem="O7q-xs-J4Z" secondAttribute="leadingMargin" constant="4" id="qEC-LH-d7E"/>
+                    <constraint firstAttribute="trailing" secondItem="uG6-1f-N7E" secondAttribute="trailing" constant="12" id="tgW-Zk-lv2"/>
                     <constraint firstItem="UmS-gN-ATB" firstAttribute="top" secondItem="vzt-b0-oYa" secondAttribute="bottom" id="uCx-tN-upr"/>
+                    <constraint firstItem="uG6-1f-N7E" firstAttribute="centerY" secondItem="tsw-BM-5sG" secondAttribute="centerY" id="w03-oc-3gP"/>
+                    <constraint firstItem="tsw-BM-5sG" firstAttribute="top" secondItem="Hkj-rK-FyU" secondAttribute="bottom" constant="12" id="wMe-Es-FNe"/>
+                    <constraint firstAttribute="trailing" secondItem="Nxz-UC-e0I" secondAttribute="trailing" constant="12" id="xt3-Te-PvL"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="consTopHargaSewa" destination="YVC-Qn-DsZ" id="dkc-lK-vcx"/>
                 <outlet property="labelHargaBeli" destination="JPc-oS-cAD" id="ygb-M1-gdt"/>
+                <outlet property="labelHargaCharge" destination="uG6-1f-N7E" id="Nvj-9U-kS5"/>
+                <outlet property="labelHargaChargeDescription" destination="Nxz-UC-e0I" id="FnD-lB-K2q"/>
                 <outlet property="labelHargaDeposit" destination="Ok9-q5-eds" id="qZH-xq-meh"/>
                 <outlet property="labelHargaJual" destination="1KN-tR-mfA" id="oN8-WR-aJH"/>
                 <outlet property="labelHargaSewa" destination="yLM-QD-Nmy" id="dY1-Fi-ab2"/>
@@ -370,10 +398,10 @@
                 <outlet property="vwHargaSewa" destination="vzt-b0-oYa" id="MuL-PO-iUq"/>
                 <outlet property="vwNotifSewa" destination="Hkj-rK-FyU" id="XEV-OQ-bCJ"/>
             </connections>
-            <point key="canvasLocation" x="68.5" y="169.5"/>
+            <point key="canvasLocation" x="68.5" y="213.5"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="placeholder-standar-white.png" width="320" height="320"/>
+        <image name="ic_deposit_sewa.png" width="96" height="96"/>
     </resources>
 </document>
