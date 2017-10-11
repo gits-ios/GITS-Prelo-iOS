@@ -460,8 +460,8 @@ class AddProductViewController3: BaseViewController {
                 }
             } else { // SEWA
                 let idx = self.findSectionFromType(.weight)
-                self.listSections.insert(.meetUp, at: idx+1)
-                self.listSections.insert(.rentPeriod, at: idx+2)
+                self.listSections.insert(.rentPeriod, at: idx+1)
+                self.listSections.insert(.meetUp, at: idx+2)
                 
                 if self.product.isSell { // JUAL
                     
@@ -2978,6 +2978,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     @IBOutlet weak var vwPaidOngkir: BorderedView!
     @IBOutlet weak var imgPaidOngkir: TintedImageView!
     @IBOutlet weak var lblPaidOngkir: UILabel!
+    @IBOutlet var viewFieldFreeOngkir: UIView!
     @IBOutlet weak var lblRegion: UILabel!
     @IBOutlet weak var btnSwitch: UISwitch!
     
@@ -3013,6 +3014,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
          */
         
         if product.isFreeOngkir == "1" {
+            self.viewFieldFreeOngkir.isHidden = false
             self.vwFreeOngkir.borderColor = Theme.PrimaryColor
             self.imgFreeOngkir.tintColor = Theme.PrimaryColor
             self.lblFreeOngkir.textColor = Theme.PrimaryColor
@@ -3021,6 +3023,7 @@ class AddProduct3PostalFeeCell: UITableViewCell {
             self.imgPaidOngkir.tintColor = disactiveColor
             self.lblPaidOngkir.textColor = disactiveColor
         } else {
+            self.viewFieldFreeOngkir.isHidden = true
             self.vwFreeOngkir.borderColor = disactiveColor
             self.imgFreeOngkir.tintColor = disactiveColor
             self.lblFreeOngkir.textColor = disactiveColor
@@ -3045,24 +3048,25 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     // 206, count teks height
     static func heightFor() -> CGFloat {
         // asuransi & lokal free ongkir disable
+        // return 74
         /*
          let sub = "Barang yang biasanya butuh asuransi kurir: handphone, laptop, dll. Ongkos kirim barang jualan kamu akan sesuai dengan kurir yang tersimpan di sistem. Lihat Syarat dan Ketentuan."
          let t = sub.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - 24)
          return 164 + t.height // count subtitle height
          */
         
-        return 72
+        return 224
     }
     
     @IBAction func btnFAQPressed(_ sender: Any) {
         // asuransi & lokal free ongkir disable
-        /*
-         self.openWebView(self.url)
-         */
+        self.openWebView(self.url)
     }
     
     @IBAction func btnFreeOngkirPressed(_ sender: Any) {
         if (self.parent.product.isFreeOngkir == "0") {
+            self.viewFieldFreeOngkir.isHidden = false
+            
             self.vwFreeOngkir.borderColor = Theme.PrimaryColor
             self.imgFreeOngkir.tintColor = Theme.PrimaryColor
             self.lblFreeOngkir.textColor = Theme.PrimaryColor
@@ -3077,6 +3081,8 @@ class AddProduct3PostalFeeCell: UITableViewCell {
     
     @IBAction func btnPaidOngkirPressed(_ sender: Any) {
         if (self.parent.product.isFreeOngkir == "1") {
+            self.viewFieldFreeOngkir.isHidden = true
+            
             self.vwFreeOngkir.borderColor = disactiveColor
             self.imgFreeOngkir.tintColor = disactiveColor
             self.lblFreeOngkir.textColor = disactiveColor
@@ -3549,7 +3555,7 @@ class AddProduct3ChargeCell: UITableViewCell {
             self.lblCharge.text = sub // AddProduct3 VC:chargeLabel
         }
         
-//        self.consTopBtnSubmit.constant = h
+        //        self.consTopBtnSubmit.constant = h
     }
     
     // 162, count teks, hide unhide button hapus
