@@ -472,9 +472,9 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
             notif.progress == TransactionDetailTools.ProgressFraudDetected) {
             transactionDetailVC.trxId = notif.objectId
         } else if (notif.progress == TransactionDetailTools.ProgressConfirmedPaid) {
-            if (notif.caption.lowercased() == "jual") {
+            if (notif.caption.lowercased() == "jual" || notif.caption.lowercased() == "sewakan") {
                 transactionDetailVC.trxId = notif.objectId
-            } else if (notif.caption.lowercased() == "beli") {
+            } else if (notif.caption.lowercased() == "beli" || notif.caption.lowercased() == "sewa") {
                 transactionDetailVC.trxProductId = notif.objectId
             }
         } else {
@@ -812,15 +812,8 @@ class NotifAnggiTransactionCell : UITableViewCell, UICollectionViewDataSource, U
                         }
                     } else {
                         imgName = "ic_trx_shipped"
-                        if (self.notif?.caption.lowercased() == "disewa" || self.notif?.caption.lowercased() == "sewa") {
-                            // Rent transaction code
-                            if indexPath.row < (progress - 45) { // Normalize value to equalize normal & rent transaction code
-                                vwIcon.backgroundColor = activeColorType()
-                            }
-                        } else {
-                            if indexPath.row < progress {
-                                vwIcon.backgroundColor = activeColorType()
-                            }
+                        if indexPath.row < progress {
+                            vwIcon.backgroundColor = activeColorType()
                         }
                     }
                 }

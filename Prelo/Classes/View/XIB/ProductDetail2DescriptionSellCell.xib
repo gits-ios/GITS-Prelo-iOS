@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -40,10 +41,10 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gTb-7f-Meb">
-                        <rect key="frame" x="12" y="49" width="360" height="107"/>
+                        <rect key="frame" x="12" y="49" width="360" height="92.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r6k-HD-HbI">
-                                <rect key="frame" x="8" y="8" width="32" height="91"/>
+                                <rect key="frame" x="8" y="8" width="32" height="76.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="r6k-HD-HbI" secondAttribute="height" id="OUK-qX-7uf"/>
                                 </constraints>
@@ -56,8 +57,8 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Belanja Bergaransi" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMo-jb-c3N">
-                                <rect key="frame" x="42" y="8" width="310" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Waktu Jaminan Prelo" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XMo-jb-c3N">
+                                <rect key="frame" x="44" y="8" width="308" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="124" id="ku1-8F-MZk"/>
                                 </constraints>
@@ -71,8 +72,8 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="749" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kC9-hc-IvB">
-                                <rect key="frame" x="42" y="27" width="310" height="72"/>
-                                <string key="text">Waktu Jaminan Prelo. Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang "Diterima" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan.</string>
+                                <rect key="frame" x="44" y="27" width="308" height="57.5"/>
+                                <string key="text">Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang "Diterima" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan.</string>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -85,8 +86,8 @@
                             <constraint firstAttribute="bottom" secondItem="r6k-HD-HbI" secondAttribute="bottom" constant="8" id="8N3-Zr-rw1"/>
                             <constraint firstItem="kC9-hc-IvB" firstAttribute="leading" secondItem="gTb-7f-Meb" secondAttribute="leading" constant="42" id="DXb-YS-W71"/>
                             <constraint firstAttribute="trailing" secondItem="kC9-hc-IvB" secondAttribute="trailing" constant="8" id="G16-J6-zih"/>
-                            <constraint firstItem="kC9-hc-IvB" firstAttribute="leading" secondItem="r6k-HD-HbI" secondAttribute="trailing" constant="2" id="Gjg-yW-q6l"/>
-                            <constraint firstItem="XMo-jb-c3N" firstAttribute="leading" secondItem="r6k-HD-HbI" secondAttribute="trailing" constant="2" id="HkK-8n-gdD"/>
+                            <constraint firstItem="kC9-hc-IvB" firstAttribute="leading" secondItem="r6k-HD-HbI" secondAttribute="trailing" constant="4" id="Gjg-yW-q6l"/>
+                            <constraint firstItem="XMo-jb-c3N" firstAttribute="leading" secondItem="r6k-HD-HbI" secondAttribute="trailing" constant="4" id="HkK-8n-gdD"/>
                             <constraint firstItem="r6k-HD-HbI" firstAttribute="top" secondItem="gTb-7f-Meb" secondAttribute="top" constant="8" id="HvI-Oa-k3W"/>
                             <constraint firstAttribute="trailing" secondItem="kC9-hc-IvB" secondAttribute="trailing" constant="8" id="TZE-Bt-Abg"/>
                             <constraint firstAttribute="bottom" secondItem="kC9-hc-IvB" secondAttribute="bottom" constant="4" id="Vzm-3T-zm3"/>

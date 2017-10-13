@@ -1839,7 +1839,7 @@ class ProductDetail2DescriptionSellCell: UITableViewCell {
     // count description
     static func heightFor(_ productDetail: ProductDetail) -> CGFloat {
         // 12 + 8 + 32 + 2 + 8 + 12, ft 12
-        let text = "Waktu Jaminan Prelo. Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang \"Diterima\" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan."
+        let text = "Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang \"Diterima\" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan."
         let t = text.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
         
         let product = productDetail.json["_data"]

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -57,7 +58,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" horizontalCompressionResistancePriority="749" text="Deposit" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vz9-tt-UbL">
-                                <rect key="frame" x="42" y="8" width="310" height="17"/>
+                                <rect key="frame" x="44" y="8" width="308" height="17"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="124" id="Tfe-IJ-7Nl"/>
                                 </constraints>
@@ -71,7 +72,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalCompressionResistancePriority="749" text="Deposi dibayarkan saat menyewa dan akan dikembalikan setelah barang kembali dalam kondisi baik." lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="f2l-3j-BVd">
-                                <rect key="frame" x="42" y="27" width="310" height="43"/>
+                                <rect key="frame" x="44" y="27" width="308" height="43"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="0.33333333329999998" green="0.33333333329999998" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -84,8 +85,8 @@
                             <constraint firstItem="Vz9-tt-UbL" firstAttribute="leading" secondItem="sHs-u4-Svs" secondAttribute="leading" constant="42" id="EML-ya-rPm"/>
                             <constraint firstAttribute="bottom" secondItem="f2l-3j-BVd" secondAttribute="bottom" constant="8" id="GLh-V4-oAV"/>
                             <constraint firstAttribute="bottom" secondItem="f2l-3j-BVd" secondAttribute="bottom" constant="4" id="I3G-qT-KyZ"/>
-                            <constraint firstItem="Vz9-tt-UbL" firstAttribute="leading" secondItem="jnf-iT-rXC" secondAttribute="trailing" constant="2" id="J2L-7w-CjE"/>
-                            <constraint firstItem="f2l-3j-BVd" firstAttribute="leading" secondItem="jnf-iT-rXC" secondAttribute="trailing" constant="2" id="L9E-nS-hsu"/>
+                            <constraint firstItem="Vz9-tt-UbL" firstAttribute="leading" secondItem="jnf-iT-rXC" secondAttribute="trailing" constant="4" id="J2L-7w-CjE"/>
+                            <constraint firstItem="f2l-3j-BVd" firstAttribute="leading" secondItem="jnf-iT-rXC" secondAttribute="trailing" constant="4" id="L9E-nS-hsu"/>
                             <constraint firstAttribute="trailing" secondItem="f2l-3j-BVd" secondAttribute="trailing" constant="8" id="O4a-0E-SvW"/>
                             <constraint firstAttribute="bottom" secondItem="jnf-iT-rXC" secondAttribute="bottom" constant="8" id="Q6P-Ej-Blh"/>
                             <constraint firstItem="f2l-3j-BVd" firstAttribute="top" secondItem="Vz9-tt-UbL" secondAttribute="bottom" constant="2" id="QMe-rW-Uv7"/>

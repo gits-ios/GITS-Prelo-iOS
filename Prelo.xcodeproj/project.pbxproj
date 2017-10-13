@@ -636,6 +636,7 @@
 		A90138401F7509960046C423 /* CheckoutSewaPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */; };
 		A906AE6D1F6ABC5C00299796 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */; };
 		A90D84781F6912080085ABAD /* BarangSaya.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90D84771F6912080085ABAD /* BarangSaya.storyboard */; };
+		A95B6A8B1F8F4F7C0099C9A8 /* ic_camera_white.png in Resources */ = {isa = PBXBuildFile; fileRef = A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */; };
 		A97785BD1F70D35100D86CA7 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A97785BC1F70D34000D86CA7 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A97785BE1F70D35700D86CA7 /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A97785A41F70D33D00D86CA7 /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A97785BF1F70D36000D86CA7 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A977858A1F70D33500D86CA7 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -1915,6 +1916,7 @@
 		A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutSewaPopupView.xib; sourceTree = "<group>"; };
 		A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		A90D84771F6912080085ABAD /* BarangSaya.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarangSaya.storyboard; sourceTree = "<group>"; };
+		A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_camera_white.png; sourceTree = "<group>"; };
 		A977857E1F70D33500D86CA7 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		A97785971F70D33D00D86CA7 /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		A97785B11F70D34000D86CA7 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
@@ -2984,6 +2986,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */,
 				A97A049F1F8E566800FAEF39 /* ic_checkedbox_orange.png */,
 				A97A04861F8E3EDD00FAEF39 /* ic_deposit_sewa.png */,
 				A9FE36381F8E1BD200B2DC44 /* arrow_up.png */,
@@ -4905,6 +4908,7 @@
 				B2EE39CE1E76905500113E03 /* ic_paid_poin.png in Resources */,
 				58D7360B1D759B0B009D7C61 /* ic_cart.png in Resources */,
 				589A6FB11D8C08F600654CDD /* ic_about.png in Resources */,
+				A95B6A8B1F8F4F7C0099C9A8 /* ic_camera_white.png in Resources */,
 				B204104B1F4A8C8C00CCE4B1 /* ProductDetail2.xib in Resources */,
 				21EEB4761B87095C00CAD5C9 /* ic_lock.png in Resources */,
 				58528C551D13A3D200074EC6 /* cchmrk_up.png in Resources */,

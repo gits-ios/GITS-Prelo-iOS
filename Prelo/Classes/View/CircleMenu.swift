@@ -19,7 +19,7 @@ class CircleMenu: UIView {
     var btnRent: UIButton!
     
     var isOpen = false
-
+    
     //var center: CGPoint!
     var root: BaseViewController!
     var parent: UIView!
@@ -43,7 +43,7 @@ class CircleMenu: UIView {
         // Try
         self.overlayTotal = UIView()
         self.overlayTotal.frame = UIScreen.main.bounds
-        self.overlayTotal.backgroundColor = UIColor.colorWithColor(UIColor.lightGray, alpha: 0.5)
+        self.overlayTotal.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.5)
         self.overlayTotal.frame.origin = CGPoint(x: 0, y: AppTools.screenHeight)
         
         self.root = root
@@ -58,9 +58,10 @@ class CircleMenu: UIView {
         //self.btnCenter.layer.cornerRadius = (self.btnCenter.frame.size.width)/2
         self.btnCenter.createBordersWithColor(UIColor.lightGray, radius: (self.btnCenter.frame.size.width)/2, width: 1.0)
         
-        self.btnCenter.setTitle("Loh", for: UIControlState())
-        self.btnCenter.backgroundColor = UIColor.white
-        
+        self.btnCenter.setTitle(nil, for: UIControlState())
+        self.btnCenter.setImage(UIImage(named: "ic_camera_white.png"), for: UIControlState.normal)
+        self.btnCenter.imageEdgeInsets = UIEdgeInsetsMake(16, 16, 16, 16)
+        self.btnCenter.backgroundColor = Theme.PrimaryColor
         self.btnCenter.isUserInteractionEnabled = true
         self.btnCenter.addTarget(self.root, action: #selector(self.root.btnCenterPressed), for: UIControlEvents.touchUpInside)
         
@@ -80,7 +81,7 @@ class CircleMenu: UIView {
         print(menu.frame)
         
         self.menu.alpha = 0
-        self.menu.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.5)
+        self.menu.backgroundColor = UIColor.colorWithColor(UIColor.black, alpha: 0.0)
         
         self.menu.layoutIfNeeded()
         self.menu.clipsToBounds = true
@@ -99,7 +100,7 @@ class CircleMenu: UIView {
         self.btnSell.layoutIfNeeded()
         self.btnSell.layer.cornerRadius = (self.btnSell.frame.size.width)/2
         
-        self.btnSell.setTitle("Jual", for: UIControlState())
+        self.btnSell.setTitle("SEWA", for: UIControlState())
         self.btnSell.backgroundColor = Theme.ThemeOrange
         
         self.btnSell.isUserInteractionEnabled = true
@@ -115,8 +116,9 @@ class CircleMenu: UIView {
         self.btnRent.layoutIfNeeded()
         self.btnRent.layer.cornerRadius = (self.btnRent.frame.size.width)/2
         
-        self.btnRent.setTitle("Sewa", for: UIControlState())
-        self.btnRent.backgroundColor = Theme.PrimaryColor
+        self.btnRent.setTitle("JUAL", for: UIControlState())
+        self.btnRent.backgroundColor = UIColor.white
+        self.btnRent.setTitleColor(Theme.PrimaryColor)
         
         self.btnRent.isUserInteractionEnabled = true
         self.btnRent.addTarget(self.root, action: #selector(self.root.btnRentPressed), for: UIControlEvents.touchUpInside)
@@ -174,6 +176,9 @@ class CircleMenu: UIView {
             
             self.isOpen = true
         })
+        
+        //Start timer
+        setAutoCloseButtonTimer()
     }
     
     func close() {
@@ -193,6 +198,28 @@ class CircleMenu: UIView {
             self.menu.alpha = 0
             self.isOpen = false
         })
+        
+        //Reset timer
+        self.isTimerRunning = false
+        self.timer.invalidate()
+    }
+    
+    var seconds = 3 //This variable will hold a starting value of seconds. It could be any amount above 0.
+    var timer = Timer()
+    var isTimerRunning = false //This will be used to make sure only one timer is created at a time.
+    func setAutoCloseButtonTimer() {
+        if !isTimerRunning {
+            seconds = 3
+            isTimerRunning = true
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(self.updateTimer)), userInfo: nil, repeats: true)
+        }
+    }
+    
+    func updateTimer() {
+        seconds = isTimerRunning ? (seconds - 1) : seconds //This will decrement(count down)the seconds.
+        if seconds == 0 {
+            self.close()
+        }
     }
     
     func btnSellPressed() {
