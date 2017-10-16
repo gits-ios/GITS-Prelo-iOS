@@ -386,20 +386,32 @@ class ProductDetailViewController2: BaseViewController {
     }
     
     @IBAction func btnChatPressed(_ sender: Any) {
-        if let d = self.productDetail
-        {
-//            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
-//            t.tawarItem = d
-//            t.loadInboxFirst = true
-//            t.prodId = d.productID
-//            t.previousScreen = thisScreen
-//            t.isSellerNotActive = d.IsShopClosed
-//            t.phoneNumber = d.SellerPhone
-//            self.navigationController?.pushViewController(t, animated: true)
-        }
+
     }
     
     @IBAction func btnRentPressed(_ sender: Any) {
+        isNeedReload = true
+        self.showLoading()
+        
+        let mainStoryboard = UIStoryboard(name: "TanggalSewa", bundle: nil)
+        let vc = mainStoryboard.instantiateViewController(withIdentifier: "TanggalSewa") as! TanggalSewaViewController
+        let seller_id = self.productDetail?.json["_data"]["seller"]["_id"].stringValue
+        if self.productDetail?.json["_data"]["rent"]["period_type"].int == 0 {
+            //harian
+            vc.periodeType = 1
+        } else if self.productDetail?.json["_data"]["rent"]["period_type"].int == 1 {
+            //mingguan
+            vc.periodeType = 7
+        } else if self.productDetail?.json["_data"]["rent"]["period_type"].int == 2 {
+            //bulanan
+            vc.periodeType = 30
+        }
+        vc.productID = self.productDetail.productID
+        vc.sellerId = seller_id!
+        vc.previousScreen = thisScreen
+        
+        self.hideLoading()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnBuyPressed(_ sender: Any) {

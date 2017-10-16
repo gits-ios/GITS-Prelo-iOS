@@ -373,7 +373,7 @@ class ListCategoryViewController: BaseViewController, UIScrollViewDelegate, Carb
             
             categoryIndicator = UIView()
             categoryIndicator?.translatesAutoresizingMaskIntoConstraints = false
-            categoryIndicator?.backgroundColor = Theme.ThemeOrange
+            categoryIndicator?.backgroundColor = Theme.PrimaryColor
             contentCategoryNames?.addSubview(categoryIndicator!)
             d["indicator"] = categoryIndicator
             contentCategoryNames?.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:[indicator]-0-|", options: NSLayoutFormatOptions.alignAllLastBaseline, metrics: nil, views: d))

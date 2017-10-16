@@ -2550,6 +2550,16 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                     notifListener?.setCartCount(1 + self.cartResult.nTransactionUnpaid)
                     
                     // Prepare to navigate to next page
+                    
+//                    if self.isSewaProduct {
+//                        // remove view calendar picker
+//                        let navController = self.navigationController!
+//                        var controllers = navController.viewControllers
+//                        controllers.remove(at: (controllers.count - 2))
+//                        
+//                        navController.setViewControllers(controllers, animated: false)
+//                    }
+                    
                     if (self.paymentMethods[self.selectedPaymentIndex].methodDetail.provider == .native) { // bank
                         self.navigateToOrderConfirmVC(false)
                         
@@ -2564,8 +2574,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             if self.paymentMethods[self.selectedPaymentIndex].methodDetail.value == "Permata VA" {
                                 // back & push
                                 if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                                    self.removeCalendarView()
-                                    
                                     let navController = self.navigationController!
                                     var controllers = navController.viewControllers
                                     controllers.removeLast()
@@ -2592,8 +2600,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                                self.removeCalendarView()
-                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -2617,8 +2623,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                                self.removeCalendarView()
-                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -2655,8 +2659,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                                self.removeCalendarView()
-                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -2680,8 +2682,6 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
                             
                             // back & push
                             if let count = self.navigationController?.viewControllers.count, count >= 2 {
-                                self.removeCalendarView()
-                                
                                 let navController = self.navigationController!
                                 var controllers = navController.viewControllers
                                 controllers.removeLast()
@@ -3028,12 +3028,5 @@ class Checkout2ViewController: BaseViewController, UITableViewDataSource, UITabl
     
     func durasiSewaClick() {
         self.navigationController?.popViewController(animated: true)
-    }
-    
-    func removeCalendarView() {
-        // remove view calendar picker
-        var navCon: [UIViewController] = (self.navigationController?.viewControllers)!
-        navCon.remove(at: (navCon.count - 2))
-        self.navigationController?.viewControllers = navCon
     }
 }
