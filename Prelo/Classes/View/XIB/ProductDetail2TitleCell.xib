@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -49,7 +50,7 @@
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="X1y-Xn-Hw0" userLabel="Vw Sell">
                         <rect key="frame" x="12" y="96.5" width="302" height="22"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FmF-dV-ehC">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic-jual-beli" translatesAutoresizingMaskIntoConstraints="NO" id="FmF-dV-ehC">
                                 <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="cJ7-xU-8od"/>
@@ -78,7 +79,7 @@
                     <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o2G-Dj-uBN" userLabel="Vw Rent">
                         <rect key="frame" x="12" y="126.5" width="302" height="22"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0yS-J8-oRZ">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic-harga-sewa" translatesAutoresizingMaskIntoConstraints="NO" id="0yS-J8-oRZ">
                                 <rect key="frame" x="0.0" y="0.0" width="22" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="22" id="Zob-z5-p4T"/>
@@ -88,7 +89,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rp15.000 / hari" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M3B-sY-u8Y">
                                 <rect key="frame" x="30" y="0.0" width="272" height="22"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <color key="textColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -565,6 +566,8 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="ic-harga-sewa" width="32" height="32"/>
+        <image name="ic-jual-beli" width="32" height="32"/>
         <image name="ic_comment.png" width="96" height="96"/>
         <image name="ic_love_96px_trp.png" width="96" height="96"/>
         <image name="ic_mata.png" width="96" height="96"/>

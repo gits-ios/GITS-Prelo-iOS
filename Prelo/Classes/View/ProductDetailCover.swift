@@ -159,7 +159,17 @@ class ProductDetailCover: UIView {
                     banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
                     self.addSubview(banner!)
                 }
-            } else if (isFeaturedProduct) {
+            } else if (status == 13) { // rented
+                let screenSize: CGRect = UIScreen.main.bounds
+                let screenWidth = screenSize.width
+                let bannerWidth = screenWidth/3 // 150
+                banner = UIImageView(image: UIImage(named: "banner_rented.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)
+                    self.addSubview(banner!)
+                }
+            }
+            else if (isFeaturedProduct) {
                 banner = UIImageView(image: UIImage(named: "banner_featured.png"))
                 if (banner != nil) {
                     banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: self.topBannerHeight + 2, width: bannerWidth, height: bannerWidth)

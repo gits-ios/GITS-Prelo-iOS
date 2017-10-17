@@ -87,6 +87,8 @@ class ProductDetailViewController2: BaseViewController {
     var productItem = ProductHelperItem()
     var product : Product?
     var productDetail : ProductDetail!
+    var isSellDescriptionOpen = false
+    var isRentDescriptionOpen = false
     var isOpen = true
     
     var alreadyInCart : Bool = false
@@ -209,10 +211,10 @@ class ProductDetailViewController2: BaseViewController {
         
         if (productDetail == nil || isNeedReload) {
             getDetail()
-
+            
             isNeedReload = false
         }
-
+        
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -304,21 +306,21 @@ class ProductDetailViewController2: BaseViewController {
                     let sellerid = self.productDetail.theirId
                     
                     if User.IsLoggedIn && sellerid != userid && !((self.product?.isCheckout)!) {
-                       // self.setOptionButton()
+                        // self.setOptionButton()
                     } else {
                         /*
-                        // ads
-                        IronSource.setRewardedVideoDelegate(self)
-                        
-                        let userID = UIDevice.current.identifierForVendor!.uuidString
-                        IronSource.setUserId(userID)
-                        
-                        // init with prelo official appkey
-                        IronSource.initWithAppKey("60b14515", adUnits:[IS_REWARDED_VIDEO])
-                        
-                        // check ads mediation integration
-                        ISIntegrationHelper.validateIntegration()
-                        */
+                         // ads
+                         IronSource.setRewardedVideoDelegate(self)
+                         
+                         let userID = UIDevice.current.identifierForVendor!.uuidString
+                         IronSource.setUserId(userID)
+                         
+                         // init with prelo official appkey
+                         IronSource.initWithAppKey("60b14515", adUnits:[IS_REWARDED_VIDEO])
+                         
+                         // check ads mediation integration
+                         ISIntegrationHelper.validateIntegration()
+                         */
                     }
                     
                     // Prelo Analytic - Visit Product Detail
@@ -350,9 +352,9 @@ class ProductDetailViewController2: BaseViewController {
                         let json = JSON(resp.result.value!)
                         let isSuccess = json["_data"].boolValue
                         
-                            self.disableButton(self.btnUpVwSeller)
-                            self.disableButton(self.btnSoldVwSeller)
-                            self.disableButton(self.btnEditVwSeller)
+                        self.disableButton(self.btnUpVwSeller)
+                        self.disableButton(self.btnSoldVwSeller)
+                        self.disableButton(self.btnEditVwSeller)
                         
                     }
                     self.hideLoading()
@@ -386,7 +388,18 @@ class ProductDetailViewController2: BaseViewController {
     }
     
     @IBAction func btnChatPressed(_ sender: Any) {
-
+        if let d = self.productDetail
+        {
+            let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
+            t.tawarItem = d
+            t.listingType = d.listing_type
+            t.loadInboxFirst = true
+            t.prodId = d.productID
+            t.previousScreen = thisScreen
+            t.isSellerNotActive = d.IsShopClosed
+            t.phoneNumber = d.SellerPhone
+            self.navigationController?.pushViewController(t, animated: true)
+        }
     }
     
     @IBAction func btnRentPressed(_ sender: Any) {
@@ -673,21 +686,25 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         let listingType = productDetail.json["_data"]["listing_type"].intValue
         switch(listSections[section]) {
         case .descSell:
-            if listingType == 0 && self.listSections[section] == .descSell {
-                return 1
-            } else if listingType == 2 && !self.isOpen { // close
-                return 1
-            } else {
-                return self.listSections[section].numberOfCell
-            }
+            return self.listSections[section].numberOfCell
+            
+            //            if listingType == 0 && self.listSections[section] == .descSell {
+            //                return 1
+            //            } else if listingType == 2 && !self.isOpen { // close
+            //                return 1
+            //            } else {
+            //                return self.listSections[section].numberOfCell
+        //            }
         case .descRent:
-            if listingType == 1 && self.listSections[section] == .descRent {
-                return 1
-            } else if listingType == 2 && self.isOpen { // close
-                return 1
-            } else {
-                return self.listSections[section].numberOfCell
-            }
+            return self.listSections[section].numberOfCell
+            
+            //            if listingType == 1 && self.listSections[section] == .descRent {
+            //                return 1
+            //            } else if listingType == 2 && self.isOpen { // close
+            //                return 1
+            //            } else {
+            //                return self.listSections[section].numberOfCell
+        //            }
         case .comment:
             return self.listSections[section].numberOfCell + (self.productDetail.discussions?.count)!
         default:
@@ -709,22 +726,16 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         case .description:
             return ProductDetail2DescriptionCell.heightFor(self.productDetail)
         case .descSell:
-            if listingType == 0 {
-                return ProductDetail2DescriptionSellCell.heightFor(self.productDetail)
+            if row == 0 {
+                return ProductDetail2TitleSectionCell.heightFor()
             } else {
-                if row == 0 {
-                    return ProductDetail2TitleSectionCell.heightFor()
-                }
-                return ProductDetail2DescriptionSellCell.heightFor(self.productDetail)
+                return self.isSellDescriptionOpen ? ProductDetail2DescriptionSellCell.heightFor() : 0
             }
         case .descRent:
-            if listingType == 1 {
-                return ProductDetail2DescriptionRentCell.heightFor()
+            if row == 0 {
+                return ProductDetail2TitleSectionCell.heightFor()
             } else {
-                if row == 0 {
-                    return ProductDetail2TitleSectionCell.heightFor()
-                }
-                return ProductDetail2DescriptionRentCell.heightFor()
+                return self.isRentDescriptionOpen ? ProductDetail2DescriptionRentCell.heightFor(self.productDetail) : 0
             }
         case .comment:
             if row == 0 {
@@ -743,7 +754,8 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         switch(listSections[section]) {
         case .cover:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2CoverCell") as! ProductDetail2CoverCell
-            cell.adapt(self.productDetail)
+            //cell.adapt(self.productDetail, isFeatured: self.product?.isFeatured)
+            cell.adapt(self.productDetail, isFeatured: (self.product?.isFeatured)!)
             
             cell.zoomImage = { index in
                 let c = CoverZoomController()
@@ -861,7 +873,7 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         case .description:
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionCell") as! ProductDetail2DescriptionCell
             cell.adapt(self.productDetail)
-
+            
             
             cell.openCategory = { name, id in
                 let mainStoryboard = UIStoryboard(name: "Main", bundle: nil)
@@ -885,31 +897,29 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
             
             return cell
         case .descSell:
-            if listingType == 0 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionSellCell") as! ProductDetail2DescriptionSellCell
-                cell.adapt(self.productDetail)
+            if row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
+                cell.adapt("Informasi Jual", isExpandable: true, isExpanded: self.isSellDescriptionOpen)
+                cell.expandCollapse = {
+                    self.isSellDescriptionOpen = !self.isSellDescriptionOpen
+                    self.tableView.reloadSections(NSIndexSet(index: section) as IndexSet, with: .fade)
+                }
                 return cell
             } else {
-                if row == 0 {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
-                    cell.adapt("JUAL", isOpen: self.isOpen, isShow: true)
-                    return cell
-                }
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionSellCell") as! ProductDetail2DescriptionSellCell
                 cell.adapt(self.productDetail)
                 return cell
             }
         case .descRent:
-            if listingType == 1 {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionRentCell") as! ProductDetail2DescriptionRentCell
-                cell.adapt(self.productDetail)
+            if row == 0 {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
+                cell.adapt("Informasi Sewa", isExpandable: true, isExpanded: self.isRentDescriptionOpen)
+                cell.expandCollapse = {
+                    self.isRentDescriptionOpen = !self.isRentDescriptionOpen
+                    self.tableView.reloadSections(NSIndexSet(index: section) as IndexSet, with: .fade)
+                }
                 return cell
             } else {
-                if row == 0 {
-                    let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
-                    cell.adapt("SEWA", isOpen: !self.isOpen, isShow: true)
-                    return cell
-                }
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2DescriptionRentCell") as! ProductDetail2DescriptionRentCell
                 cell.adapt(self.productDetail)
                 return cell
@@ -917,7 +927,7 @@ extension ProductDetailViewController2: UITableViewDelegate, UITableViewDataSour
         case .comment:
             if row == 0 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2TitleSectionCell") as! ProductDetail2TitleSectionCell
-                cell.adapt("KOMENTAR", isOpen: true, isShow: false)
+                cell.adapt("KOMENTAR", isExpandable: false, isExpanded: false)
                 return cell
             } else if row == (self.productDetail?.discussions?.count)! + 1 {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ProductDetail2AddCommentCell") as! ProductDetail2AddCommentCell
@@ -1196,6 +1206,7 @@ class ProductDetail2CoverCell: UITableViewCell {
     var pageIndicator: UIPageControl = UIPageControl()
     
     var images: Array<String> = []
+    var banner : UIImageView?
     var currentPage = 0
     
     var zoomImage: (_ index: Int)->() = {_ in }
@@ -1218,7 +1229,7 @@ class ProductDetail2CoverCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ productDetail: ProductDetail) {
+    func adapt(_ productDetail: ProductDetail, isFeatured: Bool) {
         self.images = productDetail.displayPicturers
         self.carousel.frame = self.vwContainerCarousel.bounds
         self.carousel.width = AppTools.screenWidth
@@ -1229,6 +1240,52 @@ class ProductDetail2CoverCell: UITableViewCell {
         self.pageIndicator.currentPage = self.currentPage
         
         self.carousel.reloadData()
+        
+        if (productDetail.status != nil) {
+            let screenSize: CGRect = UIScreen.main.bounds
+            let screenWidth = screenSize.width
+            let bannerWidth = screenWidth/3 // 150
+            if (productDetail.status == 2 && !productDetail.isFakeApprove && !productDetail.isFakeApproveV2) { // under review
+                banner = UIImageView(image: UIImage(named: "banner_review.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: 0.0, width: bannerWidth, height: bannerWidth)
+                    self.addSubview(banner!)
+                }
+            } else if (productDetail.status == 4) { // sold
+                let screenSize: CGRect = UIScreen.main.bounds
+                let screenWidth = screenSize.width
+                let bannerWidth = screenWidth/3 // 150
+                banner = UIImageView(image: UIImage(named: "banner_sold.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: 0.0, width: bannerWidth, height: bannerWidth)
+                    self.addSubview(banner!)
+                }
+            } else if (productDetail.status == 7) { // reserved
+                banner = UIImageView(image: UIImage(named: "banner_reserved.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: 0.0, width: bannerWidth, height: bannerWidth)
+                    self.addSubview(banner!)
+                }
+            } else if (productDetail.status == 13) { // rented
+                let screenSize: CGRect = UIScreen.main.bounds
+                let screenWidth = screenSize.width
+                let bannerWidth = screenWidth/3 // 150
+                banner = UIImageView(image: UIImage(named: "banner_rented.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: 0.0, width: bannerWidth, height: bannerWidth)
+                    self.addSubview(banner!)
+                }
+            }
+            else if (isFeatured) {
+                banner = UIImageView(image: UIImage(named: "banner_featured.png"))
+                if (banner != nil) {
+                    banner!.frame = CGRect(x: screenWidth - bannerWidth - 2, y: 0.0, width: bannerWidth, height: bannerWidth)
+                    self.addSubview(banner!)
+                }
+            } else {
+                banner?.removeFromSuperview()
+            }
+        }
     }
     
     // 216
@@ -1600,16 +1657,13 @@ class ProductDetail2DescriptionCell: UITableViewCell {
     @IBOutlet weak var lbCategory: ZSWTappableLabel!
     @IBOutlet weak var lbMerk: ZSWTappableLabel!
     @IBOutlet weak var lbWeight: UILabel!
-    
     @IBOutlet weak var consHeightVwSize: NSLayoutConstraint! // 0 -> 21
     @IBOutlet weak var lbSize: UILabel!
-    
     @IBOutlet weak var lbCondition: UILabel!
-    
     @IBOutlet weak var consHeightVwCacat: NSLayoutConstraint! // 0 -> 21
     @IBOutlet weak var lbCacat: UILabel!
-    
     @IBOutlet weak var lbAlasanJual: UILabel!
+    @IBOutlet weak var lbDikirimDari: UILabel!
     @IBOutlet weak var lbDescription: UILabel!
     @IBOutlet weak var lbTimeStamp: UILabel!
     
@@ -1706,7 +1760,7 @@ class ProductDetail2DescriptionCell: UITableViewCell {
                 ZSWTappableLabelHighlightedBackgroundAttributeName : UIColor.darkGray,
                 ZSWTappableLabelHighlightedForegroundAttributeName : UIColor.white,
                 NSForegroundColorAttributeName : Theme.PrimaryColorDark
-            ] as [String : Any]
+                ] as [String : Any]
             
             let brandString = merk + (product["brand_id"].stringValue != "" ? " " : "")
             let attString : NSMutableAttributedString = NSMutableAttributedString(string: brandString, attributes: p)
@@ -1823,7 +1877,9 @@ extension ProductDetail2DescriptionCell: ZSWTappableLabelTapDelegate {
 
 // MARK: - Description (Product) Sell Cell
 class ProductDetail2DescriptionSellCell: UITableViewCell {
-    @IBOutlet weak var lbSellerRegion: UILabel!
+    //    @IBOutlet weak var lbSellerRegion: UILabel!
+    @IBOutlet weak var labelPengiriman: UILabel!
+    @IBOutlet weak var labelKurir: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1835,43 +1891,49 @@ class ProductDetail2DescriptionSellCell: UITableViewCell {
     }
     
     func adapt(_ productDetail: ProductDetail) {
-        let product = productDetail.json["_data"]
+        let productData = productDetail.json["_data"]
         
-        var region = product["location"]["subdistrict_name"].stringValue
-        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
-            region += ", " + reg
-        }
-        if region == "" {
-            region = "Unknown"
-        }
+//        var region = product["location"]["subdistrict_name"].stringValue
+//        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
+//            region += ", " + reg
+//        }
+//        if region == "" {
+//            region = "Unknown"
+//        }
         
-        self.lbSellerRegion.text = region
+        //        self.lbSellerRegion.text = region
     }
     
     // count description
-    static func heightFor(_ productDetail: ProductDetail) -> CGFloat {
-        // 12 + 8 + 32 + 2 + 8 + 12, ft 12
-        let text = "Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang \"Diterima\" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan."
-        let t = text.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
-        
-        let product = productDetail.json["_data"]
-        var region = product["location"]["subdistrict_name"].stringValue
-        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
-            region += ", " + reg
-        }
-        if region == "" {
-            region = "Unknown"
-        }
-        
-        let r = region.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 109)
-        
-        return 79 - 17 + r.height + t.height + 8 + 12
+    static func heightFor() -> CGFloat {
+        //        // 12 + 8 + 32 + 2 + 8 + 12, ft 12
+        //        let text = "Belanja bergaransi dengan waktu jaminan hingga 3x24 jam setelah status barang \"Diterima\" jika barang terbukti KW, memiliki cacat yang tidak diinformasikan, atau berbeda dari yang dipesan."
+        //        let t = text.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
+        //
+        //        let product = productDetail.json["_data"]
+        //        var region = product["location"]["subdistrict_name"].stringValue
+        //        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
+        //            region += ", " + reg
+        //        }
+        //        if region == "" {
+        //            region = "Unknown"
+        //        }
+        //
+        //        let r = region.boundsWithFontSize(UIFont.systemFont(ofSize: 14), width: AppTools.screenWidth - 109)
+        //
+        //        return 79 - 17 + r.height + t.height + 8 + 12
+        return 200
     }
 }
 
 // MARK: - Description (Product) Rent Cell
 class ProductDetail2DescriptionRentCell: UITableViewCell {
-    @IBOutlet weak var lbDeposit: UILabel!
+    //    @IBOutlet weak var lbDeposit: UILabel!
+    @IBOutlet weak var labelDeposit: UILabel!
+    @IBOutlet weak var labelKurir: UILabel!
+    @IBOutlet weak var labelBertemuLangsung: UILabel!
+    @IBOutlet weak var labelKeterangan: UILabel!
+    @IBOutlet weak var stackViewBertemuLangsung: UIStackView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1883,18 +1945,32 @@ class ProductDetail2DescriptionRentCell: UITableViewCell {
     }
     
     func adapt(_ productDetail: ProductDetail) {
-        let product = productDetail.json["_data"]
+        let productData = productDetail.json["_data"]
         
-        self.lbDeposit.text = product["rent"]["price_deposit"].int64Value.asPrice
+        self.labelDeposit.text = productData["rent"]["price_deposit"].int64Value.asPrice
+        if productData["rent"]["meetup_available"].bool! {
+            self.labelBertemuLangsung.text = productData["rent"]["meetup_location"].string
+            self.labelKeterangan.text = productData["rent"]["meetup_details"].string
+        } else {
+            self.labelKeterangan.isHidden = true
+            self.stackViewBertemuLangsung.isHidden = true
+        }
     }
     
     // count description
-    static func heightFor() -> CGFloat {
+    static func heightFor(_ productDetail: ProductDetail) -> CGFloat {
         // 12 + 8 + 32 + 2 + 8 + 12, ft 12
-        let text = "Deposi dibayarkan saat menyewa dan akan dikembalikan setelah barang kembali dalam kondisi baik."
-        let t = text.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
+        //        let text = "Deposi dibayarkan saat menyewa dan akan dikembalikan setelah barang kembali dalam kondisi baik."
+        //        let t = text.boundsWithFontSize(UIFont.systemFont(ofSize: 12), width: AppTools.screenWidth - (12 + 8 + 32 + 2 + 8 + 12))
+        //
+        //        return 79 + t.height + 8 + 12
         
-        return 79 + t.height + 8 + 12
+        let productData = productDetail.json["_data"]
+        if productData["rent"]["meetup_available"].bool! {
+            return 240
+        } else {
+            return 160
+        }
     }
 }
 
@@ -1902,7 +1978,15 @@ class ProductDetail2DescriptionRentCell: UITableViewCell {
 // KOMENTAR / JUAL / SEWA
 class ProductDetail2TitleSectionCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
-    @IBOutlet weak var lbAccordion: UILabel! // default hide, hide if commentar, open: , close: 
+    @IBOutlet var imageExpandCollapse: UIImageView!
+
+    @IBOutlet var spacerTop: UIView!
+    @IBOutlet var spacerLeft: UIView!
+    @IBOutlet var spacerRight: UIView!
+    @IBOutlet var spacerBottom: UIView!
+    
+    var isExpandable = false
+    var expandCollapse: ()->() = {}
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -1913,21 +1997,29 @@ class ProductDetail2TitleSectionCell: UITableViewCell {
         self.clipsToBounds = true
     }
     
-    func adapt(_ title: String, isOpen: Bool, isShow: Bool) {
+    func adapt(_ title: String, isExpandable: Bool, isExpanded: Bool) {
         self.lbTitle.text = title
         
-        if isShow {
-            self.lbAccordion.isHidden = false
-            
-            if isOpen {
-                self.lbAccordion.text = ""
-            } else {
-                self.lbAccordion.text = ""
-            }
+        self.isExpandable = isExpandable
+        spacerTop.isHidden = isExpandable ? false : true
+        spacerLeft.isHidden = isExpandable ? false : true
+        spacerRight.isHidden = isExpandable ? false : true
+        spacerBottom.isHidden = isExpandable ? false : true
+        imageExpandCollapse.isHidden = isExpandable ? false : true
+        
+        if isExpanded {
+            self.imageExpandCollapse.image = UIImage(named: "arrow_up.png")
         } else {
-            self.lbAccordion.isHidden = true
+            self.imageExpandCollapse.image = UIImage(named: "arrow_down.png")
         }
     }
+    
+    @IBAction func expandCollapseAction(_ sender: Any) {
+        if self.isExpandable {
+            expandCollapse()
+        }
+    }
+    
     
     // 43
     static func heightFor() -> CGFloat {
