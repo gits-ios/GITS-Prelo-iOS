@@ -1182,11 +1182,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                 
                 // Redirect setelah selesai menunggu
                 if (rootViewController != nil) {
-                    let productDetailVC = mainStoryboard.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                    productDetailVC.product = p!
+                    let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+                    productDetail2VC.product = p!
                     
                     self.hideRedirAlertWithDelay(1.0, completion: { () -> Void in
-                        rootViewController!.pushViewController(productDetailVC, animated: true)
+                        rootViewController!.pushViewController(productDetail2VC, animated: true)
                     })
                 } else {
                     self.showFailedRedirAlert()

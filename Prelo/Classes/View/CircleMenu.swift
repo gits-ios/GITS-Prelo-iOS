@@ -104,7 +104,7 @@ class CircleMenu: UIView {
         self.btnSell.backgroundColor = Theme.ThemeOrange
         
         self.btnSell.isUserInteractionEnabled = true
-        self.btnSell.addTarget(self.root, action: #selector(self.root.btnSellPressed), for: UIControlEvents.touchUpInside)
+        self.btnSell.addTarget(self.root, action: #selector(self.root.btnRentPressed), for: UIControlEvents.touchUpInside)
         
         self.btnSell.layoutIfNeeded()
         self.btnSell.clipsToBounds = true
@@ -121,7 +121,7 @@ class CircleMenu: UIView {
         self.btnRent.setTitleColor(Theme.PrimaryColor)
         
         self.btnRent.isUserInteractionEnabled = true
-        self.btnRent.addTarget(self.root, action: #selector(self.root.btnRentPressed), for: UIControlEvents.touchUpInside)
+        self.btnRent.addTarget(self.root, action: #selector(self.root.btnSellPressed), for: UIControlEvents.touchUpInside)
         
         self.btnRent.layoutIfNeeded()
         self.btnRent.clipsToBounds = true

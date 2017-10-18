@@ -444,10 +444,10 @@ class SearchViewController: BaseViewController, UIScrollViewDelegate, UITableVie
                 let selectedProduct = foundItems[(indexPath as NSIndexPath).row]
                 
                 if selectedProduct.isAggregate == false && selectedProduct.isAffiliate == false {
-                    let d = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                    d.product = foundItems[(indexPath as NSIndexPath).row]
-                    d.previousScreen = PageName.Search
-                    self.navigationController?.pushViewController(d, animated: true)
+                    let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+                    productDetail2VC.product = foundItems[(indexPath as NSIndexPath).row]
+                    productDetail2VC.previousScreen = PageName.Search
+                    self.navigationController?.pushViewController(productDetail2VC, animated: true)
                 } else if selectedProduct.isAffiliate == false {
                     let l = self.storyboard?.instantiateViewController(withIdentifier: "productList") as! ListItemViewController
                     l.currentMode = .filter

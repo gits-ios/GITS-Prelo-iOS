@@ -637,12 +637,15 @@
 		A906AE6D1F6ABC5C00299796 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */; };
 		A90D84781F6912080085ABAD /* BarangSaya.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90D84771F6912080085ABAD /* BarangSaya.storyboard */; };
 		A95B6A8B1F8F4F7C0099C9A8 /* ic_camera_white.png in Resources */ = {isa = PBXBuildFile; fileRef = A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */; };
+		A975BCBB1F96456200525EE5 /* TanggalTersewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A975BCBA1F96456200525EE5 /* TanggalTersewa.storyboard */; };
+		A975BCD11F964A6100525EE5 /* TanggalTersewaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A975BCD01F964A6100525EE5 /* TanggalTersewaViewController.swift */; };
 		A97785BD1F70D35100D86CA7 /* DropDown.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A97785BC1F70D34000D86CA7 /* DropDown.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A97785BE1F70D35700D86CA7 /* AlamofireImage.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A97785A41F70D33D00D86CA7 /* AlamofireImage.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A97785BF1F70D36000D86CA7 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A977858A1F70D33500D86CA7 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A97A04871F8E3EDD00FAEF39 /* ic_deposit_sewa.png in Resources */ = {isa = PBXBuildFile; fileRef = A97A04861F8E3EDD00FAEF39 /* ic_deposit_sewa.png */; };
 		A97A04A01F8E566800FAEF39 /* ic_checkedbox_orange.png in Resources */ = {isa = PBXBuildFile; fileRef = A97A049F1F8E566800FAEF39 /* ic_checkedbox_orange.png */; };
 		A992FA721F67E49F007EBF12 /* TanggalSewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A992FA711F67E49F007EBF12 /* TanggalSewa.storyboard */; };
+		A9958BA51F9679CA00BC04CC /* banner_rent.png in Resources */ = {isa = PBXBuildFile; fileRef = A9958BA41F9679CA00BC04CC /* banner_rent.png */; };
 		A9A9F9171F6BE23D00A7B5ED /* ItemListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9A9F9161F6BE23D00A7B5ED /* ItemListCell.xib */; };
 		A9A9F92C1F6BE63C00A7B5ED /* ItemListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A9F92B1F6BE63C00A7B5ED /* ItemListCell.swift */; };
 		A9A9F9451F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */; };
@@ -1918,12 +1921,15 @@
 		A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		A90D84771F6912080085ABAD /* BarangSaya.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarangSaya.storyboard; sourceTree = "<group>"; };
 		A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_camera_white.png; sourceTree = "<group>"; };
+		A975BCBA1F96456200525EE5 /* TanggalTersewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TanggalTersewa.storyboard; sourceTree = "<group>"; };
+		A975BCD01F964A6100525EE5 /* TanggalTersewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalTersewaViewController.swift; sourceTree = "<group>"; };
 		A977857E1F70D33500D86CA7 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		A97785971F70D33D00D86CA7 /* AlamofireImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AlamofireImage.xcodeproj; path = AlamofireImage/AlamofireImage.xcodeproj; sourceTree = "<group>"; };
 		A97785B11F70D34000D86CA7 /* DropDown.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropDown.xcodeproj; path = DropDown/DropDown.xcodeproj; sourceTree = "<group>"; };
 		A97A04861F8E3EDD00FAEF39 /* ic_deposit_sewa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_deposit_sewa.png; sourceTree = "<group>"; };
 		A97A049F1F8E566800FAEF39 /* ic_checkedbox_orange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_checkedbox_orange.png; sourceTree = "<group>"; };
 		A992FA711F67E49F007EBF12 /* TanggalSewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TanggalSewa.storyboard; sourceTree = "<group>"; };
+		A9958BA41F9679CA00BC04CC /* banner_rent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = banner_rent.png; sourceTree = "<group>"; };
 		A9A9F9161F6BE23D00A7B5ED /* ItemListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ItemListCell.xib; sourceTree = "<group>"; };
 		A9A9F92B1F6BE63C00A7B5ED /* ItemListCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemListCell.swift; sourceTree = "<group>"; };
 		A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotifAnggiTransactionViewController.swift; sourceTree = "<group>"; };
@@ -1939,7 +1945,7 @@
 		A9B675191F84D12B00B9BC3E /* Verifikasi Sewa - Kampus.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kampus.jpg"; sourceTree = "<group>"; };
 		A9B6751A1F84D12B00B9BC3E /* Verifikasi Sewa - Kantor.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kantor.jpg"; sourceTree = "<group>"; };
 		A9B6751B1F84D12B00B9BC3E /* Verifikasi Sewa - Kelurahan.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Verifikasi Sewa - Kelurahan.jpg"; sourceTree = "<group>"; };
-		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalSewaViewController.swift; sourceTree = "<group>"; };
+		A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TanggalSewaViewController.swift; path = Sewa/TanggalSewaViewController.swift; sourceTree = "<group>"; };
 		A9E369EA1F6AED4B00DF69F1 /* TanggalViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalViewCell.swift; sourceTree = "<group>"; };
 		A9E369EC1F6AED7700DF69F1 /* TanggalViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TanggalViewCell.xib; sourceTree = "<group>"; };
 		A9E8E86B1F8381F900D8478B /* ic_trx_reconciliation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_trx_reconciliation.png; sourceTree = "<group>"; };
@@ -2452,6 +2458,7 @@
 				2115E6D91B4A27E500509D2A /* LaunchScreen.xib */,
 				2115E6D41B4A27E500509D2A /* Main.storyboard */,
 				A992FA711F67E49F007EBF12 /* TanggalSewa.storyboard */,
+				A975BCBA1F96456200525EE5 /* TanggalTersewa.storyboard */,
 				A90D84771F6912080085ABAD /* BarangSaya.storyboard */,
 				A901380A1F74BC9A0046C423 /* TawarSewa.storyboard */,
 				B2D119CB1E2922870064045B /* Prelo.xcdatamodeld */,
@@ -2794,7 +2801,8 @@
 			isa = PBXGroup;
 			children = (
 				A9A9F9441F6BF1A100A7B5ED /* NotifAnggiTransactionViewController.swift */,
-				A992FA831F67E683007EBF12 /* TanggalSewa */,
+				A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */,
+				A975BCD01F964A6100525EE5 /* TanggalTersewaViewController.swift */,
 				21C6589F1B8F01E10037F85F /* AboutViewController.swift */,
 				B240F4F01E24DE7000DCAFF7 /* AchievementViewController.swift */,
 				21983BED1BE1C22200F0C24E /* AddProductImageFullScreen.swift */,
@@ -2945,6 +2953,7 @@
 		21AE67B11B4A59F400D2CF63 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A975BCCF1F9649E800525EE5 /* TanggalTersewa */,
 				A90138381F7509960046C423 /* SewaCheckout */,
 				A9E369D61F6AED2300DF69F1 /* TanggalSewa */,
 				B229DDDD1F4946A40062F5DF /* CircleMenu.swift */,
@@ -2988,6 +2997,7 @@
 		21AE67B61B4A61C600D2CF63 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				A9958BA41F9679CA00BC04CC /* banner_rent.png */,
 				A9ADFC191F95E24A001F1348 /* banner_rented.png */,
 				A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */,
 				A97A049F1F8E566800FAEF39 /* ic_checkedbox_orange.png */,
@@ -3818,6 +3828,13 @@
 			path = SewaCheckout;
 			sourceTree = "<group>";
 		};
+		A975BCCF1F9649E800525EE5 /* TanggalTersewa */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = TanggalTersewa;
+			sourceTree = "<group>";
+		};
 		A977857F1F70D33500D86CA7 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -3854,15 +3871,6 @@
 				A97785BC1F70D34000D86CA7 /* DropDown.framework */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		A992FA831F67E683007EBF12 /* TanggalSewa */ = {
-			isa = PBXGroup;
-			children = (
-				A9E327F61F68DB3C009382F5 /* TanggalSewaViewController.swift */,
-			);
-			name = TanggalSewa;
-			path = Sewa;
 			sourceTree = "<group>";
 		};
 		A9E369D61F6AED2300DF69F1 /* TanggalSewa */ = {
@@ -4750,6 +4758,7 @@
 				A9ADFC1A1F95E24A001F1348 /* banner_rented.png in Resources */,
 				B21416551ECAAB49008A19AE /* ic_dev.png in Resources */,
 				5804CBD61EEE6A8900B7D032 /* RekeningListNewCell.xib in Resources */,
+				A975BCBB1F96456200525EE5 /* TanggalTersewa.storyboard in Resources */,
 				B2C3A3C61E2B8E370082A15D /* ShopAchievementCell.xib in Resources */,
 				58F0A41B1C7C634A002A488F /* cchmrk_chat.png in Resources */,
 				B2CAF7841E78F58900ACB361 /* PreloMessageCell.xib in Resources */,
@@ -4943,6 +4952,7 @@
 				215C526D1B6B5CCE00EA4E61 /* ic_love@2x.png in Resources */,
 				B271A66A1EDEC40400C6A973 /* placeholder-standar-white.png in Resources */,
 				B20B89931F078ADE001DA0F4 /* AddProduct3DetailProductCell.xib in Resources */,
+				A9958BA51F9679CA00BC04CC /* banner_rent.png in Resources */,
 				5858873B1DBEDA54006EC6D5 /* FilterCollectionCell.xib in Resources */,
 				B2D9660D1E9F53F500B2C29C /* stage_checkout.png in Resources */,
 				5856875B1C6C97F4002A19CE /* ic_request.png in Resources */,
@@ -5600,6 +5610,7 @@
 				B2FFCBB01EA52669004F01D0 /* SocketParsable.swift in Sources */,
 				585887981DBF3309006EC6D5 /* MyPurchaseProcessingViewController.swift in Sources */,
 				21679A3B1B901C5300F18F90 /* MPObjectSerializerContext.m in Sources */,
+				A975BCD11F964A6100525EE5 /* TanggalTersewaViewController.swift in Sources */,
 				585887991DBF3309006EC6D5 /* MyPurchaseViewController.swift in Sources */,
 				B2207FB01ED67C2F00BCE613 /* DKGroupDataManager.swift in Sources */,
 				21C658941B8EF25E0037F85F /* AbstractActionSheetPicker.m in Sources */,

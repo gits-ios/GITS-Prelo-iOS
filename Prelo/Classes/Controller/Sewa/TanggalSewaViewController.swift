@@ -33,7 +33,6 @@ class TanggalSewaViewController: BaseViewController {
     var finishBuffer: Int = 1
     var startDateOpenDayRange: Int = 30
     var periodeType: Int = 1 // 1 = harian, 7 = mingguan, 30 = bulanan
-    
     var thisScreen: String!
     
     //from product detail for checkout

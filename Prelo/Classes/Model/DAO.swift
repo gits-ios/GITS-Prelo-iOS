@@ -1392,6 +1392,13 @@ open class Product : NSObject
         return false
     }
     
+    var listingType : Int {
+        if let j = json["listing_type"].int {
+            return j
+        }
+        return 2
+    }
+    
     var isAggregate : Bool {
         if let _ = json["aggregate_data"]["num_products"].int {
             return true

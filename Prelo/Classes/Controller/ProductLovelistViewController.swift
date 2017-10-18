@@ -230,7 +230,6 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
     }
     
     // MARK: - Other functions
-    
     @IBAction func gotoProduct(_ sender: AnyObject) {
         self.showLoading()
         let _ = request(APIProduct.detail(productId: productId, forEdit: 0)).responseJSON { resp in
@@ -238,11 +237,10 @@ class ProductLovelistViewController: BaseViewController, UITableViewDataSource, 
                 let json = JSON(resp.result.value!)
                 let data = json["_data"]
                 let p = Product.instance(data)
-                let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                productDetailVC.product = p!
-                productDetailVC.previousScreen = PageName.InboxDetail
-                self.navigationController?.pushViewController(productDetailVC, animated: true)
-                self.hideLoading()
+                let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+                productDetail2VC.product = p!
+                productDetail2VC.previousScreen = PageName.Lovelist
+                self.navigationController?.pushViewController(productDetail2VC, animated: true)
             }
         }
     }

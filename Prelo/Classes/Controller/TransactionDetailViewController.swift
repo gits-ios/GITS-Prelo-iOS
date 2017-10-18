@@ -1909,10 +1909,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let p = Product.instance(data)
-                    let productDetailVC = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                    productDetailVC.product = p!
-                    productDetailVC.previousScreen = PageName.TransactionDetail
-                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                    let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+                    productDetail2VC.product = p!
+                    productDetail2VC.previousScreen = PageName.TransactionDetail
+                    self.navigationController?.pushViewController(productDetail2VC, animated: true)
                 }
                 self.hideLoading()
             }

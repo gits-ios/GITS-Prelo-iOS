@@ -1088,6 +1088,7 @@ class PageName {
     static let VerifikasiIdentitas = "Verifikasi Identitas"
     static let VerifikasiImagePreview = "Verifikasi Image Preview"
     static let TanggalSewa = "Tanggal Sewa"
+    static let TanggalTersewa = "Tanggal Barang Tersewa"
 }
 
 extension Mixpanel {

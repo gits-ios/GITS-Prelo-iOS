@@ -191,7 +191,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7AT-3d-DJf" userLabel="buy">
                                         <rect key="frame" x="187.5" y="0.0" width="187.5" height="40"/>
-                                        <color key="backgroundColor" red="0.076683484019999998" green="0.59757840630000003" blue="0.54617744680000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="backgroundColor" red="0.99194228650000005" green="0.59501266480000004" blue="0.034173529600000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <fontDescription key="fontDescription" name="Prelo2" family="Prelo2" pointSize="17"/>
                                         <state key="normal" title=" BELI">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

@@ -22,7 +22,8 @@ class TanggalViewCell: JTAppleCell {
         self.selectedView.layer.cornerRadius = self.frame.height / 2
         self.selectedView.layer.masksToBounds = true  // optional
     }
-    
+
+//SECTION : Date cell tanggal penyewa function
     func configureStartBufferView(isAtEndOfBuffer : Bool) {
         self.selectedView.backgroundColor = UIColor(hexString: "#147B8B")
         self.startBufferView.backgroundColor = UIColor(hexString: "#147B8B")
@@ -85,4 +86,36 @@ class TanggalViewCell: JTAppleCell {
         }
     }
     
+//SECTION : Date cell tersewa function
+    func configureSingleSelectionView() {
+        self.selectedView.backgroundColor = UIColor(hexString: "#14988B")
+        self.dayLabel.textColor = UIColor.white
+        self.selectedView.isHidden = false
+    }
+    
+    func configureStartSelectionView() {
+        self.selectedView.backgroundColor = UIColor(hexString: "#14988B")
+        self.startBufferView.backgroundColor = UIColor(hexString: "#14988B")
+        self.dayLabel.textColor = UIColor.white
+        self.selectedView.isHidden = false
+        self.startBufferView.isHidden = false
+    }
+    
+    func configureRangeSelectionView() {
+        self.selectedView.backgroundColor = UIColor(hexString: "#14988B")
+        self.startBufferView.backgroundColor = UIColor(hexString: "#14988B")
+        self.finishBufferView.backgroundColor = UIColor(hexString: "#14988B")
+        self.dayLabel.textColor = UIColor.white
+        self.selectedView.isHidden = false
+        self.startBufferView.isHidden = false
+        self.finishBufferView.isHidden = false
+    }
+    
+    func configureFinishSelectionView() {
+        self.selectedView.backgroundColor = UIColor(hexString: "#14988B")
+        self.finishBufferView.backgroundColor = UIColor(hexString: "#14988B")
+        self.dayLabel.textColor = UIColor.white
+        self.selectedView.isHidden = false
+        self.finishBufferView.isHidden = false
+    }
 }

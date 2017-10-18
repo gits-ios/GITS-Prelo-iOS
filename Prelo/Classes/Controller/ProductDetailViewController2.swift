@@ -344,7 +344,7 @@ class ProductDetailViewController2: BaseViewController {
     }
     @IBAction func btnSoldPressed(_ sender: Any) {
         let alertView = SCLAlertView(appearance: Constant.appearance)
-        alertView.addButton("Ya") {
+        alertView.addButton("Tandai Barang Terjual") {
             self.showLoading()
             if let productId = self.productDetail?.productID {
                 let _ = request(APIProduct.markAsSold(productId: productId, soldTo: "")).responseJSON { resp in
@@ -360,6 +360,15 @@ class ProductDetailViewController2: BaseViewController {
                     self.hideLoading()
                 }
             }
+        }
+        alertView.addButton("Tandai Barang Tersewa") {
+            if let productId = self.productDetail?.productID {
+                let mainStoryboard = UIStoryboard(name: "TanggalTersewa", bundle: nil)
+                let vc = mainStoryboard.instantiateViewController(withIdentifier: "TanggalTersewa") as! TanggalTersewaViewController
+                vc.productId = productId
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+            
         }
         alertView.addButton("Batal", backgroundColor: Theme.ThemeOrange, textColor: UIColor.white, showDurationStatus: false) {}
         alertView.showCustom("Mark As Sold", subTitle: "Apakah barang ini sudah terjual? (Aksi ini tidak bisa dibatalkan)", color: Theme.PrimaryColor, icon: SCLAlertViewStyleKit.imageOfInfo)
@@ -1859,7 +1868,7 @@ class ProductDetail2DescriptionCell: UITableViewCell {
             h += 21
         }
         
-        return 12 + t.height + d.height + c.height + r.height + h + 21 + 12
+        return 12 + t.height + d.height + c.height + r.height + h + 21 + 21
     }
 }
 
@@ -1893,13 +1902,13 @@ class ProductDetail2DescriptionSellCell: UITableViewCell {
     func adapt(_ productDetail: ProductDetail) {
         let productData = productDetail.json["_data"]
         
-//        var region = product["location"]["subdistrict_name"].stringValue
-//        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
-//            region += ", " + reg
-//        }
-//        if region == "" {
-//            region = "Unknown"
-//        }
+        //        var region = product["location"]["subdistrict_name"].stringValue
+        //        if let reg = CDRegion.getRegionNameWithID(product["location"]["region_id"].stringValue) {
+        //            region += ", " + reg
+        //        }
+        //        if region == "" {
+        //            region = "Unknown"
+        //        }
         
         //        self.lbSellerRegion.text = region
     }
@@ -1979,7 +1988,7 @@ class ProductDetail2DescriptionRentCell: UITableViewCell {
 class ProductDetail2TitleSectionCell: UITableViewCell {
     @IBOutlet weak var lbTitle: UILabel!
     @IBOutlet var imageExpandCollapse: UIImageView!
-
+    
     @IBOutlet var spacerTop: UIView!
     @IBOutlet var spacerLeft: UIView!
     @IBOutlet var spacerRight: UIView!

@@ -1319,7 +1319,6 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
     }
     
     // MARK: - Navigation
-    
     @IBAction func gotoProduct(_ sender: AnyObject) {
         if (!isChatWithPreloMessage() && tawarItem.itemId != "") {
             let _ = request(APIProduct.detail(productId: tawarItem.itemId, forEdit: 0)).responseJSON { resp in
@@ -1327,10 +1326,10 @@ class TawarViewController: BaseViewController, UITableViewDataSource, UITableVie
                     let json = JSON(resp.result.value!)
                     let data = json["_data"]
                     let p = Product.instance(data)
-                    let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                    productDetailVC.product = p!
-                    productDetailVC.previousScreen = PageName.InboxDetail
-                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                    let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+                    productDetail2VC.product = p!
+                    productDetail2VC.previousScreen = PageName.InboxDetail
+                    self.navigationController?.pushViewController(productDetail2VC, animated: true)
                 }
             }
         }

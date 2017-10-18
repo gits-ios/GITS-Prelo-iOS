@@ -512,10 +512,10 @@ class NotifAnggiConversationViewController: BaseViewController, UITableViewDataS
                     let p = Product.instance(json["_data"])
                     
                     // Goto product detail
-                    let productDetailVC = BaseViewController.instatiateViewControllerFromStoryboardWithID(Tags.StoryBoardIdProductDetail) as! ProductDetailViewController
-                    productDetailVC.product  = p
-                    productDetailVC.previousScreen = PageName.Notification
-                    self.navigationController?.pushViewController(productDetailVC, animated: true)
+                    let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
+                    productDetail2VC.product = p!
+                    productDetail2VC.previousScreen = PageName.Notification
+                    self.navigationController?.pushViewController(productDetail2VC, animated: true)
                 } else {
                     Constant.showDialog("Notifikasi - Percakapan", message: "Oops, notifikasi komentar tidak bisa dibuka")
                     self.hideLoading()

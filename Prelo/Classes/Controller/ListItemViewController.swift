@@ -2047,7 +2047,7 @@ extension ListItemViewController: UIScrollViewDelegate {
 
 // MARK: - Collection view functions
 extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    
+    //WIP!!
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return listItemSections.count
     }
@@ -2432,12 +2432,6 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             }
             
             self.selectedProduct = products?[idx]
-            
-            let productDetail2VC = Bundle.main.loadNibNamed(Tags.XibNameProductDetail2, owner: nil, options: nil)?.first as! ProductDetailViewController2
-            productDetail2VC.product = selectedProduct!
-            //            productDetail2VC.delegate = self.delegate
-            productDetail2VC.previousScreen = PageName.MyProducts
-            self.navigationController?.pushViewController(productDetail2VC, animated: true)
             
             //            if self.selectedProduct?.isAggregate == false && self.selectedProduct?.isAffiliate == false {
             //                if (currentMode == .featured) {
@@ -2980,10 +2974,10 @@ class ListItemCell : UICollectionViewCell {
     @IBOutlet weak var imgSold: UIImageView!
     @IBOutlet weak var imgReserved: UIImageView!
     @IBOutlet weak var imgFeatured: UIImageView!
+    @IBOutlet weak var imgRentItem: UIImageView!
     @IBOutlet weak var imgFreeOngkir: UIImageView!
     @IBOutlet weak var btnTawar: UIButton!
     @IBOutlet weak var btnLove: UIButton!
-    
     @IBOutlet weak var consHeightFO: NSLayoutConstraint!
     @IBOutlet weak var consWidthFO: NSLayoutConstraint!
     
@@ -3042,6 +3036,7 @@ class ListItemCell : UICollectionViewCell {
         imgSold.isHidden = true
         imgReserved.isHidden = true
         imgFeatured.isHidden = true
+        imgRentItem.isHidden = true
         imgFreeOngkir.isHidden = true
         btnTawar.isHidden = true
         btnLove.isHidden = true
@@ -3163,8 +3158,31 @@ class ListItemCell : UICollectionViewCell {
             }
         }
         
-        if product.isFreeOngkir {
-            imgFreeOngkir.isHidden = false
+        if product.listingType == 0 {
+            imgRentItem.isHidden = true
+            if product.isFreeOngkir {
+                imgFreeOngkir.isHidden = false
+            } else {
+                imgFreeOngkir.isHidden = true
+            }
+        } else if product.listingType == 1 {
+            if product.isFreeOngkir {
+                imgRentItem.isHidden = false
+                imgFreeOngkir.isHidden = false
+            } else {
+                imgRentItem.isHidden = true
+                imgFreeOngkir.isHidden = false
+                imgFreeOngkir.image = UIImage(named: "banner_rent")
+            }
+        } else if product.listingType == 2 {
+            if product.isFreeOngkir {
+                imgRentItem.isHidden = false
+                imgFreeOngkir.isHidden = false
+            } else {
+                imgRentItem.isHidden = true
+                imgFreeOngkir.isHidden = false
+                imgFreeOngkir.image = UIImage(named: "banner_rent")
+            }
         }
     }
     

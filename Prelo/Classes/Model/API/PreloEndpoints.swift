@@ -1029,6 +1029,7 @@ enum APIProduct : URLRequestConvertible {
     case push(productId : String)
     case paidPush(productId : String)
     case markAsSold(productId : String, soldTo : String)
+    case markAsRent(productId : String, endTime: String)
     case getExpiringProducts
     case setSoldExpiringProduct(productId : String)
     case setUnsoldExpiringProduct(productId : String)
@@ -1069,6 +1070,7 @@ enum APIProduct : URLRequestConvertible {
         case .push(_) : return .post
         case .paidPush(_) : return .post
         case .markAsSold(_, _) : return .post
+        case .markAsRent(_, _) : return .post
         case .getExpiringProducts : return .get
         case .setSoldExpiringProduct(_) : return .post
         case .setUnsoldExpiringProduct(_) : return .post
@@ -1102,6 +1104,7 @@ enum APIProduct : URLRequestConvertible {
         case .push(let pId) : return "push/\(pId)"
         case .paidPush(let pId) : return "push/\(pId)/paid_v1"
         case .markAsSold(let pId, _) : return "sold/\(pId)"
+        case .markAsRent(let pId, _) : return "rent/\(pId)"
         case .getExpiringProducts : return "expiring"
         case .setSoldExpiringProduct(let productId) : return "expiring/\(productId)/sold"
         case .setUnsoldExpiringProduct(let productId) : return "expiring/\(productId)/undo_sold"
@@ -1184,6 +1187,12 @@ enum APIProduct : URLRequestConvertible {
             p = [
                 "sold_from" : "ios",
                 "sold_to" : soldTo,
+                "platform_sent_from" : "ios"
+            ]
+        case .markAsRent(_, let endTime) :
+            p = [
+                "rent_from" : "ios",
+                "end_time" : endTime,
                 "platform_sent_from" : "ios"
             ]
         case .setSoldExpiringProduct(_):
@@ -1309,6 +1318,10 @@ enum APIReference : URLRequestConvertible {
         case .categoryList :
             p = [
                 "prelo":"true"
+            ]
+        case .homeCategories :
+            p = [
+                "sewa": 1
             ]
         case .provinceList :
             p = [
