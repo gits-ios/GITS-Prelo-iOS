@@ -1357,7 +1357,7 @@ enum APISearch : URLRequestConvertible {
     case getTopSearch(limit : String)
     case insertTopSearch(search : String)
     case brands(name : String, current : Int, limit : Int)
-    case productByFilter(name : String, aggregateId : String, categoryId : String, kind: String, brandIds : String, productConditionIds : String, segment : String, priceMin : Int64, priceMax : Int64, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String, provinceId : String, regionId : String, subDistrictId : String)
+    case productByFilter(name : String, aggregateId : String, categoryId : String, listingType: String, brandIds : String, productConditionIds : String, segment : String, priceMin : Int64, priceMax : Int64, isFreeOngkir : String, sizes : String, sortBy : String, current : NSNumber, limit : NSNumber, lastTimeUuid : String, provinceId : String, regionId : String, subDistrictId : String)
     case autocomplete(key : String)
     
     public func asURLRequest() throws -> URLRequest {

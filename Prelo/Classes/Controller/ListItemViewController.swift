@@ -145,6 +145,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     var isContentLoaded : Bool = false
     
     // Mode
+    var sewaMode = false
     var currentMode = ListItemMode.default
     // For standalone mode, used for category-filtered product list
     var standaloneCategoryName : String = ""
@@ -552,10 +553,14 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 }
                 // Identify Featured mode
                 if let isFeatured = self.categoryJson?["is_featured"].bool, isFeatured {
-                    self.currentMode = .featured
-                    self.listItemSections.insert(.featuredHeader, at: 0)
-                    
-                    self.isFeatured = true
+                    if self.categoryJson?["permalink"].string != "sewa" {
+                        self.currentMode = .featured
+                        self.listItemSections.insert(.featuredHeader, at: 0)
+                        
+                        self.isFeatured = true
+                    } else {
+                        self.sewaMode = true
+                    }
                 }
                 // Identify Subcategories
                 if let subcatJson = self.categoryJson?["sub_categories"].array, subcatJson.count > 0 && self.currentMode != .segment {
@@ -818,35 +823,41 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 })
             }
         default:
-            requesting = true
-            
-            var catId : String?
-            if (currentMode == .standalone) {
-                catId = standaloneCategoryID
+            if sewaMode {
+                if let catId = self.categoryJson?["_id"].string {
+                    self.getCategorizedProducts(catId)
+                }
             } else {
-                catId = categoryJson!["_id"].string
-            }
-            
-            var lastTimeUuid = ""
-            if (products != nil && products?.count > 0) {
-                lastTimeUuid = products![products!.count - 1].updateTimeUuid
-            }
-            let _ = request(APISearch.productByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
-                self.footerLoading?.isHidden = false
-                self.requesting = false
-                if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Barang")) {
-                    self.products = []
-                    var obj = JSON(resp.result.value!)
-                    for (_, item) in obj["_data"] {
-                        let p = Product.instance(item)
-                        if (p != nil) {
-                            self.products?.append(p!)
+                requesting = true
+                
+                var catId : String?
+                if (currentMode == .standalone) {
+                    catId = standaloneCategoryID
+                } else {
+                    catId = categoryJson!["_id"].string
+                }
+                
+                var lastTimeUuid = ""
+                if (products != nil && products?.count > 0) {
+                    lastTimeUuid = products![products!.count - 1].updateTimeUuid
+                }
+                let _ = request(APISearch.productByCategory(categoryId: catId!, sort: "", current: 0, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+                    self.footerLoading?.isHidden = false
+                    self.requesting = false
+                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Daftar Barang")) {
+                        self.products = []
+                        var obj = JSON(resp.result.value!)
+                        for (_, item) in obj["_data"] {
+                            let p = Product.instance(item)
+                            if (p != nil) {
+                                self.products?.append(p!)
+                            }
                         }
+                        self.refresher?.endRefreshing()
+                        DispatchQueue.main.async(execute: {
+                            self.setupGrid()
+                        })
                     }
-                    self.refresher?.endRefreshing()
-                    DispatchQueue.main.async(execute: {
-                        self.setupGrid()
-                    })
                 }
             }
         }
@@ -889,38 +900,78 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-        let _ = request(APISearch.productByCategory(categoryId: catId, sort: "recent", current: current, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
-            self.requesting = false
-            var count = 0
-            if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
-                count = self.setupData(resp.result.value)
-                
-                if self.currentMode == .segment && !self.listItemSections.contains(.subcategories) {
-                    self.setupSubcategoriesInsideSegment()
+
+        if self.sewaMode {
+            let fltrNameReq = self.fltrName
+            let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: "", listingType: "1", brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : "", regionId: "", subDistrictId: "")).responseJSON { resp in
+                if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
+                    self.requesting = false
+                    var count = 0
+                    if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Filter Product")) {
+                        count = self.setupData(resp.result.value)
+                    }
+                    self.refresher?.endRefreshing()
+                    
+                    if current == 0 {
+                        DispatchQueue.main.async(execute: {
+                            self.setupGrid()
+                        })
+                    } else if count > 0 {
+                        var idxs: Array<IndexPath> = []
+                        for i in 1...count {
+                            if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i, section: lastSec)), forStride: UInt(self.adRowStep)){
+                                idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                                lastRow += 1
+                            }
+                            idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                        }
+                        
+                        DispatchQueue.main.async(execute: {
+                            //UIView.performWithoutAnimation {
+                            //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                            self.gridView.insertItems(at: idxs)
+                            //}
+                        })
+                    }
+                    
+                } else {
+                    self.refresher?.endRefreshing()
                 }
             }
-            self.refresher?.endRefreshing()
-            
-            if current == 0 {
-                DispatchQueue.main.async(execute: {
-                    self.setupGrid()
-                })
-            } else if count > 0 {
-                var idxs: Array<IndexPath> = []
-                for i in 1...count {
-                    if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i, section: lastSec)), forStride: UInt(self.adRowStep)) {
-                        idxs.append(IndexPath(row: lastRow+i, section: lastSec))
-                        lastRow += 1
+        } else {
+            let _ = request(APISearch.productByCategory(categoryId: catId, sort: "recent", current: current, limit: itemsPerReq, priceMin: 0, priceMax: 999999999, segment: selectedSegment, lastTimeUuid: lastTimeUuid)).responseJSON { resp in
+                self.requesting = false
+                var count = 0
+                if (PreloEndpoints.validate(false, dataResp: resp, reqAlias: "Product By Category")) {
+                    count = self.setupData(resp.result.value)
+                    
+                    if self.currentMode == .segment && !self.listItemSections.contains(.subcategories) {
+                        self.setupSubcategoriesInsideSegment()
                     }
-                    idxs.append(IndexPath(row: lastRow+i, section: lastSec))
                 }
+                self.refresher?.endRefreshing()
                 
-                DispatchQueue.main.async(execute: {
-                    //UIView.performWithoutAnimation {
-                    //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
-                    self.gridView.insertItems(at: idxs)
-                    //}
-                })
+                if current == 0 {
+                    DispatchQueue.main.async(execute: {
+                        self.setupGrid()
+                    })
+                } else if count > 0 {
+                    var idxs: Array<IndexPath> = []
+                    for i in 1...count {
+                        if self.adsCellProvider != nil && self.adsCellProvider.isAdCell(at: (IndexPath(item: lastRow+i, section: lastSec)), forStride: UInt(self.adRowStep)) {
+                            idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                            lastRow += 1
+                        }
+                        idxs.append(IndexPath(row: lastRow+i, section: lastSec))
+                    }
+                    
+                    DispatchQueue.main.async(execute: {
+                        //UIView.performWithoutAnimation {
+                        //    self.gridView.reloadSections(NSIndexSet(index: lastSec) as IndexSet)
+                        self.gridView.insertItems(at: idxs)
+                        //}
+                    })
+                }
             }
         }
     }
@@ -980,7 +1031,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         let regionId =  self.fltrLocation[2].int == 1 ? self.fltrLocation[1] : (parentids.count > 1 ? parentids[1] : "")
         let subDistrictId =  self.fltrLocation[2].int == 2 ? self.fltrLocation[1] : ""
         
-        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, kind: fltrProdKind, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
+        let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: fltrCategId, listingType: fltrProdKind, brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : provinceId, regionId: regionId, subDistrictId: subDistrictId)).responseJSON { resp in
             if (fltrNameReq == self.fltrName) { // Jika response ini sesuai dengan request terakhir
                 self.requesting = false
                 var count = 0
@@ -1481,6 +1532,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
+    //WIP!!
     func setupGrid() {
         if (self.currentMode == .filter && self.products?.count <= 0 && !self.requesting) {
             self.gridView.isHidden = true
@@ -2047,7 +2099,6 @@ extension ListItemViewController: UIScrollViewDelegate {
 
 // MARK: - Collection view functions
 extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    //WIP!!
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return listItemSections.count
     }
@@ -2183,7 +2234,7 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
                         let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
                         if (products?.count > idx) {
                             let p = products?[idx]
-                            cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                            cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, isSewaCat: self.sewaMode, shopAvatar: self.shopAvatar, parent: self)
                             cell.isFeatured = self.isFeatured
                         }
                         if (currentMode == .featured) {
@@ -2225,7 +2276,7 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
                     let cell : ListItemCell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! ListItemCell
                     if (products?.count > idx) {
                         let p = products?[idx]
-                        cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, shopAvatar: self.shopAvatar, parent: self)
+                        cell.adapt(p!, listStage: self.listStage, currentMode: self.currentMode, isSewaCat: self.sewaMode, shopAvatar: self.shopAvatar, parent: self)
                         cell.isFeatured = self.isFeatured
                     }
                     if (currentMode == .featured) {
@@ -3054,16 +3105,19 @@ class ListItemCell : UICollectionViewCell {
          */
         
         isFeatured = false
-        
-        imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
     }
     
-    func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, shopAvatar : URL?, parent: BaseViewController) {
+    func adapt(_ product : Product, listStage : Int, currentMode : ListItemMode, isSewaCat: Bool, shopAvatar : URL?, parent: BaseViewController) {
         self.product = product
         
         let obj = product.json
         captionTitle.text = product.name
-        captionPrice.text = product.price
+        if let rent = product.json["rent"]["price"].int64, let periodType = product.json["rent"]["period_type"].int,
+            product.listingType == 1 {
+            captionPrice.text = rent.asPrice + "/" + (AddProduct3RentPeriodType(rawValue: periodType)?.title)!
+        } else {
+            captionPrice.text = product.price
+        }
         
         /*
          let loveCount = obj["love"].int
@@ -3160,28 +3214,32 @@ class ListItemCell : UICollectionViewCell {
         
         if product.listingType == 0 {
             imgRentItem.isHidden = true
-            if product.isFreeOngkir {
+            imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
+            if product.isFreeOngkir { //Show free ongkir icon only
                 imgFreeOngkir.isHidden = false
             } else {
                 imgFreeOngkir.isHidden = true
             }
         } else if product.listingType == 1 {
-            if product.isFreeOngkir {
-                imgRentItem.isHidden = false
+            if product.isFreeOngkir { //Show free ongkir icon & rent icon
+                imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
                 imgFreeOngkir.isHidden = false
-            } else {
+                imgRentItem.isHidden = isSewaCat ? true : false //Hide if item is from sewa category
+            } else { //Show rent icon only
+                imgFreeOngkir.image = isSewaCat ? UIImage(named: "ic_free_ongkir") : UIImage(named: "banner_rent") //Hide if item is from sewa category
+                imgFreeOngkir.isHidden = isSewaCat ? true : false //Hide if item is from sewa category
                 imgRentItem.isHidden = true
-                imgFreeOngkir.isHidden = false
-                imgFreeOngkir.image = UIImage(named: "banner_rent")
+                
             }
         } else if product.listingType == 2 {
-            if product.isFreeOngkir {
+            if product.isFreeOngkir { //Show free ongkir icon & rent icon
+                imgFreeOngkir.image = UIImage(named: "ic_free_ongkir")
+                imgFreeOngkir.isHidden = false
                 imgRentItem.isHidden = false
-                imgFreeOngkir.isHidden = false
-            } else {
-                imgRentItem.isHidden = true
-                imgFreeOngkir.isHidden = false
+            } else { //Show rent icon only
                 imgFreeOngkir.image = UIImage(named: "banner_rent")
+                imgFreeOngkir.isHidden = false
+                imgRentItem.isHidden = true
             }
         }
     }
