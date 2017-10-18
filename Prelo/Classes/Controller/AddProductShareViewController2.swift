@@ -30,6 +30,8 @@ class AddProductShareViewController2: BaseViewController {
     @IBOutlet weak var lbPrice: UILabel! // eq. captionPrice
     @IBOutlet weak var lbCharge: UILabel! // eq. captionCharge
     @IBOutlet weak var lbMaxCommisions: UILabel!
+    @IBOutlet weak var priceView: UIView!
+    @IBOutlet weak var heightPriceView: NSLayoutConstraint!
     @IBOutlet weak var tbSocmed: UITableView!
     @IBOutlet weak var consHeightTbSocmed: NSLayoutConstraint!
     @IBOutlet weak var lbPercentage: UILabel! // eq. captionChargePercent
@@ -42,6 +44,8 @@ class AddProductShareViewController2: BaseViewController {
     var sendProductKondisi = ""
     
     var socmeds: Array<SocmedItem> = []
+    
+    var isShow: Bool = true
     
     var basePrice : Int64 = 0
     
@@ -96,7 +100,7 @@ class AddProductShareViewController2: BaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+        self.setupPrice()
         if self.first {
             self.first = false
             if self.shouldSkipBack {
@@ -117,6 +121,17 @@ class AddProductShareViewController2: BaseViewController {
             self.lbMaxCommisions.text = "Maksimal Charge Prelo sebesar " + Int(self.maxCommisions).asPrice
             
             self.countPercentage()
+        }
+        
+    }
+    
+    func setupPrice(){
+        if self.isShow {
+            priceView.isHidden = false
+            heightPriceView.constant = 152
+        } else {
+            priceView.isHidden = true
+            heightPriceView.constant = 0
         }
     }
     

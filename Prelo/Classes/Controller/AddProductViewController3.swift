@@ -1332,6 +1332,11 @@ class AddProductViewController3: BaseViewController {
             share.sendProductKondisi = self.product.condition
             share.shouldSkipBack = false
             share.localId = self.product.localId
+            if self.product.isSell == true {
+                share.isShow = true
+            } else {
+                share.isShow = false
+            }
             
             self.navigationController?.pushViewController(share, animated: true)
         }
