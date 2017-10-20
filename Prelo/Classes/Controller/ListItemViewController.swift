@@ -150,6 +150,11 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
     // For standalone mode, used for category-filtered product list
     var standaloneCategoryName : String = ""
     var standaloneCategoryID : String = ""
+    // For sewa mode location
+    var locationId : String = ""
+    var locationType : Int = 0
+    var locationName : String = ""
+    var locationParentIDs : String = ""
     // For shop page mode
     var shopId = ""
     var shopName = ""
@@ -554,12 +559,13 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
                 // Identify Featured mode
                 if let isFeatured = self.categoryJson?["is_featured"].bool, isFeatured {
                     if self.categoryJson?["permalink"].string != "sewa" {
+                        self.isFeatured = true
                         self.currentMode = .featured
                         self.listItemSections.insert(.featuredHeader, at: 0)
-                        
-                        self.isFeatured = true
                     } else {
                         self.sewaMode = true
+                        self.listItemSections.insert(.featuredHeader, at: 0)
+                        
                     }
                 }
                 // Identify Subcategories
@@ -900,7 +906,7 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         if (products != nil && products?.count > 0) {
             lastTimeUuid = products![products!.count - 1].updateTimeUuid
         }
-
+        
         if self.sewaMode {
             let fltrNameReq = self.fltrName
             let _ = request(APISearch.productByFilter(name: fltrName, aggregateId: fltrAggregateId, categoryId: "", listingType: "1", brandIds: AppToolsObjC.jsonString(from: [String](fltrBrands.values)), productConditionIds: AppToolsObjC.jsonString(from: fltrProdCondIds), segment: fltrSegment, priceMin: fltrPriceMin, priceMax: fltrPriceMax, isFreeOngkir: fltrIsFreeOngkir ? "1" : "", sizes: AppToolsObjC.jsonString(from: fltrSizes), sortBy: fltrSortBy, current: NSNumber(value: current), limit: NSNumber(value: itemsPerReq), lastTimeUuid: lastTimeUuid, provinceId : "", regionId: "", subDistrictId: "")).responseJSON { resp in
@@ -1532,7 +1538,6 @@ class ListItemViewController: BaseViewController, MFMailComposeViewControllerDel
         }
     }
     
-    //WIP!!
     func setupGrid() {
         if (self.currentMode == .filter && self.products?.count <= 0 && !self.requesting) {
             self.gridView.isHidden = true
@@ -2164,19 +2169,54 @@ extension ListItemViewController: UICollectionViewDataSource, UICollectionViewDe
             
             return cell
         case .featuredHeader:
-            let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "featured_cell", for: indexPath) as! ListItemFeaturedHeaderCell
-            if let name = categoryJson?["name"].string {
-                cell.adapt(name, featuredTitle: categoryJson?["featured_title"].string, featuredDescription: categoryJson?["featured_description"].string)
-            }
-            
-            cell.alpha = 1.0
-            if let name = self.categoryJson?["name"].string, name.lowercased() == "all" {
-                cell.backgroundColor = Theme.GrayGranite
+            if sewaMode {
+                let cell : ListItemRentRegionHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "rent_region_cell", for: indexPath) as! ListItemRentRegionHeaderCell
+                cell.adapt(regionLabel: "Bandung")
+                cell.regionPick = {
+                    let filterlocation = Bundle.main.loadNibNamed(Tags.XibNameLocationFilter, owner: nil, options: nil)?.first as! LocationFilterViewController
+                    filterlocation.root = self as UIViewController
+                    filterlocation.blockDone = { data in
+                        //print(data)
+                        self.locationId = data[1]
+                        //                self.locationName = data[0]
+                        self.locationType = data[2].int
+                        if (self.locationType == 2) {
+                            self.locationName = data[3] + "  " + data[0]
+                            //                    self.locationName = data[3] + data[0]
+                        }
+                        else if (self.locationType == 1) {
+                            self.locationName = data[3]
+                            //                    self.locationName = data[3] + "Semua Kecamatan"
+                        }
+                        else if (self.locationType == 0 && data[0] != "Semua Provinsi") {
+                            self.locationName = data[3]
+                            //                    self.locationName = data[3] + "Semua Kota / Kabupaten"
+                        }
+                        else {
+                            self.locationName = data[0]
+                        }
+                        
+                        self.locationParentIDs = data[4]
+                    }
+                    self.navigationController?.pushViewController(filterlocation, animated: true)
+                }
+                return cell
             } else {
-                cell.backgroundColor = self.gridView.backgroundColor
+                let cell : ListItemFeaturedHeaderCell = collectionView.dequeueReusableCell(withReuseIdentifier: "featured_cell", for: indexPath) as! ListItemFeaturedHeaderCell
+                if let name = categoryJson?["name"].string {
+                    cell.adapt(name, featuredTitle: categoryJson?["featured_title"].string, featuredDescription: categoryJson?["featured_description"].string)
+                }
+                
+                cell.alpha = 1.0
+                if let name = self.categoryJson?["name"].string, name.lowercased() == "all" {
+                    cell.backgroundColor = Theme.GrayGranite
+                } else {
+                    cell.backgroundColor = self.gridView.backgroundColor
+                }
+                
+                return cell
             }
             
-            return cell
         case .subcategories:
             let cell : ListItemSubcategoryCell = collectionView.dequeueReusableCell(withReuseIdentifier: "subcategory_cell", for: indexPath) as! ListItemSubcategoryCell
             //cell.imgSubcategory.image = subcategoryItems[(indexPath as NSIndexPath).item].image
@@ -2927,6 +2967,26 @@ class ListItemFeaturedHeaderCell : UICollectionViewCell {
             self.lblDesc.text = featuredDescription ?? "Barang \(categName) pilihan tim Prelo"
             self.lblDesc.textColor = UIColor(hexString: "#5d5d5d")
         }
+    }
+}
+
+class ListItemRentRegionHeaderCell : UICollectionViewCell {
+    @IBOutlet weak var selectedRegionLabel: UILabel!
+    
+    var regionPick: ()->() = {}
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        self.layer.rasterizationScale = UIScreen.main.scale
+    }
+
+    func adapt(regionLabel: String) {
+        selectedRegionLabel.text = regionLabel
+    }
+    
+    @IBAction func buttonSelectRegionAction(_ sender: Any) {
+        regionPick()
     }
 }
 

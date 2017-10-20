@@ -25,6 +25,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     var trxId : String?
     var trxProductId : String?
     var isSeller : Bool?
+    var isRentTransaction : Bool?
     var productName : String = "Detail Transaksi"
     
     // Data container
@@ -275,15 +276,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     //print("ini balesannya")
                     //print(data["progress"])
                     //if(data["progress"].int == -4){
-                        TransactionDetailTools.TextReply = data["rejectReply"].stringValue
+                    TransactionDetailTools.TextReply = data["rejectReply"].stringValue
                     //}
                     
                     // Mixpanel
-//                    let param = [
-//                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
-//                        "Progress" : ((self.progress != nil) ? "\(self.progress!)" : "")
-//                    ]
-//                    Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
+                    //                    let param = [
+                    //                        "ID" : ((self.trxId != nil) ? self.trxId! : ((self.trxProductId != nil) ? self.trxProductId! : "")),
+                    //                        "Progress" : ((self.progress != nil) ? "\(self.progress!)" : "")
+                    //                    ]
+                    //                    Mixpanel.trackPageVisit(PageName.TransactionDetail, otherParam: param)
                     
                     self.setupHideableCell()
                     self.setupHideProductCell()
@@ -298,16 +299,16 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     func setupPopUpContent() {
         // Review seller pop up
         // Set btnLoves and lblLoves manually
-//        btnsRvwLove.append(self.btnLove1)
-//        btnsRvwLove.append(self.btnLove2)
-//        btnsRvwLove.append(self.btnLove3)
-//        btnsRvwLove.append(self.btnLove4)
-//        btnsRvwLove.append(self.btnLove5)
-//        lblsRvwLove.append(self.lblLove1)
-//        lblsRvwLove.append(self.lblLove2)
-//        lblsRvwLove.append(self.lblLove3)
-//        lblsRvwLove.append(self.lblLove4)
-//        lblsRvwLove.append(self.lblLove5)
+        //        btnsRvwLove.append(self.btnLove1)
+        //        btnsRvwLove.append(self.btnLove2)
+        //        btnsRvwLove.append(self.btnLove3)
+        //        btnsRvwLove.append(self.btnLove4)
+        //        btnsRvwLove.append(self.btnLove5)
+        //        lblsRvwLove.append(self.lblLove1)
+        //        lblsRvwLove.append(self.lblLove2)
+        //        lblsRvwLove.append(self.lblLove3)
+        //        lblsRvwLove.append(self.lblLove4)
+        //        lblsRvwLove.append(self.lblLove5)
         
         // Love floatable
         self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 0, width: 217, height: 37))
@@ -554,6 +555,10 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         // Urutan index bergantung pada progres transaksi
         let idx = (indexPath as NSIndexPath).row
@@ -630,7 +635,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     if (idx == 0) {
                         return TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
-                        return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
+                        return  TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                     } else if (idx == 2) {
                         return DefaultHeight
                     } else if (idx == 3) {
@@ -651,15 +656,15 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         }
                         // tambahan
                     } /*else if (idx == 4) {
-                        return SeparatorHeight
-                    } else if (idx == 5) {
-                        return DefaultHeight
-                    } else if (idx == 6) {
-                        if (trxProductDetail != nil) {
-                            return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
-                        }
-                        // tambahan
-                    }*/ else if (idx == 4) {
+                         return SeparatorHeight
+                         } else if (idx == 5) {
+                         return DefaultHeight
+                         } else if (idx == 6) {
+                         if (trxProductDetail != nil) {
+                         return TransactionDetailTableCell.heightForTitleContents2(trxProductDetail!, titleContentType: TransactionDetailTools.TitleContentPengirimanSeller)
+                         }
+                         // tambahan
+                     }*/ else if (idx == 4) {
                         return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                     } else if (idx == 5) {
                         return ContactPreloHeight
@@ -1286,7 +1291,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             }
         } else {
-        
+            
             if (progress == TransactionDetailTools.ProgressExpired) {
                 if (userIsSeller()) {
                     if (idx == 0) {
@@ -1320,13 +1325,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                         return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPembayaranSeller)
                         // tambahan
                     } /*else if (idx == 4) {
-                        return self.createSeparatorCell()
-                    } else if (idx == 5) {
-                        return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
-                    } else if (idx == 6) {
-                        return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
-                        // tambahan
-                    }*/ else if (idx == 4) {
+                         return self.createSeparatorCell()
+                         } else if (idx == 5) {
+                         return self.createTitleCell(TitlePengiriman, detailCellIndexes: [6])
+                         } else if (idx == 6) {
+                         return self.createTableTitleContentsCell(TransactionDetailTools.TitleContentPengirimanSeller)
+                         // tambahan
+                     }*/ else if (idx == 4) {
                         return self.createDescriptionCell(1)
                     } else if (idx == 5) {
                         return self.createContactPreloCell()
@@ -1885,21 +1890,21 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         // Adapt cell
         if (self.progress == TransactionDetailTools.ProgressExpired || self.progress == TransactionDetailTools.ProgressNotPaid || self.progress == TransactionDetailTools.ProgressClaimedPaid || self.progress == TransactionDetailTools.ProgressFraudDetected) {
             if (trxDetail != nil) {
-                cell.adaptTableProducts(trxDetail!.transactionProducts, hideProductCell: hideProductCell)
+                cell.adaptTableProducts(trxDetail!.transactionProducts, hideProductCell: hideProductCell, isRentTransaction: self.isRentTransaction!)
             }
         } else if (self.progress == TransactionDetailTools.ProgressConfirmedPaid) {
             if (userIsSeller()) {
                 if (trxDetail != nil) {
-                    cell.adaptTableProducts(trxDetail!.transactionProducts, hideProductCell: hideProductCell)
+                    cell.adaptTableProducts(trxDetail!.transactionProducts, hideProductCell: hideProductCell, isRentTransaction: self.isRentTransaction!)
                 }
             } else {
                 if (trxProductDetail != nil) {
-                    cell.adaptTableProducts([trxProductDetail!], hideProductCell: hideProductCell)
+                    cell.adaptTableProducts([trxProductDetail!], hideProductCell: hideProductCell, isRentTransaction: self.isRentTransaction!)
                 }
             }
         } else {
             if (trxProductDetail != nil) {
-                cell.adaptTableProducts([trxProductDetail!], hideProductCell: hideProductCell)
+                cell.adaptTableProducts([trxProductDetail!], hideProductCell: hideProductCell, isRentTransaction: self.isRentTransaction!)
             }
         }
         cell.toProductDetail = { productId in
@@ -1954,7 +1959,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         return cell
     }
     
-    func createDescriptionCell(_ order : Int) -> TransactionDetailDescriptionCell {
+    
+    func createDescriptionCell(_ order : Int) -> TransactionDetailDescriptionCell { //WIP!!
         let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailDescriptionCellId) as! TransactionDetailDescriptionCell
         
         // Adapt cell
@@ -2046,8 +2052,8 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         
         // Configure actions
         cell.retrieveCash = {
-//            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
-//            self.navigationController?.pushViewController(t, animated: true)
+            //            let t = self.storyboard?.instantiateViewController(withIdentifier: Tags.StoryBoardIdTarikTunai) as! TarikTunaiController
+            //            self.navigationController?.pushViewController(t, animated: true)
             
             let t = Bundle.main.loadNibNamed(Tags.XibNameTarikTunai2, owner: nil, options: nil)?.first as! TarikTunaiViewController2
             t.previousScreen = PageName.TransactionDetail
@@ -2199,24 +2205,24 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.confirmReturned = {
             /*
-            let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
-            
-            alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
-            alert.addAction(UIAlertAction(title: "Lanjutkan", style: .default, handler: { action in
-                _ = request(APITransactionProduct.confirmReceiveRefundedProduct(tpId: self.trxProductId!)).responseJSON { resp in
-                    if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Penerimaan")) {
-                        let json = JSON(resp.result.value!)
-                        let data = json["_data"].boolValue
-                        if (data == true) {
-                            Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
-                            _ = self.navigationController?.popViewController(animated: true)
-                        } else {
-                            Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
-                        }
-                    }
-                }
-            }))
-            self.present(alert, animated: true, completion: nil)
+             let alert : UIAlertController = UIAlertController(title: "Perhatian", message: "Dengan melakukan konfirmasi penerimaan, artinya kamu sudah menerima kembali barang refund. Uang akan dikembalikan kepada pembeli. Lanjutkan?", preferredStyle: UIAlertControllerStyle.alert)
+             
+             alert.addAction(UIAlertAction(title: "Batal", style: .cancel, handler: nil))
+             alert.addAction(UIAlertAction(title: "Lanjutkan", style: .default, handler: { action in
+             _ = request(APITransactionProduct.confirmReceiveRefundedProduct(tpId: self.trxProductId!)).responseJSON { resp in
+             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Konfirmasi Penerimaan")) {
+             let json = JSON(resp.result.value!)
+             let data = json["_data"].boolValue
+             if (data == true) {
+             Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
+             _ = self.navigationController?.popViewController(animated: true)
+             } else {
+             Constant.showDialog("Konfirmasi Penerimaan", message: "Konfirmasi Penerimaan telah berhasil dilakukan")
+             }
+             }
+             }
+             }))
+             self.present(alert, animated: true, completion: nil)
              */
             
             let alertView = SCLAlertView(appearance: Constant.appearance)
@@ -2358,25 +2364,25 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             }
         }
         
-//        // Configure actions
-//        cell.orderAgain = {
-//            if (self.trxDetail != nil) {
-//                var success = true
-//                let tProducts = self.trxDetail!.transactionProducts
-//                for i in 0...(tProducts.count - 1) {
-//                    let tProduct : TransactionProductDetail = tProducts[i]
-//                    if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
-//                        if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
-//                            success = false
-//                        }
-//                    }
-//                }
-//                if (!success) {
-//                    Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
-//                }
-//                self.performSegue(withIdentifier: "segCart", sender: nil)
-//            }
-//        }
+        //        // Configure actions
+        //        cell.orderAgain = {
+        //            if (self.trxDetail != nil) {
+        //                var success = true
+        //                let tProducts = self.trxDetail!.transactionProducts
+        //                for i in 0...(tProducts.count - 1) {
+        //                    let tProduct : TransactionProductDetail = tProducts[i]
+        //                    if (!CartProduct.isExist(tProduct.productId, email: User.EmailOrEmptyString)) {
+        //                        if (CartProduct.newOne(tProduct.productId, email: User.EmailOrEmptyString, name: tProduct.productName) == nil) {
+        //                            success = false
+        //                        }
+        //                    }
+        //                }
+        //                if (!success) {
+        //                    Constant.showDialog("Add to Cart", message: "Terdapat kesalahan saat menambahkan barang ke keranjang belanja")
+        //                }
+        //                self.performSegue(withIdentifier: "segCart", sender: nil)
+        //            }
+        //        }
         cell.rejectTransaction = {
             self.vwShadow.isHidden = false
             self.vwTolakPesanan.isHidden = false
@@ -2398,14 +2404,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
                     let json = JSON(resp.result.value!)
                     if let pDetail = ProductDetail.instance(json) {
-                    
+                        
                         // Goto chat
                         let t = UIStoryboard(name: "TawarSewa", bundle: nil).instantiateViewController(withIdentifier: Tags.StoryBoardIdTawar) as! TawarViewController
                         t.previousScreen = PageName.TransactionDetail
                         
                         t.isSellerNotActive = pDetail.IsShopClosed
                         t.phoneNumber = pDetail.SellerPhone
-                    
+                        
                         // API Migrasi
                         let _ = request(APIInbox.getInboxByProductIDSeller(productId: pDetail.productID, buyerId: buyerId)).responseJSON {resp in
                             if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Hubungi Pembeli")) {
@@ -2503,13 +2509,13 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         }
         cell.initRefund = {
             /*
-            let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
-            if (self.trxProductId != nil) {
-                refundReqVC.tpId = self.trxProductId!
-                refundReqVC.pId = (self.trxProductDetail?.productId)!
-            }
-            refundReqVC.previousScreen = PageName.TransactionDetail
-            self.navigationController?.pushViewController(refundReqVC, animated: true)
+             let refundReqVC = Bundle.main.loadNibNamed(Tags.XibNameRequestRefund, owner: nil, options: nil)?.first as! RefundRequestViewController
+             if (self.trxProductId != nil) {
+             refundReqVC.tpId = self.trxProductId!
+             refundReqVC.pId = (self.trxProductDetail?.productId)!
+             }
+             refundReqVC.previousScreen = PageName.TransactionDetail
+             self.navigationController?.pushViewController(refundReqVC, animated: true)
              */
             
             // new popup -> report & refund
@@ -2657,7 +2663,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
         self.sendMode(true)
         if (self.trxId != nil) {
             // API Migrasi
-        let _ = request(APITransactionProduct.rejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
+            let _ = request(APITransactionProduct.rejectTransaction(tpId: self.trxId!, reason: self.txtvwAlasanTolak.text)).responseJSON {resp in
                 if (PreloEndpoints.validate(true, dataResp: resp, reqAlias: "Tolak Pengiriman")) {
                     let json = JSON(resp.result.value!)
                     let data : Bool? = json["_data"].bool
@@ -2751,7 +2757,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 }
             }
-
+            
         } else if(self.lblTitleRvwSeller.text == "REVIEW PEMBELI"){
             if (txtvwReview.text.isEmpty || txtvwReview.text == self.TxtvwReviewPlaceholder) {
                 Constant.showDialog("Review Pembeli", message: "Isi review tidak boleh kosong")
@@ -2948,7 +2954,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
     
     func floatRatingView(_ ratingView: FloatRatingView, didUpdate rating: Float) {
         self.loveValue = Int(self.floatRatingView.rating)
-//        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
+        //        Constant.showDialog("Rate / Love", message: "Original \(self.floatRatingView.rating.description) --> \(self.loveValue.string)")
     }
     
     // Prelo Analytic - Review and Rate Seller
@@ -2963,14 +2969,14 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             let loginMethod = User.LoginMethod ?? ""
             
             /*
-            let province = CDProvince.getProvinceNameWithID(tp.shippingProvinceId) ?? ""
-            let region = CDRegion.getRegionNameWithID(tp.shippingRegionId) ?? ""
-            
-            let shipping = [
-                "Province" : province,
-                "Region" : region,
-                "Price" : tp.shippingPrice
-            ] as [String : Any]
+             let province = CDProvince.getProvinceNameWithID(tp.shippingProvinceId) ?? ""
+             let region = CDRegion.getRegionNameWithID(tp.shippingRegionId) ?? ""
+             
+             let shipping = [
+             "Province" : province,
+             "Region" : region,
+             "Price" : tp.shippingPrice
+             ] as [String : Any]
              */
             
             let pdata = [
@@ -2983,7 +2989,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 //"Shipping" : shipping,
                 "Rate" : self.loveValue,
                 "Current State" : tp.progressText
-            ] as [String : Any]
+                ] as [String : Any]
             
             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.ReviewAndRateSeller, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
         }
@@ -2997,49 +3003,49 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                                             target: nil)
         backgroundQueue.async {
             /*
-            var itemsObject : Array<[String : Any]> = []
-            
-            let arrayProduct = self.trxDetail?.transactionProducts
-            
-            var totalCommissionPrice = 0
-            var i = 0
-            for tp in arrayProduct! {
-                let shippingPrice = Int(tp.shippingPrice) ?? 0
-                
-                let curItem : [String : Any] = [
-                    "Product ID" : tp.productId ,
-                    "Price" : tp.productPrice,
-                    "Commission Percentage" : tp.commission,
-                    "Commission Price" : tp.commissionPrice,
-                    "Shipping Price" : shippingPrice,
-                ]
-                
-                itemsObject.append(curItem)
-                
-                totalCommissionPrice += tp.commissionPrice
-                
-                i += 1
-            }
-            
-            let loginMethod = User.LoginMethod ?? ""
-            let province = CDProvince.getProvinceNameWithID((self.trxDetail?.shippingProvinceId)!) ?? ""
-            let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
-            
-            let shipping = [
-                "Province" : province,
-                "Region" : region
-            ] as [String : Any]
-            
-            let pdata = [
-                "Order ID" : (self.trxDetail?.orderId)!,
-                "Seller Username" : (CDUser.getOne()?.username)!, // me
-                "Items" : itemsObject,
-                //                "Total Original Price" : self.trxDetail.totalPrice,
-                "Total Price" : (self.trxDetail?.totalPriceTotall)!,
-                "Total Commission" : totalCommissionPrice,
-                "Shipping" : shipping
-            ] as [String : Any]
-            AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
+             var itemsObject : Array<[String : Any]> = []
+             
+             let arrayProduct = self.trxDetail?.transactionProducts
+             
+             var totalCommissionPrice = 0
+             var i = 0
+             for tp in arrayProduct! {
+             let shippingPrice = Int(tp.shippingPrice) ?? 0
+             
+             let curItem : [String : Any] = [
+             "Product ID" : tp.productId ,
+             "Price" : tp.productPrice,
+             "Commission Percentage" : tp.commission,
+             "Commission Price" : tp.commissionPrice,
+             "Shipping Price" : shippingPrice,
+             ]
+             
+             itemsObject.append(curItem)
+             
+             totalCommissionPrice += tp.commissionPrice
+             
+             i += 1
+             }
+             
+             let loginMethod = User.LoginMethod ?? ""
+             let province = CDProvince.getProvinceNameWithID((self.trxDetail?.shippingProvinceId)!) ?? ""
+             let region = CDRegion.getRegionNameWithID((self.trxDetail?.shippingRegionId)!) ?? ""
+             
+             let shipping = [
+             "Province" : province,
+             "Region" : region
+             ] as [String : Any]
+             
+             let pdata = [
+             "Order ID" : (self.trxDetail?.orderId)!,
+             "Seller Username" : (CDUser.getOne()?.username)!, // me
+             "Items" : itemsObject,
+             //                "Total Original Price" : self.trxDetail.totalPrice,
+             "Total Price" : (self.trxDetail?.totalPriceTotall)!,
+             "Total Commission" : totalCommissionPrice,
+             "Shipping" : shipping
+             ] as [String : Any]
+             AnalyticManager.sharedInstance.send(eventType: PreloAnalyticEvent.DelayShipping, data: pdata, previousScreen: self.previousScreen, loginMethod: loginMethod)
              */
             
             let arrayProduct = self.trxDetail?.transactionProducts
@@ -3052,7 +3058,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 "Province" : province,
                 "Region" : region,
                 "Subdistrict" : subdistrict
-            ] as [String : Any]
+                ] as [String : Any]
             
             for tp in arrayProduct! {
                 let pdata : [String : Any] = [
@@ -3317,7 +3323,7 @@ class TransactionDetailTools : NSObject {
     static func isNegativeProgress(_ progress : Int?) -> Bool {
         return (progress == -1 || progress == -3 || progress == -4 || progress == -5 || progress == -6 || progress == 54 || progress == 55)
     }
-
+    
     static func setAffiliateName(_ affiliateName: String) {
         _AffiliateName = affiliateName
     }
@@ -3346,6 +3352,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     
     // Cell type
     var isProductCell : Bool = false
+    var isRentTransaction : Bool = false
     var isTitleContentCell : Bool = false
     
     // Used for productCell
@@ -3382,7 +3389,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     
     static func heightForTitleContents(_ trxDetail : TransactionDetail, titleContentType : String) -> CGFloat {
         var height : CGFloat = 8
-
+        
         if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
             height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bonusUsed + trxDetail.preloBalanceUsed + trxDetail.voucherAmount).asPrice)
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.bonusUsed.asPrice)
@@ -3391,10 +3398,10 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.totalPrice.asPrice)
             //height += TransactionDetailTitleContentCell.heightFor(trxDetail.bankTransferDigit.asPrice)
             height += TransactionDetailTitleContentCell.heightFor((trxDetail.totalPrice + trxDetail.bankTransferDigit).asPrice)
-//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
-//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
-//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentBankTarget)
-//            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentNominal.asPrice)
+            //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentMethod)
+            //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentDate)
+            //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentBankTarget)
+            //            height += TransactionDetailTitleContentCell.heightFor(trxDetail.paymentNominal.asPrice)
             
             // 0
             
@@ -3409,11 +3416,11 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
                 // Mandiri Ecash
             } else if (trxDetail.paymentMethodInt == 7) {
                 height += TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20 // space
-            
+                
                 // CIMB Clicks
             } else if (trxDetail.paymentMethodInt == 8) {
                 height += TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20 // space
-            
+                
                 // Permata VA
             } else if (trxDetail.paymentMethodInt == 9) {
                 height += TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.") + 20 // space
@@ -3472,7 +3479,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
             height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingPostalCode)
             if let img = TransactionDetailTools.ImgCouriers[trxDetail.shippingName.components(separatedBy: " ")[0].lowercased()] {
-               height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName, image: img!)
+                height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName, image: img!)
             } else {
                 height += TransactionDetailTitleContentCell.heightFor(trxDetail.shippingName)
             }
@@ -3676,12 +3683,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         return height
     }
     
-    func adaptTableProducts(_ trxProducts : [TransactionProductDetail], hideProductCell : [Bool]) {
+    func adaptTableProducts(_ trxProducts : [TransactionProductDetail], hideProductCell : [Bool], isRentTransaction : Bool) {
         self.trxProducts = trxProducts
         self.hideProductCell = hideProductCell
         self.isProductCell = true
         self.isTitleContentCell = false
         self.tableView.separatorStyle = .singleLine
+        self.isRentTransaction = isRentTransaction
         self.setupTable()
     }
     
@@ -3704,1416 +3712,1443 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     }
     
     // MARK: - UITableView delegate functions
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 3
+//        if self.isRentTransaction {
+//            return 3
+//        } else {
+//            return 1
+//        }
+//        return self.isRentTransaction ? 2 : 1
+    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if (isProductCell) {
-            return trxProducts.count
-        } else {
-            if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                return 9 //4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
-                return 2
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCimbClicks) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
-                return 4
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
-                return 2
-            } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
-                var nRow = 10
-                if (isTrxDetail()) {
-                    if trxDetail!.isShowShipHistory {
-                        nRow += 1
-                        nRow += trxDetail!.shipHistory.count
+        print(section)
+        if section >= 0 {
+            if (isProductCell) {
+                return trxProducts.count
+            } else {
+                if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
+                    return 9 //4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
+                    return 2
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCimbClicks) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
+                    return 4
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
+                    return 2
+                } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
+                    var nRow = 10
+                    if (isTrxDetail()) {
+                        if trxDetail!.isShowShipHistory {
+                            nRow += 1
+                            nRow += trxDetail!.shipHistory.count
+                        }
+                    } else if (isTrxProductDetail()) {
+                        if trxProductDetail!.isShowShipHistory {
+                            nRow += 1
+                            nRow += trxProductDetail!.shipHistory.count
+                        }
                     }
-                } else if (isTrxProductDetail()) {
-                    if trxProductDetail!.isShowShipHistory {
-                        nRow += 1
-                        nRow += trxProductDetail!.shipHistory.count
+                    return nRow
+                } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
+                    var nRow = 10
+                    if (isTrxDetail()) {
+                        if trxDetail!.isShowShipHistory {
+                            nRow += 1
+                            nRow += trxDetail!.shipHistory.count
+                        }
+                    } else if (isTrxProductDetail()) {
+                        if trxProductDetail!.isShowShipHistory {
+                            nRow += 1
+                            nRow += trxProductDetail!.shipHistory.count
+                        }
                     }
+                    return nRow
+                } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
+                    return 2
+                } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+                    return 3
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
+                    return 3
                 }
-                return nRow
-            } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
-                var nRow = 10
-                if (isTrxDetail()) {
-                    if trxDetail!.isShowShipHistory {
-                        nRow += 1
-                        nRow += trxDetail!.shipHistory.count
-                    }
-                } else if (isTrxProductDetail()) {
-                    if trxProductDetail!.isShowShipHistory {
-                        nRow += 1
-                        nRow += trxProductDetail!.shipHistory.count
-                    }
-                }
-                return nRow
-            } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
-                return 2
-            } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
-                return 3
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
-                return 3
+                return 0
             }
-            return 0
+        } else {
+            // Rent description section
+            return 1
         }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let idx = (indexPath as NSIndexPath).row
-        if (isProductCell) {
-            if (hideProductCell[idx] == true) {
-                return TransactionDetailTools.TransactionDetailProductCellHeight
-            } else {
-                return TransactionDetailTools.TransactionDetailDetailedProductCellHeight
-            }
-        } else if (isTitleContentCell) {
-            if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                if (idx == 0) {
-                    if (isTrxDetail() && trxDetail!.paymentMethodInt == 7) {
-                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20
-                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 8) {
-                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20
-                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 9) {
-                        return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.") + 20
-                    } else {
-                        return 0
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail() && trxDetail!.paymentMethodInt == 4) {
-                        if trxDetail!.paymentCode != "" {
-                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode) + 20 // space
+        if indexPath.section >= 0 {
+            let idx = (indexPath as NSIndexPath).row
+            if (isProductCell) {
+                if (hideProductCell[idx] == true) {
+                    return TransactionDetailTools.TransactionDetailProductCellHeight
+                } else {
+                    return TransactionDetailTools.TransactionDetailDetailedProductCellHeight
+                }
+            } else if (isTitleContentCell) {
+                if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
+                    if (idx == 0) {
+                        if (isTrxDetail() && trxDetail!.paymentMethodInt == 7) {
+                            return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.") + 20
+                        } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 8) {
+                            return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.") + 20
+                        } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 9) {
+                            return TransactionDetailTitleContentCell.heightForTitleNil("Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.") + 20
                         } else {
-                            return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20
+                            return 0
                         }
-                    } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 9) {
-                        if trxDetail!.vaNumber != "" {
-                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.vaNumber) + 20 // space
+                    } else if (idx == 1) {
+                        if (isTrxDetail() && trxDetail!.paymentMethodInt == 4) {
+                            if trxDetail!.paymentCode != "" {
+                                return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode) + 20 // space
+                            } else {
+                                return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar") + 20
+                            }
+                        } else if (isTrxDetail() && trxDetail!.paymentMethodInt == 9) {
+                            if trxDetail!.vaNumber != "" {
+                                return TransactionDetailTitleContentCell.heightFor(trxDetail!.vaNumber) + 20 // space
+                            } else {
+                                return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan VA number") + 20
+                            }
                         } else {
-                            return TransactionDetailTitleContentCell.heightFor("Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan VA number") + 20
+                            return 0
                         }
-                    } else {
-                        return 0
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
+                            return TransactionDetailTitleContentCell.heightFor(p.asPrice)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.bonusUsed.asPrice)
+                        }
+                    } else if (idx == 4) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.preloBalanceUsed.asPrice)
+                        }
+                    } else if (idx == 5) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.voucherAmount.asPrice)
+                        }
+                    } else if (idx == 6) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.totalPrice.asPrice)
+                        }
+                    } else if (idx == 7) {
+                        if (isTrxDetail()) {
+                            //return TransactionDetailTitleContentCell.heightFor(trxDetail!.bankTransferDigit.asPrice)
+                            var title = ""
+                            var content = ""
+                            if (trxDetail!.paymentMethodInt == 1) {
+                                title = "Charge Kartu Kredit"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 4) {
+                                title = "Charge Indomaret"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 5) {
+                                title = "Charge Kredivo"
+                                content = trxDetail!.kredivoChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 6) {
+                                title = "Charge Mandiri Clickpay"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 7) {
+                                title = "Charge Mandiri e-cash"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 8) {
+                                title = "Charge CIMB Clicks"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 9) {
+                                title = "Charge Virtual Account"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else {
+                                title = "Kode Unik"
+                                content = trxDetail!.bankTransferDigit.asPrice
+                            }
+                            return TransactionDetailTitleContentCell.heightFor(title, content: content)
+                        }
+                    } else if (idx == 8) {
+                        if (isTrxDetail()) {
+                            let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
+                            return TransactionDetailTitleContentCell.heightFor(p.asPrice)
+                        }
                     }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
-                        return TransactionDetailTitleContentCell.heightFor(p.asPrice)
+                    
+                    // Bank Transfer
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentBankTarget)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankTarget)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
                     }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.bonusUsed.asPrice)
+                    
+                    // Cedit Card
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor("**** **** **** \(trxProductDetail!.maskedCCLast)")
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
                     }
-                } else if (idx == 4) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.preloBalanceUsed.asPrice)
+                    
+                    // Bonus
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentBankSource)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankSource)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
                     }
-                } else if (idx == 5) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.voucherAmount.asPrice)
+                    
+                    // Indomaret
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
                     }
-                } else if (idx == 6) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.totalPrice.asPrice)
+                    
+                    // Kredivo
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
                     }
-                } else if (idx == 7) {
-                    if (isTrxDetail()) {
-                        //return TransactionDetailTitleContentCell.heightFor(trxDetail!.bankTransferDigit.asPrice)
-                        var title = ""
+                    
+                    // CIMB Clicks
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCimbClicks) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
+                    }
+                    
+                    // Mandiri Clickpay
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
+                    }
+                    
+                    // Mandiri Ecash
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
+                    }
+                    
+                    // Permata VA
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
+                    }
+                    
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        }
+                    }
+                    
+                } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
+                    if (idx == 0) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientName)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientName)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
+                        }
+                    } else if (idx == 2) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingAddress)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingSubdistrictName)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingSubdistrictName)
+                        }
+                    } else if (idx == 4) {
+                        if (isTrxDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
+                                return TransactionDetailTitleContentCell.heightFor(r)
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
+                                return TransactionDetailTitleContentCell.heightFor(r)
+                            }
+                        }
+                    } else if (idx == 5) {
+                        if (isTrxDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
+                                return TransactionDetailTitleContentCell.heightFor(p)
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
+                                return TransactionDetailTitleContentCell.heightFor(p)
+                            }
+                        }
+                    } else if (idx == 6) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingPostalCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingPostalCode)
+                        }
+                    } else if (idx == 7) {
+                        //                    if (isTrxDetail()) {
+                        //                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingName)
+                        //                    } else if (isTrxProductDetail()) {
+                        //                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingName)
+                        //                    }
                         var content = ""
-                        if (trxDetail!.paymentMethodInt == 1) {
-                            title = "Charge Kartu Kredit"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 4) {
-                            title = "Charge Indomaret"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 5) {
-                            title = "Charge Kredivo"
-                            content = trxDetail!.kredivoChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 6) {
-                            title = "Charge Mandiri Clickpay"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 7) {
-                            title = "Charge Mandiri e-cash"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 8) {
-                            title = "Charge CIMB Clicks"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 9) {
-                            title = "Charge Virtual Account"
-                            content = trxDetail!.veritransChargeAmount.asPrice
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingName
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingName
+                        }
+                        if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
+                            return TransactionDetailTitleContentCell.heightFor(content, image: img!)
                         } else {
-                            title = "Kode Unik"
-                            content = trxDetail!.bankTransferDigit.asPrice
+                            return TransactionDetailTitleContentCell.heightFor(content)
                         }
-                        return TransactionDetailTitleContentCell.heightFor(title, content: content)
-                    }
-                } else if (idx == 8) {
-                    if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice + trxDetail!.bankTransferDigit
-                        return TransactionDetailTitleContentCell.heightFor(p.asPrice)
-                    }
-                }
-                
-                // Bank Transfer
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentBankTarget)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankTarget)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-                // Cedit Card
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor("**** **** **** \(trxProductDetail!.maskedCCLast)")
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-                // Bonus
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentBankSource)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentBankSource)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                }
-                
-                // Indomaret
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-                // Kredivo
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-                // CIMB Clicks
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCimbClicks) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-                // Mandiri Clickpay
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-                // Mandiri Ecash
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-                // Permata VA
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentCode)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentNominal.asPrice)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-                
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentMethod)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.paymentDate)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    }
-                }
-                
-            } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientName)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientName)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingAddress)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingSubdistrictName)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingSubdistrictName)
-                    }
-                } else if (idx == 4) {
-                    if (isTrxDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
-                            return TransactionDetailTitleContentCell.heightFor(r)
+                    } else if (idx == 8) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.resiNumber)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
                         }
-                    } else if (isTrxProductDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
-                            return TransactionDetailTitleContentCell.heightFor(r)
+                    } else if (idx == 9) {
+                        return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+                    } else if (idx == 10) {
+                        if (isTrxDetail()) {
+                            if let msg = trxDetail!.shipHistoryMsg {
+                                return TransactionDetailTitleContentHeaderCell.heightFor(msg)
+                            } else {
+                                return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let msg = trxProductDetail!.shipHistoryMsg {
+                                return TransactionDetailTitleContentHeaderCell.heightFor(msg)
+                            } else {
+                                return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
+                            }
+                        }
+                    } else if (idx > 10) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
                         }
                     }
-                } else if (idx == 5) {
-                    if (isTrxDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
-                            return TransactionDetailTitleContentCell.heightFor(p)
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
-                            return TransactionDetailTitleContentCell.heightFor(p)
-                        }
-                    }
-                } else if (idx == 6) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingPostalCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingPostalCode)
-                    }
-                } else if (idx == 7) {
-//                    if (isTrxDetail()) {
-//                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingName)
-//                    } else if (isTrxProductDetail()) {
-//                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingName)
-//                    }
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingName
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingName
-                    }
-                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
-                        return TransactionDetailTitleContentCell.heightFor(content, image: img!)
-                    } else {
-                        return TransactionDetailTitleContentCell.heightFor(content)
-                    }
-                } else if (idx == 8) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.resiNumber)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
-                    }
-                } else if (idx == 9) {
-                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
-                } else if (idx == 10) {
-                    if (isTrxDetail()) {
-                        if let msg = trxDetail!.shipHistoryMsg {
-                            return TransactionDetailTitleContentHeaderCell.heightFor(msg)
-                        } else {
-                            return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let msg = trxProductDetail!.shipHistoryMsg {
-                            return TransactionDetailTitleContentHeaderCell.heightFor(msg)
-                        } else {
-                            return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
-                        }
-                    }
-                } else if (idx > 10) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
-                    }
-                }
-                
-            } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
-                if (idx == 0) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientName)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientName)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
-                    }
-                } else if (idx == 2) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingAddress)
-                    }
-                } else if (idx == 3) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingSubdistrictName)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingSubdistrictName)
-                    }
-                } else if (idx == 4) {
-                    if (isTrxDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
-                            return TransactionDetailTitleContentCell.heightFor(r)
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
-                            return TransactionDetailTitleContentCell.heightFor(r)
-                        }
-                    }
-                } else if (idx == 5) {
-                    if (isTrxDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
-                            return TransactionDetailTitleContentCell.heightFor(p)
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
-                            return TransactionDetailTitleContentCell.heightFor(p)
-                        }
-                    }
-                } else if (idx == 6) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingPostalCode)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingPostalCode)
-                    }
-                } else if (idx == 7) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.requestCourier
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.requestCourier
-                    }
-                    var image = UIImage()
-                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
-                        image = img!
-                    }
-                    return TransactionDetailTitleContentCell.heightFor(content, image: image)
-                } else if (idx == 8) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.resiNumber)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
-                    }
-                } else if (idx == 9) {
-                    return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
-                } else if (idx == 10) {
-                    if (isTrxDetail()) {
-                        if let msg = trxDetail!.shipHistoryMsg {
-                            return TransactionDetailTitleContentHeaderCell.heightFor(msg)
-                        } else {
-                            return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let msg = trxProductDetail!.shipHistoryMsg {
-                            return TransactionDetailTitleContentHeaderCell.heightFor(msg)
-                        } else {
-                            return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
-                        }
-                    }
-                } else if (idx > 10) {
-                    if (isTrxDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
-                    } else if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
-                    }
-                }
-                
-            } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
-                if (idx == 0) {
-                    if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.myPreloBalance.asPrice)
-                    }
-                } else if (idx == 1) {
-                    if (isTrxProductDetail()) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.myPreloBonus.asPrice)
-                    }
-                }
-                
-            } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
-                if (isTrxProductDetail()) {
+                    
+                } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
                     if (idx == 0) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSalePlace)
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientName)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientName)
+                        }
                     } else if (idx == 1) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSaleEventDate)
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingRecipientPhone)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingRecipientPhone)
+                        }
                     } else if (idx == 2) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSaleEventTime)
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingAddress)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingAddress)
+                        }
+                    } else if (idx == 3) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingSubdistrictName)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingSubdistrictName)
+                        }
+                    } else if (idx == 4) {
+                        if (isTrxDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
+                                return TransactionDetailTitleContentCell.heightFor(r)
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
+                                return TransactionDetailTitleContentCell.heightFor(r)
+                            }
+                        }
+                    } else if (idx == 5) {
+                        if (isTrxDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
+                                return TransactionDetailTitleContentCell.heightFor(p)
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
+                                return TransactionDetailTitleContentCell.heightFor(p)
+                            }
+                        }
+                    } else if (idx == 6) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shippingPostalCode)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shippingPostalCode)
+                        }
+                    } else if (idx == 7) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.requestCourier
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.requestCourier
+                        }
+                        var image = UIImage()
+                        if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
+                            image = img!
+                        }
+                        return TransactionDetailTitleContentCell.heightFor(content, image: image)
+                    } else if (idx == 8) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.resiNumber)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.resiNumber)
+                        }
+                    } else if (idx == 9) {
+                        return TransactionDetailTitleContentCell.heightFor("Lihat foto resiœ")
+                    } else if (idx == 10) {
+                        if (isTrxDetail()) {
+                            if let msg = trxDetail!.shipHistoryMsg {
+                                return TransactionDetailTitleContentHeaderCell.heightFor(msg)
+                            } else {
+                                return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let msg = trxProductDetail!.shipHistoryMsg {
+                                return TransactionDetailTitleContentHeaderCell.heightFor(msg)
+                            } else {
+                                return TransactionDetailTitleContentHeaderCell.DefaultCellHeight
+                            }
+                        }
+                    } else if (idx > 10) {
+                        if (isTrxDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxDetail!.shipHistory[idx - 11].date, content: trxDetail!.shipHistory[idx - 11].status)
+                        } else if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.shipHistory[idx - 11].date, content: trxProductDetail!.shipHistory[idx - 11].status)
+                        }
+                    }
+                    
+                } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
+                    if (idx == 0) {
+                        if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.myPreloBalance.asPrice)
+                        }
+                    } else if (idx == 1) {
+                        if (isTrxProductDetail()) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.myPreloBonus.asPrice)
+                        }
+                    }
+                    
+                } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+                    if (isTrxProductDetail()) {
+                        if (idx == 0) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSalePlace)
+                        } else if (idx == 1) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSaleEventDate)
+                        } else if (idx == 2) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.garageSaleEventTime)
+                        }
+                    }
+                    
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
+                    if (isTrxProductDetail()) {
+                        if (idx == 0) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
+                        } else if (idx == 1) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
+                        } else if (idx == 2) {
+                            return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
+                        }
                     }
                 }
                 
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
-                if (isTrxProductDetail()) {
-                    if (idx == 0) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentMethod)
-                    } else if (idx == 1) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentDate)
-                    } else if (idx == 2) {
-                        return TransactionDetailTitleContentCell.heightFor(trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
             }
-            
+        } else {
+            // Rent description section
+            return UITableViewAutomaticDimension
         }
         return 0
     }
-    
+    //WIP!!
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if (isProductCell) {
-            let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailProductCellId) as! TransactionDetailProductCell
-            
-            // Adapt cell
-            cell.adapt(trxProducts[(indexPath as NSIndexPath).row])
-            if ((indexPath as NSIndexPath).row == trxProducts.count - 1) {
-                cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, CGFloat.greatestFiniteMagnitude)
+        if indexPath.section >= 0 {
+            if (isProductCell) {
+                let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailProductCellId) as! TransactionDetailProductCell
+                
+                // Adapt cell
+                cell.adapt(trxProducts[(indexPath as NSIndexPath).row], isRentTransaction: self.isRentTransaction)
+                if ((indexPath as NSIndexPath).row == trxProducts.count - 1) {
+                    cell.separatorInset = UIEdgeInsetsMake(0, 0, 0, CGFloat.greatestFiniteMagnitude)
+                }
+                
+                // Configure actions
+                cell.switchDetail = {
+                    self.switchDetailProduct((indexPath as NSIndexPath).row)
+                }
+                return cell
+            } else if (isTitleContentCell) {
+                let idx = (indexPath as NSIndexPath).row
+                
+                if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
+                    if (idx == 0) {
+                        if (trxDetail!.paymentMethodInt == 7) {
+                            return self.createTitleContentCell("", content: "Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.", alignment: .left, url: nil, textToCopy: nil)
+                        } else if (trxDetail!.paymentMethodInt == 8) {
+                            return self.createTitleContentCell("", content: "Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.", alignment: .left, url: nil, textToCopy: nil)
+                        } else if (trxDetail!.paymentMethodInt == 9) {
+                            return self.createTitleContentCell("", content: "Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.", alignment: .left, url: nil, textToCopy: nil)
+                        }
+                    } else if (idx == 1) {
+                        if (trxDetail!.paymentMethodInt == 4) {
+                            if (trxDetail!.paymentCode != "") {
+                                var content = ""
+                                var textToCopy = ""
+                                content = " "
+                                if (isTrxDetail()) {
+                                    let p = trxDetail!.paymentCode
+                                    textToCopy = "\(p)"
+                                    content += p
+                                }
+                                return self.createTitleContentCell("Kode Bayar", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
+                            } else {
+                                return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .right, url: nil, textToCopy: nil)
+                            }
+                        } else if (trxDetail!.paymentMethodInt == 9) {
+                            if (trxDetail!.vaNumber != "") {
+                                var content = ""
+                                var textToCopy = ""
+                                content = " "
+                                if (isTrxDetail()) {
+                                    let p = trxDetail!.vaNumber
+                                    textToCopy = "\(p)"
+                                    content += p
+                                }
+                                return self.createTitleContentCell("VA Number", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
+                            } else {
+                                return self.createTitleContentCell("VA Number", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan VA number", alignment: .right, url: nil, textToCopy: nil)
+                            }
+                        }
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
+                            content = p.asPrice
+                        }
+                        return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .right, url: nil, textToCopy: nil)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = "-" + trxDetail!.bonusUsed.asPrice
+                        }
+                        return self.createTitleContentCell("Referral Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
+                    } else if (idx == 4) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = "-" + trxDetail!.preloBalanceUsed.asPrice
+                        }
+                        let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .right, url: nil, textToCopy: nil)
+                        return cell
+                    } else if (idx == 5) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = "-" + trxDetail!.voucherAmount.asPrice
+                        }
+                        let cell = self.createTitleContentCell("Voucher", content: content, alignment: .right, url: nil, textToCopy: nil)
+                        cell.showVwLine()
+                        return cell
+                    } else if (idx == 6) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.totalPrice.asPrice
+                        }
+                        return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
+                    } else if (idx == 7) {
+                        var title = ""
+                        var content = ""
+                        if (isTrxDetail()) {
+                            if (trxDetail!.paymentMethodInt == 1) {
+                                title = "Charge Kartu Kredit"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 4) {
+                                title = "Charge Indomaret"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 5) {
+                                title = "Charge Kredivo"
+                                content = trxDetail!.kredivoChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 6) {
+                                title = "Charge Mandiri Clickpay"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 7) {
+                                title = "Charge Mandiri e-cash"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 8) {
+                                title = "Charge CIMB Clicks"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else if (trxDetail!.paymentMethodInt == 9) {
+                                title = "Charge Virtual Account"
+                                content = trxDetail!.veritransChargeAmount.asPrice
+                            } else {
+                                title = "Kode Unik"
+                                content = trxDetail!.bankTransferDigit.asPrice
+                            }
+                        }
+                        let cell = self.createTitleContentCell(title, content: content, alignment: .right, url: nil, textToCopy: nil)
+                        cell.showVwLine()
+                        return cell
+                    } else if (idx == 8) {
+                        var content = ""
+                        var textToCopy = ""
+                        content = " "
+                        if (isTrxDetail()) {
+                            var p = trxDetail!.totalPrice
+                            if (trxDetail!.paymentMethodInt == 1) {
+                                p += trxDetail!.veritransChargeAmount
+                            } else if (trxDetail!.paymentMethodInt == 4) {
+                                p += trxDetail!.veritransChargeAmount
+                            } else if (trxDetail!.paymentMethodInt == 5) {
+                                p += trxDetail!.kredivoChargeAmount
+                            } else if (trxDetail!.paymentMethodInt == 6) {
+                                p += trxDetail!.veritransChargeAmount
+                            } else if (trxDetail!.paymentMethodInt == 7) {
+                                p += trxDetail!.veritransChargeAmount
+                            } else if (trxDetail!.paymentMethodInt == 8) {
+                                p += trxDetail!.veritransChargeAmount
+                            } else if (trxDetail!.paymentMethodInt == 9) {
+                                p += trxDetail!.veritransChargeAmount
+                            } else {
+                                p += trxDetail!.bankTransferDigit
+                            }
+                            textToCopy = "\(p)"
+                            content += p.asPrice
+                        }
+                        return self.createTitleContentCell("Total Pembayaran", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
+                    }
+                    
+                    // Bank Transfer
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentBankTarget
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentBankTarget
+                        }
+                        return self.createTitleContentCell("Bank Tujuan", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                    
+                    // Credit Card
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        if (isTrxProductDetail()) {
+                            return self.createTitleContentCell("Nomor Kartu", content: "**** **** **** \(trxProductDetail!.maskedCCLast)")
+                        }
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                    
+                    // Bonus
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentBankSource
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentBankSource
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    }
+                    
+                    // Indomaret
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentCode
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentCode
+                        }
+                        return self.createTitleContentCell("Kode", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                    
+                    // Kredivo
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentType
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentType
+                        }
+                        return self.createTitleContentCell("Tipe", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                    
+                    // CIMB Clicks
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCimbClicks) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentCode
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentCode
+                        }
+                        return self.createTitleContentCell("Kode", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                    
+                    // Mandiri Clickpay
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentCode
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentCode
+                        }
+                        return self.createTitleContentCell("Kode", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                    
+                    // Mandiri Ecash
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentCode
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentCode
+                        }
+                        return self.createTitleContentCell("Kode", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                    
+                    // Permata VA
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentCode
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentCode
+                        }
+                        return self.createTitleContentCell("Kode", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentNominal.asPrice
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentNominal.asPrice
+                        }
+                        return self.createTitleContentCell("Nominal", content: content)
+                    }
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentMethod
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentMethod
+                        }
+                        return self.createTitleContentCell("Metode", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.paymentDate
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.paymentDate
+                        }
+                        return self.createTitleContentCell("Tanggal", content: content)
+                    }
+                } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingRecipientName
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingRecipientName
+                        }
+                        return self.createTitleContentCell("Nama", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingRecipientPhone
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingRecipientPhone
+                        }
+                        return self.createTitleContentCell("Nomor Telepon", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingAddress
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingAddress
+                        }
+                        return self.createTitleContentCell("Alamat", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingSubdistrictName
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingSubdistrictName
+                        }
+                        return self.createTitleContentCell("Kecamatan", content: content)
+                    } else if (idx == 4) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
+                                content = r
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
+                                content = r
+                            }
+                        }
+                        return self.createTitleContentCell("Kota", content: content)
+                    } else if (idx == 5) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
+                                content = p
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
+                                content = p
+                            }
+                        }
+                        return self.createTitleContentCell("Provinsi", content: content)
+                    } else if (idx == 6) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingPostalCode
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingPostalCode
+                        }
+                        return self.createTitleContentCell("Kode Pos", content: content)
+                    } else if (idx == 7) {
+                        var title = "Kurir"
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingName
+                            if trxDetail!.progress == TransactionDetailTools.ProgressClaimedPaid {
+                                title = "Request Kurir"
+                            }
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingName
+                            if trxProductDetail!.progress == TransactionDetailTools.ProgressClaimedPaid {
+                                title = "Request Kurir"
+                            }
+                        }
+                        
+                        if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
+                            return self.createTitleContentCell(title, content: content, image: img!)
+                        } else {
+                            return self.createTitleContentCell(title, content: content)
+                        }
+                    } else if (idx == 8) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.resiNumber
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.resiNumber
+                        }
+                        if (content != "") {
+                            return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
+                            //                        return self.createTitleContentCell("Nomor Resi", content: content)
+                        }
+                    } else if (idx == 9) {
+                        var content = "Lihat foto resiœ"
+                        if (isTrxDetail()) {
+                            content += trxDetail!.resiPhotoUrl
+                        } else if (isTrxProductDetail()) {
+                            content += trxProductDetail!.resiPhotoUrl
+                        }
+                        var nrcontent = ""
+                        if (isTrxDetail()) {
+                            nrcontent = trxDetail!.resiNumber
+                        } else if (isTrxProductDetail()) {
+                            nrcontent = trxProductDetail!.resiNumber
+                        }
+                        if (nrcontent != "") {
+                            return self.createTitleContentCell("", content: content)
+                        }
+                    } else if (idx == 10) {
+                        var msg : String?
+                        if (isTrxDetail()) {
+                            msg = trxDetail!.shipHistoryMsg
+                        } else if (isTrxProductDetail()) {
+                            msg = trxProductDetail!.shipHistoryMsg
+                        }
+                        return self.createTitleContentHeaderCellShipHistory(msg)
+                    } else if (idx > 10) {
+                        var date = ""
+                        var status = ""
+                        if (isTrxDetail()) {
+                            date = trxDetail!.shipHistory[idx - 11].date
+                            status = trxDetail!.shipHistory[idx - 11].status
+                        } else if (isTrxProductDetail()) {
+                            date = trxProductDetail!.shipHistory[idx - 11].date
+                            status = trxProductDetail!.shipHistory[idx - 11].status
+                        }
+                        return self.createTitleContentCellShipHistory(date, status: status)
+                    }
+                } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingRecipientName
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingRecipientName
+                        }
+                        return self.createTitleContentCell("Nama", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingRecipientPhone
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingRecipientPhone
+                        }
+                        return self.createTitleContentCell("Nomor Telepon", content: content)
+                    } else if (idx == 2) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingAddress
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingAddress
+                        }
+                        return self.createTitleContentCell("Alamat", content: content)
+                    } else if (idx == 3) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingSubdistrictName
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingSubdistrictName
+                        }
+                        return self.createTitleContentCell("Kecamatan", content: content)
+                    } else if (idx == 4) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
+                                content = r
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
+                                content = r
+                            }
+                        }
+                        return self.createTitleContentCell("Kota", content: content)
+                    } else if (idx == 5) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
+                                content = p
+                            }
+                        } else if (isTrxProductDetail()) {
+                            if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
+                                content = p
+                            }
+                        }
+                        return self.createTitleContentCell("Provinsi", content: content)
+                    } else if (idx == 6) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.shippingPostalCode
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.shippingPostalCode
+                        }
+                        return self.createTitleContentCell("Kode Pos", content: content)
+                    } else if (idx == 7) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.requestCourier
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.requestCourier
+                        }
+                        
+                        if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
+                            return self.createTitleContentCell("Kurir", content: content, image: img!)
+                        } else {
+                            return self.createTitleContentCell("Kurir", content: content) // (content.contains("Free Ongkir") ? "" : content)
+                        }
+                    } else if (idx == 8) {
+                        var content = ""
+                        if (isTrxDetail()) {
+                            content = trxDetail!.resiNumber
+                        } else if (isTrxProductDetail()) {
+                            content = trxProductDetail!.resiNumber
+                        }
+                        if (content != "") {
+                            //                        return self.createTitleContentCell("Nomor Resi", content: content)
+                            return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
+                        }
+                    } else if (idx == 9) {
+                        var content = "Lihat foto resiœ"
+                        if (isTrxDetail()) {
+                            content += trxDetail!.resiPhotoUrl
+                        } else if (isTrxProductDetail()) {
+                            content += trxProductDetail!.resiPhotoUrl
+                        }
+                        var nrcontent = ""
+                        if (isTrxDetail()) {
+                            nrcontent = trxDetail!.resiNumber
+                        } else if (isTrxProductDetail()) {
+                            nrcontent = trxProductDetail!.resiNumber
+                        }
+                        if (nrcontent != "") {
+                            return self.createTitleContentCell("", content: content)
+                        }
+                    } else if (idx == 10) {
+                        var msg : String?
+                        if (isTrxDetail()) {
+                            msg = trxDetail!.shipHistoryMsg
+                        } else if (isTrxProductDetail()) {
+                            msg = trxProductDetail!.shipHistoryMsg
+                        }
+                        return self.createTitleContentHeaderCellShipHistory(msg)
+                    } else if (idx > 10) {
+                        var date = ""
+                        var status = ""
+                        if (isTrxDetail()) {
+                            date = trxDetail!.shipHistory[idx - 11].date
+                            status = trxDetail!.shipHistory[idx - 11].status
+                        } else if (isTrxProductDetail()) {
+                            date = trxProductDetail!.shipHistory[idx - 11].date
+                            status = trxProductDetail!.shipHistory[idx - 11].status
+                        }
+                        return self.createTitleContentCellShipHistory(date, status: status)
+                    }
+                } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
+                    if (idx == 0) {
+                        var content = ""
+                        if (isTrxProductDetail()) {
+                            content = trxProductDetail!.myPreloBalance.asPrice
+                        }
+                        return self.createTitleContentCell("Prelo Balance", content: content)
+                    } else if (idx == 1) {
+                        var content = ""
+                        if (isTrxProductDetail()) {
+                            content = trxProductDetail!.myPreloBonus.asPrice
+                        }
+                        return self.createTitleContentCell("Referral Bonus", content: content)
+                    }
+                } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
+                    if (isTrxProductDetail()) {
+                        if (idx == 0) {
+                            return self.createTitleContentCell("Tempat", content: trxProductDetail!.garageSalePlace, alignment: nil, url: trxProductDetail!.garageSaleMapsUrl, textToCopy: nil)
+                        } else if (idx == 1) {
+                            return self.createTitleContentCell("Tanggal", content: trxProductDetail!.garageSaleEventDate)
+                        } else if (idx == 2) {
+                            return self.createTitleContentCell("Waktu", content: trxProductDetail!.garageSaleEventTime)
+                        }
+                    }
+                } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
+                    if (isTrxProductDetail()) {
+                        if (idx == 0) {
+                            return self.createTitleContentCell("Metode", content: trxProductDetail!.paymentMethod)
+                        } else if (idx == 1) {
+                            return self.createTitleContentCell("Tanggal", content: trxProductDetail!.paymentDate)
+                        } else if (idx == 2) {
+                            return self.createTitleContentCell("Nominal", content: trxProductDetail!.paymentNominal.asPrice)
+                        }
+                    }
+                }
             }
-            
-            // Configure actions
-            cell.switchDetail = {
-                self.switchDetailProduct((indexPath as NSIndexPath).row)
-            }
+        } else {
+            // Rent description section
+            let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionDetailRentDurationCell") as! TransactionDetailRentDurationCell
+            cell.adapt(sentDate: "", receivedDate: "", rentDuration: "")
             return cell
-        } else if (isTitleContentCell) {
-            let idx = (indexPath as NSIndexPath).row
-            
-            if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyer) {
-                if (idx == 0) {
-                    if (trxDetail!.paymentMethodInt == 7) {
-                        return self.createTitleContentCell("", content: "Pembayaran melalui Mandiri e-cash harus diselesaikan di website Mandiri. Pastikan kamu telah mendaftarkan nomor ponsel untuk Mandiri e-cash.", alignment: .left, url: nil, textToCopy: nil)
-                    } else if (trxDetail!.paymentMethodInt == 8) {
-                        return self.createTitleContentCell("", content: "Pembayaran melalui CIMB Clicks harus diselesaikan di website CIMB Clicks. Pastikan kamu telah memiliki User ID CIMB Clicks dan sudah mendaftarkan mPIN sebelum melakukan pembayaran.", alignment: .left, url: nil, textToCopy: nil)
-                    } else if (trxDetail!.paymentMethodInt == 9) {
-                        return self.createTitleContentCell("", content: "Pembayaran dapat dilakukan melalui jaringan ATM dan internet banking bank Permata atau bank lain yang tergabung dalam jaringan ATM Bersama, Prima, atau Alto. Cek e-mail untuk instruksi pembayaran melalui virtual account yang lebih jelas.", alignment: .left, url: nil, textToCopy: nil)
-                    }
-                } else if (idx == 1) {
-                    if (trxDetail!.paymentMethodInt == 4) {
-                        if (trxDetail!.paymentCode != "") {
-                            var content = ""
-                            var textToCopy = ""
-                            content = " "
-                            if (isTrxDetail()) {
-                                let p = trxDetail!.paymentCode
-                                textToCopy = "\(p)"
-                                content += p
-                            }
-                            return self.createTitleContentCell("Kode Bayar", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
-                        } else {
-                            return self.createTitleContentCell("Kode Bayar", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan kode bayar", alignment: .right, url: nil, textToCopy: nil)
-                        }
-                    } else if (trxDetail!.paymentMethodInt == 9) {
-                        if (trxDetail!.vaNumber != "") {
-                            var content = ""
-                            var textToCopy = ""
-                            content = " "
-                            if (isTrxDetail()) {
-                                let p = trxDetail!.vaNumber
-                                textToCopy = "\(p)"
-                                content += p
-                            }
-                            return self.createTitleContentCell("VA Number", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
-                        } else {
-                            return self.createTitleContentCell("VA Number", content: "Klik tombol \"LANJUTKAN PEMBAYARAN\" untuk mendapatkan VA number", alignment: .right, url: nil, textToCopy: nil)
-                        }
-                    }
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        let p = trxDetail!.totalPrice + trxDetail!.bonusUsed + trxDetail!.preloBalanceUsed + trxDetail!.voucherAmount
-                        content = p.asPrice
-                    }
-                    return self.createTitleContentCell("Harga + Ongkir", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = "-" + trxDetail!.bonusUsed.asPrice
-                    }
-                    return self.createTitleContentCell("Referral Bonus", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 4) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = "-" + trxDetail!.preloBalanceUsed.asPrice
-                    }
-                    let cell = self.createTitleContentCell("Prelo Balance", content: content, alignment: .right, url: nil, textToCopy: nil)
-                    return cell
-                } else if (idx == 5) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = "-" + trxDetail!.voucherAmount.asPrice
-                    }
-                    let cell = self.createTitleContentCell("Voucher", content: content, alignment: .right, url: nil, textToCopy: nil)
-                    cell.showVwLine()
-                    return cell
-                } else if (idx == 6) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.totalPrice.asPrice
-                    }
-                    return self.createTitleContentCell("Subtotal", content: content, alignment: .right, url: nil, textToCopy: nil)
-                } else if (idx == 7) {
-                    var title = ""
-                    var content = ""
-                    if (isTrxDetail()) {
-                        if (trxDetail!.paymentMethodInt == 1) {
-                            title = "Charge Kartu Kredit"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 4) {
-                            title = "Charge Indomaret"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 5) {
-                            title = "Charge Kredivo"
-                            content = trxDetail!.kredivoChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 6) {
-                            title = "Charge Mandiri Clickpay"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 7) {
-                            title = "Charge Mandiri e-cash"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 8) {
-                            title = "Charge CIMB Clicks"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else if (trxDetail!.paymentMethodInt == 9) {
-                            title = "Charge Virtual Account"
-                            content = trxDetail!.veritransChargeAmount.asPrice
-                        } else {
-                            title = "Kode Unik"
-                            content = trxDetail!.bankTransferDigit.asPrice
-                        }
-                    }
-                    let cell = self.createTitleContentCell(title, content: content, alignment: .right, url: nil, textToCopy: nil)
-                    cell.showVwLine()
-                    return cell
-                } else if (idx == 8) {
-                    var content = ""
-                    var textToCopy = ""
-                    content = " "
-                    if (isTrxDetail()) {
-                        var p = trxDetail!.totalPrice
-                        if (trxDetail!.paymentMethodInt == 1) {
-                            p += trxDetail!.veritransChargeAmount
-                        } else if (trxDetail!.paymentMethodInt == 4) {
-                            p += trxDetail!.veritransChargeAmount
-                        } else if (trxDetail!.paymentMethodInt == 5) {
-                            p += trxDetail!.kredivoChargeAmount
-                        } else if (trxDetail!.paymentMethodInt == 6) {
-                            p += trxDetail!.veritransChargeAmount
-                        } else if (trxDetail!.paymentMethodInt == 7) {
-                            p += trxDetail!.veritransChargeAmount
-                        } else if (trxDetail!.paymentMethodInt == 8) {
-                            p += trxDetail!.veritransChargeAmount
-                        } else if (trxDetail!.paymentMethodInt == 9) {
-                            p += trxDetail!.veritransChargeAmount
-                        } else {
-                            p += trxDetail!.bankTransferDigit
-                        }
-                        textToCopy = "\(p)"
-                        content += p.asPrice
-                    }
-                    return self.createTitleContentCell("Total Pembayaran", content: content, alignment: .right, url: nil, textToCopy: textToCopy)
-                }
-                
-                // Bank Transfer
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidTransfer) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentBankTarget
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentBankTarget
-                    }
-                    return self.createTitleContentCell("Bank Tujuan", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-                
-                // Credit Card
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCC) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    if (isTrxProductDetail()) {
-                        return self.createTitleContentCell("Nomor Kartu", content: "**** **** **** \(trxProductDetail!.maskedCCLast)")
-                    }
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-                
-                // Bonus
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidBonus) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentBankSource
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentBankSource
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                }
-                
-                // Indomaret
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidIndomaret) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentCode
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentCode
-                    }
-                    return self.createTitleContentCell("Kode", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-                
-                // Kredivo
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidKredivo) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentType
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentType
-                    }
-                    return self.createTitleContentCell("Tipe", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-                
-                // CIMB Clicks
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidCimbClicks) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentCode
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentCode
-                    }
-                    return self.createTitleContentCell("Kode", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-                
-                // Mandiri Clickpay
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriClickpay) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentCode
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentCode
-                    }
-                    return self.createTitleContentCell("Kode", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-                
-                // Mandiri Ecash
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidMandiriEcash) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentCode
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentCode
-                    }
-                    return self.createTitleContentCell("Kode", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-                
-                // Permata VA
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranBuyerPaidPermataVa) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentCode
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentCode
-                    }
-                    return self.createTitleContentCell("Kode", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentNominal.asPrice
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentNominal.asPrice
-                    }
-                    return self.createTitleContentCell("Nominal", content: content)
-                }
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranSeller) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentMethod
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentMethod
-                    }
-                    return self.createTitleContentCell("Metode", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.paymentDate
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.paymentDate
-                    }
-                    return self.createTitleContentCell("Tanggal", content: content)
-                }
-            } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanBuyer) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingRecipientName
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingRecipientName
-                    }
-                    return self.createTitleContentCell("Nama", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingRecipientPhone
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingRecipientPhone
-                    }
-                    return self.createTitleContentCell("Nomor Telepon", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingAddress
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingAddress
-                    }
-                    return self.createTitleContentCell("Alamat", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingSubdistrictName
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingSubdistrictName
-                    }
-                    return self.createTitleContentCell("Kecamatan", content: content)
-                } else if (idx == 4) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
-                            content = r
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
-                            content = r
-                        }
-                    }
-                    return self.createTitleContentCell("Kota", content: content)
-                } else if (idx == 5) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    }
-                    return self.createTitleContentCell("Provinsi", content: content)
-                } else if (idx == 6) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingPostalCode
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingPostalCode
-                    }
-                    return self.createTitleContentCell("Kode Pos", content: content)
-                } else if (idx == 7) {
-                    var title = "Kurir"
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingName
-                        if trxDetail!.progress == TransactionDetailTools.ProgressClaimedPaid {
-                            title = "Request Kurir"
-                        }
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingName
-                        if trxProductDetail!.progress == TransactionDetailTools.ProgressClaimedPaid {
-                            title = "Request Kurir"
-                        }
-                    }
-                    
-                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
-                        return self.createTitleContentCell(title, content: content, image: img!)
-                    } else {
-                        return self.createTitleContentCell(title, content: content)
-                    }
-                } else if (idx == 8) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.resiNumber
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.resiNumber
-                    }
-                    if (content != "") {
-                        return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
-//                        return self.createTitleContentCell("Nomor Resi", content: content)
-                    }
-                } else if (idx == 9) {
-                    var content = "Lihat foto resiœ"
-                    if (isTrxDetail()) {
-                        content += trxDetail!.resiPhotoUrl
-                    } else if (isTrxProductDetail()) {
-                        content += trxProductDetail!.resiPhotoUrl
-                    }
-                    var nrcontent = ""
-                    if (isTrxDetail()) {
-                        nrcontent = trxDetail!.resiNumber
-                    } else if (isTrxProductDetail()) {
-                        nrcontent = trxProductDetail!.resiNumber
-                    }
-                    if (nrcontent != "") {
-                        return self.createTitleContentCell("", content: content)
-                    }
-                } else if (idx == 10) {
-                    var msg : String?
-                    if (isTrxDetail()) {
-                        msg = trxDetail!.shipHistoryMsg
-                    } else if (isTrxProductDetail()) {
-                        msg = trxProductDetail!.shipHistoryMsg
-                    }
-                    return self.createTitleContentHeaderCellShipHistory(msg)
-                } else if (idx > 10) {
-                    var date = ""
-                    var status = ""
-                    if (isTrxDetail()) {
-                        date = trxDetail!.shipHistory[idx - 11].date
-                        status = trxDetail!.shipHistory[idx - 11].status
-                    } else if (isTrxProductDetail()) {
-                        date = trxProductDetail!.shipHistory[idx - 11].date
-                        status = trxProductDetail!.shipHistory[idx - 11].status
-                    }
-                    return self.createTitleContentCellShipHistory(date, status: status)
-                }
-            } else if (titleContentType == TransactionDetailTools.TitleContentPengirimanSeller) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingRecipientName
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingRecipientName
-                    }
-                    return self.createTitleContentCell("Nama", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingRecipientPhone
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingRecipientPhone
-                    }
-                    return self.createTitleContentCell("Nomor Telepon", content: content)
-                } else if (idx == 2) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingAddress
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingAddress
-                    }
-                    return self.createTitleContentCell("Alamat", content: content)
-                } else if (idx == 3) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingSubdistrictName
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingSubdistrictName
-                    }
-                    return self.createTitleContentCell("Kecamatan", content: content)
-                } else if (idx == 4) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxDetail!.shippingRegionId) {
-                            content = r
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let r = CDRegion.getRegionNameWithID(trxProductDetail!.shippingRegionId) {
-                            content = r
-                        }
-                    }
-                    return self.createTitleContentCell("Kota", content: content)
-                } else if (idx == 5) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    } else if (isTrxProductDetail()) {
-                        if let p = CDProvince.getProvinceNameWithID(trxProductDetail!.shippingProvinceId) {
-                            content = p
-                        }
-                    }
-                    return self.createTitleContentCell("Provinsi", content: content)
-                } else if (idx == 6) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.shippingPostalCode
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.shippingPostalCode
-                    }
-                    return self.createTitleContentCell("Kode Pos", content: content)
-                } else if (idx == 7) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.requestCourier
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.requestCourier
-                    }
-                    
-                    if let img = TransactionDetailTools.ImgCouriers[content.components(separatedBy: " ")[0].lowercased()] {
-                        return self.createTitleContentCell("Kurir", content: content, image: img!)
-                    } else {
-                        return self.createTitleContentCell("Kurir", content: content) // (content.contains("Free Ongkir") ? "" : content)
-                    }
-                } else if (idx == 8) {
-                    var content = ""
-                    if (isTrxDetail()) {
-                        content = trxDetail!.resiNumber
-                    } else if (isTrxProductDetail()) {
-                        content = trxProductDetail!.resiNumber
-                    }
-                    if (content != "") {
-//                        return self.createTitleContentCell("Nomor Resi", content: content)
-                        return self.createTitleContentCell("Nomor Resi", content: content + " ", alignment: nil, url: nil, textToCopy: content)
-                    }
-                } else if (idx == 9) {
-                    var content = "Lihat foto resiœ"
-                    if (isTrxDetail()) {
-                        content += trxDetail!.resiPhotoUrl
-                    } else if (isTrxProductDetail()) {
-                        content += trxProductDetail!.resiPhotoUrl
-                    }
-                    var nrcontent = ""
-                    if (isTrxDetail()) {
-                        nrcontent = trxDetail!.resiNumber
-                    } else if (isTrxProductDetail()) {
-                        nrcontent = trxProductDetail!.resiNumber
-                    }
-                    if (nrcontent != "") {
-                        return self.createTitleContentCell("", content: content)
-                    }
-                } else if (idx == 10) {
-                    var msg : String?
-                    if (isTrxDetail()) {
-                        msg = trxDetail!.shipHistoryMsg
-                    } else if (isTrxProductDetail()) {
-                        msg = trxProductDetail!.shipHistoryMsg
-                    }
-                    return self.createTitleContentHeaderCellShipHistory(msg)
-                } else if (idx > 10) {
-                    var date = ""
-                    var status = ""
-                    if (isTrxDetail()) {
-                        date = trxDetail!.shipHistory[idx - 11].date
-                        status = trxDetail!.shipHistory[idx - 11].status
-                    } else if (isTrxProductDetail()) {
-                        date = trxProductDetail!.shipHistory[idx - 11].date
-                        status = trxProductDetail!.shipHistory[idx - 11].status
-                    }
-                    return self.createTitleContentCellShipHistory(date, status: status)
-                }
-            } else if (titleContentType == TransactionDetailTools.TitleContentReimburse) {
-                if (idx == 0) {
-                    var content = ""
-                    if (isTrxProductDetail()) {
-                        content = trxProductDetail!.myPreloBalance.asPrice
-                    }
-                    return self.createTitleContentCell("Prelo Balance", content: content)
-                } else if (idx == 1) {
-                    var content = ""
-                    if (isTrxProductDetail()) {
-                        content = trxProductDetail!.myPreloBonus.asPrice
-                    }
-                    return self.createTitleContentCell("Referral Bonus", content: content)
-                }
-            } else if (titleContentType == TransactionDetailTools.TitleContentReserved) {
-                if (isTrxProductDetail()) {
-                    if (idx == 0) {
-                        return self.createTitleContentCell("Tempat", content: trxProductDetail!.garageSalePlace, alignment: nil, url: trxProductDetail!.garageSaleMapsUrl, textToCopy: nil)
-                    } else if (idx == 1) {
-                        return self.createTitleContentCell("Tanggal", content: trxProductDetail!.garageSaleEventDate)
-                    } else if (idx == 2) {
-                        return self.createTitleContentCell("Waktu", content: trxProductDetail!.garageSaleEventTime)
-                    }
-                }
-            } else if (titleContentType == TransactionDetailTools.TitleContentPembayaranReservasi) {
-                if (isTrxProductDetail()) {
-                    if (idx == 0) {
-                        return self.createTitleContentCell("Metode", content: trxProductDetail!.paymentMethod)
-                    } else if (idx == 1) {
-                        return self.createTitleContentCell("Tanggal", content: trxProductDetail!.paymentDate)
-                    } else if (idx == 2) {
-                        return self.createTitleContentCell("Nominal", content: trxProductDetail!.paymentNominal.asPrice)
-                    }
-                }
-            }
         }
         return UITableViewCell()
     }
@@ -5189,8 +5224,14 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     
     func setupTable() {
         if (self.tableView.delegate == nil) {
-            tableView.dataSource = self
-            tableView.delegate = self
+            self.tableView.dataSource = self
+            self.tableView.delegate = self
+        }
+        
+        self.tableView.register(UINib(nibName: "TransactionDetailRentDurationCell", bundle: nil), forCellReuseIdentifier: "TransactionDetailRentDurationCell")
+        if self.isRentTransaction {
+            self.tableView.estimatedRowHeight = 240
+            self.tableView.rowHeight = UITableViewAutomaticDimension
         }
         
         tableView.reloadData()
@@ -5207,7 +5248,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
 
 // MARK: - Class
 
-class TransactionDetailProductCell : UITableViewCell {
+class TransactionDetailProductCell : UITableViewCell { //WIP!!
     @IBOutlet weak var imgProduct: UIImageView!
     @IBOutlet weak var lblOrderId: UILabel!
     @IBOutlet weak var consWidthLblOrderId: NSLayoutConstraint!
@@ -5232,14 +5273,14 @@ class TransactionDetailProductCell : UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-//        imgProduct.image = UIImage(named: "raisa.jpg")
+        //        imgProduct.image = UIImage(named: "raisa.jpg")
         imgProduct.afCancelRequest()
         imgVwIcon?.removeFromSuperview()
         vwTransactionStatus.backgroundColor = Theme.GrayDark
         lblTransactionStatus.textColor = Theme.GrayDark
     }
     
-    func adapt(_ trxProductDetail : TransactionProductDetail) {
+    func adapt(_ trxProductDetail : TransactionProductDetail, isRentTransaction : Bool) {
         // Set image
         if let url = trxProductDetail.productImageURL {
             imgProduct.afSetImage(withURL: url)
@@ -5410,14 +5451,14 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     textRect = text.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
             } /*else if (progress == TransactionDetailTools.ProgressSent) {
-                if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                }
-            } else if (progress == TransactionDetailTools.ProgressReceived) {
-                if (isSeller! == true) {
-                    textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                }
-            }*/ else if (progress == TransactionDetailTools.ProgressReserved) {
+                 if (isSeller! == true) {
+                 textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                 }
+                 } else if (progress == TransactionDetailTools.ProgressReceived) {
+                 if (isSeller! == true) {
+                 textRect = TransactionDetailTools.TextReceivedSeller.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                 }
+             }*/ else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     textRect = TransactionDetailTools.TextReserved1.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 } else if (order == 2) {
@@ -5496,10 +5537,10 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                 if (isSeller! == false) {
                     textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                     /*if (boolParam == true) { // In this case, boolParam = isRefundable
-                        textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                    } else {
-                        textRect = TransactionDetailTools.TextSentBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
-                    }*/
+                     textRect = TransactionDetailTools.TextSentBuyer.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                     } else {
+                     textRect = TransactionDetailTools.TextSentBuyerNoRefund.boundsWithFontSize(UIFont.systemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
+                     }*/
                 } else {
                     textRect = TransactionDetailTools.TextSentSeller.boundsWithFontSize(UIFont.boldSystemFont(ofSize: 13), width: UIScreen.main.bounds.size.width - (2 * TransactionDetailTools.Margin))
                 }
@@ -5664,23 +5705,23 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.boldSubstring("Diterima")
                 }
                 /*if (isSeller) {
-                    lblDesc.text = TransactionDetailTools.TextSentSeller
-                } else {
-                    lblDesc.text = TransactionDetailTools.TextSentBuyer
-                    /*if (trxProductDetail.refundable) {
-                        lblDesc.text = TransactionDetailTools.TextSentBuyer
-                    } else {
-                        lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
-                    }*/
-                    
-                    lblDesc.boldSubstring("Laporkan Transaksi")
-                    lblDesc.boldSubstring("\n1.")
-                    lblDesc.boldSubstring("Diterima\n2.")
-                    lblDesc.boldSubstring("Diterima\n3.")
-                    lblDesc.italicSubstring("review")
-                }
-                lblDesc.boldSubstring("Waktu Jaminan Prelo")
-                lblDesc.boldSubstring("Diterima")*/
+                 lblDesc.text = TransactionDetailTools.TextSentSeller
+                 } else {
+                 lblDesc.text = TransactionDetailTools.TextSentBuyer
+                 /*if (trxProductDetail.refundable) {
+                 lblDesc.text = TransactionDetailTools.TextSentBuyer
+                 } else {
+                 lblDesc.text = TransactionDetailTools.TextSentBuyerNoRefund
+                 }*/
+                 
+                 lblDesc.boldSubstring("Laporkan Transaksi")
+                 lblDesc.boldSubstring("\n1.")
+                 lblDesc.boldSubstring("Diterima\n2.")
+                 lblDesc.boldSubstring("Diterima\n3.")
+                 lblDesc.italicSubstring("review")
+                 }
+                 lblDesc.boldSubstring("Waktu Jaminan Prelo")
+                 lblDesc.boldSubstring("Diterima")*/
             } else if (progress == TransactionDetailTools.ProgressReceived) {
                 if (isSeller) {
                     lblDesc.text = TransactionDetailTools.TextReceivedSeller
@@ -5746,25 +5787,25 @@ class TransactionDetailDescriptionCell : UITableViewCell {
                     lblDesc.boldSubstring("Waktu Jaminan Prelo")
                 }
                 /*if (isSeller) {
-                    lblDesc.text = TransactionDetailTools.TextReceivedSeller
-                    
-                    lblDesc.boldSubstring("Diterima")
-                } else {
-                    if (trxProductDetail.refundable) {
-                        lblDesc.text = TransactionDetailTools.TextReceivedBuyer
-                        
-                        lblDesc.boldSubstring("Laporkan Transaksi")
-                        lblDesc.boldSubstring("Diterima\n2.")
-                        lblDesc.boldSubstring("Diterima\n3.")
-                        lblDesc.italicSubstring("review")
-                    } else {
-                        lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
-                        
-                        lblDesc.boldSubstring("\n2.")
-                    }
-                    lblDesc.boldSubstring("\n1.")
-                }
-                lblDesc.boldSubstring("Waktu Jaminan Prelo")*/
+                 lblDesc.text = TransactionDetailTools.TextReceivedSeller
+                 
+                 lblDesc.boldSubstring("Diterima")
+                 } else {
+                 if (trxProductDetail.refundable) {
+                 lblDesc.text = TransactionDetailTools.TextReceivedBuyer
+                 
+                 lblDesc.boldSubstring("Laporkan Transaksi")
+                 lblDesc.boldSubstring("Diterima\n2.")
+                 lblDesc.boldSubstring("Diterima\n3.")
+                 lblDesc.italicSubstring("review")
+                 } else {
+                 lblDesc.text = TransactionDetailTools.TextReceivedBuyerNoRefund
+                 
+                 lblDesc.boldSubstring("\n2.")
+                 }
+                 lblDesc.boldSubstring("\n1.")
+                 }
+                 lblDesc.boldSubstring("Waktu Jaminan Prelo")*/
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (order == 1) {
                     lblDesc.text = TransactionDetailTools.TextReserved1
@@ -6195,7 +6236,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var progress : Int?
     var order : Int?
     var isSeller : Bool?
-//    var orderAgain : () -> () = {}
+    //    var orderAgain : () -> () = {}
     var rejectTransaction : () -> () = {}
     var contactBuyer : () -> () = {}
     var contactSeller : () -> () = {}
@@ -6207,7 +6248,7 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
     var isAffiliate : Bool = false
     var isRefund : Bool = false
     
-//    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
+    //    let TitlePesanLagi = "PESAN LAGI BARANG YANG SAMA"
     let TitleHubungiBuyer = "HUBUNGI PEMBELI"
     let TitleHubungiSeller = "HUBUNGI PENJUAL"
     let TitleTolakPesanan = "Tolak Pesanan"
@@ -6220,9 +6261,9 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
         self.order = order
         self.isSeller = isSeller
         self.isAffiliate = false
-//        if (progress == TransactionDetailTools.ProgressExpired) {
-//            btn.setTitle(TitlePesanLagi, for: UIControlState())
-//        } else
+        //        if (progress == TransactionDetailTools.ProgressExpired) {
+        //            btn.setTitle(TitlePesanLagi, for: UIControlState())
+        //        } else
         if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
             btn.setTitle(TitleHubungiBuyer, for: UIControlState())
         } else if (progress == TransactionDetailTools.ProgressNotPaid) {
@@ -6291,9 +6332,9 @@ class TransactionDetailBorderedButtonCell : UITableViewCell {
                 self.seeAffiliate()
             }
         } else {
-//            if (progress == TransactionDetailTools.ProgressExpired) {
-//                self.orderAgain()
-//            } else
+            //            if (progress == TransactionDetailTools.ProgressExpired) {
+            //                self.orderAgain()
+            //            } else
             if (progress == TransactionDetailTools.ProgressRejectedBySeller) {
                 self.contactBuyer()
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
@@ -6372,7 +6413,7 @@ class TransactionDetailReviewCell : UITableViewCell {
         
         self.imgReviewer?.layer.borderColor = Theme.GrayLight.cgColor
         self.imgReviewer?.layer.borderWidth = 3
-
+        
         if let url = trxProductDetail.reviewerImageURL {
             imgReviewer.afSetImage(withURL: url, withFilter: .circle)
         }
@@ -6381,19 +6422,19 @@ class TransactionDetailReviewCell : UITableViewCell {
         lblName.text = trxProductDetail.reviewerName
         lblContent.text = trxProductDetail.reviewComment
         
-//        // Love
-//        var loveText = ""
-//        let star = trxProductDetail.reviewStar
-//        for i in 0 ..< 5 {
-//            if (i < star) {
-//                loveText += ""
-//            } else {
-//                loveText += ""
-//            }
-//        }
-//        let attrStringLove = NSMutableAttributedString(string: loveText)
-//        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
-//        lblLove.attributedText = attrStringLove
+        //        // Love
+        //        var loveText = ""
+        //        let star = trxProductDetail.reviewStar
+        //        for i in 0 ..< 5 {
+        //            if (i < star) {
+        //                loveText += ""
+        //            } else {
+        //                loveText += ""
+        //            }
+        //        }
+        //        let attrStringLove = NSMutableAttributedString(string: loveText)
+        //        attrStringLove.addAttribute(NSKernAttributeName, value: CGFloat(1.4), range: NSRange(location: 0, length: loveText.length))
+        //        lblLove.attributedText = attrStringLove
         
         // Love floatable
         self.floatRatingView = FloatRatingView(frame: CGRect(x: 0, y: 2.5, width: 90, height: 16))

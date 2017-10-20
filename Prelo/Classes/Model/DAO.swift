@@ -2677,6 +2677,28 @@ class TransactionProductDetail : NSObject {
         }
         return nil
     }
+    
+    
+    var startRentText : String {
+        if let j = json["rent_data"]["start_rent_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var endRentText : String {
+        if let j = json["rent_data"]["end_rent_text"].string {
+            return j
+        }
+        return ""
+    }
+    
+    var rentDuration : String {
+        if let j = json["rent_data"]["rent_duration_text"].string {
+            return j
+        }
+        return ""
+    }
 }
 
 class UserReview : NSObject {

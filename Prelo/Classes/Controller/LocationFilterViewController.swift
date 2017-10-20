@@ -181,10 +181,12 @@ class LocationFilterViewController : BaseViewController, UITableViewDataSource, 
             }
             
             if let r = self.root {
-                _ = self.navigationController?.popToViewController(r, animated: true)
+//                if r == nil {
+//                    self.navigationController?.popViewController(animated: true)
+//                } else {
+                    _ = self.navigationController?.popToViewController(r, animated: true)
             }
         }
-        
     }
 }
 

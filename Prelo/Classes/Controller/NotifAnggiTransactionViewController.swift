@@ -458,7 +458,7 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
     }
     
     func navigateReadNotif(_ notif : NotificationObj) {
-        
+        //WIP!!
         // Prelo Analytic - Click Notification (in App)
         self.sendClickNotificationAnalytic(notif.objectId, tipe: notif.type)
         
@@ -482,10 +482,12 @@ class NotifAnggiTransactionViewController: BaseViewController, UITableViewDataSo
         }
         
         // Set isSeller
-        if (notif.caption.lowercased() == "jual") {
+        if (notif.caption.lowercased() == "jual" || notif.caption.lowercased() == "disewa") {
             transactionDetailVC.isSeller = true
-        } else if (notif.caption.lowercased() == "beli") {
+            transactionDetailVC.isRentTransaction = notif.caption.lowercased() == "disewa" ? true : false
+        } else if (notif.caption.lowercased() == "beli" || notif.caption.lowercased() == "sewa") {
             transactionDetailVC.isSeller = false
+            transactionDetailVC.isRentTransaction = notif.caption.lowercased() == "sewa" ? true : false
         }
         
         transactionDetailVC.previousScreen = PageName.Notification

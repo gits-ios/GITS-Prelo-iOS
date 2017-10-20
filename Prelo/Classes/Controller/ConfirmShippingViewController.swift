@@ -807,7 +807,7 @@ class ConfirmShippingCell: TransactionDetailProductCell, UITextViewDelegate {
     }
     
     func adapt(_ trxProductDetail: TransactionProductDetail, isCellSelected : Bool, selectedAvailability : ConfirmShippingAvailability?, selectedIndex: Int) {
-        super.adapt(trxProductDetail)
+        super.adapt(trxProductDetail, isRentTransaction: false)
         
         if self.dropDown.dataSource.count == 0 {
             setupDropdownReason()

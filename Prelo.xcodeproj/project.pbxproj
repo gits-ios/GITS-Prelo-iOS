@@ -636,6 +636,8 @@
 		A90138401F7509960046C423 /* CheckoutSewaPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */; };
 		A906AE6D1F6ABC5C00299796 /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */; };
 		A90D84781F6912080085ABAD /* BarangSaya.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A90D84771F6912080085ABAD /* BarangSaya.storyboard */; };
+		A916863D1F98959C001C380C /* TransactionDetailRentDurationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A916863C1F98959C001C380C /* TransactionDetailRentDurationCell.xib */; };
+		A916863F1F989861001C380C /* TransactionDetailRentDurationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A916863E1F989861001C380C /* TransactionDetailRentDurationCell.swift */; };
 		A95B6A8B1F8F4F7C0099C9A8 /* ic_camera_white.png in Resources */ = {isa = PBXBuildFile; fileRef = A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */; };
 		A975BCBB1F96456200525EE5 /* TanggalTersewa.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A975BCBA1F96456200525EE5 /* TanggalTersewa.storyboard */; };
 		A975BCD11F964A6100525EE5 /* TanggalTersewaViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A975BCD01F964A6100525EE5 /* TanggalTersewaViewController.swift */; };
@@ -1920,6 +1922,8 @@
 		A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CheckoutSewaPopupView.xib; sourceTree = "<group>"; };
 		A906AE6C1F6ABC5C00299796 /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		A90D84771F6912080085ABAD /* BarangSaya.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BarangSaya.storyboard; sourceTree = "<group>"; };
+		A916863C1F98959C001C380C /* TransactionDetailRentDurationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TransactionDetailRentDurationCell.xib; sourceTree = "<group>"; };
+		A916863E1F989861001C380C /* TransactionDetailRentDurationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransactionDetailRentDurationCell.swift; sourceTree = "<group>"; };
 		A95B6A8A1F8F4F7C0099C9A8 /* ic_camera_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_camera_white.png; sourceTree = "<group>"; };
 		A975BCBA1F96456200525EE5 /* TanggalTersewa.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = TanggalTersewa.storyboard; sourceTree = "<group>"; };
 		A975BCD01F964A6100525EE5 /* TanggalTersewaViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TanggalTersewaViewController.swift; sourceTree = "<group>"; };
@@ -2953,6 +2957,7 @@
 		21AE67B11B4A59F400D2CF63 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				A91686281F989383001C380C /* TransactionDetail */,
 				A975BCCF1F9649E800525EE5 /* TanggalTersewa */,
 				A90138381F7509960046C423 /* SewaCheckout */,
 				A9E369D61F6AED2300DF69F1 /* TanggalSewa */,
@@ -3826,6 +3831,15 @@
 				A901383C1F7509960046C423 /* CheckoutSewaPopupView.xib */,
 			);
 			path = SewaCheckout;
+			sourceTree = "<group>";
+		};
+		A91686281F989383001C380C /* TransactionDetail */ = {
+			isa = PBXGroup;
+			children = (
+				A916863C1F98959C001C380C /* TransactionDetailRentDurationCell.xib */,
+				A916863E1F989861001C380C /* TransactionDetailRentDurationCell.swift */,
+			);
+			path = TransactionDetail;
 			sourceTree = "<group>";
 		};
 		A975BCCF1F9649E800525EE5 /* TanggalTersewa */ = {
@@ -4884,6 +4898,7 @@
 				B2BEBC601E4C190D009982F9 /* ic_coin.png in Resources */,
 				B2D965CD1E9DD04700B2C29C /* Checkout2CourierDescriptionCell.xib in Resources */,
 				58DD4E8A1DEC377D00B130C5 /* ic_camera.png in Resources */,
+				A916863D1F98959C001C380C /* TransactionDetailRentDurationCell.xib in Resources */,
 				B2D965C71E9DC3D100B2C29C /* Checkout2SellerCell.xib in Resources */,
 				B2DF58391E484092005B6CF1 /* AddressBook.xib in Resources */,
 				5858875D1DBEEA28006EC6D5 /* StoreHeader.xib in Resources */,
@@ -5346,6 +5361,7 @@
 				21679A161B901C5300F18F90 /* Mixpanel.m in Sources */,
 				B2FFCBAB1EA52669004F01D0 /* SocketIOClientOption.swift in Sources */,
 				B2FFCBA81EA52669004F01D0 /* SocketExtensions.swift in Sources */,
+				A916863F1F989861001C380C /* TransactionDetailRentDurationCell.swift in Sources */,
 				2167998F1B8F8AB900F18F90 /* AFURLConnectionOperation.m in Sources */,
 				58C27CAC1DB9CA65008201FA /* PreloEndpoints.swift in Sources */,
 				58A99A341C6D864E00E3E7D7 /* BNCSystemObserver.m in Sources */,
