@@ -21,6 +21,6 @@ class TransactionDetailRentDurationCell: UITableViewCell {
     func adapt(sentDate: String, receivedDate: String, rentDuration: String) {
         labelSentDate.text = sentDate
         labelReceivedDate.text = receivedDate
-        labelRentDuration.text = rentDuration
+        labelRentDuration.text = "Durasi sewa adalah " + rentDuration
     }
 }

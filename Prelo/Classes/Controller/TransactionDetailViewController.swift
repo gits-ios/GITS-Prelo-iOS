@@ -625,7 +625,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             if (progress == TransactionDetailTools.ProgressExpired) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                     } else if (idx == 2) {
@@ -633,7 +633,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return  TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                     } else if (idx == 2) {
@@ -645,7 +645,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressRejectedBySeller || progress == TransactionDetailTools.ProgressNotSent) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -671,7 +671,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -707,7 +707,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressNotPaid) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                     } else if (idx == 2) {
@@ -717,7 +717,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -737,7 +737,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressClaimedPaid) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -753,7 +753,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -779,7 +779,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressConfirmedPaid) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -809,7 +809,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -837,7 +837,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressSent || progress == TransactionDetailTools.ProgressReceived) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -869,7 +869,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -907,7 +907,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressReviewed) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -943,7 +943,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -974,7 +974,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else if (progress == TransactionDetailTools.ProgressReserved) {
                 if (idx == 0) {
-                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                    return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                 }  else if (idx == 1) {
                     return SeparatorHeight
                 }else if (idx == 2) {
@@ -994,7 +994,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else if (progress == TransactionDetailTools.ProgressReserveDone) {
                 if (idx == 0) {
-                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                    return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                 } else if (idx == 1) {
                     return SeparatorHeight
                 } else if (idx == 2) {
@@ -1010,7 +1010,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else if (progress == TransactionDetailTools.ProgressReservationCancelled) {
                 if (idx == 0) {
-                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                    return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                 } else if (idx == 1) {
                     return TransactionDetailDescriptionCell.heightFor(progress, isSeller: isSeller, order: 1)
                 } else if (idx == 2) {
@@ -1018,7 +1018,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                 }
             } else if (progress == TransactionDetailTools.ProgressFraudDetected) {
                 if (idx == 0) {
-                    return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                    return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                 } else if (idx == 1) {
                     return SeparatorHeight
                 } else if (idx == 2) {
@@ -1031,7 +1031,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressRefundRequested) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -1059,7 +1059,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -1079,7 +1079,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressRefundVerified) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -1107,7 +1107,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -1131,7 +1131,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressRefundSent) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -1161,7 +1161,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -1183,7 +1183,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
             } else if (progress == TransactionDetailTools.ProgressRefundSuccess) {
                 if (userIsSeller()) {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -1209,7 +1209,7 @@ class TransactionDetailViewController: BaseViewController, UITableViewDataSource
                     }
                 } else {
                     if (idx == 0) {
-                        return TransactionDetailTableCell.heightForProducts(hideProductCell)
+                        return self.isRentTransaction! ? TransactionDetailTableCell.heightForProducts(hideProductCell) + 128 : TransactionDetailTableCell.heightForProducts(hideProductCell)
                     } else if (idx == 1) {
                         return SeparatorHeight
                     } else if (idx == 2) {
@@ -3688,7 +3688,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         self.hideProductCell = hideProductCell
         self.isProductCell = true
         self.isTitleContentCell = false
-        self.tableView.separatorStyle = .singleLine
+        self.tableView.separatorStyle = .none
         self.isRentTransaction = isRentTransaction
         self.setupTable()
     }
@@ -3713,18 +3713,15 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     
     // MARK: - UITableView delegate functions
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
-//        if self.isRentTransaction {
-//            return 3
-//        } else {
-//            return 1
-//        }
-//        return self.isRentTransaction ? 2 : 1
+        if self.isRentTransaction {
+            return 2
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(section)
-        if section >= 0 {
+        if section == 0 {
             if (isProductCell) {
                 return trxProducts.count
             } else {
@@ -3794,7 +3791,7 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.section >= 0 {
+        if indexPath.section == 0 {
             let idx = (indexPath as NSIndexPath).row
             if (isProductCell) {
                 if (hideProductCell[idx] == true) {
@@ -4371,13 +4368,13 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             }
         } else {
             // Rent description section
-            return UITableViewAutomaticDimension
+            return 128
         }
         return 0
     }
     //WIP!!
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section >= 0 {
+        if indexPath.section == 0 {
             if (isProductCell) {
                 let cell = tableView.dequeueReusableCell(withIdentifier: TransactionDetailProductCellId) as! TransactionDetailProductCell
                 
@@ -5147,25 +5144,32 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
         } else {
             // Rent description section
             let cell = tableView.dequeueReusableCell(withIdentifier: "TransactionDetailRentDurationCell") as! TransactionDetailRentDurationCell
-            cell.adapt(sentDate: "", receivedDate: "", rentDuration: "")
+            
+            if self.isRentTransaction {
+                self.trxProductDetail = trxProducts[0]
+                cell.adapt(sentDate: (trxProductDetail?.startRentText)!, receivedDate: (trxProductDetail?.endRentText)!, rentDuration: (trxProductDetail?.rentDuration)!)
+            }
+
             return cell
         }
         return UITableViewCell()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let idx = (indexPath as NSIndexPath).row
-        if (isProductCell) {
-            self.toProductDetail(trxProducts[idx].productId)
-        } else if (isTitleContentCell) {
-            if let cell = tableView.cellForRow(at: indexPath) as? TransactionDetailTitleContentCell {
-                if (cell.tapUrl != "") {
-                    if let url = URL(string: cell.tapUrl) {
-                        UIApplication.shared.openURL(url)
+        if indexPath.section == 0 {
+            let idx = (indexPath as NSIndexPath).row
+            if (isProductCell) {
+                self.toProductDetail(trxProducts[idx].productId)
+            } else if (isTitleContentCell) {
+                if let cell = tableView.cellForRow(at: indexPath) as? TransactionDetailTitleContentCell {
+                    if (cell.tapUrl != "") {
+                        if let url = URL(string: cell.tapUrl) {
+                            UIApplication.shared.openURL(url)
+                        }
+                    } else if (cell.textToCopy != "") {
+                        UIPasteboard.general.string = cell.textToCopy
+                        Constant.showDialog("Copied!", message: "\(cell.lblTitle.text!) telah disalin ke clipboard")
                     }
-                } else if (cell.textToCopy != "") {
-                    UIPasteboard.general.string = cell.textToCopy
-                    Constant.showDialog("Copied!", message: "\(cell.lblTitle.text!) telah disalin ke clipboard")
                 }
             }
         }
@@ -5228,11 +5232,8 @@ class TransactionDetailTableCell : UITableViewCell, UITableViewDelegate, UITable
             self.tableView.delegate = self
         }
         
-        self.tableView.register(UINib(nibName: "TransactionDetailRentDurationCell", bundle: nil), forCellReuseIdentifier: "TransactionDetailRentDurationCell")
-        if self.isRentTransaction {
-            self.tableView.estimatedRowHeight = 240
-            self.tableView.rowHeight = UITableViewAutomaticDimension
-        }
+        tableView.register(UINib(nibName: "TransactionDetailRentDurationCell", bundle: nil), forCellReuseIdentifier: "TransactionDetailRentDurationCell")
+        tableView.tableFooterView = UIView()
         
         tableView.reloadData()
     }

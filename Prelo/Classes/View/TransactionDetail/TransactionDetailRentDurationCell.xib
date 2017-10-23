@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jgc-Pb-NSq">
-                        <rect key="frame" x="12" y="12" width="351" height="107.5"/>
+                        <rect key="frame" x="8" y="12" width="359" height="107.5"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dikirim" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NHi-E1-Fbg">
                                 <rect key="frame" x="12" y="12" width="45" height="17"/>
@@ -28,13 +28,13 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oTq-7L-uXb">
-                                <rect key="frame" x="171.5" y="12" width="9.5" height="43"/>
+                                <rect key="frame" x="175.5" y="12" width="9.5" height="43"/>
                                 <fontDescription key="fontDescription" type="system" weight="thin" pointSize="36"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dikembalikan" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aJL-3C-ctk">
-                                <rect key="frame" x="253" y="12" width="86" height="17"/>
+                                <rect key="frame" x="261" y="12" width="86" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -46,26 +46,26 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rabu, 6 Nov" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lrg-ta-sxw">
-                                <rect key="frame" x="255.5" y="35" width="83.5" height="17"/>
+                                <rect key="frame" x="263.5" y="35" width="83.5" height="17"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6im-eo-6DG">
-                                <rect key="frame" x="0.0" y="67" width="351" height="1"/>
+                                <rect key="frame" x="0.0" y="67" width="359" height="1"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="7Ht-5f-Dk0"/>
                                 </constraints>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Durasi sewa adalah" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QG0-yL-Uyg">
-                                <rect key="frame" x="12" y="80" width="327" height="17"/>
+                                <rect key="frame" x="12" y="80" width="335" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <color key="backgroundColor" red="0.94117647059999998" green="0.94117647059999998" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="Z1D-Je-cst" firstAttribute="leading" secondItem="Jgc-Pb-NSq" secondAttribute="leading" constant="12" id="1cd-MK-NER"/>
                             <constraint firstItem="aJL-3C-ctk" firstAttribute="top" secondItem="Jgc-Pb-NSq" secondAttribute="top" constant="12" id="1up-n1-Q5k"/>
@@ -89,10 +89,11 @@
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="Jgc-Pb-NSq" secondAttribute="bottom" constant="12" id="Xiy-Yl-cH4"/>
                     <constraint firstItem="Jgc-Pb-NSq" firstAttribute="top" secondItem="9zU-5W-J74" secondAttribute="top" constant="12" id="gK8-GF-GM1"/>
-                    <constraint firstItem="Jgc-Pb-NSq" firstAttribute="leading" secondItem="9zU-5W-J74" secondAttribute="leading" constant="12" id="r9X-TM-i8F"/>
-                    <constraint firstAttribute="trailing" secondItem="Jgc-Pb-NSq" secondAttribute="trailing" constant="12" id="zts-7I-IOW"/>
+                    <constraint firstItem="Jgc-Pb-NSq" firstAttribute="leading" secondItem="9zU-5W-J74" secondAttribute="leading" constant="8" id="r9X-TM-i8F"/>
+                    <constraint firstAttribute="trailing" secondItem="Jgc-Pb-NSq" secondAttribute="trailing" constant="8" id="zts-7I-IOW"/>
                 </constraints>
             </tableViewCellContentView>
+            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
             <connections>
                 <outlet property="labelReceivedDate" destination="lrg-ta-sxw" id="6rX-uy-opF"/>
                 <outlet property="labelRentDuration" destination="QG0-yL-Uyg" id="aeY-Bg-Lzk"/>
